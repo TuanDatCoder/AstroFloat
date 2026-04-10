@@ -1,0 +1,777 @@
+-- ==========================================
+-- 1. THÊM DỮ LIỆU THẦN SỐ HỌC (Từ 1 đến 9)
+-- ==========================================
+INSERT INTO numerologies (number, title, traits, strengths, weaknesses, career_paths, advice) VALUES
+(1, 'Người Tiên Phong', 'Độc lập, quyết đoán, mang tố chất thủ lĩnh tự nhiên.', 'Tự tin, sáng tạo, không ngại rủi ro, khả năng lãnh đạo tuyệt vời.', 'Đôi khi quá độc đoán, bảo thủ và thiếu kiên nhẫn với người khác.', 'CEO, Doanh nhân, Đạo diễn, Nhà sáng lập startup.', 'Hãy học cách lắng nghe người khác nhiều hơn để trở thành một nhà lãnh đạo thực thụ thay vì một kẻ độc tài.'),
+(2, 'Người Hòa Giải', 'Nhạy cảm, biết lắng nghe, luôn tìm kiếm sự hòa bình và cân bằng.', 'Thấu cảm sâu sắc, làm việc nhóm cực tốt, ngoại giao khéo léo.', 'Dễ bị tổn thương, hay do dự và đôi khi bỏ quên nhu cầu của bản thân.', 'Nhà tâm lý học, Cố vấn, Trợ lý cấp cao, Nhà ngoại giao.', 'Đừng ngại nói lên tiếng nói của mình. Nhường nhịn là tốt nhưng bạn cũng cần bảo vệ chính kiến.'),
+(3, 'Người Truyền Cảm Hứng', 'Hoạt ngôn, vui vẻ, mang năng lượng tích cực lan tỏa đến mọi người.', 'Giao tiếp xuất chúng, sáng tạo nghệ thuật, hài hước và quyến rũ.', 'Dễ mất tập trung, cả thèm chóng chán, đôi khi nói quá nhiều.', 'Diễn viên, Ca sĩ, MC, Nhà văn, Chuyên gia Marketing.', 'Hãy học cách kỷ luật với bản thân. Sự sáng tạo của bạn cần một cấu trúc để thực sự tỏa sáng.'),
+(4, 'Người Xây Nền Tảng', 'Thực tế, chi tiết, kỷ luật và luôn hướng tới sự ổn định, an toàn.', 'Đáng tin cậy, làm việc có hệ thống, tư duy logic và chịu khó.', 'Cứng nhắc, sợ thay đổi, đôi khi quá thực dụng và bảo thủ.', 'Kỹ sư, Kế toán, Lập trình viên, Quản lý dự án, Kiến trúc sư.', 'Đôi khi hãy cho phép bản thân linh hoạt và mơ mộng một chút. Cuộc sống không phải lúc nào cũng cần theo khuôn mẫu.'),
+(5, 'Người Tự Do', 'Yêu thích sự phiêu lưu, khám phá, không ngừng tìm kiếm trải nghiệm mới.', 'Thích nghi nhanh, linh hoạt, dũng cảm và đầy sức sống.', 'Cả thèm chóng chán, thiếu tính cam kết, dễ rơi vào lối sống buông thả.', 'Blogger du lịch, Hướng dẫn viên, Phóng viên, Chuyên gia tổ chức sự kiện.', 'Sự tự do thực sự đến từ kỷ luật. Hãy tìm một bến đỗ hoặc một mục tiêu cốt lõi để neo giữ tâm hồn bạn.'),
+(6, 'Người Chăm Sóc', 'Mang năng lượng của một người mẹ/cha, đầy tình yêu thương và trách nhiệm.', 'Ấm áp, tận tụy, có gu thẩm mỹ tốt, luôn quan tâm đến gia đình và cộng đồng.', 'Hay lo bao đồng, dễ bị lợi dụng tình cảm, thích kiểm soát người khác vì "muốn tốt cho họ".', 'Giáo viên, Bác sĩ, Y tá, Chuyên viên nhân sự, Cố vấn hôn nhân.', 'Hãy nhớ rằng bạn không thể cứu giúp tất cả mọi người. Hãy yêu thương bản thân mình trước tiên.'),
+(7, 'Người Tìm Kiếm Chân Lý', 'Bí ẩn, sâu sắc, luôn muốn đi tìm bản chất thật của mọi vấn đề.', 'Trí tuệ uyên bác, trực giác mạnh mẽ, khả năng nghiên cứu và phân tích đỉnh cao.', 'Cô độc, hay hoài nghi, khó gần và đôi khi chìm trong suy nghĩ tiêu cực.', 'Nhà khoa học, Nhà triết học, Điều tra viên, Chuyên gia phân tích dữ liệu, Lập trình viên.', 'Đừng tự nhốt mình trong thế giới nội tâm quá lâu. Hãy chia sẻ những suy nghĩ sâu sắc của bạn với thế giới.'),
+(8, 'Người Điều Hành', 'Đại diện cho quyền lực, vật chất và sự thành công trong sự nghiệp.', 'Quản lý tài chính xuất sắc, tham vọng lớn, tư duy chiến lược và thực tế.', 'Thực dụng thái quá, mê việc (workaholic), dễ áp đặt quyền lực lên người khác.', 'Giám đốc tài chính, Chuyên gia chứng khoán, Luật sư, Chính trị gia.', 'Tiền bạc và quyền lực là công cụ, không phải đích đến. Hãy học cách cân bằng giữa sự nghiệp và tình cảm.'),
+(9, 'Người Nhân Đạo', 'Mang lý tưởng cao cả, luôn muốn cống hiến và làm cho thế giới tốt đẹp hơn.', 'Vị tha, từ bi, tầm nhìn xa trông rộng, có khả năng chữa lành.', 'Hay ôm đồm, mơ mộng hão huyền, dễ thất vọng khi thực tế không như lý tưởng.', 'Nhà hoạt động xã hội, Nghệ sĩ truyền cảm hứng, Bác sĩ tâm lý, Nhà sư phạm.', 'Hãy chấp nhận rằng thế giới này không hoàn hảo. Làm tốt những việc nhỏ bé cũng là đang cống hiến cho nhân loại.');
+
+-- ==========================================
+-- 2. THÊM DỮ LIỆU 12 CUNG HOÀNG ĐẠO
+-- ==========================================
+INSERT INTO zodiac_signs (name, english_name, date_range, element, modality, ruling_planet, lucky_colors, description, image_url) VALUES
+('Bạch Dương', 'Aries', '21/03 - 19/04', 'Lửa', 'Tiên phong', 'Sao Hỏa', 'Đỏ tươi, Cam', 'Những chiến binh dũng cảm của vòng tròn hoàng đạo. Năng nổ, nhiệt huyết nhưng đôi khi khá nóng nảy.', 'https://placehold.co/400x400/FF5733/FFF?text=Aries+3D'),
+('Kim Ngưu', 'Taurus', '20/04 - 20/05', 'Đất', 'Kiên định', 'Sao Kim', 'Xanh lá, Hồng nhạt', 'Yêu thích sự ổn định, cái đẹp và nền tảng vật chất vững chắc. Rất trung thành nhưng khá bướng bỉnh.', 'https://placehold.co/400x400/28B463/FFF?text=Taurus+3D'),
+('Song Tử', 'Gemini', '21/05 - 20/06', 'Khí', 'Linh hoạt', 'Sao Thủy', 'Vàng, Xanh nhạt', 'Giao tiếp thông minh, linh hoạt và luôn tò mò về thế giới xung quanh. Tuy nhiên đôi khi thiếu sự nhất quán.', 'https://placehold.co/400x400/F1C40F/FFF?text=Gemini+3D'),
+('Cự Giải', 'Cancer', '21/06 - 22/07', 'Nước', 'Tiên phong', 'Mặt Trăng', 'Bạc, Trắng ngọc trai', 'Nhạy cảm, bao bọc và coi trọng gia đình. Sống thiên về cảm xúc và có trực giác cực kỳ mạnh mẽ.', 'https://placehold.co/400x400/D0D3D4/000?text=Cancer+3D'),
+('Sư Tử', 'Leo', '23/07 - 22/08', 'Lửa', 'Kiên định', 'Mặt Trời', 'Vàng kim, Cam rực', 'Tỏa sáng, hào phóng và có khí chất hoàng gia. Thích làm trung tâm của sự chú ý và rất tốt bụng.', 'https://placehold.co/400x400/F39C12/FFF?text=Leo+3D'),
+('Xử Nữ', 'Virgo', '23/08 - 22/09', 'Đất', 'Linh hoạt', 'Sao Thủy', 'Nâu nhạt, Xanh navy', 'Tỉ mỉ, phân tích và theo đuổi sự hoàn hảo. Luôn sẵn sàng giúp đỡ nhưng rất hay soi lỗi người khác.', 'https://placehold.co/400x400/2C3E50/FFF?text=Virgo+3D'),
+('Thiên Bình', 'Libra', '23/09 - 22/10', 'Khí', 'Tiên phong', 'Sao Kim', 'Hồng pastel, Xanh lam', 'Yêu cái đẹp, thanh lịch và luôn tìm kiếm sự công bằng, hài hòa. Đôi khi rất hay do dự trong việc ra quyết định.', 'https://placehold.co/400x400/85C1E9/FFF?text=Libra+3D'),
+('Bọ Cạp', 'Scorpio', '23/10 - 21/11', 'Nước', 'Kiên định', 'Sao Diêm Vương', 'Đỏ tía, Đen', 'Sâu sắc, bí ẩn và quyến rũ chết người. Cực kỳ chung thủy nhưng cũng thù dai nếu bị phản bội.', 'https://placehold.co/400x400/641E16/FFF?text=Scorpio+3D'),
+('Nhân Mã', 'Sagittarius', '22/11 - 21/12', 'Lửa', 'Linh hoạt', 'Sao Mộc', 'Tím, Xanh dương', 'Tự do, lạc quan và yêu triết lý. Luôn muốn xách balo lên và đi, ghét sự ràng buộc.', 'https://placehold.co/400x400/8E44AD/FFF?text=Sagittarius+3D'),
+('Ma Kết', 'Capricorn', '22/12 - 19/01', 'Đất', 'Tiên phong', 'Sao Thổ', 'Xám, Đen, Nâu', 'Kỷ luật, tham vọng và vô cùng trách nhiệm. Họ chậm mà chắc, thường đạt được đỉnh cao sự nghiệp.', 'https://placehold.co/400x400/515A5A/FFF?text=Capricorn+3D'),
+('Bảo Bình', 'Aquarius', '20/01 - 18/02', 'Khí', 'Kiên định', 'Sao Thiên Vương', 'Xanh lơ, Bạc', 'Độc đáo, nổi loạn và mang tư duy của tương lai. Rất thông minh nhưng đôi khi lạnh lùng, xa cách.', 'https://placehold.co/400x400/5DADE2/FFF?text=Aquarius+3D'),
+('Song Ngư', 'Pisces', '19/02 - 20/03', 'Nước', 'Linh hoạt', 'Sao Hải Vương', 'Xanh ngọc, Tím nhạt', 'Mộng mơ, thấu cảm và mang tâm hồn nghệ sĩ. Sống tình cảm nhưng rất dễ bị tổn thương bởi thực tế.', 'https://placehold.co/400x400/1ABC9C/FFF?text=Pisces+3D');
+
+-- ==========================================
+-- 3. THÊM VÀI MẪU DỮ LIỆU ĐỘ HỢP NHAU (Compatibility)
+-- ==========================================
+INSERT INTO compatibility (sign1_id, sign2_id, match_score, love_analysis, friendship_analysis) VALUES
+(1, 5, 95, 'Hai nguyên tố Lửa gặp nhau tạo nên một mối tình cuồng nhiệt, đầy đam mê. Cả hai đều thích sự náo nhiệt và biết cách làm đối phương tỏa sáng.', 'Là cặp bài trùng trong mọi cuộc vui và sẵn sàng hỗ trợ nhau trong công việc.'),
+(2, 6, 90, 'Sự ổn định của Kim Ngưu cực kỳ phù hợp với tính tỉ mỉ của Xử Nữ. Họ xây dựng tình yêu dựa trên nền tảng thực tế và sự tin tưởng tuyệt đối.', 'Một tình bạn êm đềm, ít sóng gió. Họ thường cùng nhau bàn luận về các kế hoạch tài chính.'),
+(3, 11, 85, 'Cặp đôi Khí này bị thu hút bởi trí tuệ của nhau. Họ có thể trò chuyện thâu đêm suốt sáng mà không bao giờ chán.', 'Trong công việc, họ là những cỗ máy tạo ra hàng tá ý tưởng điên rồ và đột phá.');
+
+-- ==========================================
+-- 4. THÊM VÀI MẪU TỬ VI HÀNG NGÀY (Daily Horoscopes)
+-- (Mẫu cho ngày hôm nay 04/04/2026)
+-- ==========================================
+INSERT INTO daily_horoscopes (zodiac_id, date, lucky_number, lucky_time, content) VALUES
+(1, '2026-04-04', 7, '14:00 - 16:00', 'Hôm nay Bạch Dương có nguồn năng lượng dồi dào. Hãy tranh thủ hoàn thành các dự án đang dang dở. Một tin vui về tài chính có thể đến vào buổi chiều.'),
+(2, '2026-04-04', 2, '09:00 - 11:00', 'Kim Ngưu cần chú ý đến sức khỏe của mình trong ngày hôm nay. Đừng ép bản thân làm việc quá sức. Tối nay là thời điểm lý tưởng để thư giãn cùng gia đình.'),
+(3, '2026-04-04', 5, '19:00 - 21:00', 'Song Tử sẽ gặp một vài thử thách trong giao tiếp. Lời khuyên cho bạn là hãy uốn lưỡi 7 lần trước khi nói để tránh những hiểu lầm không đáng có.');
+
+
+
+
+
+
+-- ==========================================
+-- THÊM DỮ LIỆU CHI TIẾT CHO 12 CUNG HOÀNG ĐẠO
+-- Giả định ID: 1.Bạch Dương, 2.Kim Ngưu, 3.Song Tử, 4.Cự Giải, 5.Sư Tử, 6.Xử Nữ, 
+-- 7.Thiên Bình, 8.Bọ Cạp, 9.Nhân Mã, 10.Ma Kết, 11.Bảo Bình, 12.Song Ngư
+-- ==========================================
+
+INSERT INTO zodiac_details (zodiac_id, topic, title, content) VALUES
+-- 1. BẠCH DƯƠNG (Aries)
+(1, 'Truyền thuyết', 'Nguồn gốc của Cừu vàng', 'Trong thần thoại Hy Lạp, Bạch Dương là con cừu có bộ lông vàng Chrysomallus của thần Zeus. Nó đã giải cứu hai hoàng tử và công chúa Phrixus và Helle khỏi sự hãm hại của mẹ kế. Để tôn vinh sự dũng cảm này, Zeus đã đưa nó lên bầu trời thành chòm sao đầu tiên của vòng tròn hoàng đạo.'),
+(1, 'Góc tối', 'Sự bốc đồng và sự ích kỷ vô thức', 'Bạch Dương có xu hướng hành động trước khi suy nghĩ. Khi muốn điều gì đó, họ muốn nó ngay lập tức. Điều này đôi khi khiến họ bị coi là thiếu kiên nhẫn, hung hăng và không để ý đến cảm xúc của người xung quanh.'),
+(1, 'Sự nghiệp', 'Người tiên phong mở đường', 'Họ không thích làm việc dưới quyền người khác lâu dài. Bạch Dương tỏa sáng nhất khi ở vị trí lãnh đạo hoặc tự khởi nghiệp, nơi họ có thể thực hiện những ý tưởng táo bạo của mình mà không cần xin phép ai.'),
+
+-- 2. KIM NGƯU (Taurus)
+(2, 'Truyền thuyết', 'Mối tình của Zeus và Europa', 'Zeus đã biến thành một con bò trắng tuyệt đẹp (Kim Ngưu) để quyến rũ công chúa Europa. Con bò này đại diện cho sức mạnh, vẻ đẹp và sự sung túc. Nó cũng gắn liền với sự kiên định và bền bỉ che chở.'),
+(2, 'Góc tối', 'Sự chiếm hữu và cố chấp', 'Kim Ngưu rất sợ sự thay đổi. Sự ổn định là ưu tiên số một, nhưng điều này dẫn đến tính chiếm hữu cao đối với cả vật chất lẫn người yêu. Một khi họ đã tin điều gì, bạn gần như không thể thay đổi ý định của họ.'),
+(2, 'Tài chính', 'Thỏi nam châm thu hút tiền bạc', 'Kim Ngưu có bản năng quản lý tài chính bẩm sinh. Họ không chỉ kiếm tiền giỏi mà còn biết cách làm cho tiền sinh lời qua các khoản đầu tư an toàn như bất động sản hoặc vàng.'),
+
+-- 3. SONG TỬ (Gemini)
+(3, 'Truyền thuyết', 'Tình anh em bất diệt', 'Chòm sao đại diện cho hai anh em Castor và Pollux. Khi Castor tử trận, Pollux đã xin Zeus chia sẻ sự bất tử của mình cho anh trai. Zeus đồng ý và đưa họ lên trời để mãi mãi bên nhau, đại diện cho hai mặt của một thực thể.'),
+(3, 'Góc tối', 'Sự hời hợt và đa nhân cách', 'Song Tử biết rất nhiều thứ nhưng đôi khi không sâu sắc. Họ có thể thay đổi thái độ chỉ trong chớp mắt, khiến người khác cảm thấy họ không đáng tin hoặc đang diễn kịch.'),
+(3, 'Kỹ năng', 'Bậc thầy giao tiếp', 'Họ có khả năng thích nghi với mọi môi trường. Trong công việc, Song Tử là những người đàm phán xuất sắc, có thể thuyết phục bất kỳ ai chỉ bằng lời nói của mình.'),
+
+-- 4. CỰ GIẢI (Cancer)
+(4, 'Truyền thuyết', 'Con cua dũng cảm của Hera', 'Karkinos là con cua khổng lồ được nữ thần Hera cử đến để hỗ trợ quái vật Hydra chống lại Hercules. Dù biết mình yếu thế, con cua vẫn quyết tâm chiến đấu đến cùng để bảo vệ bạn mình. Sự hy sinh này được Hera trân trọng và đưa lên trời.'),
+(4, 'Góc tối', 'Sự thao túng cảm xúc', 'Vì sống quá tình cảm, Cự Giải thường dùng sự yếu đuối hoặc cảm giác tội lỗi để điều khiển người khác làm theo ý mình. Họ cũng rất hay thù dai về những tổn thương trong quá khứ.'),
+(4, 'Gia đình', 'Vỏ bọc cứng rắn cho tâm hồn mềm yếu', 'Gia đình là tất cả đối với Cự Giải. Họ có thể hy sinh mọi thứ để đảm bảo sự an toàn và ấm cúng cho những người thân yêu nhất của mình.'),
+
+-- 5. SƯ TỬ (Leo)
+(5, 'Truyền thuyết', 'Sư tử Nemea bất bại', 'Sư tử Nemea là quái vật có bộ lông không đao kiếm nào đâm thủng được. Sau khi bị Hercules hạ gục bằng sức mạnh tay không, linh hồn nó được đưa lên trời để tượng trưng cho sức mạnh vô song và uy quyền của vị vua.'),
+(5, 'Góc tối', 'Cái tôi quá lớn và sự ái kỷ', 'Sư Tử luôn cần ánh hào quang. Nếu không được chú ý, họ có thể trở nên kiêu ngạo, hống hách và thích ra lệnh. Họ rất khó chấp nhận những lời chỉ trích, dù là mang tính xây dựng.'),
+(5, 'Sáng tạo', 'Nghệ sĩ của cuộc đời', 'Mọi thứ Sư Tử làm đều mang tính trình diễn. Họ có năng khiếu nghệ thuật bẩm sinh và luôn biết cách làm cho những thứ bình thường trở nên lộng lẫy và đặc biệt.'),
+
+-- 6. XỬ NỮ (Virgo)
+(6, 'Truyền thuyết', 'Nữ thần công lý Astraea', 'Astraea là vị thần cuối cùng rời bỏ trái đất khi loài người trở nên xấu xa. Chòm sao Xử Nữ đại diện cho sự thuần khiết, đức hạnh và nỗ lực mang lại trật tự cho một thế giới hỗn loạn.'),
+(6, 'Góc tối', 'Sự cầu toàn đến mức cực đoan', 'Xử Nữ hay soi mói những lỗi nhỏ nhặt nhất của cả bản thân lẫn người khác. Điều này khiến họ luôn trong trạng thái căng thẳng và khiến những người xung quanh cảm thấy bị áp lực, mệt mỏi.'),
+(6, 'Sức khỏe', 'Sự liên kết giữa tâm trí và cơ thể', 'Xử Nữ rất quan tâm đến lối sống lành mạnh. Họ thường là những người có kiến thức sâu rộng về dinh dưỡng và cách chăm sóc cơ thể một cách khoa học nhất.'),
+
+-- 7. THIÊN BÌNH (Libra)
+(7, 'Truyền thuyết', 'Cán cân của nữ thần Themis', 'Đây là chòm sao duy nhất không phải là sinh vật sống. Thiên Bình là cán cân của nữ thần công lý Themis, dùng để phân định thiện ác. Nó đại diện cho sự công bằng, hài hòa và trật tự xã hội.'),
+(7, 'Góc tối', 'Sự thiếu quyết đoán và thảo mai', 'Vì muốn làm hài lòng tất cả mọi người, Thiên Bình thường gặp khó khăn khi phải đưa ra lựa chọn. Họ có thể nói những điều đối phương muốn nghe thay vì sự thật, dẫn đến việc bị coi là không trung thực.'),
+(7, 'Tình yêu', 'Kẻ lãng mạn vô phương cứu chữa', 'Tình yêu và các mối quan hệ là hơi thở của Thiên Bình. Họ luôn tìm kiếm "nửa kia" hoàn hảo và sẵn sàng làm tất cả để duy trì sự hòa hợp trong mối quan hệ đó.'),
+
+-- 8. BỌ CẠP (Scorpio)
+(8, 'Truyền thuyết', 'Sát thủ của thợ săn Orion', 'Nữ thần Artemis đã cử Bọ Cạp đến để trừng phạt thợ săn Orion vì sự ngạo mạn. Dù nhỏ bé nhưng Bọ Cạp đã hạ gục kẻ khổng lồ bằng nọc độc của mình, đại diện cho sức mạnh tiềm tàng và khả năng tái sinh.'),
+(8, 'Góc tối', 'Sự thù hằn và kiểm soát đen tối', 'Bọ Cạp không bao giờ quên một sự phản bội. Họ có xu hướng trả thù một cách tinh vi và luôn muốn kiểm soát hoàn toàn tâm trí của đối phương. Sự bí mật của họ đôi khi là một bức tường ngăn cách sự thật.'),
+(8, 'Trực giác', 'Khả năng nhìn thấu linh hồn', 'Không gì có thể lừa dối được Bọ Cạp. Họ có khả năng thấu thị tâm lý cực mạnh, cho phép họ nhận ra những âm mưu hoặc sự giả dối ngay từ khi nó chưa bắt đầu.'),
+
+-- 9. NHÂN MÃ (Sagittarius)
+(9, 'Truyền thuyết', 'Chiron - Nhân mã thông thái', 'Không giống các nhân mã hung dữ khác, Chiron là thầy dạy của nhiều anh hùng Hy Lạp. Khi bị trúng tên độc, ông đã đổi sự bất tử của mình để cứu Prometheus. Zeus đã đưa ông lên trời thành chòm sao Nhân Mã bắn cung về phía trái tim Bọ Cạp.'),
+(9, 'Góc tối', 'Sự thiếu trách nhiệm và lời nói sát thương', 'Nhân Mã quá yêu tự do nên đôi khi trốn tránh các cam kết. Họ thẳng tính đến mức vô tâm, thường buông ra những lời nhận xét làm tổn thương người khác mà vẫn tưởng mình đang "thật thà".'),
+(9, 'Triết lý', 'Kẻ hành hương tìm kiếm chân lý', 'Nhân Mã không đi du lịch chỉ để ngắm cảnh, họ đi để học hỏi. Họ có xu hướng quan tâm đến tôn giáo, triết học và những ý tưởng lớn lao có thể thay đổi thế giới.'),
+
+-- 10. MA KẾT (Capricorn)
+(10, 'Truyền thuyết', 'Vị thần dê Amaltheia', 'Ma Kết gắn liền với hình ảnh con dê có đuôi cá (Sea-goat). Nó tượng trưng cho khả năng leo lên những đỉnh núi cao nhất và lặn xuống những vùng nước sâu nhất. Đây là biểu tượng của sự kiên trì vượt qua mọi địa hình khắc nghiệt.'),
+(10, 'Góc tối', 'Sự lạnh lùng và chủ nghĩa thực dụng', 'Ma Kết có thể trở nên tàn nhẫn để đạt được mục tiêu công việc. Họ coi trọng địa vị xã hội hơn tình cảm cá nhân và đôi khi trở nên quá bi quan về cuộc sống.'),
+(10, 'Sự nghiệp', 'Người xây dựng đế chế', 'Họ có tầm nhìn xa và sự kiên nhẫn đáng kinh ngạc. Ma Kết thường đạt được thành công lớn ở giai đoạn sau của cuộc đời nhờ sự tích lũy bền bỉ và không bao giờ bỏ cuộc.'),
+
+-- 11. BẢO BÌNH (Aquarius)
+(11, 'Truyền thuyết', 'Ganymede - Người mang nước cho các vị thần', 'Ganymede là một hoàng tử có vẻ đẹp tuyệt trần được Zeus đưa lên đỉnh Olympus để phục vụ rượu và nước cho các vị thần. Chòm sao này đại diện cho sự đổ đầy tri thức và sự đổi mới cho nhân loại.'),
+(11, 'Góc tối', 'Sự xa cách và lập dị cực đoan', 'Bảo Bình yêu nhân loại nhưng lại khó kết nối với từng cá nhân cụ thể. Họ có thể trở nên lạnh lùng, tách biệt và luôn cố tình làm khác người chỉ để chứng tỏ mình độc bản.'),
+(11, 'Tầm nhìn', 'Nhà cách mạng của tương lai', 'Họ luôn đi trước thời đại. Những ý tưởng của Bảo Bình thường bị coi là điên rồ ở hiện tại nhưng sẽ trở thành tiêu chuẩn của 10-20 năm sau.'),
+
+-- 12. SONG NGƯ (Pisces)
+(12, 'Truyền thuyết', 'Sự chạy trốn của Aphrodite và Eros', 'Để thoát khỏi quái vật Typhon, nữ thần tình yêu Aphrodite và con trai Eros đã biến thành hai con cá, nối với nhau bằng một sợi dây bạc để không bị lạc mất nhau. Nó đại diện cho sự gắn kết tâm linh và sự hy sinh vì tình yêu.'),
+(12, 'Góc tối', 'Sự yếu đuối và tâm lý nạn nhân', 'Song Ngư rất dễ bị chìm đắm trong những nỗi buồn không tên. Họ có xu hướng trốn tránh thực tại bằng các chất kích thích hoặc sự mộng mị, luôn cảm thấy mình là nạn nhân của hoàn cảnh.'),
+(12, 'Tâm linh', 'Cánh cửa kết nối với vô hình', 'Song Ngư là cung hoàng đạo cuối cùng, hội tụ tất cả các bài học của 11 cung trước. Họ có khả năng thấu cảm cực mạnh và thường có những giấc mơ mang tính dự báo tương lai.');\
+
+
+
+
+
+
+
+
+
+
+
+-- ==========================================
+-- THÊM DỮ LIỆU CHI TIẾT CHO 9 CON SỐ CHỦ ĐẠO
+-- Topic: 'Tình duyên', 'Sự nghiệp', 'Thách thức'
+-- ==========================================
+
+INSERT INTO numerology_details (number, topic, title, content, icon_name) VALUES
+-- SỐ 1: NGƯỜI TIÊN PHONG
+(1, 'Tình duyên', 'Yêu như một vị vua/nữ hoàng', 'Trong tình yêu, số 1 rất nồng nhiệt và chủ động. họ muốn bảo vệ và dẫn dắt đối phương. Tuy nhiên, họ cần một người bạn đời biết tôn trọng sự độc lập của họ và không cố gắng kiểm soát họ.', 'Heart'),
+(1, 'Sự nghiệp', 'Đỉnh cao của sự độc lập', 'Số 1 sinh ra để làm chủ. Họ tỏa sáng nhất khi được giao quyền quyết định. Môi trường công sở gò bó sẽ bóp nghẹt tài năng của họ. Khởi nghiệp hoặc làm chuyên gia độc lập là hướng đi tốt nhất.', 'Briefcase'),
+(1, 'Thách thức', 'Bài học về sự khiêm nhường', 'Thách thức lớn nhất là cái tôi quá lớn. Họ dễ rơi vào trạng thái cô đơn vì quá tự tin vào bản thân. Bài học cuộc đời là phải học cách cộng tác và lắng nghe ý kiến của người khác.', 'AlertCircle'),
+
+-- SỐ 2: NGƯỜI HÒA GIẢI
+(2, 'Tình duyên', 'Sự gắn kết tâm hồn sâu sắc', 'Số 2 không thể sống thiếu tình yêu. Họ là những người bạn đời tận tụy, luôn biết cách lắng nghe và thấu hiểu. Họ cần sự lãng mạn và sự an toàn về cảm xúc.', 'Heart'),
+(2, 'Sự nghiệp', 'Sức mạnh của sự hỗ trợ', 'Họ là những "người đứng sau thành công". Trong công việc, số 2 cực kỳ xuất sắc ở vai trò ngoại giao, tư vấn hoặc trợ lý chiến lược, nơi sự khéo léo được lên ngôi.', 'Briefcase'),
+(2, 'Thách thức', 'Vượt qua sự nhạy cảm thái quá', 'Dễ bị ảnh hưởng bởi năng lượng tiêu cực của người khác. Họ cần học cách thiết lập ranh giới cá nhân để không bị lợi dụng hoặc bị tổn thương bởi những lời chỉ trích nhỏ.', 'AlertCircle'),
+
+-- SỐ 3: NGƯỜI TRUYỀN CẢM HỨNG
+(3, 'Tình duyên', 'Cuộc dạo chơi của niềm vui', 'Yêu số 3 giống như một chuyến phiêu lưu không hồi kết. Họ vui vẻ, hóm hỉnh và luôn biết cách làm mới mối quan hệ. Tuy nhiên, họ cần một người có thể giữ họ lại với thực tại.', 'Heart'),
+(3, 'Sự nghiệp', 'Sáng tạo là hơi thở', 'Bất cứ ngành nghề nào liên quan đến nghệ thuật, viết lách, diễn thuyết hay Marketing đều là mảnh đất màu mỡ cho số 3. Họ cần một công việc cho phép họ thể hiện bản thân mỗi ngày.', 'Briefcase'),
+(3, 'Thách thức', 'Kỷ luật và sự tập trung', 'Số 3 rất dễ bị phân tán năng lượng. Họ có quá nhiều ý tưởng nhưng thường gặp khó khăn khi đưa chúng đi đến tận cùng. Bài học là sự kiên trì.', 'AlertCircle'),
+
+-- SỐ 4: NGƯỜI XÂY NỀN TẢNG
+(4, 'Tình duyên', 'Tình yêu bền vững như bàn thạch', 'Họ không hứa hẹn viển vông. Tình yêu của số 4 thể hiện qua hành động chăm sóc thực tế: lo lắng về tài chính, xây dựng nhà cửa. Họ cực kỳ chung thủy và đáng tin cậy.', 'Heart'),
+(4, 'Sự nghiệp', 'Chuyên gia của mọi hệ thống', 'Số 4 là xương sống của bất kỳ tổ chức nào. Họ giỏi về kỹ thuật, quy trình và quản lý chi tiết. Những công việc đòi hỏi sự chính xác cao là dành cho họ.', 'Briefcase'),
+(4, 'Thách thức', 'Phá bỏ sự cứng nhắc', 'Họ dễ bị kẹt trong vùng an toàn và sợ thay đổi. Thách thức là học cách linh hoạt hơn và chấp nhận rằng cuộc sống không phải lúc nào cũng có quy luật.', 'AlertCircle'),
+
+-- SỐ 5: NGƯỜI TỰ DO
+(5, 'Tình duyên', 'Ngọn lửa đam mê bất tận', 'Số 5 cần sự mới lạ. Trong tình yêu, họ rất thu hút và quyến rũ. Tuy nhiên, nếu mối quan hệ trở nên nhàm chán, họ sẽ có xu hướng muốn tìm kiếm những trải nghiệm mới.', 'Heart'),
+(5, 'Sự nghiệp', 'Không bao giờ ngồi yên một chỗ', 'Họ phù hợp với những công việc đòi hỏi sự di chuyển, thay đổi liên tục như hướng dẫn viên, phóng viên chiến trường hoặc bán hàng quốc tế.', 'Briefcase'),
+(5, 'Thách thức', 'Tìm kiếm sự ổn định từ bên trong', 'Dễ rơi vào lối sống buông thả hoặc trốn tránh trách nhiệm. Thách thức lớn nhất là tìm thấy sự tự do trong tâm hồn thay vì cứ mãi chạy theo những thứ bên ngoài.', 'AlertCircle'),
+
+-- SỐ 6: NGƯỜI CHĂM SÓC
+(6, 'Tình duyên', 'Tình yêu là sự hy sinh', 'Số 6 là người yêu lý tưởng cho những ai tìm kiếm mái ấm gia đình. Họ sẵn sàng hy sinh lợi ích cá nhân để người mình yêu được hạnh phúc.', 'Heart'),
+(6, 'Sự nghiệp', 'Sứ mệnh chữa lành và giáo dục', 'Họ tỏa sáng trong các lĩnh vực y tế, giáo dục, trang trí nội thất hoặc các tổ chức thiện nguyện. Những nơi cần sự ấm áp và quan tâm.', 'Briefcase'),
+(6, 'Thách thức', 'Ngừng lo lắng bao đồng', 'Họ hay có xu hướng kiểm soát người thân vì "muốn tốt cho họ". Thách thức là học cách để mọi người tự chịu trách nhiệm về cuộc đời mình.', 'AlertCircle'),
+
+-- SỐ 7: NGƯỜI TÌM KIẾM CHÂN LÝ
+(7, 'Tình duyên', 'Sự kết nối về trí tuệ', 'Số 7 cần một người bạn đời có cùng tầng số tư duy. Họ không thích những tình yêu ồn ào. Sự im lặng đồng điệu đối với họ là đỉnh cao của lãng mạn.', 'Heart'),
+(7, 'Sự nghiệp', 'Nhà phân tích đơn độc', 'Họ là những chiến lược gia, nhà khoa học hoặc triết gia bẩm sinh. Môi trường làm việc yên tĩnh, độc lập giúp họ phát huy tối đa trí tuệ uyên bác.', 'Briefcase'),
+(7, 'Thách thức', 'Kết nối lại với thế giới', 'Họ dễ bị cô lập và trở nên lạnh lùng. Thách thức là học cách mở lòng, chia sẻ cảm xúc thay vì chỉ sống trong cái đầu đầy suy nghĩ của mình.', 'AlertCircle'),
+
+-- SỐ 8: NGƯỜI ĐIỀU HÀNH
+(8, 'Tình duyên', 'Người bảo hộ mạnh mẽ', 'Trong tình yêu, số 8 muốn đảm bảo một cuộc sống vật chất đầy đủ nhất cho đối phương. Họ thể hiện tình yêu bằng sự che chở và thành công của chính mình.', 'Heart'),
+(8, 'Sự nghiệp', 'Thống trị thế giới tài chính', 'Họ có tư duy về tiền bạc và quyền lực cực tốt. Quản lý tài chính, bất động sản hoặc lãnh đạo tập đoàn là những nơi số 8 thuộc về.', 'Briefcase'),
+(8, 'Thách thức', 'Cân bằng giữa vật chất và tinh thần', 'Quá mải mê kiếm tiền và khẳng định vị thế dễ khiến họ bỏ quên đời sống tình cảm. Thách thức là nhận ra giá trị của những thứ không thể mua bằng tiền.', 'AlertCircle'),
+
+-- SỐ 9: NGƯỜI NHÂN ĐẠO
+(9, 'Tình duyên', 'Tình yêu không biên giới', 'Họ yêu bằng một trái tim bao dung và vị tha. Đôi khi họ quan tâm đến nỗi đau của thế giới nhiều hơn là nỗi lòng của người bên cạnh, điều này cần được cân bằng.', 'Heart'),
+(9, 'Sự nghiệp', 'Cống hiến cho cộng đồng', 'Họ phù hợp với các công việc mang tính xã hội cao: luật sư nhân quyền, nghệ sĩ truyền cảm hứng hoặc lãnh đạo các tổ chức phi chính phủ.', 'Briefcase'),
+(9, 'Thách thức', 'Buông bỏ quá khứ', 'Số 9 hay mang nặng những ký ức cũ. Thách thức là học cách khép lại những cánh cửa đã cũ để đón nhận những khởi đầu mới một cách nhẹ nhàng hơn.', 'AlertCircle');
+
+
+
+
+-- ==========================================
+-- CẬP NHẬT NGÀY/THÁNG CHO 12 CUNG HOÀNG ĐẠO
+-- Dùng để logic Backend tính toán từ ngày sinh
+-- ==========================================
+
+-- 1. Bạch Dương: 21/03 - 19/04
+UPDATE zodiac_signs SET start_month = 3, start_day = 21, end_month = 4, end_day = 19 WHERE english_name = 'Aries';
+
+-- 2. Kim Ngưu: 20/04 - 20/05
+UPDATE zodiac_signs SET start_month = 4, start_day = 20, end_month = 5, end_day = 20 WHERE english_name = 'Taurus';
+
+-- 3. Song Tử: 21/05 - 20/06
+UPDATE zodiac_signs SET start_month = 5, start_day = 21, end_month = 6, end_day = 20 WHERE english_name = 'Gemini';
+
+-- 4. Cự Giải: 21/06 - 22/07
+UPDATE zodiac_signs SET start_month = 6, start_day = 21, end_month = 7, end_day = 22 WHERE english_name = 'Cancer';
+
+-- 5. Sư Tử: 23/07 - 22/08
+UPDATE zodiac_signs SET start_month = 7, start_day = 23, end_month = 8, end_day = 22 WHERE english_name = 'Leo';
+
+-- 6. Xử Nữ: 23/08 - 22/09
+UPDATE zodiac_signs SET start_month = 8, start_day = 23, end_month = 9, end_day = 22 WHERE english_name = 'Virgo';
+
+-- 7. Thiên Bình: 23/09 - 22/10
+UPDATE zodiac_signs SET start_month = 9, start_day = 23, end_month = 10, end_day = 22 WHERE english_name = 'Libra';
+
+-- 8. Bọ Cạp: 23/10 - 21/11
+UPDATE zodiac_signs SET start_month = 10, start_day = 23, end_month = 11, end_day = 21 WHERE english_name = 'Scorpio';
+
+-- 9. Nhân Mã: 22/11 - 21/12
+UPDATE zodiac_signs SET start_month = 11, start_day = 22, end_month = 12, end_day = 21 WHERE english_name = 'Sagittarius';
+
+-- 10. Ma Kết: 22/12 - 19/01 (Lưu ý: Ma Kết vắt ngang qua năm mới)
+UPDATE zodiac_signs SET start_month = 12, start_day = 22, end_month = 1, end_day = 19 WHERE english_name = 'Capricorn';
+
+-- 11. Bảo Bình: 20/01 - 18/02
+UPDATE zodiac_signs SET start_month = 1, start_day = 20, end_month = 2, end_day = 18 WHERE english_name = 'Aquarius';
+
+-- 12. Song Ngư: 19/02 - 20/03
+UPDATE zodiac_signs SET start_month = 2, start_day = 19, end_month = 3, end_day = 20 WHERE english_name = 'Pisces';
+
+
+
+INSERT INTO zodiac_matches (zodiac_sign_1_id, zodiac_sign_2_id, match_score, love_analysis, friendship_analysis) VALUES
+
+-- ==========================================
+-- [1] BẠCH DƯƠNG (Aries) x 12 Cung
+-- ==========================================
+(1, 1, 85, 'Hai ngọn lửa bùng nổ. Tình yêu mãnh liệt, cuồng nhiệt nhưng rất dễ xảy ra tranh cãi vì ai cũng muốn làm trung tâm. Cần học cách nhường nhịn.', 'Đôi bạn cùng tiến tuyệt vời, luôn nhiệt huyết và ủng hộ những ý tưởng điên rồ của nhau.'),
+(1, 2, 60, 'Góc nhìn từ Bạch Dương: Sự chậm rãi của Kim Ngưu đôi khi làm Bạch Dương mất kiên nhẫn. Lửa và Đất cần rất nhiều sự bao dung để dung hòa.', 'Kim Ngưu là người giữ dây diều, giúp Bạch Dương thực tế và bớt bốc đồng hơn trong hành động.'),
+(1, 3, 85, 'Gió thổi bùng Lửa. Song Tử mang lại sự thú vị, còn Bạch Dương mang lại đam mê. Tình yêu của họ không bao giờ có chỗ cho sự nhàm chán.', 'Cặp bài trùng trong mọi cuộc vui. Một người nghĩ ra trò hay, một người dám thực hiện.'),
+(1, 4, 55, 'Lửa và Nước dễ làm tổn thương nhau. Sự vô tâm, thẳng thắn của Bạch Dương thường vô tình khiến Cự Giải nhạy cảm phải rơi nước mắt.', 'Khó đồng điệu hoàn toàn, nhưng Cự Giải luôn là chỗ dựa tinh thần êm ái khi Bạch Dương mỏi mệt.'),
+(1, 5, 95, 'Sự kết hợp hoàn hảo. Bạch Dương tôn trọng quyền lực của Sư Tử, còn Sư Tử yêu thích sự nhiệt thành của Bạch Dương. Họ cùng nhau tỏa sáng.', 'Đội hình bất bại. Hỗ trợ nhau nhiệt tình và không bao giờ ghen tị với thành công của bạn mình.'),
+(1, 6, 65, 'Xử Nữ thích lên kế hoạch chi tiết, còn Bạch Dương thích hành động tức thì. Lối sống khác biệt khiến họ dễ xảy ra xung đột nhỏ.', 'Xử Nữ sẽ là quân sư xuất sắc, giúp Bạch Dương dọn dẹp những rắc rối do sự bốc đồng gây ra.'),
+(1, 7, 80, 'Góc đối đỉnh (Opposite). Lực hút trái dấu cực mạnh. Sự thanh lịch của Thiên Bình bổ sung hoàn hảo cho sự mạnh mẽ của Bạch Dương.', 'Thiên Bình giúp Bạch Dương học cách ngoại giao và khéo léo hơn trong các mối quan hệ xã hội.'),
+(1, 8, 70, 'Đam mê thể xác mãnh liệt nhưng cái tôi quá lớn. Bọ Cạp muốn kiểm soát, trong khi Bạch Dương yêu tự do. Tình yêu giống như một chiến trường.', 'Họ tôn trọng sức mạnh của đối phương nhưng thường giữ một khoảng cách nhất định để không đụng độ.'),
+(1, 9, 90, 'Cùng thuộc nhóm Lửa, họ chia sẻ tình yêu mãnh liệt với sự tự do và phiêu lưu. Không ai trói buộc ai, tình yêu phát triển tự nhiên và vui vẻ.', 'Cùng xách balo lên và đi. Tình bạn của họ là những chuyến phiêu lưu không hồi kết.'),
+(1, 10, 50, 'Ma Kết quá nghiêm túc và kỷ luật, tạo ra bức tường cản trở sự tự do của Bạch Dương. Rất khó để duy trì ngọn lửa tình yêu lâu dài.', 'Ma Kết có thể trở thành người thầy, dạy Bạch Dương về tính tổ chức và định hướng tương lai.'),
+(1, 11, 85, 'Bảo Bình có hàng tá ý tưởng kỳ lạ và Bạch Dương luôn sẵn sàng thực thi chúng. Tình yêu của họ vô cùng độc đáo và phá cách.', 'Rất hợp cạ. Họ chơi với nhau một cách thoải mái, không ràng buộc và tôn trọng sự độc lập.'),
+(1, 12, 60, 'Sự thực tế, thẳng thắn của Bạch Dương dễ đâm thủng bong bóng mộng mơ của Song Ngư. Cần rất nhiều sự tinh tế để duy trì tình cảm.', 'Song Ngư là một người lắng nghe tuyệt vời, sẵn sàng an ủi Bạch Dương sau những lần vấp ngã.'),
+
+-- ==========================================
+-- [2] KIM NGƯU (Taurus) x 12 Cung
+-- ==========================================
+(2, 1, 60, 'Góc nhìn từ Kim Ngưu: Sự vội vã của Bạch Dương đôi khi phá vỡ nhịp sống yên bình của Kim Ngưu. Tuy nhiên, sự nồng nhiệt đó lại sưởi ấm họ.', 'Tình bạn bù trừ. Kim Ngưu lo hậu phương vững chắc để Bạch Dương xông pha tiền tuyến.'),
+(2, 2, 90, 'Bình yên, ổn định và ngập tràn tình yêu vật chất. Hai Kim Ngưu tạo nên một nền tảng vững chắc, vô cùng chung thủy và tận hưởng cuộc sống.', 'Cùng chung sở thích ăn uống và mua sắm. Tình bạn êm đềm, ít sóng gió và cực kỳ đáng tin.'),
+(2, 3, 55, 'Kim Ngưu muốn một chỗ đứng cố định, trong khi Song Tử liên tục thay đổi như những cơn gió. Sự bất an là rào cản lớn nhất của họ.', 'Song Tử giống như một luồng gió mới, mang lại những tin tức thú vị cho cuộc sống tĩnh lặng của Kim Ngưu.'),
+(2, 4, 95, 'Trời sinh một cặp. Đất và Nước nuôi dưỡng lẫn nhau. Cả hai đều hướng về gia đình, thích sự an toàn và chăm sóc đối phương vô điều kiện.', 'Sự thấu hiểu tâm linh sâu sắc. Họ có thể ngồi im lặng bên nhau cả ngày mà vẫn thấy thoải mái.'),
+(2, 5, 65, 'Sư Tử thích sự xa hoa và phô trương, trong khi Kim Ngưu có xu hướng tiết kiệm và thực tế. Dễ xảy ra mâu thuẫn trong quản lý tài chính.', 'Sư Tử trân trọng sự trung thành của Kim Ngưu. Họ là đối tác tốt nếu biết phân chia vai trò rõ ràng.'),
+(2, 6, 95, 'Hoàn hảo về mặt thực tế. Xử Nữ tỉ mỉ kết hợp với Kim Ngưu kiên định. Họ cùng nhau xây dựng một tương lai cực kỳ vững chắc và an toàn.', 'Đối tác làm ăn tuyệt vời. Tình bạn của họ được xây dựng trên sự tin tưởng và những giá trị thực tế.'),
+(2, 7, 75, 'Đều được cai quản bởi sao Kim, họ chia sẻ tình yêu mãnh liệt với cái đẹp và nghệ thuật. Tuy nhiên, Thiên Bình thích ra ngoài, Kim Ngưu thích ở nhà.', 'Bạn đồng hành lý tưởng trong các buổi hòa nhạc, triển lãm nghệ thuật hoặc những buổi shopping.'),
+(2, 8, 80, 'Góc đối đỉnh. Cả hai đều có tính chiếm hữu rất cao. Sự trầm ổn của Kim Ngưu xoa dịu được những cơn bão lòng và sự đa nghi của Bọ Cạp.', 'Một tình bạn vô cùng trung thành. Họ sẵn sàng bảo vệ nhau trước mọi sóng gió của cuộc đời.'),
+(2, 9, 50, 'Kim Ngưu muốn xây nhà, Nhân Mã muốn đi phượt. Mục tiêu sống hoàn toàn trái ngược khiến họ khó có thể giữ chân nhau lâu dài.', 'Họ học cách tôn trọng sự khác biệt. Nhân Mã giúp Kim Ngưu mở rộng thế giới quan gò bó của mình.'),
+(2, 10, 95, 'Cặp đôi quyền lực của nguyên tố Đất. Cùng chung mục tiêu xây dựng sự nghiệp và tài chính. Tình yêu của họ không ồn ào nhưng cực kỳ bền vững.', 'Khuyến khích nhau làm giàu. Họ là những người đồng chí hướng trong việc chinh phục các đỉnh cao vật chất.'),
+(2, 11, 55, 'Kim Ngưu đại diện cho tính truyền thống, Bảo Bình là kẻ nổi loạn phá vỡ quy tắc. Cần một sự bao dung khổng lồ để cả hai thấu hiểu nhau.', 'Học hỏi từ sự khác biệt. Bảo Bình cho Kim Ngưu thấy tương lai, Kim Ngưu nhắc Bảo Bình về hiện tại.'),
+(2, 12, 85, 'Kim Ngưu là bến đỗ an toàn, vững chãi cho tâm hồn mộng mơ, dễ tổn thương của Song Ngư. Một tình yêu mang đậm tính che chở và chữa lành.', 'Kim Ngưu bảo vệ Song Ngư khỏi những góc khuất phũ phàng của thực tại, ngược lại Song Ngư mang lại sự lãng mạn cho Kim Ngưu.'),
+
+-- ==========================================
+-- [3] SONG TỬ (Gemini) x 12 Cung
+-- ==========================================
+(3, 1, 85, 'Góc nhìn từ Song Tử: Bạch Dương mang lại năng lượng cuồng nhiệt mà Song Tử luôn tìm kiếm. Không ai giữ chân ai, tình yêu bay bổng tự do.', 'Hai đứa trẻ không bao giờ lớn. Tình bạn của họ là những chuỗi ngày tấu hài và khám phá.'),
+(3, 2, 55, 'Sự ổn định của Kim Ngưu đôi khi làm Song Tử ngột ngạt. Song Tử sẽ cố gắng vùng vẫy thoát ra nếu cảm thấy bị trói buộc quá chặt.', 'Song Tử đánh giá cao sự kiên nhẫn của Kim Ngưu khi họ cần một người lắng nghe những ý tưởng điên rồ.'),
+(3, 3, 85, 'Giao tiếp là sức mạnh cốt lõi. Họ có thể nói chuyện thâu đêm suốt sáng. Tình yêu thú vị, mới mẻ nhưng có thể thiếu đi chiều sâu cảm xúc.', 'Hội bà tám xuyên lục địa. Có hai Song Tử ở cạnh nhau, không khí không bao giờ trầm lắng.'),
+(3, 4, 60, 'Song Tử xử lý vấn đề bằng lý trí (Khí), Cự Giải xử lý bằng cảm xúc (Nước). Sự vô tư của Song Tử dễ làm Cự Giải cảm thấy bất an.', 'Song Tử có khiếu hài hước tự nhiên, giúp Cự Giải thoát khỏi những ngày tâm trạng u ám tồi tệ.'),
+(3, 5, 85, 'Cặp đôi nổi bật tại mọi bữa tiệc. Song Tử mang lại sự linh hoạt, thông minh làm nền tảng cho sự tỏa sáng đầy kiêu hãnh của Sư Tử.', 'Họ ngưỡng mộ tài năng của nhau. Một tình bạn đầy hào quang và những cuộc vui bất tận.'),
+(3, 6, 70, 'Cùng được sao Thủy cai quản nên rất hợp nhau về mặt trí tuệ. Tuy nhiên Xử Nữ quá nghiêm túc còn Song Tử lại hay đùa giỡn, bỡn cợt.', 'Những cuộc tranh luận trí tuệ nảy lửa. Xử Nữ giúp những ý tưởng bay bổng của Song Tử trở nên thực tế.'),
+(3, 7, 95, 'Sự hòa hợp hoàn hảo của nguyên tố Khí. Giao tiếp mượt mà, thấu hiểu tư duy của nhau mà không cần giải thích nhiều. Đầy thanh lịch và tự do.', 'Họ hiểu nhau từ nửa nụ cười. Tình bạn tri kỷ dựa trên sự tôn trọng quyền riêng tư của nhau.'),
+(3, 8, 50, 'Bọ Cạp muốn kiểm soát tuyệt đối, trong khi Song Tử là cơn gió không thể nắm bắt. Song Tử sẽ chạy mất dép trước sự ghen tuông của Bọ Cạp.', 'Ít khi giao thiệp sâu. Song Tử giữ mối quan hệ ở mức xã giao để tránh những rắc rối cảm xúc.'),
+(3, 9, 90, 'Góc đối đỉnh. Lực hút mãnh liệt từ sự khao khát tự do. Cả hai không ai ghen tuông, không trói buộc, cùng nhau vi vu khắp thế gian.', 'Tình bạn tuyệt vời. Sẵn sàng xách balo lên và đi du lịch cùng nhau chỉ sau một câu rủ rê.'),
+(3, 10, 55, 'Ma Kết quá cứng nhắc và nguyên tắc, điều này dập tắt hoàn toàn sự bay bổng của Song Tử. Rất khó để họ tìm thấy nhịp đập chung trong tình yêu.', 'Làm việc nhóm dễ xảy ra xung đột. Song Tử cần học tính kỷ luật từ Ma Kết nếu muốn thành công.'),
+(3, 11, 95, 'Tâm linh tương thông. Những ý tưởng đột phá của Bảo Bình tìm thấy sự đồng điệu tuyệt đối nơi trí tuệ của Song Tử. Tình yêu vô cùng độc lạ.', 'Tình bạn phi thường. Họ có thể xa nhau cả năm nhưng khi gặp lại vẫn thân thiết như ngày hôm qua.'),
+(3, 12, 60, 'Song Ngư mong manh, đa sầu đa cảm thường bị tổn thương bởi những lời nói đùa vô tình hoặc sự thay đổi thất thường của Song Tử.', 'Song Tử có khả năng dùng logic và sự lạc quan để kéo Song Ngư ra khỏi vũng lầy của sự u sầu.'),
+
+-- ==========================================
+-- [4] CỰ GIẢI (Cancer) x 12 Cung
+-- ==========================================
+(4, 1, 55, 'Góc nhìn từ Cự Giải: Sự mạnh bạo và đôi khi vô tâm của Bạch Dương như những mũi dao cứa vào tâm hồn mỏng manh của Cự Giải.', 'Cự Giải là bờ vai êm ái, nơi Bạch Dương tìm về để được chữa lành sau những bão giông ngoài xã hội.'),
+(4, 2, 95, 'Trái tim Cự Giải hoàn toàn yên tâm trước sự trung thủy và vững chãi của Kim Ngưu. Họ là một cặp sinh ra để xây dựng mái ấm gia đình.', 'Tình bạn lâu dài, gắn bó như người thân ruột thịt. Luôn chia sẻ những bữa ăn ngon và niềm vui giản dị.'),
+(4, 3, 60, 'Cự Giải khao khát sự kết nối sâu sắc về tâm hồn, trong khi Song Tử chỉ thích những niềm vui lướt qua. Cự Giải sẽ luôn cảm thấy thiếu vắng an toàn.', 'Sự hoạt ngôn của Song Tử giúp Cự Giải bớt suy nghĩ tiêu cực và nhìn cuộc sống nhẹ nhàng hơn.'),
+(4, 4, 85, 'Sự đồng cảm tuyệt đối. Họ hiểu nhau qua từng ánh mắt. Tuy nhiên, nếu xảy ra chuyện buồn, cả hai dễ kéo nhau chìm sâu vào sự bi lụy.', 'Bảo vệ nhau trước thế giới bên ngoài. Một tình bạn kín đáo, chân thành và ngập tràn sự quan tâm.'),
+(4, 5, 75, 'Cự Giải mang lại sự ấm áp, chiều chuộng mà Sư Tử yêu thích. Ngược lại, Sư Tử mạnh mẽ là bức tường thành vững chắc che chở cho Cự Giải.', 'Sư Tử là người hùng bảo vệ Cự Giải khỏi những kẻ bắt nạt. Một tình bạn dựa trên sự che chở.'),
+(4, 6, 85, 'Xử Nữ chăm sóc cuộc sống thực tế, Cự Giải chăm lo cho cảm xúc. Cả hai tạo nên một sự bù trừ hoàn hảo, mang lại sự an tâm tuyệt đối.', 'Luôn giúp đỡ nhau tận tình. Cự Giải thấu hiểu được những lo âu ẩn giấu sau sự hoàn hảo của Xử Nữ.'),
+(4, 7, 65, 'Thiên Bình khao khát xã giao, bay nhảy bên ngoài, trong khi Cự Giải chỉ muốn ở nhà cuộn tròn trong chăn. Lối sống lệch pha gây nhiều mệt mỏi.', 'Thiên Bình mang lại góc nhìn khách quan, giúp Cự Giải cân bằng lại cảm xúc khi bị quá tải.'),
+(4, 8, 95, 'Tình yêu của nước: Sâu thẳm và mãnh liệt. Cự Giải dung hòa được sự khắc nghiệt của Bọ Cạp. Họ thấu hiểu nhau đến mức ngoại cảm.', 'Sống chết có nhau. Sự trung thành tuyệt đối khiến họ trở thành những người bạn tâm giao không thể tách rời.'),
+(4, 9, 50, 'Sự vô tâm và ham chơi của Nhân Mã là nỗi ám ảnh đối với Cự Giải khao khát tổ ấm. Cự Giải càng giữ, Nhân Mã càng muốn chạy trốn.', 'Nhân Mã có thể giúp Cự Giải mở rộng tầm nhìn, bước ra khỏi chiếc vỏ ốc chật hẹp của bản thân.'),
+(4, 10, 80, 'Góc đối đỉnh. Bù trừ hoàn hảo. Ma Kết xây dựng đế chế bên ngoài, Cự Giải giữ lửa tổ ấm bên trong. Cả hai bổ sung khiếm khuyết cho nhau.', 'Một tình bạn tôn trọng sự cống hiến. Họ hỗ trợ nhau bằng cả hành động thực tế lẫn sự quan tâm tinh thần.'),
+(4, 11, 55, 'Bảo Bình lý trí, xa cách và lạnh lùng. Điều này khiến Cự Giải cảm thấy bị bỏ rơi và không được yêu thương trong chính mối quan hệ của mình.', 'Góc nhìn của Bảo Bình quá lập dị đối với Cự Giải. Rất khó để họ tìm được sự đồng điệu sâu sắc.'),
+(4, 12, 95, 'Tình yêu cổ tích. Giác quan thứ sáu kết nối họ mạnh mẽ. Cự Giải mang lại sự chở che cho tâm hồn mộng mơ không đáy của Song Ngư.', 'Tri kỷ nghệ thuật. Cả hai có thể chìm đắm trong thế giới âm nhạc, thơ ca và chia sẻ mọi giấc mơ.'),
+
+-- ==========================================
+-- [5] SƯ TỬ (Leo) x 12 Cung
+-- ==========================================
+(5, 1, 95, 'Góc nhìn từ Sư Tử: Bạch Dương là ngọn lửa đam mê hoàn hảo để sánh bước cùng Sư Tử. Cả hai đều mạnh mẽ, sòng phẳng và không ngại thể hiện tình yêu.', 'Sát cánh trong mọi trận chiến. Họ hỗ trợ nhau tỏa sáng và luôn là đồng minh đáng tin cậy nhất.'),
+(5, 2, 65, 'Sư Tử thích cuộc sống hào nhoáng sang trọng, trong khi Kim Ngưu lại chú trọng tính thiết thực và tiết kiệm. Dễ nảy sinh mâu thuẫn tài chính.', 'Kim Ngưu là cố vấn tài chính xuất sắc, giúp Sư Tử không vung tay quá trán trong các cuộc vui.'),
+(5, 3, 85, 'Sư Tử yêu thích sự rạng rỡ và thú vị của Song Tử. Cặp đôi này sinh ra để trở thành tâm điểm chú ý ở mọi sự kiện xã hội mà họ tham gia.', 'Cùng nhau tạo ra những khoảnh khắc vui nhộn. Tình bạn của họ ngập tràn tiếng cười và sự lạc quan.'),
+(5, 4, 75, 'Sư Tử thích cảm giác được Cự Giải tôn sùng và chăm sóc. Tình yêu nảy nở từ sự che chở của vị vua dành cho một tâm hồn nhạy cảm.', 'Sư Tử mang lại sự tự tin cho Cự Giải, giúp Cự Giải mạnh mẽ hơn khi đối mặt với khó khăn.'),
+(5, 5, 85, 'Sự kết hợp của hai vị vua. Rực rỡ, quyền lực và cực kỳ hào phóng. Nhưng nếu cái tôi trỗi dậy, họ sẽ tranh giành ngai vàng dữ dội.', 'Cùng đẳng cấp, cùng gu thẩm mỹ sang trọng. Họ là những đối tác tuyệt vời nếu không dẫm chân lên nhau.'),
+(5, 6, 60, 'Sư Tử khao khát những lời khen ngợi, nhưng Xử Nữ lại luôn đưa ra những lời chỉ trích để hoàn thiện. Lòng tự trọng của Sư Tử sẽ bị tổn thương nặng nề.', 'Xử Nữ là người đứng sau cánh gà, sắp xếp mọi thứ hoàn hảo để Sư Tử tự tin bước ra sân khấu tỏa sáng.'),
+(5, 7, 85, 'Vẻ đẹp thanh lịch của Thiên Bình khiến Sư Tử vô cùng tự hào khi sánh bước cùng. Một cặp đôi ngoại giao xuất sắc, luôn biết cách làm vừa lòng thiên hạ.', 'Tình bạn dựa trên sự tôn trọng lẫn nhau. Cùng chia sẻ đam mê với thời trang, cái đẹp và sự kiện.'),
+(5, 8, 70, 'Trận chiến quyền lực. Bọ Cạp muốn kiểm soát ngầm, Sư Tử muốn thống trị công khai. Sự đam mê rất lớn nhưng cái tôi có thể thiêu rụi tất cả.', 'Tôn trọng sức mạnh của đối thủ. Họ hợp tác tốt nhưng luôn giữ một sự dè chừng nhất định với nhau.'),
+(5, 9, 95, 'Sự hòa hợp hoàn hảo của ngọn lửa. Cùng chung lý tưởng sống, yêu thích phiêu lưu và sự lạc quan. Tình yêu của họ truyền cảm hứng cho mọi người xung quanh.', 'Cặp bài trùng vĩ đại. Tình bạn của họ là sự cống hiến hết mình cho những niềm vui và tự do tuyệt đối.'),
+(5, 10, 60, 'Sư Tử muốn đạt được thành công một cách phô trương rực rỡ, Ma Kết lại lẳng lặng tiến lên bằng sự nhẫn nại. Phong cách sống quá khác biệt.', 'Tranh giành vị trí lãnh đạo trong công việc. Nếu phân chia rõ quyền hành, họ sẽ là một đế chế.'),
+(5, 11, 80, 'Góc đối đỉnh. Sư Tử là trung tâm của đám đông, Bảo Bình là kẻ lập dị đứng ngoài lề. Họ bị thu hút mãnh liệt bởi sự khác biệt của đối phương.', 'Bảo Bình mang đến cho Sư Tử những ý tưởng điên rồ mang tính cách mạng để Sư Tử thực thi.'),
+(5, 12, 65, 'Song Ngư quá yếu đuối và hay đóng vai nạn nhân, điều này khiến Sư Tử cảm thấy mệt mỏi vì lúc nào cũng phải đóng vai đấng cứu thế gánh vác mọi thứ.', 'Sư Tử bảo vệ Song Ngư khỏi thế giới khắc nghiệt. Tình bạn mang màu sắc của sự bao bọc và che chở.'),
+
+-- ==========================================
+-- [6] XỬ NỮ (Virgo) x 12 Cung
+-- ==========================================
+(6, 1, 65, 'Góc nhìn từ Xử Nữ: Sự vô tổ chức và bốc đồng của Bạch Dương làm đảo lộn hoàn toàn trật tự cuộc sống của Xử Nữ. Rất khó để dung hòa lâu dài.', 'Xử Nữ luôn phải đóng vai người dọn dẹp, giải quyết hậu quả cho những màn hành động thiếu suy nghĩ của Bạch Dương.'),
+(6, 2, 95, 'Mối quan hệ hoàn hảo dựa trên sự tin tưởng tuyệt đối. Cả hai cùng yêu thích sự gọn gàng, thực tế và nỗ lực xây dựng tương lai vật chất vững chắc.', 'Sự kết hợp của Đất mang lại một tình bạn cực kỳ trung thành. Đối tác làm ăn không thể tuyệt vời hơn.'),
+(6, 3, 70, 'Tuy cùng được sao Thủy cai quản, nhưng Xử Nữ dùng trí tuệ để phân tích chi tiết, còn Song Tử chỉ lướt qua bề mặt. Tình yêu thiếu đi sự đồng điệu cảm xúc.', 'Những buổi tranh luận trí tuệ nảy lửa. Xử Nữ học được sự linh hoạt từ tư duy đa chiều của Song Tử.'),
+(6, 4, 85, 'Sự ân cần của Xử Nữ hoàn toàn phù hợp với nhu cầu được chăm sóc của Cự Giải. Xử Nữ an tâm vì Cự Giải luôn coi trọng giá trị cốt lõi của gia đình.', 'Tình bạn êm đềm, luôn chú ý đến những chi tiết nhỏ nhất để làm đối phương cảm thấy hạnh phúc.'),
+(6, 5, 60, 'Sự phô trương, xài tiền hào phóng của Sư Tử làm Xử Nữ cảm thấy không an toàn. Xử Nữ không thích làm nền cho ánh hào quang của người khác quá lâu.', 'Xử Nữ đóng vai trò quân sư tĩnh lặng, giúp Sư Tử nhìn nhận những rủi ro thực tế trước khi hành động.'),
+(6, 6, 85, 'Cực kỳ hoàn hảo, quy củ và sạch sẽ. Tuy nhiên, tình yêu có thể rơi vào trạng thái nhàm chán và áp lực vì cả hai đều mắc bệnh cầu toàn quá mức.', 'Thúc đẩy nhau cùng tiến bộ. Họ liên tục hoàn thiện kỹ năng của bản thân và soi lỗi cho nhau để tốt hơn.'),
+(6, 7, 65, 'Xử Nữ cần mọi thứ rõ ràng, trắng đen phân minh, trong khi Thiên Bình luôn chần chừ, lơ lửng ở giữa. Sự thiếu quyết đoán của Thiên Bình làm Xử Nữ khó chịu.', 'Xử Nữ giúp Thiên Bình sắp xếp lại những lựa chọn hỗn độn để đưa ra quyết định chính xác nhất.'),
+(6, 8, 90, 'Sự bù trừ hoàn hảo của trí tuệ và trực giác. Xử Nữ dùng logic để phân tích, Bọ Cạp dùng cảm nhận. Họ tôn trọng sự sâu sắc và kín đáo của nhau.', 'Những người bạn tâm giao tuyệt đối. Họ có thể cùng nhau giữ những bí mật đen tối nhất mà không sợ bị lộ.'),
+(6, 9, 55, 'Nhân Mã bừa bộn, tự do và ghét quy tắc; Xử Nữ nguyên tắc, sạch sẽ và thực tế. Cuộc sống chung của họ sẽ giống như một bãi chiến trường.', 'Nhân Mã lôi kéo Xử Nữ ra khỏi vỏ bọc an toàn, giúp Xử Nữ nhìn thấy bức tranh lớn thay vì soi mói tiểu tiết.'),
+(6, 10, 95, 'Cặp đôi của thành tựu và công việc. Họ xây dựng tình yêu dựa trên sự tôn trọng, kỷ luật và mục tiêu vươn lên nấc thang cao nhất của xã hội.', 'Một liên minh bất khả chiến bại trong công việc. Sự nhẫn nại và tỉ mỉ của họ có thể dời non lấp biển.'),
+(6, 11, 60, 'Xử Nữ tuân thủ các quy tắc xã hội, Bảo Bình lại thích phá vỡ mọi lề thói. Sự lập dị của Bảo Bình khiến Xử Nữ cảm thấy bất an và khó hiểu.', 'Học hỏi từ các góc nhìn đối lập. Bảo Bình mang tư duy tương lai giúp Xử Nữ thoát khỏi lối mòn cũ kỹ.'),
+(6, 12, 80, 'Góc đối đỉnh. Lực hút cực mạnh. Sự thực tế, vững vàng của Xử Nữ chính là mỏ neo giữ lại con thuyền tâm hồn đang trôi dạt vô định của Song Ngư.', 'Xử Nữ giúp Song Ngư sắp xếp lại cuộc đời lộn xộn, đổi lại Song Ngư dạy Xử Nữ cách yêu thương bằng cảm xúc thay vì lý trí.'),
+
+-- ==========================================
+-- [7] THIÊN BÌNH (Libra) x 12 Cung
+-- ==========================================
+(7, 1, 80, 'Góc nhìn từ Thiên Bình: Sự mạnh mẽ, quyết đoán của Bạch Dương bù đắp hoàn hảo cho tính hay do dự của Thiên Bình. Một lực hút trái dấu cực kỳ hấp dẫn.', 'Thiên Bình dùng sự khéo léo để xoa dịu những cơn nóng giận của Bạch Dương, giúp tình bạn luôn bền chặt.'),
+(7, 2, 75, 'Cùng yêu cái đẹp và sự lãng mạn vì được sao Kim cai quản. Tuy nhiên Thiên Bình thích giao tiếp xã hội, Kim Ngưu lại chỉ muốn tận hưởng ở nhà.', 'Cùng chung sở thích về thời trang, nghệ thuật và cái đẹp. Một tình bạn thanh lịch và tinh tế.'),
+(7, 3, 95, 'Sự hòa hợp hoàn hảo của nguyên tố Khí. Họ bay bổng cùng những ý tưởng, giao tiếp mượt mà và tôn trọng không gian tự do của nhau. Tình yêu không áp lực.', 'Bạn tâm giao. Có thể nói chuyện với nhau từ sáng đến đêm về mọi chủ đề trên đời mà không chán.'),
+(7, 4, 65, 'Thiên Bình xử lý bằng lý trí, muốn mọi thứ công bằng; Cự Giải xử lý bằng cảm xúc, muốn sự che chở bao bọc. Dễ dẫn đến những hiểu lầm không đáng có.', 'Thiên Bình mang lại sự cân bằng, giúp Cự Giải không bị cuốn quá sâu vào những nỗi buồn u ám.'),
+(7, 5, 85, 'Sự thanh lịch, duyên dáng của Thiên Bình là viên ngọc quý làm tôn lên ánh hào quang của Sư Tử. Cặp đôi này sinh ra để đi thảm đỏ cùng nhau.', 'Cùng nhau tham gia các hoạt động xã hội. Tôn trọng vẻ đẹp và tài năng của đối phương.'),
+(7, 6, 65, 'Thiên Bình sợ hãi trước những lời chỉ trích, phân tích lạnh lùng của Xử Nữ. Sự xét nét của Xử Nữ làm mất đi vẻ đẹp mộng mơ của tình yêu Thiên Bình.', 'Xử Nữ là người sắp xếp lại mớ bòng bong trong tâm trí Thiên Bình, giúp họ đưa ra quyết định dứt khoát.'),
+(7, 7, 85, 'Cực kỳ đẹp đôi, thanh lịch và lãng mạn. Tình yêu ngập tràn hoa hồng. Tuy nhiên, khi đối mặt với sóng gió thực tế, cả hai đều có xu hướng trốn tránh.', 'Đồng điệu về tâm hồn và nghệ thuật. Luôn giữ hòa khí và rất sợ phải cãi vã lớn tiếng với nhau.'),
+(7, 8, 70, 'Thiên Bình thích thả thính xã giao, điều này kích hoạt sự ghen tuông điên cuồng của Bọ Cạp. Một mối quan hệ đầy đam mê nhưng cũng nghẹt thở.', 'Bọ Cạp giúp Thiên Bình nhìn thấu bản chất đen tối của người khác, bảo vệ Thiên Bình khỏi sự lợi dụng.'),
+(7, 9, 85, 'Họ chia sẻ tình yêu với sự tự do, vui vẻ và các buổi tiệc tùng. Không ai ép buộc ai, một tình yêu rất văn minh và ngập tràn năng lượng tích cực.', 'Cùng nhau khám phá văn hóa, triết học và những chuyến đi. Tình bạn giúp tâm hồn luôn rộng mở.'),
+(7, 10, 60, 'Thiên Bình quá lãng mạn và bay bổng so với một Ma Kết khô khan, luôn cắm đầu vào công việc. Tình yêu thiếu đi ngọn lửa của sự nồng nhiệt.', 'Ma Kết dạy Thiên Bình bài học về sự nghiêm túc, trách nhiệm và cách tổ chức cuộc sống chuyên nghiệp hơn.'),
+(7, 11, 95, 'Sự đồng điệu về trí tuệ ở mức cao nhất. Thiên Bình thấu hiểu sự lập dị của Bảo Bình, biến tình yêu của họ thành một trải nghiệm độc nhất vô nhị.', 'Tình bạn vô giá. Họ ủng hộ những ý tưởng đột phá của nhau mà không phán xét bất kỳ điều gì.'),
+(7, 12, 75, 'Cả hai đều mộng mơ, yêu hòa bình và ghét xung đột. Tình yêu của họ như một bản tình ca buồn, đẹp đẽ nhưng thiếu một người lo liệu gánh nặng cơm áo gạo tiền.', 'Họ là nàng thơ và chàng nghệ sĩ của nhau. Truyền cảm hứng để cùng nhau tạo ra những tác phẩm nghệ thuật để đời.'),
+
+-- ==========================================
+-- [8] BỌ CẠP (Scorpio) x 12 Cung
+-- ==========================================
+(8, 1, 70, 'Góc nhìn từ Bọ Cạp: Cả hai đều được cai quản bởi sao Hỏa (cổ đại) nên sở hữu năng lượng chiến đấu lớn. Tình yêu đầy đam mê mãnh liệt nhưng cũng như một bãi mìn chực chờ phát nổ.', 'Tôn trọng sức mạnh của đối thủ. Họ hợp tác tốt nhưng luôn đề phòng sự nóng nảy của Bạch Dương.'),
+(8, 2, 80, 'Góc đối đỉnh. Bọ Cạp sâu sắc bí ẩn, Kim Ngưu trầm tĩnh thực tế. Lực hút cực mạnh, tính chiếm hữu cao tạo nên một mối quan hệ vừa bền chặt vừa ngột ngạt.', 'Sự trung thành tuyệt đối là chìa khóa. Sẵn sàng sống chết bảo vệ nhau trước mọi sóng gió bên ngoài.'),
+(8, 3, 50, 'Sự hời hợt, thích bay nhảy của Song Tử là điều tối kỵ đối với Bọ Cạp đa nghi. Bọ Cạp không bao giờ tìm thấy sự an toàn ở con người đa tình này.', 'Giữ mối quan hệ ở mức độ giao tiếp xã giao. Bọ Cạp thường cảm thấy Song Tử thiếu đi sự sâu sắc cần thiết.'),
+(8, 4, 95, 'Sự thấu hiểu tâm linh đỉnh cao. Cự Giải dung hòa được sự cực đoan của Bọ Cạp bằng tình yêu thương vô bờ bến. Tình yêu của họ sâu thẳm như đại dương.', 'Bạn tâm giao. Họ kết nối với nhau bằng trực giác, không cần dùng lời nói vẫn hiểu đối phương đang nghĩ gì.'),
+(8, 5, 70, 'Trận chiến của hai kẻ thích kiểm soát. Sư Tử muốn thống trị bằng hào quang, Bọ Cạp thao túng bằng tâm lý. Một cuộc tình đầy quyền lực và những pha đối đầu nảy lửa.', 'Dành cho nhau sự tôn trọng lớn lao. Nếu biết lùi lại một bước, họ sẽ là một liên minh đáng gờm.'),
+(8, 6, 90, 'Sự phân tích lạnh lùng của Xử Nữ hoàn toàn ăn khớp với tư duy sắc sảo của Bọ Cạp. Họ tin tưởng nhau tuyệt đối vì không ai có thể qua mặt được người kia.', 'Tình bạn của sự thấu đáo. Họ chia sẻ chung khả năng nhìn thấu bản chất thật sự của mọi vấn đề và con người.'),
+(8, 7, 70, 'Vẻ đẹp và sự lả lơi xã giao của Thiên Bình luôn làm Bọ Cạp điên máu ghen tuông. Bọ Cạp có xu hướng muốn nhốt Thiên Bình vào chiếc lồng vàng của riêng mình.', 'Bọ Cạp giúp Thiên Bình loại bỏ những mối quan hệ độc hại nhờ vào trực giác nhạy bén của mình.'),
+(8, 8, 85, 'Đam mê, ám ảnh và sâu thẳm được nhân đôi. Không ai hiểu Bọ Cạp bằng chính Bọ Cạp. Nhưng một khi sự phản bội xảy ra, cuộc chiến sẽ vô cùng thảm khốc.', 'Hai sát thủ đi cùng nhau. Sẵn sàng che giấu bí mật cho nhau và bảo vệ đối phương bằng mọi cách.'),
+(8, 9, 55, 'Nhân Mã coi trọng sự tự do hơn mạng sống, Bọ Cạp coi trọng sự ràng buộc sâu sắc. Đây là một sự lệch pha đau đớn, Bọ Cạp càng siết, Nhân Mã càng chạy.', 'Nhân Mã thổi một luồng gió lạc quan vào cuộc sống có phần u ám và đầy toan tính của Bọ Cạp.'),
+(8, 10, 95, 'Sự kết hợp của Đất và Nước mang tới sức mạnh hủy diệt. Cả hai đều cực kỳ tham vọng, chung thủy và có khả năng biến mọi mục tiêu thành hiện thực.', 'Một liên minh vững như bàn thạch. Cùng nhau chia sẻ tham vọng vươn lên nắm giữ quyền lực và tài sản.'),
+(8, 11, 55, 'Sự lạnh lùng, xa cách cảm xúc của Bảo Bình làm Bọ Cạp phát điên. Bọ Cạp muốn bóc tách nội tâm nhưng Bảo Bình hoàn toàn trống rỗng cảm xúc.', 'Rất khó để trở thành bạn thân. Góc nhìn lập dị của Bảo Bình luôn là một dấu hỏi lớn đối với Bọ Cạp.'),
+(8, 12, 95, 'Định mệnh an bài. Sự bí ẩn và mạnh mẽ của Bọ Cạp dẫn dắt hoàn toàn tâm hồn yếu đuối của Song Ngư. Một tình yêu mang đậm tính ma thuật và chữa lành.', 'Bọ Cạp là tấm khiên vững chắc che chắn cho Song Ngư khỏi mọi sự lừa lọc và tàn nhẫn của thế gian.'),
+
+-- ==========================================
+-- [9] NHÂN MÃ (Sagittarius) x 12 Cung
+-- ==========================================
+(9, 1, 90, 'Góc nhìn từ Nhân Mã: Bạch Dương là ngọn lửa cuồng nhiệt luôn sẵn sàng bùng cháy cùng Nhân Mã. Họ không thích sự kiểm soát, tình yêu là những chuyến phiêu lưu.', 'Bạn đồng hành số 1. Luôn cùng nhau khám phá, chơi các môn thể thao mạo hiểm và tận hưởng niềm vui.'),
+(9, 2, 50, 'Nhân Mã cảm thấy như bị chôn vùi dưới sự ổn định quá mức của Kim Ngưu. Khát vọng bay nhảy của họ hoàn toàn trái ngược với mong muốn xây dựng tổ ấm của đối phương.', 'Kim Ngưu mang lại những lời khuyên tài chính thực tế để giúp Nhân Mã không tiêu xài hoang phí cho các chuyến đi.'),
+(9, 3, 90, 'Góc đối đỉnh tuyệt đẹp. Cả hai đều thay đổi liên tục, tò mò về thế giới và ghét sự trói buộc. Giao tiếp cởi mở khiến tình yêu luôn tươi mới.', 'Cặp bài trùng thích rong ruổi. Họ truyền cho nhau năng lượng sống tích cực và sự am hiểu về nhiều lĩnh vực.'),
+(9, 4, 50, 'Sự đeo bám cảm xúc của Cự Giải khiến Nhân Mã nghẹt thở. Nhân Mã thẳng tính hay làm tổn thương Cự Giải, dẫn đến việc Nhân Mã sẽ chọn cách bỏ chạy.', 'Cự Giải mang lại cho Nhân Mã một cảm giác về gia đình hiếm hoi, nơi họ có thể dừng chân nghỉ ngơi lúc mỏi mệt.'),
+(9, 5, 95, 'Sự hòa hợp hoàn hảo. Cùng tôn trọng sự tự do, hào phóng và thích tỏa sáng. Tình yêu của họ truyền một nguồn cảm hứng khổng lồ cho những người xung quanh.', 'Hai nguồn năng lượng tích cực hội tụ. Tình bạn của họ luôn ồn ào, náo nhiệt và ngập tràn những điều tốt đẹp.'),
+(9, 6, 55, 'Xử Nữ thích săm soi chi tiết, Nhân Mã chỉ quan tâm đến bức tranh tổng thể. Sự chỉ trích của Xử Nữ làm Nhân Mã bực bội và muốn thoát khỏi mối quan hệ này.', 'Xử Nữ là người lo liệu hành lý, sắp xếp lịch trình hoàn hảo cho những chuyến đi ngẫu hứng của Nhân Mã.'),
+(9, 7, 85, 'Thiên Bình yêu vẻ đẹp thanh lịch, Nhân Mã yêu triết học. Sự vui vẻ, không ghen tuông của họ tạo nên một tình yêu cực kỳ thoải mái và văn minh.', 'Thiên Bình giúp Nhân Mã tinh tế hơn trong cách giao tiếp, bớt đi sự thẳng thắn đến mức vô duyên.'),
+(9, 8, 55, 'Sự kiểm soát đen tối của Bọ Cạp là khắc tinh của con ngựa hoang Nhân Mã. Mối quan hệ dễ biến thành một trò chơi trốn tìm đầy đau khổ.', 'Bọ Cạp giúp Nhân Mã nhìn sâu vào tâm hồn con người, thay vì chỉ đánh giá mọi thứ qua lăng kính lạc quan mù quáng.'),
+(9, 9, 85, 'Hiểu nhau đến từng chân tơ kẽ tóc. Tình yêu cuồng nhiệt, độc lập và đầy trải nghiệm, nhưng thiếu đi một người có thể lo liệu cuộc sống thực tế.', 'Tình bạn hoang dã. Họ rủ nhau phá vỡ mọi giới hạn và cùng nhau tạo ra những kỷ niệm điên rồ nhất.'),
+(9, 10, 60, 'Ma Kết là bức tường kỷ luật kiên cố chặn đứng sự tự do của Nhân Mã. Góc nhìn cuộc sống quá khác biệt khiến họ khó có thể đồng hành trên một con đường dài.', 'Ma Kết đóng vai trò người trưởng thành, dạy Nhân Mã biết chịu trách nhiệm về hành động và tương lai của mình.'),
+(9, 11, 85, 'Một tình yêu lạ lùng và độc đáo. Không ai có nhu cầu sở hữu ai. Họ kết nối bằng những ý tưởng mang tầm vóc nhân loại và những lý tưởng vĩ đại.', 'Đôi bạn tri kỷ cùng chí hướng. Tôn trọng sự tự do tuyệt đối của nhau, luôn khuyến khích đối phương làm điều mình thích.'),
+(9, 12, 65, 'Đều là những người mộng mơ, nhưng Nhân Mã dùng hành động thực tế để khám phá thế giới, còn Song Ngư chỉ khám phá trong tâm trí. Dễ dần xa cách nhau.', 'Nhân Mã kéo Song Ngư ra khỏi căn phòng tối tăm, giúp họ nhìn thấy ánh sáng mặt trời và sự tươi đẹp của thực tại.'),
+
+-- ==========================================
+-- [10] MA KẾT (Capricorn) x 12 Cung
+-- ==========================================
+(10, 1, 50, 'Góc nhìn từ Ma Kết: Bạch Dương như một đứa trẻ xốc nổi trong mắt Ma Kết trưởng thành. Sự thiếu kiên nhẫn của Bạch Dương phá vỡ mọi kế hoạch của Ma Kết.', 'Ma Kết giúp định hướng lại năng lượng bạo phát của Bạch Dương vào những mục tiêu dài hạn có tính thiết thực hơn.'),
+(10, 2, 95, 'Hai nguyên tố Đất gặp nhau tạo nên một nền tảng kim cương vững chắc. Họ chung thủy, trân trọng tài sản và có cùng mục tiêu xây dựng một tương lai giàu có.', 'Đối tác làm ăn siêu cấp. Sự kiên định của cả hai có thể vượt qua mọi cuộc khủng hoảng kinh tế.'),
+(10, 3, 55, 'Sự bông đùa, thay đổi thất thường của Song Tử làm Ma Kết đánh giá là thiếu nghiêm túc và không đáng tin cậy. Rất khó để đi đến sự gắn kết lâu dài.', 'Song Tử phá vỡ lớp vỏ bọc khô khan của Ma Kết, mang lại cho họ những tiếng cười hiếm hoi trong cuộc sống.'),
+(10, 4, 80, 'Góc đối đỉnh cực tốt. Ma Kết là người cha mang bánh mì về, Cự Giải là người mẹ giữ lửa tổ ấm. Sự phân công tự nhiên này tạo nên gia đình bền vững.', 'Cự Giải là dòng suối mát lành tưới mát cho tâm hồn khô cằn vì áp lực công việc của Ma Kết.'),
+(10, 5, 60, 'Ma Kết ít bộc lộ cảm xúc, điều này không đáp ứng được nhu cầu được khen ngợi của Sư Tử. Cả hai đều có tham vọng lãnh đạo nên dễ xảy ra đụng độ quyền lực.', 'Sư Tử mang lại hào quang xã hội giúp Ma Kết thăng tiến, đổi lại Ma Kết cung cấp nền tảng vật chất cho Sư Tử.'),
+(10, 6, 95, 'Cặp đôi hoàn hảo của công việc, trách nhiệm và thành tựu. Họ thấu hiểu nhau, không cần sự lãng mạn phù phiếm, tình yêu của họ chứng minh bằng hành động và sự nỗ lực.', 'Một đội ngũ không biết mệt mỏi. Cùng soi xét, đánh giá mọi thứ một cách logic và vô cùng thực tế.'),
+(10, 7, 60, 'Ma Kết khô khan và cuồng việc, trong khi Thiên Bình khao khát sự lãng mạn và sự đồng hành. Thiên Bình sẽ cảm thấy vô cùng cô đơn trong tình yêu này.', 'Thiên Bình giúp Ma Kết mở rộng các mối quan hệ xã hội, học cách thư giãn và tận hưởng cuộc sống tốt hơn.'),
+(10, 8, 95, 'Sự kết hợp của những kẻ tham vọng ẩn danh. Đam mê ngầm mãnh liệt. Bọ Cạp tin tưởng hoàn toàn vào sự kiên định và trung thủy của Ma Kết.', 'Đồng minh mạnh mẽ nhất. Họ cùng nhau vạch ra những chiến lược sâu sắc để đạt được đỉnh cao quyền lực.'),
+(10, 9, 60, 'Sự phá luật và tự do của Nhân Mã đi ngược lại hoàn toàn với tính kỷ luật thép của Ma Kết. Tình yêu là một chuỗi ngày giáo huấn mệt mỏi.', 'Nhân Mã giúp Ma Kết bớt căng thẳng, dạy họ cách mỉm cười và đừng quá đặt nặng gánh nặng trên vai.'),
+(10, 10, 85, 'Hai cỗ máy làm việc gặp nhau. Tình yêu vô cùng vững chắc, chung thủy nhưng có nguy cơ biến thành một bản hợp đồng đối tác kinh doanh khô khan.', 'Đội ngũ làm việc bất khuất. Họ hỗ trợ nhau từng bước một để cùng leo lên đỉnh vinh quang của xã hội.'),
+(10, 11, 65, 'Ma Kết đại diện cho sự bảo thủ, truyền thống; Bảo Bình đại diện cho sự nổi loạn, tương lai. Khoảng cách thế hệ là rào cản lớn nhất của họ.', 'Học hỏi sự đổi mới. Bảo Bình đưa ra các ý tưởng đột phá, Ma Kết sử dụng hệ thống để hiện thực hóa chúng.'),
+(10, 12, 85, 'Sự bao dung của Nước làm mềm hóa Đất. Ma Kết đóng vai trò là một cái cây cổ thụ vững chãi che mưa chắn gió cho dây leo Song Ngư nương tựa.', 'Song Ngư dạy Ma Kết cách kết nối với thế giới tâm linh, giúp họ hiểu rằng cảm xúc cũng có sức mạnh riêng của nó.'),
+
+-- ==========================================
+-- [11] BẢO BÌNH (Aquarius) x 12 Cung
+-- ==========================================
+(11, 1, 85, 'Góc nhìn từ Bảo Bình: Ý tưởng đột phá của Bảo Bình luôn tìm được người thực thi nhiệt huyết là Bạch Dương. Tình yêu độc đáo, tự do và không ngừng làm mới.', 'Nhóm bạn kỳ quặc và thú vị. Tôn trọng sự độc lập của nhau, không bao giờ phán xét đối phương.'),
+(11, 2, 55, 'Bảo Bình muốn thay đổi thế giới, Kim Ngưu chỉ muốn giữ thế giới đứng im. Hai tư tưởng đối lập này dẫn đến những cuộc cãi vã triền miên không hồi kết.', 'Bảo Bình giúp Kim Ngưu phá vỡ lối mòn tư duy cũ kỹ, chấp nhận sự thật rằng thay đổi là điều tất yếu.'),
+(11, 3, 95, 'Hòa hợp tuyệt đối về mặt tâm trí. Cả hai yêu tự do, lý trí và không bao giờ đánh mất bản thân vì tình yêu. Một mối quan hệ thông minh và cực kỳ văn minh.', 'Hiểu nhau mà không cần dùng lời. Tình bạn tri kỷ, nơi những ý tưởng điên rồ nhất được chào đón nhiệt liệt.'),
+(11, 4, 55, 'Bảo Bình giải quyết vấn đề bằng lý trí lạnh lùng, điều này làm tổn thương sâu sắc Cự Giải mong manh nhạy cảm. Khoảng cách cảm xúc là quá lớn.', 'Bảo Bình giúp Cự Giải nhìn nhận sự việc một cách khách quan hơn, thay vì luôn đắm chìm trong cảm giác bi lụy.'),
+(11, 5, 80, 'Góc đối đỉnh. Sư Tử khao khát được tôn sùng, Bảo Bình lại coi mọi người là bình đẳng. Lực hút mãnh liệt nhưng cái tôi của cả hai đều quá lớn.', 'Cặp bài trùng bổ trợ. Bảo Bình mang lại tư duy khác biệt, Sư Tử dùng sự tự tin để thu hút sự chú ý của công chúng.'),
+(11, 6, 60, 'Xử Nữ gò ép bản thân vào các quy tắc, Bảo Bình sinh ra để phá vỡ chúng. Sự lập dị của Bảo Bình làm Xử Nữ cảm thấy vô cùng bất ổn và thiếu an toàn.', 'Xử Nữ giúp những ý tưởng trên trời của Bảo Bình có một bản kế hoạch triển khai chi tiết và khả thi dưới mặt đất.'),
+(11, 7, 95, 'Cặp đôi hoàn mỹ của nguyên tố Khí. Sự thanh lịch của Thiên Bình giúp Bảo Bình hòa nhập xã hội tốt hơn, trong khi Bảo Bình mang lại sự mới mẻ cho Thiên Bình.', 'Đồng điệu về tâm hồn. Cả hai đều hướng tới sự công bằng xã hội, yêu hòa bình và ghét những xung đột căng thẳng.'),
+(11, 8, 55, 'Sự kiểm soát cực đoan của Bọ Cạp đẩy Bảo Bình ra xa. Bảo Bình càng lạnh lùng trốn tránh, Bọ Cạp càng ghen tuông điên cuồng. Mối quan hệ đầy độc hại.', 'Sự khác biệt quá lớn về hệ tư tưởng khiến họ khó có thể chia sẻ với nhau những điều sâu kín trong lòng.'),
+(11, 9, 85, 'Đồng điệu về lý tưởng sống. Cả hai đều không có khái niệm sở hữu trong tình yêu. Họ yêu nhau bằng cách cùng nhau hướng về một chân trời tự do.', 'Tình bạn của những nhà cách mạng. Họ truyền cảm hứng cho nhau để sống một cuộc đời độc bản và không hối tiếc.'),
+(11, 10, 65, 'Bảo Bình nhìn về tương lai 100 năm sau, Ma Kết bám rễ vào những giá trị của 100 năm trước. Một cuộc va chạm giữa sự phá cách và tính kỷ luật.', 'Ma Kết cung cấp nền tảng vật chất và tổ chức để Bảo Bình có thể yên tâm nghiên cứu và sáng tạo những điều mới mẻ.'),
+(11, 11, 85, 'Quá độc đáo và lập dị. Tình yêu của họ giống như sự kết hợp của hai người ngoài hành tinh. Rất hòa hợp tâm trí nhưng lại thiếu đi sự nồng nhiệt thể xác.', 'Những tri kỷ độc bản. Họ hiểu được sự kỳ quặc của nhau mà thế giới ngoài kia không ai có thể chấp nhận được.'),
+(11, 12, 65, 'Đều có lý tưởng cứu rỗi nhân loại, nhưng Song Ngư làm bằng trái tim rỉ máu, còn Bảo Bình làm bằng lý trí sắc lạnh. Dễ lệch pha về mặt cảm xúc sâu kín.', 'Cùng nhau tham gia các hoạt động xã hội hoặc từ thiện. Bảo Bình là người định hướng tư duy cho Song Ngư.'),
+
+-- ==========================================
+-- [12] SONG NGƯ (Pisces) x 12 Cung
+-- ==========================================
+(12, 1, 60, 'Góc nhìn từ Song Ngư: Sự thô lỗ, thẳng thắn của Bạch Dương như một cơn bão làm nát vụn trái tim mỏng manh của Song Ngư. Cần Bạch Dương học cách dịu dàng hơn.', 'Bạch Dương đóng vai trò như một hiệp sĩ bảo vệ Song Ngư yếu đuối khỏi sự lợi dụng của những người xấu xung quanh.'),
+(12, 2, 85, 'Kim Ngưu mang lại sự che chở và an toàn vật chất, là bến đỗ bình yên cho con thuyền Song Ngư mộng mơ neo đậu sau những ngày giông bão.', 'Kim Ngưu dạy Song Ngư cách quản lý tài chính và nhìn nhận cuộc sống thực tế hơn, tránh xa những ảo vọng viển vông.'),
+(12, 3, 60, 'Sự hời hợt, vô tâm của Song Tử dễ làm Song Ngư cảm thấy mình không được trân trọng. Song Ngư cần sự kết nối sâu sắc, điều mà Song Tử hiếm khi có được.', 'Song Tử bằng sự hoạt ngôn của mình có thể kéo Song Ngư thoát khỏi trạng thái trầm cảm và nhìn đời vui vẻ hơn.'),
+(12, 4, 95, 'Tình yêu thần thoại. Thấu cảm tuyệt đối tâm hồn nhau. Hai cung Nước hòa quyện tạo nên một thế giới lãng mạn, che chở và hi sinh vì nhau.', 'Tri kỷ thực sự. Họ có thể cùng nhau rơi nước mắt khi nghe một bản nhạc buồn, thấu hiểu mọi nỗi đau của đối phương.'),
+(12, 5, 65, 'Song Ngư thường xuyên phải nép mình đằng sau ánh hào quang rực rỡ của Sư Tử. Lâu dần, Song Ngư sẽ mất đi cái tôi và cảm thấy mệt mỏi vì phải nhường nhịn.', 'Sư Tử sẵn sàng đứng ra nhận trách nhiệm và bảo vệ Song Ngư bằng sự hào hiệp và sức mạnh bẩm sinh của mình.'),
+(12, 6, 80, 'Góc đối đỉnh. Sự lộn xộn, vô định của Song Ngư được Xử Nữ sắp xếp lại một cách gọn gàng. Một sự bù trừ hoàn hảo nhưng Xử Nữ cần bớt càu nhàu.', 'Xử Nữ đóng vai trò là một người dọn dẹp và tổ chức lại cuộc sống thực tế cho một Song Ngư lúc nào cũng mơ màng.'),
+(12, 7, 75, 'Hai tâm hồn yêu cái đẹp và nghệ thuật. Tình yêu của họ như một bài thơ lãng mạn. Tuy nhiên, cả hai đều lơ lửng, thiếu một người lo liệu chuyện cơm áo.', 'Nàng thơ và chàng nghệ sĩ của nhau. Họ truyền cho nhau những cảm hứng mãnh liệt để sáng tác và tận hưởng nghệ thuật.'),
+(12, 8, 95, 'Sự bí ẩn, mạnh mẽ của Bọ Cạp dẫn dắt hoàn toàn Song Ngư. Sự chiếm hữu của Bọ Cạp lại chính là cảm giác an toàn tuyệt đối mà Song Ngư luôn khao khát.', 'Liên kết tâm linh mạnh mẽ. Không cần ngôn từ, chỉ cần một ánh mắt cũng đủ hiểu đối phương đang mang tâm sự gì.'),
+(12, 9, 65, 'Nhân Mã thích sự rõ ràng và hành động, Song Ngư lại hay lẩn tránh và sống trong tưởng tượng. Một bên muốn đi xa, một bên muốn chìm sâu, rất khó đồng hành.', 'Nhân Mã mang ngọn lửa lạc quan soi sáng những góc tối u sầu trong tâm trí Song Ngư, khích lệ họ tiến lên.'),
+(12, 10, 85, 'Ma Kết lạnh lùng nhưng là mỏ neo vô cùng vững chãi để dòng nước Song Ngư bám vào. Song Ngư mang lại sự lãng mạn, tưới mát tâm hồn khô khan của Ma Kết.', 'Ma Kết bảo ban, dạy dỗ Song Ngư sự kiên nhẫn và kỷ luật để có thể tự đứng vững trên đôi chân của mình.'),
+(12, 11, 65, 'Song Ngư cần sự nồng nhiệt cảm xúc, Bảo Bình lại dùng khoảng cách để yêu. Sự lạnh nhạt của Bảo Bình khiến Song Ngư cảm thấy như bị bỏ rơi.', 'Tôn trọng khoảng trời riêng của nhau. Bảo Bình hướng dẫn Song Ngư cách suy nghĩ lý trí để không bị tình cảm chi phối.'),
+(12, 12, 85, 'Vô cùng đồng điệu về sự mộng mơ và trực giác tâm linh. Tuy nhiên, tình yêu của họ rất dễ xa rời thực tế, cả hai cùng rủ nhau trốn tránh áp lực cuộc sống.', 'Đồng minh tâm linh. Cùng nhau chia sẻ những giấc mơ, những linh cảm và những tần số sóng não không thuộc về thế giới này.');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- =====================================================================
+-- 1. DATA CHO BẢNG: numerology_letter_mapping (Hệ thống Pythagoras)
+-- =====================================================================
+INSERT INTO numerology_letter_mapping (letter, value) VALUES
+('A', 1), ('B', 2), ('C', 3), ('D', 4), ('E', 5), ('F', 6), ('G', 7), ('H', 8), ('I', 9),
+('J', 1), ('K', 2), ('L', 3), ('M', 4), ('N', 5), ('O', 6), ('P', 7), ('Q', 8), ('R', 9),
+('S', 1), ('T', 2), ('U', 3), ('V', 4), ('W', 5), ('X', 6), ('Y', 7), ('Z', 8);
+
+-- =====================================================================
+-- 2. DATA CHO BẢNG: name_numerology (Chỉ số Tên / Sứ Mệnh)
+-- =====================================================================
+INSERT INTO name_numerology (number, title, traits, strengths, weaknesses, career_paths, love_style, advice) VALUES
+(1, 'Người Tiên Phong Độc Lập', 
+ 'Bạn mang tần số năng lượng của sự khởi đầu, độc lập và khả năng tự chủ mạnh mẽ. Bạn khao khát được dẫn dắt và không thích bị gò bó bởi các nguyên tắc cũ.', 
+ 'Tự tin, quyết đoán, có tư duy đột phá, khả năng lãnh đạo bẩm sinh, dám nghĩ dám làm.', 
+ 'Đôi khi quá bảo thủ, độc đoán, cái tôi cao, thiếu kiên nhẫn với những người chậm chạp hơn mình.', 
+ 'Giám đốc, Doanh nhân, Quản lý dự án, Nhà phát minh, Freelancer, Các công việc đòi hỏi sự tự chủ cao.', 
+ 'Chủ động, mãnh liệt nhưng đôi khi thích áp đặt. Bạn cần một người bạn đời biết tôn trọng không gian riêng của bạn.', 
+ 'Hãy học cách lắng nghe nhiều hơn. Sức mạnh thực sự của một nhà lãnh đạo không chỉ nằm ở việc ra lệnh, mà ở khả năng thấu hiểu và nâng đỡ người khác.'),
+
+(2, 'Nhà Ngoại Giao Hòa Bình', 
+ 'Tên của bạn tỏa ra năng lượng của sự thấu cảm, tinh tế và khao khát sự hòa hợp. Bạn là cầu nối tuyệt vời giữa những ý kiến trái chiều.', 
+ 'Trực giác nhạy bén, biết lắng nghe, tinh tế, bao dung, có khả năng làm việc nhóm và đàm phán xuất sắc.', 
+ 'Dễ bị tổn thương, hay suy nghĩ nhiều, đôi khi thiếu quyết đoán và dễ nhượng bộ vì sợ làm mất lòng người khác.', 
+ 'Nhà tâm lý học, Cố vấn, Chuyên viên nhân sự, Ngoại giao, Chăm sóc khách hàng, Nghệ sĩ.', 
+ 'Dịu dàng, lãng mạn và tận tụy. Bạn khao khát sự gắn kết sâu sắc về mặt tâm hồn và sợ sự cô đơn.', 
+ 'Đừng đánh mất tiếng nói của mình chỉ để làm vui lòng người khác. Yêu thương bản thân chính là nền tảng để bạn yêu thương thế giới.'),
+
+(3, 'Người Truyền Cảm Hứng', 
+ 'Con số của sự sáng tạo, lạc quan và khả năng bộc lộ bản thân xuất chúng. Bạn giống như một tia nắng mang lại niềm vui cho bất kỳ nơi nào bạn đến.', 
+ 'Hoạt ngôn, khiếu hài hước, sáng tạo vô hạn, sức hút tự nhiên, khả năng truyền đạt tuyệt vời.', 
+ 'Dễ phân tán năng lượng, làm việc theo cảm hứng, đôi khi hời hợt hoặc thiếu sự cam kết lâu dài.', 
+ 'Diễn giả, Nhà văn, Diễn viên, Người dẫn chương trình, Marketing, Thiết kế, Quan hệ công chúng.', 
+ 'Vui vẻ, nồng nhiệt và đầy bất ngờ. Tuy nhiên, bạn dễ chán nếu mối quan hệ thiếu đi những gia vị mới mẻ.', 
+ 'Kỷ luật không giết chết sự sáng tạo, nó giúp sự sáng tạo của bạn trở nên có giá trị thực tế. Hãy học cách hoàn thành những gì bạn đã bắt đầu.'),
+
+(4, 'Người Kiến Tạo Nền Tảng', 
+ 'Đại diện cho sự vững chắc, thực tế và đáng tin cậy. Bạn là người làm việc có phương pháp, chú trọng vào chi tiết và luôn xây dựng mọi thứ từ gốc rễ.', 
+ 'Kỷ luật, chăm chỉ, logic, trung thành, khả năng tổ chức và quản lý rủi ro cực tốt.', 
+ 'Cứng nhắc, bảo thủ, đôi khi quá tham công tiếc việc và thiếu đi sự linh hoạt hoặc lãng mạn.', 
+ 'Kế toán, Kỹ sư, Kiến trúc sư, Lập trình viên, Quản lý vận hành, Chuyên gia tài chính.', 
+ 'Nghiêm túc, chung thủy và thích thể hiện tình yêu qua hành động thực tế, chăm lo đời sống vật chất hơn là những lời có cánh.', 
+ 'Cuộc sống không chỉ là những bản kế hoạch và những con số. Hãy tự cho phép mình thư giãn, đón nhận những thay đổi bất ngờ và trải nghiệm vẻ đẹp của sự không hoàn hảo.'),
+
+(5, 'Linh Hồn Của Sự Tự Do', 
+ 'Tần số của sự phiêu lưu, thay đổi và trải nghiệm. Bạn tò mò với thế giới, khao khát được đi, được học hỏi và ghét cay ghét đắng sự rập khuôn.', 
+ 'Thích nghi nhanh, linh hoạt, đa tài, can đảm, luôn tràn đầy năng lượng và ý tưởng mới mẻ.', 
+ 'Dễ cả thèm chóng chán, thiếu tính kỷ luật, đôi khi vô trách nhiệm và dễ bị cám dỗ bởi những thú vui nhất thời.', 
+ 'Hướng dẫn viên du lịch, Phóng viên, Phi công, Bán hàng, Nhiếp ảnh gia, Nhà thám hiểm.', 
+ 'Cuồng nhiệt, quyến rũ nhưng khó nắm bắt. Bạn cần một mối quan hệ cho bạn cảm giác tự do, không bị kiểm soát.', 
+ 'Tự do thực sự không phải là chạy trốn khỏi mọi trách nhiệm, mà là làm chủ được tâm trí mình. Hãy tìm kiếm sự cân bằng giữa đam mê xê dịch và sự gắn kết bền vững.'),
+
+(6, 'Trái Tim Của Gia Đình', 
+ 'Bạn mang trong mình tình yêu thương vô điều kiện, tinh thần trách nhiệm cao và khao khát chăm sóc người khác. Trọng tâm cuộc đời bạn là tổ ấm và cộng đồng.', 
+ 'Ấm áp, bao dung, đáng tin cậy, khiếu thẩm mỹ tốt, có khả năng chữa lành và mang lại sự an tâm cho người khác.', 
+ 'Hay ôm đồm quá mức, dễ bị áp lực vì lo lắng cho người khác, đôi khi áp đặt sự quan tâm của mình lên người thân.', 
+ 'Giáo viên, Bác sĩ, Y tá, Cố vấn gia đình, Thiết kế nội thất, Các công việc vì cộng đồng.', 
+ 'Tận tâm, hy sinh và luôn vun vén cho tương lai. Bạn là mẫu người lý tưởng để xây dựng gia đình.', 
+ 'Bạn không thể rót nước từ một chiếc bình rỗng. Trước khi muốn chăm sóc và chữa lành cho cả thế giới, hãy học cách chăm sóc và yêu thương chính bản thân mình.'),
+
+(7, 'Nhà Triết Học Thông Thái', 
+ 'Con số của chiều sâu, trí tuệ và thế giới tâm linh. Bạn luôn đặt câu hỏi "Tại sao?", thích nghiên cứu và có một trực giác cực kỳ nhạy bén.', 
+ 'Phân tích sâu sắc, tư duy logic kết hợp trực giác, thông thái, khả năng tập trung cao độ, độc lập trong suy nghĩ.', 
+ 'Thích cô lập bản thân, đôi khi hoài nghi quá mức, khó gần, lạnh lùng và khép kín cảm xúc.', 
+ 'Nhà nghiên cứu, Nhà khoa học, Chuyên gia IT, Bác sĩ tâm lý, Nhà thần học, Nhà phân tích dữ liệu.', 
+ 'Bạn cần một sự kết nối tâm giao sâu sắc hơn là sức hút thể xác. Bạn khó mở lòng nhưng một khi đã yêu, bạn rất sâu đậm.', 
+ 'Đừng để trí tuệ trở thành bức tường ngăn cách bạn với thế giới. Hãy mở rộng trái tim, vì sự chân thành và chia sẻ sẽ mang lại cho bạn những câu trả lời mà sách vở không có.'),
+
+(8, 'Người Nắm Giữ Quyền Lực', 
+ 'Tên của bạn phản ánh khát vọng thành công, tư duy kinh doanh nhạy bén và năng lực thao lược xuất chúng. Bạn sinh ra để điều hành và kiến tạo tài sản.', 
+ 'Tự tin, bản lĩnh, tư duy tài chính xuất sắc, tham vọng, khả năng biến ý tưởng thành kết quả vật chất.', 
+ 'Quá coi trọng vật chất, tham công tiếc việc, đôi khi lạnh lùng, tàn nhẫn và khao khát kiểm soát mọi thứ.', 
+ 'CEO, Nhà đầu tư, Quản lý cấp cao, Luật sư, Kinh doanh bất động sản, Chuyên gia tài chính.', 
+ 'Bạn là chỗ dựa vững chắc về mọi mặt. Tuy nhiên, bạn thường gặp khó khăn trong việc thể hiện sự mềm mỏng và lãng mạn.', 
+ 'Tiền bạc và quyền lực là công cụ, không phải đích đến cuối cùng. Hãy dùng sức mạnh của mình để tạo ra giá trị cho xã hội và nhớ cân bằng với cuộc sống tinh thần.'),
+
+(9, 'Linh Hồn Nhân Đạo Tối Cao', 
+ 'Số 9 là con số của lý tưởng, tình yêu bao la và sự vị tha. Tên bạn phản ánh một tâm hồn lớn, luôn hướng tới việc cống hiến cho xã hội và cộng đồng.', 
+ 'Rộng lượng, nhân ái, có tầm nhìn xa, trực giác tốt, sẵn sàng hy sinh vì lý tưởng lớn.', 
+ 'Dễ bị ảo tưởng, thất vọng khi hiện thực không như mơ, hay bị lợi dụng lòng tốt, cảm xúc lên xuống thất thường.', 
+ 'Nhà hoạt động xã hội, Chính trị gia, Lãnh đạo tổ chức phi chính phủ, Nghệ sĩ, Bác sĩ, Tình nguyện viên.', 
+ 'Yêu thương vô điều kiện, lãng mạn và bao dung. Tuy nhiên, bạn dễ bị tổn thương nếu đối phương không hiểu được lý tưởng của mình.', 
+ 'Học cách nói "Không" là bài học lớn nhất của bạn. Đừng cố gắng cứu thế giới nếu bạn chưa học được cách bảo vệ ranh giới cảm xúc của chính mình.');
+
+
+-- =====================================================================
+-- 3. DATA CHO BẢNG: name_numerology_details (Chi tiết Từng Topic)
+-- =====================================================================
+INSERT INTO name_numerology_details (number, topic, title, content, icon_name) VALUES
+-- SỐ 1
+(1, 'Tính cách', 'Sự Tiên Phong Trong Máu', 'Khi người khác thấy rủi ro, bạn thấy cơ hội. Tên gọi này cấp cho bạn một năng lượng độc lập cực mạnh. Bạn thà tự làm sai và học hỏi còn hơn là đi theo một lối mòn an toàn nhưng nhàm chán. Người có số tên 1 toát ra sự tự tin, đôi khi là ngang tàng, khiến người khác vừa nể phục vừa e dè.', 'UserCircle2'),
+(1, 'Sự nghiệp', 'Sinh Ra Để Dẫn Đầu', 'Bạn không hợp làm nhân viên dưới quyền hay những công việc bị quản lý vi mô (micro-management). Bạn cần không gian để vạch ra hướng đi riêng. Thành công của bạn đến từ việc dám đứng ra chịu trách nhiệm và đưa ra những quyết định táo bạo. Hãy chú ý kiểm soát cái tôi khi làm việc nhóm.', 'Briefcase'),
+(1, 'Tình yêu', 'Mãnh Liệt Và Chủ Động', 'Trong tình cảm, bạn là người cầm cưa. Bạn không thích sự mập mờ, yêu là nói, ghét là buông. Bạn bảo vệ người mình yêu rất tốt nhưng lại hay mắc lỗi thích kiểm soát hoặc áp đặt suy nghĩ của mình lên đối phương. Bài học lớn nhất là học cách thỏa hiệp.', 'Heart'),
+
+-- SỐ 2
+(2, 'Tính cách', 'Dòng Nước Mát Chữa Lành', 'Bạn mang một trường năng lượng dịu êm, thân thiện. Khả năng đồng cảm sâu sắc khiến bạn trở thành một "thùng rác cảm xúc" đáng tin cậy của bạn bè. Tuy nhiên, vì quá nhạy cảm, bạn hay thu mình lại nếu cảm thấy môi trường xung quanh có quá nhiều sự thù địch hay cạnh tranh.', 'UserCircle2'),
+(2, 'Sự nghiệp', 'Bậc Thầy Đằng Sau Hậu Trường', 'Sức mạnh của bạn nằm ở việc kết nối con người. Bạn làm việc nhóm cực tốt, giỏi đàm phán, hòa giải. Bạn không nhất thiết phải đứng trên sân khấu rực rỡ, mà bạn chính là đạo diễn hoàn hảo tạo nên thành công của cả tập thể. Môi trường nghệ thuật hoặc chăm sóc sức khỏe rất hợp với bạn.', 'Briefcase'),
+(2, 'Tình yêu', 'Lãng Mạn Và Gắn Kết', 'Tình yêu là không khí để bạn thở. Bạn vô cùng lãng mạn, chu đáo và nhớ từng chi tiết nhỏ của đối phương. Bạn có xu hướng dính lấy người yêu nhưng lại sợ làm họ phiền. Cẩn thận với hội chứng "codependency" (phụ thuộc cảm xúc) nhé!', 'Heart'),
+
+-- SỐ 3
+(3, 'Tính cách', 'Tia Nắng Sáng Tạo', 'Người mang tên số 3 sở hữu năng lượng của ngôn từ và sự thể hiện. Bạn hoạt bát, hay nói, hay cười và có trí tưởng tượng vô cùng phong phú. Dù trong hoàn cảnh khó khăn, bạn vẫn tìm được góc nhìn hài hước. Nhược điểm là đôi khi bạn hay cường điệu hóa vấn đề lên một chút.', 'UserCircle2'),
+(3, 'Sự nghiệp', 'Nghệ Sĩ Của Ngôn Từ', 'Đừng bao giờ nhốt mình trong bốn bức tường với những con số khô khan. Bạn sinh ra để dùng giọng nói, ngòi bút hoặc sức hút cá nhân để truyền cảm hứng. Sales, Marketing, Giải trí, Viết lách là những vùng đất để bạn tỏa sáng. Hãy học cách rèn luyện sự tập trung.', 'Briefcase'),
+(3, 'Tình yêu', 'Hào Nhoáng Và Mới Mẻ', 'Bạn yêu bằng mắt, bằng tai và bằng sự thú vị. Mối quan hệ với bạn phải luôn có nụ cười và sự bất ngờ. Tuy nhiên, tính cách hướng ngoại và dễ gần của bạn đôi khi khiến người yêu cảm thấy ghen tuông vì bạn có quá nhiều "vệ tinh" xung quanh.', 'Heart'),
+
+-- SỐ 4
+(4, 'Tính cách', 'Ngôi Nhà Vững Chãi', 'Trái ngược với số 3, tên số 4 mang lại cho bạn sự trầm ổn, thực tế và cực kỳ nguyên tắc. Bạn không tin vào may mắn, bạn chỉ tin vào mồ hôi và công sức. Mọi người tìm đến bạn khi họ cần một giải pháp thực tế, một chỗ dựa an toàn.', 'UserCircle2'),
+(4, 'Sự nghiệp', 'Kiến Trúc Sư Tương Lai', 'Bạn là nhân viên xuất sắc nhất mà mọi công ty đều muốn có: chăm chỉ, có tổ chức, trung thành và đúng hạn. Bạn thích những công việc có quy trình rõ ràng, ít rủi ro biến động. Bất động sản, IT, Kế toán hoặc Quản trị hệ thống là những nơi bạn dễ dàng thăng tiến chậm mà chắc.', 'Briefcase'),
+(4, 'Tình yêu', 'Hành Động Thay Lời Nói', 'Bạn hiếm khi nói "Anh yêu em / Em yêu anh" một cách sến súa, mà bạn sẽ chuyển khoản, nấu ăn, hoặc sửa lại cái bóng đèn bị hỏng. Bạn chung thủy tuyệt đối nhưng đôi khi sự cứng nhắc của bạn khiến đối phương cảm thấy thiếu lãng mạn và nhàm chán.', 'Heart'),
+
+-- SỐ 5
+(5, 'Tính cách', 'Cơn Gió Tự Do', 'Luật lệ sinh ra là để bạn phá vỡ (hoặc ít nhất là lách luật). Số 5 mang trong mình năng lượng tò mò, linh hoạt và cực kỳ ghét sự đơn điệu. Bạn có khả năng thích nghi siêu phàm trong mọi hoàn cảnh, nhưng đôi khi lại hành động quá bốc đồng.', 'UserCircle2'),
+(5, 'Sự nghiệp', 'Kẻ Khám Phá Không Giới Hạn', 'Sự nghiệp của bạn không bao giờ là một đường thẳng. Bạn hợp với những công việc hay phải di chuyển, công tác, gặp gỡ nhiều người mới. Event, Du lịch, Phóng viên hoặc kinh doanh tự do sẽ giữ chân bạn. Hãy tránh xa những công việc bàn giấy lặp đi lặp lại.', 'Briefcase'),
+(5, 'Tình yêu', 'Chuyến Phiêu Lưu Tình Ái', 'Trong tình yêu, bạn quyến rũ, đam mê và đầy nhiệt huyết. Nhưng "Cơn gió" thì rất khó để trói buộc. Bạn sợ những cam kết nặng nề hoặc một người yêu quá ghen tuông kiểm soát. Bạn cần một người bạn đồng hành thực sự trên hành trình trải nghiệm cuộc sống.', 'Heart'),
+
+-- SỐ 6
+(6, 'Tính cách', 'Người Mẹ / Người Cha Tinh Thần', 'Bạn là trung tâm của sự ấm áp. Dù bạn bao nhiêu tuổi, người khác vẫn cảm nhận được ở bạn sự chững chạc và bản năng muốn che chở. Bạn yêu cái đẹp, sống có trách nhiệm nhưng lại rất dễ bị tổn thương nếu lòng tốt của mình không được trân trọng.', 'UserCircle2'),
+(6, 'Sự nghiệp', 'Sứ Giả Của Chữa Lành', 'Bạn thăng hoa nhất khi công việc của bạn mang lại giá trị trực tiếp cho con người. Y tế, Giáo dục, Thẩm mỹ, Tâm lý học, hay làm việc trong các tổ chức xã hội sẽ giúp bạn phát huy tối đa tiềm năng. Khả năng thẩm mỹ tinh tế cũng giúp bạn thành công trong thiết kế.', 'Briefcase'),
+(6, 'Tình yêu', 'Tổ Ấm Dài Lâu', 'Mục tiêu cuối cùng của bạn trong tình yêu là hôn nhân và một gia đình yên ấm. Bạn sẵn sàng hy sinh nhiều thứ cho người mình yêu. Nhưng hãy cẩn thận, đừng biến mình thành "người hầu" hoặc "phụ huynh" của người yêu vì sự chăm sóc thái quá.', 'Heart'),
+
+-- SỐ 7
+(7, 'Tính cách', 'Chiều Sâu Của Đại Dương', 'Người mang số tên 7 thường có khí chất bí ẩn, tĩnh lặng và trí tuệ. Bạn không thích đám đông ồn ào hay những câu chuyện xã giao hời hợt. Bạn luôn đi tìm chân lý, sự thật đằng sau mọi vấn đề. Lối sống của bạn thường hướng nội và đôi khi mang màu sắc tâm linh.', 'UserCircle2'),
+(7, 'Sự nghiệp', 'Nhà Chuyên Môn Lỗi Lạc', 'Bạn không làm việc chỉ vì tiền, bạn làm việc để thoả mãn sự tò mò của trí óc. Khả năng phân tích sâu sắc, độc lập và sự tập trung cao độ giúp bạn thành công rực rỡ trong mảng nghiên cứu, khoa học, y khoa, dữ liệu lớn hoặc triết học/tôn giáo.', 'Briefcase'),
+(7, 'Tình yêu', 'Kết Nối Tâm Giao', 'Bạn rất khó rung động. Để yêu được bạn, đối phương phải chinh phục được trí tuệ của bạn trước. Bạn cần một người có thể cùng bạn đàm đạo về vũ trụ, sách vở vào lúc 2h sáng. Bạn cần nhiều không gian riêng tư, điều này đôi khi làm đối phương cảm thấy xa cách.', 'Heart'),
+
+-- SỐ 8
+(8, 'Tính cách', 'Sức Mạnh Cuộn Trào', 'Tên mang tần số 8 phát ra hào quang của quyền lực, sự sung túc và tham vọng. Bạn thực tế, thẳng thắn và có sự nhạy bén bẩm sinh với tiền bạc. Bạn sinh ra để chiến thắng trong trò chơi của thế giới vật chất, nhưng áp lực tự tạo ra cho bản thân cũng cực kỳ lớn.', 'UserCircle2'),
+(8, 'Sự nghiệp', 'Đế Chế Của Riêng Bạn', 'Kinh doanh, tài chính, đầu tư, luật pháp là sân chơi của bạn. Bạn có tầm nhìn vĩ mô và không ngại rủi ro lớn. Bạn là nhà điều hành xuất sắc, biết cách sử dụng nguồn lực (cả tiền bạc và con người) để tạo ra lợi nhuận. Sự nghiệp thường sẽ bùng nổ khi bạn qua độ tuổi 30.', 'Briefcase'),
+(8, 'Tình yêu', 'Vững Chãi Và Thực Tế', 'Bạn quan niệm "có thực mới vực được đạo", tình yêu phải đi kèm với nền tảng vật chất vững chắc. Bạn chi tiêu hào phóng cho người yêu nhưng lại gặp khó khăn trong việc bộc lộ cảm xúc yếu mềm. Đôi khi bạn coi tình yêu như một "dự án" cần phải quản trị.', 'Heart'),
+
+-- SỐ 9
+(9, 'Tính cách', 'Lý Tưởng Cao Đẹp', 'Bạn sở hữu một linh hồn già dặn và một trái tim bao la. Tên của bạn mang năng lượng của sự cho đi, sự vị tha và lòng nhân đạo. Bạn có xu hướng đặt lợi ích của tập thể, của người khác lên trên lợi ích cá nhân. Đôi khi, bạn có vẻ lơ lửng, xa rời thực tế.', 'UserCircle2'),
+(9, 'Sự nghiệp', 'Cống Hiến Vì Nhân Loại', 'Sự nghiệp của bạn chỉ thực sự rực rỡ khi nó gắn liền với lý tưởng phục vụ cộng đồng. Những công việc liên quan đến tổ chức phi chính phủ, chính trị, y tế cộng đồng, nghệ thuật truyền cảm hứng hoặc giáo dục sẽ mang lại cho bạn cảm giác thỏa mãn tuyệt đối.', 'Briefcase'),
+(9, 'Tình yêu', 'Bao Dung Vô Bờ', 'Bạn yêu một cách lãng mạn, lý tưởng hóa đối phương và sẵn sàng tha thứ cho những lỗi lầm lớn. Điều này là con dao hai lưỡi, khiến bạn dễ bị lợi dụng trong tình cảm. Hãy tìm một người trân trọng sự lương thiện của bạn, thay vì coi đó là điều hiển nhiên.', 'Heart');
+
+
+-- =====================================================================
+-- 1. DATA CHO BẢNG: name_numerology (Các số Master 11, 22, 33)
+-- =====================================================================
+INSERT INTO name_numerology (number, title, traits, strengths, weaknesses, career_paths, love_style, advice) VALUES
+(11, 'Nhà Ngoại Cảm Tầm Nhìn', 
+ 'Bạn mang tần số của sự thức tỉnh và trực giác nhạy bén bậc nhất. Bạn giống như một chiếc ăng-ten thu phát những tín hiệu tâm linh và ý tưởng đột phá từ vũ trụ.', 
+ 'Trực giác cực cao, khả năng truyền cảm hứng, sáng tạo vô hạn, thấu hiểu tâm lý con người sâu sắc.', 
+ 'Dễ bị căng thẳng thần kinh, nhạy cảm quá mức với môi trường, hay mơ mộng và thiếu thực tế.', 
+ 'Nhà tâm lý học, Diễn giả truyền cảm hứng, Nghệ sĩ, Nhà hoạt động tâm linh, Nhà phát minh.', 
+ 'Yêu bằng tâm hồn và sự kết nối tinh thần. Bạn cần một người bạn đời có cùng tần số tư duy và biết lắng nghe.', 
+ 'Hãy học cách "tiếp đất" (grounding). Đừng để những dòng suy nghĩ quá tải làm bạn kiệt sức; hãy biến tầm nhìn thành hành động cụ thể.'),
+
+(22, 'Nhà Kiến Tạo Bậc Thầy', 
+ 'Đây là con số quyền năng nhất, kết hợp giữa tầm nhìn của số 11 và sự thực tế của số 4. Bạn có khả năng biến những giấc mơ không tưởng thành hiện thực hữu hình trên quy mô lớn.', 
+ 'Tầm nhìn vĩ đại, khả năng tổ chức thiên tài, kỷ luật thép, sự kiên trì và uy tín tuyệt đối.', 
+ 'Áp lực cực lớn từ kỳ vọng của bản thân, dễ bị kiệt sức, đôi khi quá độc đoán để đạt được mục tiêu.', 
+ 'CEO tập đoàn đa quốc gia, Nhà hoạch định chiến lược, Chính trị gia, Kiến trúc sư, Nhà đầu tư vĩ mô.', 
+ 'Trách nhiệm và thực tế. Bạn cần một người bạn đồng hành đủ bản lĩnh để cùng xây dựng một "đế chế" hoặc những mục tiêu lớn lao.', 
+ 'Đừng để gánh nặng của thế giới đè nặng lên vai bạn. Hãy học cách nghỉ ngơi và hiểu rằng sự vĩ đại cần thời gian để bồi đắp.'),
+
+(33, 'Bậc Thầy Của Sự Chữa Lành', 
+ 'Con số của tình yêu vô điều kiện ở cấp độ cao nhất. Bạn sinh ra để phục vụ nhân loại, chữa lành những vết thương và nâng cao rung động của cộng đồng xung quanh.', 
+ 'Lòng trắc ẩn vô bờ bến, khả năng thuyết phục, sự hy sinh vị tha, tài năng nghệ thuật và thẩm mỹ đỉnh cao.', 
+ 'Dễ mang gánh nặng của người khác, hay lo lắng thái quá, bỏ bê bản thân vì lợi ích chung.', 
+ 'Lãnh đạo tinh thần, Bác sĩ, Giáo viên, Nghệ sĩ nhân đạo, Nhà trị liệu, Cố vấn tâm lý.', 
+ 'Yêu một cách bao dung, che chở và lãng mạn. Bạn luôn muốn biến cuộc sống của đối phương thành một thiên đường.', 
+ 'Bạn không thể cứu cả thế giới nếu bản thân đang kiệt quệ. Hãy học cách bảo vệ ranh giới cá nhân và yêu thương chính mình trước khi cho đi.');
+
+
+-- =====================================================================
+-- 2. DATA CHO BẢNG: name_numerology_details (Chi tiết cho 11, 22, 33)
+-- =====================================================================
+INSERT INTO name_numerology_details (number, topic, title, content, icon_name) VALUES
+-- SỐ 11
+(11, 'Tính cách', 'Sức Mạnh Của Trực Giác', 'Bạn sở hữu một giác quan thứ sáu cực kỳ nhạy bén. Bạn thường "biết" hoặc "cảm" thấy những điều sắp xảy ra hoặc bản chất thật của một người ngay từ lần gặp đầu tiên. Khí chất của bạn toát ra sự thanh cao và bí ẩn.', 'Sparkles'),
+(11, 'Sự nghiệp', 'Người Truyền Tin Của Vũ Trụ', 'Công việc của bạn thường liên quan đến việc truyền đạt ý tưởng hoặc năng lượng. Bạn thăng hoa khi được làm những việc giúp khai mở tư duy cho người khác. Đừng ép mình vào những công việc khô khan, hãy để sự sáng tạo dẫn dắt.', 'Lightbulb'),
+(11, 'Tình yêu', 'Sự Hòa Hợp Tâm Linh', 'Với bạn, tình yêu không chỉ là cảm xúc mà là sự hòa quyện về linh hồn. Bạn cần một người có thể cùng bạn chia sẻ những chủ đề sâu sắc về cuộc sống và tâm linh. Bạn rất chung thủy nhưng cũng dễ bị tổn thương bởi sự vô tâm.', 'Heart'),
+
+-- SỐ 22
+(22, 'Tính cách', 'Khát Vọng Vĩ Đại', 'Bạn không hài lòng với những thứ nhỏ bé. Tâm trí bạn luôn hướng về những công trình, dự án có tầm ảnh hưởng sâu rộng. Bạn có sự kiên định của một ngọn núi và sự sắc sảo của một nhà chiến lược đại tài.', 'Hammer'),
+(22, 'Sự nghiệp', 'Kiến Tạo Đế Chế', 'Bạn có khả năng quản lý những hệ thống phức tạp và biến những nguồn lực hỗn loạn thành một cỗ máy vận hành hoàn hảo. Bạn sinh ra để đứng ở đỉnh cao của sự nghiệp, nơi bạn có thể tạo ra thay đổi cho hàng ngàn người.', 'Tower'),
+(22, 'Tình yêu', 'Người Đồng Hành Bản Lĩnh', 'Bạn coi trọng sự ổn định và hỗ trợ lẫn nhau. Tình yêu của bạn bền vững như bàn thạch. Bạn không thích sự sến súa hời hợt, bạn thể hiện tình yêu bằng cách bảo đảm một tương lai rạng rỡ và an toàn cho người thương.', 'ShieldCheck'),
+
+-- SỐ 33
+(33, 'Tính cách', 'Trái Tim Nhân Ái', 'Số 33 được gọi là "Bậc thầy giáo huấn". Bạn có khả năng cảm nhận nỗi đau của người khác như của chính mình. Sự hiện diện của bạn mang lại cảm giác bình an và được che chở cho mọi người xung quanh.', 'HeartHandshake'),
+(33, 'Sự nghiệp', 'Sứ Mệnh Phục Vụ', 'Sự nghiệp của bạn thường gắn liền với giáo dục, y tế hoặc nghệ thuật nhân văn. Bạn thành công nhất khi đóng vai trò là người dẫn dắt, người thầy hoặc người chữa lành, giúp mọi người tìm thấy hướng đi đúng đắn trong đời.', 'GraduationCap'),
+(33, 'Tình yêu', 'Tình Yêu Vô Điều Kiện', 'Bạn yêu bằng tất cả những gì mình có. Bạn là người bạn đời cực kỳ tâm lý, sẵn sàng lắng nghe và hy sinh vì hạnh phúc của gia đình. Tuy nhiên, hãy cẩn thận đừng để mình trở thành "người chịu trận" trong mối quan hệ.', 'Flame');
+
+
+
+
+
+INSERT INTO name_advanced_metrics (metric_type, number, title, content, advice) VALUES
+
+-- =====================================================================
+-- 1. CHỈ SỐ LINH HỒN (Soul Urge) - Khát khao bên trong (1-9, 11, 22, 33)
+-- =====================================================================
+('LINH_HON', 1, 'Khát Khao Dẫn Đầu', 
+ 'Sâu thẳm bên trong, bạn khao khát sự độc lập tuyệt đối. Bạn muốn tự mình đưa ra quyết định, tự làm chủ cuộc đời và không thích bị ai sai bảo hay chỉ đạo.', 
+ 'Hãy tự tin bước đi trên đôi chân của mình, nhưng đừng nhầm lẫn giữa sự độc lập và việc cô lập bản thân với những người muốn giúp đỡ bạn.'),
+('LINH_HON', 2, 'Khát Khao Tình Yêu & Hòa Hợp', 
+ 'Trái tim bạn luôn mong mỏi sự bình yên, tình yêu thương và sự thấu hiểu. Bạn chỉ thực sự hạnh phúc khi được bao bọc trong một mối quan hệ hòa hợp và an toàn.', 
+ 'Đừng vì quá khao khát tình yêu mà đánh mất đi ranh giới của bản thân. Bạn vẫn có thể yêu thương mà không cần phải hy sinh mọi thứ.'),
+('LINH_HON', 3, 'Khát Khao Tỏa Sáng', 
+ 'Bạn có một khao khát cháy bỏng được bộc lộ bản thân, được cười vui, sáng tạo và được mọi người chú ý. Bạn muốn cuộc sống là một sân khấu đầy màu sắc.', 
+ 'Hãy lan tỏa niềm vui của bạn đến thế giới, nhưng nhớ rèn luyện sự kiên nhẫn để biến những ý tưởng sáng tạo thành kết quả thực tế.'),
+('LINH_HON', 4, 'Khát Khao Sự An Toàn & Trật Tự', 
+ 'Điều khiến bạn an tâm nhất là sự ổn định, rõ ràng và có thể đoán trước. Bạn khao khát xây dựng một nền tảng vững chắc cho bản thân và gia đình.', 
+ 'Cuộc sống đôi khi cần những rủi ro để phát triển. Đừng để sự khao khát an toàn biến thành sự cứng nhắc và giới hạn tiềm năng của bạn.'),
+('LINH_HON', 5, 'Khát Khao Tự Do & Trải Nghiệm', 
+ 'Linh hồn bạn là một con chim muốn bay lượn. Bạn thèm khát sự tự do, những chuyến đi, những trải nghiệm mới lạ và cực kỳ ghét sự rập khuôn, nhàm chán.', 
+ 'Tự do thực sự là khi bạn làm chủ được bản thân. Hãy bay nhảy nhưng nhớ giữ lại một sợi dây diều gắn kết với những trách nhiệm hiện tại.'),
+('LINH_HON', 6, 'Khát Khao Mái Ấm & Yêu Thương', 
+ 'Bạn khao khát được chăm sóc, che chở cho người khác và xây dựng một tổ ấm hoàn hảo. Tình yêu gia đình là ngọn lửa sưởi ấm tâm hồn bạn.', 
+ 'Đừng biến tình yêu thương thành sự áp đặt. Hãy nhớ rằng bạn cần yêu thương và chăm sóc chính mình trước khi chăm sóc cả thế giới.'),
+('LINH_HON', 7, 'Khát Khao Chân Lý & Trí Tuệ', 
+ 'Bạn muốn tìm hiểu sự thật đằng sau mọi thứ. Tâm hồn bạn tìm thấy sự bình yên trong tĩnh lặng, trong việc nghiên cứu và kết nối với thế giới tâm linh.', 
+ 'Đừng để trí tuệ tạo ra bức tường ngăn cách bạn với thế giới. Hãy mở lòng chia sẻ những hiểu biết của mình với mọi người xung quanh.'),
+('LINH_HON', 8, 'Khát Khao Quyền Lực & Thành Tựu', 
+ 'Bạn có một động lực mãnh liệt để đạt được thành công vật chất, sự công nhận và quyền kiểm soát. Bạn muốn tự mình xây dựng một "đế chế" vững mạnh.', 
+ 'Hãy dùng sức mạnh của bạn để nâng đỡ người khác thay vì chỉ thao túng. Vật chất là công cụ, không phải là đích đến cuối cùng của linh hồn.'),
+('LINH_HON', 9, 'Khát Khao Cống Hiến & Vị Tha', 
+ 'Trái tim bạn luôn hướng về nhân loại. Bạn có một lý tưởng cao đẹp là làm cho thế giới trở nên tốt đẹp hơn, khao khát sự công bằng và bác ái.', 
+ 'Đừng vắt kiệt sức lực của mình vì người khác. Học cách nói "Không" cũng là một phần quan trọng trên con đường thực hiện lý tưởng lớn.'),
+('LINH_HON', 11, 'Khát Khao Khai Sáng Tâm Linh', 
+ 'Bạn khao khát đạt được sự thức tỉnh về mặt tâm linh và mang ánh sáng trực giác đó để dẫn dắt, chữa lành cho những người xung quanh.', 
+ 'Hãy giữ cho đôi chân của bạn chạm đất. Bạn cần cân bằng giữa thế giới tâm linh bay bổng và những thực tế của đời sống hàng ngày.'),
+('LINH_HON', 22, 'Khát Khao Kiến Tạo Di Sản', 
+ 'Bạn không chỉ muốn thành công cá nhân, bạn khao khát để lại những công trình, những di sản có giá trị cho thế hệ mai sau trên quy mô toàn cầu.', 
+ 'Những điều vĩ đại cần thời gian. Hãy kiên nhẫn, chia nhỏ mục tiêu và cho phép bản thân được nghỉ ngơi khi cần thiết.'),
+('LINH_HON', 33, 'Khát Khao Chữa Lành Nhân Loại', 
+ 'Sâu thẳm trong bạn là tình yêu vô điều kiện ở mức độ cao nhất. Bạn muốn ôm trọn nỗi đau của thế giới và chữa lành cho tất cả mọi người.', 
+ 'Hãy nhớ rằng mỗi người đều có bài học nghiệp quả riêng. Bạn không thể cứu tất cả mọi người, hãy giúp đỡ trong sự thấu hiểu, không phải bằng sự hy sinh mù quáng.'),
+
+-- =====================================================================
+-- 2. CHỈ SỐ NHÂN CÁCH (Personality) - Lớp mặt nạ bên ngoài (1-9, 11, 22, 33)
+-- =====================================================================
+('NHAN_CACH', 1, 'Người Tiên Phong Tự Tin', 
+ 'Ấn tượng đầu tiên bạn tạo ra là một người mạnh mẽ, quyết đoán và có phần hơi cái tôi cao. Người khác nhìn bạn như một người thủ lĩnh bẩm sinh.', 
+ 'Sự tự tin là điểm mạnh, nhưng hãy cẩn thận đừng tỏ ra quá hống hách hay lấn át người khác trong những lần gặp đầu tiên.'),
+('NHAN_CACH', 2, 'Người Bạn Dễ Mến', 
+ 'Bạn mang đến cảm giác dễ chịu, thân thiện và ấm áp ngay từ lần gặp gỡ. Mọi người cảm thấy họ có thể tin tưởng và tâm sự với bạn một cách dễ dàng.', 
+ 'Sự thân thiện của bạn rất tuyệt vời, nhưng hãy học cách nói "Không" để tránh bị những người ích kỷ lợi dụng lòng tốt.'),
+('NHAN_CACH', 3, 'Tâm Điểm Của Bữa Tiệc', 
+ 'Bạn xuất hiện rạng rỡ, hoạt ngôn và đầy sức hút. Mọi người thấy bạn là một người cực kỳ duyên dáng, hài hước và tràn đầy năng lượng tích cực.', 
+ 'Đừng cố gắng làm hài lòng tất cả mọi người bằng sự hài hước. Những người thực sự trân trọng bạn sẽ yêu cả những lúc bạn trầm mặc nhất.'),
+('NHAN_CACH', 4, 'Người Của Sự Đáng Tin Cậy', 
+ 'Bạn toát lên vẻ nghiêm túc, ngăn nắp và thực tế. Người khác ngay lập tức cảm thấy an tâm và tin tưởng giao phó công việc cho bạn.', 
+ 'Hãy thả lỏng một chút. Một nụ cười thân thiện và một chút linh hoạt sẽ giúp bạn trở nên gần gũi hơn rất nhiều trong mắt người khác.'),
+('NHAN_CACH', 5, 'Ngôi Sao Cuốn Hút', 
+ 'Bạn xuất hiện như một cơn gió lạ: phong cách, linh hoạt và rất thu hút. Mọi người bị hấp dẫn bởi sự thông minh và những câu chuyện thú vị của bạn.', 
+ 'Đôi khi bạn có thể bị đánh giá là hơi hời hợt hoặc thiếu cam kết. Hãy thể hiện cả chiều sâu và sự chân thành của bạn nữa nhé.'),
+('NHAN_CACH', 6, 'Người Chăm Sóc Ấm Áp', 
+ 'Bạn tạo ấn tượng như một người cha/người mẹ tinh thần. Mọi người cảm thấy sự ấm áp, bao dung và luôn muốn dựa vào bạn khi họ mệt mỏi.', 
+ 'Đừng tự biến mình thành "người phục vụ" cho người khác. Hãy giữ gìn ranh giới để lòng tốt của bạn luôn được trân trọng.'),
+('NHAN_CACH', 7, 'Nhà Hiền Triết Bí Ẩn', 
+ 'Bạn mang một vẻ ngoài tĩnh lặng, quan sát và hơi khó gần. Người khác bị thu hút bởi khí chất thông thái và sự bí ẩn toát ra từ bạn.', 
+ 'Sự kín đáo là sức hút của bạn, nhưng nếu quá khép kín, người khác sẽ nghĩ bạn lạnh lùng và kiêu ngạo. Hãy cởi mở hơn đôi chút.'),
+('NHAN_CACH', 8, 'Hình Mẫu Của Sự Quyền Uy', 
+ 'Bạn xuất hiện với phong thái chuyên nghiệp, đĩnh đạc và toát lên sự thành đạt. Mọi người thường nể phục và đôi khi dè chừng sức mạnh của bạn.', 
+ 'Đừng để vỏ bọc quyền lực làm người khác sợ hãi. Sự khiêm tốn và gần gũi sẽ giúp sức ảnh hưởng của bạn càng trở nên mạnh mẽ hơn.'),
+('NHAN_CACH', 9, 'Tâm Hồn Bao Dung', 
+ 'Bạn toát ra sự điềm đạm, nhân hậu và hiểu biết rộng. Người khác thường tìm đến bạn để xin lời khuyên vì tin vào sự công tâm của bạn.', 
+ 'Bạn thường tỏ ra mình ổn để che chở người khác, nhưng đừng ngần ngại cho người khác thấy những lúc bạn cũng cần được giúp đỡ.'),
+('NHAN_CACH', 11, 'Nhà Truyền Cảm Hứng Tinh Tế', 
+ 'Bạn mang một khí chất rất thơ, thanh tao và đầy cảm hứng. Người khác có cảm giác bạn nhìn thấu được tâm can của họ chỉ qua ánh mắt.', 
+ 'Sự nhạy cảm khiến bạn thu hút, nhưng cũng dễ làm bạn mệt mỏi bởi năng lượng của người khác. Hãy biết cách bảo vệ năng lượng cá nhân.'),
+('NHAN_CACH', 22, 'Nhà Lãnh Đạo Tầm Nhìn', 
+ 'Ấn tượng về bạn là sự vĩ mô và vững chãi. Bạn nói về những điều lớn lao một cách cực kỳ thuyết phục và thực tế, khiến ai cũng muốn đi theo.', 
+ 'Đừng để sự vĩ đại trở nên áp đảo. Hãy kết nối với mọi người bằng những hành động quan tâm nhỏ bé, bình dị thường ngày.'),
+('NHAN_CACH', 33, 'Vầng Hào Quang Từ Bi', 
+ 'Bạn giống như một bóng cây cổ thụ mát mẻ. Mọi người tiếp xúc với bạn đều cảm thấy những muộn phiền được gột rửa và được thấu hiểu sâu sắc.', 
+ 'Sự từ bi của bạn thu hút rất nhiều người đang mang vết thương lòng. Hãy cẩn thận để không bị cuốn vào những năng lượng tiêu cực của họ.'),
+
+-- =====================================================================
+-- 3. CHỈ SỐ THIẾU / NGHIỆP QUẢ (Karmic Lessons) - Kỹ năng cần rèn (1-9)
+-- (Chỉ số thiếu chỉ tính từ 1-9 vì các chữ cái chỉ quy đổi từ 1-9)
+-- =====================================================================
+('CHI_SO_THIEU', 1, 'Bài Học Về Sự Tự Lập', 
+ 'Bạn có xu hướng thiếu tự tin, rụt rè hoặc hay dựa dẫm. Vũ trụ sẽ mang đến những thử thách buộc bạn phải tự mình đứng lên và ra quyết định.', 
+ 'Bài học lớn nhất của bạn là học cách tin tưởng vào tiếng nói và năng lực của chính mình. Đừng sợ sai, hãy dám thử!'),
+('CHI_SO_THIEU', 2, 'Bài Học Về Sự Lắng Nghe', 
+ 'Bạn gặp khó khăn trong việc hợp tác, nhượng bộ hoặc thiếu đi sự tinh tế trong giao tiếp. Bạn dễ làm mếch lòng người khác vì thiếu sự đồng cảm.', 
+ 'Hãy thực hành việc lắng nghe mà không phán xét. Học cách đặt mình vào vị trí của người khác trước khi đưa ra quyết định.'),
+('CHI_SO_THIEU', 3, 'Bài Học Về Biểu Đạt Cảm Xúc', 
+ 'Bạn thường đè nén cảm xúc, thiếu tự tin khi trình bày ý kiến hoặc khó khăn trong việc tìm niềm vui. Bạn có thể tự ti về khả năng sáng tạo của mình.', 
+ 'Đừng giấu giếm cảm xúc. Hãy tìm một kênh để bộc lộ bản thân (viết, nói, nghệ thuật) và cho phép mình được sai, được vui đùa.'),
+('CHI_SO_THIEU', 4, 'Bài Học Về Kỷ Luật & Nền Tảng', 
+ 'Bạn thường gặp khó khăn trong việc tổ chức, sắp xếp công việc hoặc thiếu tính kiên nhẫn. Sự lộn xộn này cản trở bạn đạt được những thành tựu lớn.', 
+ 'Hãy bắt đầu từ những thói quen nhỏ nhất: lập kế hoạch mỗi ngày, dọn dẹp phòng ốc, và cam kết hoàn thành những gì mình đã bắt đầu.'),
+('CHI_SO_THIEU', 5, 'Bài Học Về Sự Thích Nghi', 
+ 'Bạn sợ sự thay đổi, cứng nhắc và không dám đối mặt với những rủi ro. Bạn thích ở mãi trong vùng an toàn dù nó đã trở nên chật hẹp.', 
+ 'Cuộc sống là một dòng chảy không ngừng. Hãy tập chấp nhận những thay đổi bất ngờ, cởi mở với những trải nghiệm và góc nhìn mới.'),
+('CHI_SO_THIEU', 6, 'Bài Học Về Trách Nhiệm Tình Cảm', 
+ 'Bạn có thể gặp khó khăn trong việc duy trì các mối quan hệ gia đình, sợ sự cam kết hoặc thiếu đi sự thấu hiểu thực sự đối với người thân.', 
+ 'Trách nhiệm không phải là gánh nặng, mà là một đặc quyền. Học cách yêu thương, quan tâm một cách chân thành và không đòi hỏi đền đáp.'),
+('CHI_SO_THIEU', 7, 'Bài Học Về Niềm Tin & Trí Tuệ', 
+ 'Bạn có xu hướng hời hợt, không thích đào sâu vấn đề hoặc thiếu đi niềm tin (vào bản thân, vào cuộc sống). Bạn dễ bị hoang mang, lạc lối.', 
+ 'Hãy dành thời gian để học hỏi, đọc sách, tĩnh tâm và đặt câu hỏi "Tại sao?". Xây dựng một thế giới quan vững chắc là chìa khóa cho bạn.'),
+('CHI_SO_THIEU', 8, 'Bài Học Về Tài Chính & Quyền Lực', 
+ 'Bạn có thể gặp những thăng trầm liên quan đến tiền bạc (quá thiếu thốn hoặc tiêu xài hoang phí). Bạn cần học cách quản trị vật chất.', 
+ 'Tiền bạc là năng lượng. Hãy học cách cân bằng giữa việc tạo ra của cải vật chất và duy trì đạo đức, không để đồng tiền điều khiển mình.'),
+('CHI_SO_THIEU', 9, 'Bài Học Về Lòng Vị Tha & Buông Bỏ', 
+ 'Bạn dễ giữ những thù hằn, ích kỷ hoặc thiếu đi góc nhìn bao quát cho cộng đồng. Bạn gặp khó khăn khi phải buông bỏ một điều gì đó trong quá khứ.', 
+ 'Thực hành sự tha thứ, không chỉ cho người khác mà cho chính mình. Khi bạn học được cách cho đi, bạn sẽ nhận lại được sự thanh thản.'),
+
+-- =====================================================================
+-- 4. CHỈ SỐ CÂN BẰNG (Balance Number) - Phản ứng khi khủng hoảng (1-9, 11, 22, 33)
+-- =====================================================================
+('CAN_BANG', 1, 'Cân Bằng Bằng Sức Mạnh Cá Nhân', 
+ 'Khi giông bão ập đến, cách tốt nhất để bạn lấy lại thăng bằng là dựa vào chính mình. Việc lùi lại, tự giải quyết vấn đề một mình sẽ giúp bạn bình tâm hơn.', 
+ 'Đừng tìm kiếm sự cầu cứu từ bên ngoài ngay lập tức. Khả năng lãnh đạo và bản lĩnh tự nhiên sẽ dẫn lối cho bạn vượt qua khủng hoảng.'),
+('CAN_BANG', 2, 'Cân Bằng Bằng Sự Chia Sẻ', 
+ 'Bạn lấy lại thăng bằng tốt nhất khi có một người để chia sẻ, tâm sự. Sự hòa giải và những cuộc trò chuyện nhẹ nhàng là liều thuốc cho bạn.', 
+ 'Khi gặp áp lực, đừng ôm trong lòng. Hãy tìm đến một người bạn đáng tin cậy để giãi bày, nhưng đừng để nỗi buồn của mình làm gánh nặng cho họ.'),
+('CAN_BANG', 3, 'Cân Bằng Bằng Sự Lạc Quan', 
+ 'Khủng hoảng sẽ dịu đi khi bạn nhìn vấn đề bằng lăng kính hài hước và lạc quan. Sự sáng tạo và việc bộc lộ cảm xúc sẽ giúp bạn giải tỏa.', 
+ 'Hãy làm điều gì đó vui vẻ: xem một bộ phim hài, hát, hoặc vẽ. Chấp nhận rằng mọi chuyện rồi sẽ qua và đừng nghiêm trọng hóa vấn đề.'),
+('CAN_BANG', 4, 'Cân Bằng Bằng Sự Kỷ Luật', 
+ 'Khi mọi thứ trở nên hỗn loạn, việc sắp xếp lại trật tự, lập ra các kế hoạch chi tiết hoặc dọn dẹp không gian sống sẽ giúp bạn lấy lại sự kiểm soát.', 
+ 'Đối mặt với khủng hoảng bằng logic. Chia nhỏ rắc rối thành những phần nhỏ có thể giải quyết được và bắt tay vào làm từng bước một.'),
+('CAN_BANG', 5, 'Cân Bằng Bằng Góc Nhìn Mới', 
+ 'Cách bạn vượt qua bế tắc là thoát khỏi môi trường hiện tại. Một chuyến đi ngắn, một hoạt động thể chất hoặc tiếp xúc với điều mới mẻ sẽ xả stress cho bạn.', 
+ 'Đừng cố đâm đầu vào bức tường. Hãy linh hoạt thay đổi phương pháp, hoặc đơn giản là cho mình một ngày "trốn" khỏi thực tại để tái tạo năng lượng.'),
+('CAN_BANG', 6, 'Cân Bằng Bằng Tình Cảm Gia Đình', 
+ 'Mỗi khi áp lực, bạn tìm thấy sự chữa lành khi trở về với gia đình, hoặc được chăm sóc những người thân yêu. Tổ ấm chính là mỏ neo của bạn.', 
+ 'Khi gặp khó khăn, hãy ôm lấy những người bạn yêu thương, chia sẻ với họ. Đừng cố gắng tự gánh vác mọi chuyện một mình.'),
+('CAN_BANG', 7, 'Cân Bằng Bằng Sự Tĩnh Tại', 
+ 'Sự ồn ào chỉ làm khủng hoảng thêm trầm trọng. Bạn cần không gian yên tĩnh, một mình để phân tích ngọn ngành sự việc hoặc thiền định.', 
+ 'Đừng vội vàng hành động khi đang rối trí. Rút lui về "hang động" của mình, kết nối với tự nhiên và trực giác để tìm ra câu trả lời.'),
+('CAN_BANG', 8, 'Cân Bằng Bằng Hành Động Thực Tế', 
+ 'Bạn đối mặt với khủng hoảng bằng cách giành lại quyền kiểm soát tình hình. Bạn không ngồi than vãn mà ngay lập tức tính toán thiệt hơn để giải quyết.', 
+ 'Hãy giữ cái đầu lạnh, sử dụng nguồn lực và mối quan hệ đang có. Đừng để lòng tham hay sự bực tức làm mờ mắt khi đưa ra quyết định.'),
+('CAN_BANG', 9, 'Cân Bằng Bằng Góc Nhìn Rộng Mở', 
+ 'Cách bạn vượt qua khủng hoảng là lùi lại và nhìn bức tranh toàn cảnh. Bạn lấy lại thăng bằng khi hiểu rằng mọi chuyện xảy ra đều có lý do và ý nghĩa lớn hơn.', 
+ 'Thực hành lòng vị tha và buông bỏ. Khi bạn không còn bám chấp vào những chi tiết nhỏ nhặt, tâm trí bạn sẽ tự động tìm thấy sự bình yên.'),
+('CAN_BANG', 11, 'Cân Bằng Bằng Trực Giác Tối Cao', 
+ 'Trong những lúc ngặt nghèo nhất, giải pháp không đến từ tư duy logic mà từ một tia sáng trực giác. Hãy lắng nghe tiếng nói sâu thẳm bên trong.', 
+ 'Tìm kiếm sự cân bằng qua các thực hành tâm linh hoặc nghệ thuật. Tin tưởng vào sự dẫn dắt của vũ trụ thay vì cố ép mọi thứ theo ý mình.'),
+('CAN_BANG', 22, 'Cân Bằng Bằng Việc Tái Thiết Nền Tảng', 
+ 'Khi sụp đổ, bạn có khả năng nhìn nhận lại toàn bộ cấu trúc vấn đề và xây dựng lại nó lớn mạnh hơn. Khủng hoảng là cơ hội để bạn tái thiết lập.', 
+ 'Sử dụng tầm nhìn xa trông rộng của mình. Đừng để những thất bại nhỏ lẻ che mờ đi mục tiêu cuối cùng mà bạn đang xây dựng.'),
+('CAN_BANG', 33, 'Cân Bằng Bằng Tình Yêu Vô Điều Kiện', 
+ 'Bạn tìm thấy sức mạnh vượt qua khủng hoảng cá nhân bằng cách đi giúp đỡ những người có hoàn cảnh khó khăn hơn mình. Tình yêu là phương thuốc lớn nhất.', 
+ 'Khi bạn trao đi sự tử tế, chính bạn cũng được chữa lành. Tuy nhiên, hãy nhớ tự ôm ấp và tha thứ cho chính bản thân mình trước tiên.');

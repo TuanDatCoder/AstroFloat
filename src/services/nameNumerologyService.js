@@ -116,6 +116,16 @@ export const nameNumerologyService = {
     return data;
   },
 
+  async getAllNameNumerologies() {
+    const { data, error } = await supabase
+      .from(TABLES.NAME_NUMEROLOGIES)
+      .select('*')
+      .order('number', { ascending: true });
+      
+    if (error) throw error;
+    return data;
+  },
+
   async getAdvancedMetrics( soulNum, personalityNum, balanceNum, karmicNums ) {
     const queries = [];
     

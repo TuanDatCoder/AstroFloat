@@ -99,34 +99,34 @@ export default function Discover() {
         </svg>
 
         {/* Level 3: Đỉnh 3 (Cao nhất trong chuỗi 1-2-3) */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center">
-           <div className="w-12 h-12 rounded-full bg-indigo-500/20 border-2 border-indigo-400 flex items-center justify-center text-indigo-100 font-black shadow-[0_0_15px_rgba(99,102,241,0.5)] z-10 bg-slate-900">
+        <Link to={`/pinnacle/${pinnacles[2].value}`} className="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center group cursor-pointer z-20">
+           <div className="w-12 h-12 rounded-full bg-indigo-500/20 border-2 border-indigo-400 flex items-center justify-center text-indigo-100 font-black shadow-[0_0_15px_rgba(99,102,241,0.5)] bg-slate-900 group-hover:scale-110 group-hover:bg-indigo-500 transition-all">
             {pinnacles[2].value}
           </div>
-          <span className="text-[9px] font-bold text-indigo-300 mt-1 bg-slate-950/80 px-2 rounded-full border border-indigo-500/20">Đỉnh 3: {pinnacles[2].age}t</span>
-        </div>
+          <span className="text-[9px] font-bold text-indigo-300 mt-1 bg-slate-950/80 px-2 rounded-full border border-indigo-500/20 group-hover:text-white transition-colors">Đỉnh 3: {pinnacles[2].age}t</span>
+        </Link>
 
         {/* Level 2: Đỉnh 1 & 2 */}
-        <div className="absolute top-16 left-[20%] flex flex-col items-center">
-           <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-400/50 flex items-center justify-center text-purple-200 font-bold z-10 bg-slate-900">
+        <Link to={`/pinnacle/${pinnacles[0].value}`} className="absolute top-16 left-[20%] flex flex-col items-center group cursor-pointer z-20">
+           <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-400/50 flex items-center justify-center text-purple-200 font-bold bg-slate-900 group-hover:scale-110 group-hover:bg-purple-500 transition-all">
             {pinnacles[0].value}
           </div>
-          <span className="text-[8px] font-bold text-purple-400 mt-1">Đỉnh 1: {pinnacles[0].age}t</span>
-        </div>
-        <div className="absolute top-16 right-[20%] flex flex-col items-center">
-           <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-400/50 flex items-center justify-center text-purple-200 font-bold z-10 bg-slate-900">
+          <span className="text-[8px] font-bold text-purple-400 mt-1 group-hover:text-white transition-colors">Đỉnh 1: {pinnacles[0].age}t</span>
+        </Link>
+        <Link to={`/pinnacle/${pinnacles[1].value}`} className="absolute top-16 right-[20%] flex flex-col items-center group cursor-pointer z-20">
+           <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-400/50 flex items-center justify-center text-purple-200 font-bold bg-slate-900 group-hover:scale-110 group-hover:bg-purple-500 transition-all">
             {pinnacles[1].value}
           </div>
-          <span className="text-[8px] font-bold text-purple-400 mt-1">Đỉnh 2: {pinnacles[1].age}t</span>
-        </div>
+          <span className="text-[8px] font-bold text-purple-400 mt-1 group-hover:text-white transition-colors">Đỉnh 2: {pinnacles[1].age}t</span>
+        </Link>
 
         {/* Level 4: Đỉnh cao nhất cuộc đời (thường đặt riêng biệt hoặc cao hơn bản chính) */}
-        <div className="absolute -top-10 right-0 flex flex-col items-center">
-           <div className="w-9 h-9 rounded-full bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-200 font-bold z-10 bg-slate-900">
+        <Link to={`/pinnacle/${pinnacles[3].value}`} className="absolute -top-10 right-0 flex flex-col items-center group cursor-pointer z-20">
+           <div className="w-9 h-9 rounded-full bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-200 font-bold bg-slate-900 group-hover:scale-110 group-hover:bg-amber-500 transition-all">
             {pinnacles[3].value}
           </div>
-          <span className="text-[7px] font-bold text-amber-400 mt-1 uppercase tracking-tighter">Đỉnh cuối cùng ({pinnacles[3].age}t+)</span>
-        </div>
+          <span className="text-[7px] font-bold text-amber-400 mt-1 uppercase tracking-tighter group-hover:text-white transition-colors">Đỉnh cuối cùng ({pinnacles[3].age}t+)</span>
+        </Link>
       </div>
     );
   };
@@ -347,9 +347,14 @@ export default function Discover() {
                   {renderPinnacles(results.pinnacles)}
                 </div>
               </div>
-              <p className="text-indigo-100/40 text-[9px] text-center italic leading-relaxed relative z-10 mt-4">
-                4 giai đoạn lộ trình năng lượng đỉnh cao trong cuộc đời.
-              </p>
+              <div className="relative z-10 mt-8 pt-5 border-t border-indigo-500/20 w-full flex justify-center">
+                <Link 
+                  to={`/pinnacle-analysis?dob=${dob}`} 
+                  className="text-indigo-400 text-[10px] font-black uppercase tracking-widest hover:text-indigo-200 transition-colors flex items-center gap-2"
+                >
+                  Khám phá toàn bộ <ArrowRight className="w-3 h-3" />
+                </Link>
+              </div>
             </div>
 
             {/* THÀNH PHẦN 5: GIẢI MÃ TÊN (NGẮN GỌN) - CHO XUỐNG DƯỚI CÙNG */}
@@ -403,7 +408,7 @@ export default function Discover() {
                 
                 <div className="relative z-10 mt-6 pt-4 border-t border-white/5">
                   <Link 
-                    to={`/name-numerology?name=${encodeURIComponent(fullName)}`} 
+                    to={`/name-numerology/result?name=${encodeURIComponent(fullName)}`} 
                     className="flex items-center justify-center gap-2 text-purple-400 text-[10px] font-black uppercase tracking-widest hover:text-purple-300 transition-colors"
                   >
                     Xem chi tiết <ArrowRight className="w-3 h-3" />

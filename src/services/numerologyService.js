@@ -91,5 +91,17 @@ export const numerologyService = {
       { level: 3, value: p3, age: age1 + 18 },
       { level: 4, value: p4, age: age1 + 27 }
     ];
+  },
+
+  async getAllPinnacles() {
+    const { data, error } = await supabase.from('pinnacle_numerology').select('*').order('number', { ascending: true });
+    if (error) throw error;
+    return data;
+  },
+
+  async getPinnacleByNumber(number) {
+    const { data, error } = await supabase.from('pinnacle_numerology').select('*').eq('number', number).maybeSingle();
+    if (error) throw error;
+    return data;
   }
 };

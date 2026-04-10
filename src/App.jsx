@@ -7,6 +7,9 @@ import ZodiacMatch from './pages/Zodiac/ZodiacMatch';
 import Numerology from './pages/Numerology/Numerology';
 import NumerologyDetail from './pages/Numerology/NumerologyDetail';
 import NameNumerology from './pages/Numerology/NameNumerology';
+import NameNumerologyDetail from './pages/Numerology/NameNumerologyDetail';
+import PinnacleDetail from './pages/Numerology/PinnacleDetail';
+import PinnacleFullAnalysis from './pages/Numerology/PinnacleFullAnalysis';
 import Discover from './pages/Discover';
 
 export default function App() {
@@ -23,6 +26,9 @@ export default function App() {
         <Route path="numerology" element={<Numerology />} />
         <Route path="numerology/:number" element={<NumerologyDetail />} />
         <Route path="name-numerology" element={<NameNumerology />} />
+        <Route path="name-numerology/result" element={<NameNumerologyDetail />} />
+        <Route path="pinnacle/:number" element={<PinnacleDetail />} />
+        <Route path="pinnacle-analysis" element={<PinnacleFullAnalysis />} />
       </Route>
     </Routes>
   );
