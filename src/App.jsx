@@ -11,6 +11,9 @@ import NameNumerologyDetail from './pages/Numerology/NameNumerologyDetail';
 import PinnacleDetail from './pages/Numerology/PinnacleDetail';
 import PinnacleFullAnalysis from './pages/Numerology/PinnacleFullAnalysis';
 import Discover from './pages/Discover';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import Profile from './pages/Profile';
 
 export default function App() {
   return (
@@ -20,6 +23,9 @@ export default function App() {
         <Route index element={<Home />} />
         {/* Các trang chức năng */}
         <Route path="discover" element={<Discover />} />
+        <Route path="register" element={<Register />} />
+        <Route path="login" element={<Login />} />
+        <Route path="profile" element={<Profile />} />
         <Route path="zodiac" element={<Zodiac />} />
         <Route path="zodiac/:id" element={<ZodiacDetail />} />
         <Route path="zodiac-match" element={<ZodiacMatch />} />

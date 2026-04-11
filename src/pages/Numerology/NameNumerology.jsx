@@ -82,7 +82,7 @@ export default function NameNumerology() {
               onChange={(e) => setName(e.target.value)}
               placeholder="Nhập tên đầy đủ của bạn..."
               className="w-full bg-black/40 border border-white/5 rounded-2xl pl-14 pr-4 py-4 text-white text-lg placeholder:text-gray-600 focus:outline-none focus:border-purple-500/30 focus:bg-black/60 transition-all font-medium"
-              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             />
           </div>
 
