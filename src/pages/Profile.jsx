@@ -280,10 +280,13 @@ export default function Profile() {
                 </div>
                 <h2 className="text-sm font-bold uppercase tracking-widest text-white/60">Bảo Mật</h2>
               </div>
-              <button className="w-full flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-white/5 transition-colors text-sm text-gray-400 hover:text-white group">
+              <Link 
+                to="/change-password"
+                className="w-full flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-white/5 transition-colors text-sm text-gray-400 hover:text-white group"
+              >
                 <span>Đổi mật khẩu</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
             </motion.div>
           </div>
         </div>
