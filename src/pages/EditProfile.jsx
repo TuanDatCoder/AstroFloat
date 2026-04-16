@@ -21,6 +21,10 @@ export default function EditProfile() {
     avatar_url: '',
   });
 
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState('');
+
+  // Lấy data profile
   useEffect(() => {
     async function fetchProfile() {
       try {
@@ -40,6 +44,7 @@ export default function EditProfile() {
             birthDate: profile.birth_date || '',
             avatar_url: profile.avatar_url || '',
           });
+          setAvatarPreview(profile.avatar_url || '');
         }
       } catch (err) {
         setError('Không thể tải thông tin hồ sơ.');
@@ -55,6 +60,14 @@ export default function EditProfile() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAvatarFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -64,10 +77,17 @@ export default function EditProfile() {
     try {
       if (!userId) throw new Error('Không tìm thấy ID người dùng.');
       
-      await authService.updateProfile(userId, formData);
+      let finalFormData = { ...formData };
+      
+      // Nếu có chọn file mới -> Upload lên Supabase Storage
+      if (avatarFile) {
+        const uploadedUrl = await authService.uploadAvatar(userId, avatarFile);
+        finalFormData.avatar_url = uploadedUrl;
+      }
+
+      await authService.updateProfile(userId, finalFormData);
       setSuccess(true);
       
-      // Tự động quay về profile sau 2 giây
       setTimeout(() => {
         navigate('/profile');
       }, 2000);
@@ -125,6 +145,27 @@ export default function EditProfile() {
         )}
 
         <form onSubmit={handleSubmit} className="relative z-10">
+          
+          <div className="flex flex-col items-center mb-8">
+            <div className="relative group cursor-pointer w-28 h-28 rounded-full border-2 border-dashed border-white/30 overflow-hidden bg-white/5 flex items-center justify-center hover:border-cyan-400 transition-colors">
+              {avatarPreview ? (
+                <img src={avatarPreview} alt="Avatar Preview" className="w-full h-full object-cover" />
+              ) : (
+                <ImageIcon className="w-8 h-8 text-white/30 group-hover:text-cyan-400 transition-colors" />
+              )}
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-[10px] font-bold tracking-widest uppercase">
+                Tải ảnh lên
+              </div>
+              <input 
+                type="file" 
+                accept="image/*" 
+                onChange={handleFileChange}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
+            </div>
+            <span className="text-[10px] text-gray-500 mt-3 tracking-widest uppercase">Ảnh đại diện</span>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
             
             {/* CỘT 1: Thông tin cơ bản */}
@@ -141,19 +182,6 @@ export default function EditProfile() {
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                   <input type="text" name="nickname" required value={formData.nickname} onChange={handleChange}
                     className="w-full bg-black/40 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white focus:outline-none focus:border-cyan-500/50 transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-xs uppercase font-bold tracking-widest text-gray-400 mb-2 flex items-center gap-1 ml-1">
-                  Ảnh Đại Diện (URL)
-                </label>
-                <div className="relative">
-                  <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                  <input type="url" name="avatar_url" value={formData.avatar_url} onChange={handleChange}
-                    className="w-full bg-black/40 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white focus:outline-none focus:border-cyan-500/50 transition-colors"
-                    placeholder="https://..."
                   />
                 </div>
               </div>

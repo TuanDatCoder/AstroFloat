@@ -147,5 +147,26 @@ export const authService = {
 
     if (error) throw error;
     return data;
+  },
+
+  // Upload ảnh đại diện lên Supabase Storage
+  async uploadAvatar(userId, file) {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${userId}-${Date.now()}.${fileExt}`;
+    const filePath = `${fileName}`; // Lưu thẳng vào root của bucket 'avatars'
+
+    const { error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(filePath, file, { upsert: true });
+
+    if (uploadError) {
+      throw new Error('Lỗi khi tải ảnh lên. Hãy chắc chắn bạn đã tạo bucket "avatars" ở Supabase (chế độ Public). ' + uploadError.message);
+    }
+
+    const { data } = supabase.storage
+      .from('avatars')
+      .getPublicUrl(filePath);
+
+    return data.publicUrl;
   }
 };
