@@ -109,9 +109,15 @@ export default function Header() {
                     to="/profile"
                     className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all shadow-inner"
                   >
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-[10px] font-black text-white shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.4)]">
-                      {(profile?.nickname || session.user.email || '?').slice(0, 1).toUpperCase()}
-                    </div>
+                    {profile?.avatar_url ? (
+                      <div className="w-7 h-7 rounded-full border border-white/20 shrink-0 overflow-hidden shadow-[0_0_8px_rgba(34,211,238,0.4)]">
+                        <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                      </div>
+                    ) : (
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-[10px] font-black text-white shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.4)]">
+                        {(profile?.nickname || session.user.email || '?').slice(0, 1).toUpperCase()}
+                      </div>
+                    )}
                     <span className="hidden sm:inline-block text-xs font-semibold text-white/90 max-w-[100px] truncate">
                       {profile?.nickname || session.user.email?.split('@')[0]}
                     </span>
