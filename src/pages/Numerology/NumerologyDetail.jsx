@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Heart, Briefcase, AlertCircle, HelpCircle, Sparkles, LayoutGrid } from 'lucide-react';
 import { numerologyService } from '../../services/numerologyService';
 import { numerologyDetailService } from '../../services/numerologyDetailService';
+import AdBanner from '../../components/AdBanner';
 
 // Helper component chuyển string icon_name thành icon thật
 const DynamicIcon = ({ name, className }) => {
@@ -160,6 +161,9 @@ export default function NumerologyDetail() {
           </div>
         )}
       </div>
+
+      {/* Google Ads Placement */}
+      <AdBanner slot="horizontal" className="w-full mt-16" />
     </div>
   );
 }
