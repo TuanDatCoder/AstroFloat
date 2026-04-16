@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import AdBanner from './AdBanner';
 
 export default function Layout() {
   return (
@@ -43,6 +44,9 @@ export default function Layout() {
       <main className="relative z-10 flex-grow">
         <Outlet />
       </main>
+
+      {/* Global Ad Placement before Footer */}
+      <AdBanner className="mt-20 -mb-10" />
 
       {/* Footer tách riêng */}
       <Footer />

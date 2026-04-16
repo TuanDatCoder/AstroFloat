@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Sparkles, Star, ArrowRight, Compass, Moon, UserCircle2 } from 'lucide-react';
 
+import AdBanner from '../components/AdBanner';
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -81,7 +83,7 @@ export default function Home() {
         </motion.p>
 
         {/* Cỗ Máy Khám Phá Nổi Bật Trung Tâm */}
-        <motion.div variants={itemVariants} className="w-full flex justify-center mb-32">
+        <motion.div variants={itemVariants} className="w-full flex justify-center mb-16">
           <Link to="/discover">
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0 0 50px rgba(16,185,129,0.3)" }}
@@ -98,6 +100,11 @@ export default function Home() {
               </motion.div>
             </motion.button>
           </Link>
+        </motion.div>
+
+        {/* Google Ads Placeholder */}
+        <motion.div variants={itemVariants} className="w-full">
+           <AdBanner slot="horizontal" />
         </motion.div>
 
         {/* Features Grid - 3 Columns */}
