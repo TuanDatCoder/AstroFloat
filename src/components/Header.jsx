@@ -56,16 +56,16 @@ export default function Header() {
       {/* Đường glow mỏng chạy ngang dưới header */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
 
-      <nav className="flex items-center justify-between px-6 lg:px-10 h-20 bg-black/40 backdrop-blur-2xl">
+      <nav className="flex items-center justify-between px-6 lg:px-10 h-16 bg-black/30 backdrop-blur-xl">
         
         {/* LEFT PLACEHOLDER FOR MOBILE (to keep logo middle if preferred, but standard is logo left) */}
 
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
           <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6, ease: 'easeInOut' }}>
-            <Sparkles className="w-6 h-6 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
+            <Sparkles className="w-5 h-5 text-purple-400 drop-shadow-[0_0_6px_rgba(168,85,247,0.8)]" />
           </motion.div>
-          <span className="text-xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-300">
+          <span className="text-lg font-extrabold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-300">
             AstroFloat
           </span>
         </Link>
@@ -88,9 +88,9 @@ export default function Header() {
                   />
                 )}
                 <span
-                  className={`relative z-10 text-xs font-black tracking-[0.15em] transition-all duration-200 ${
+                  className={`relative z-10 text-xs font-bold tracking-[0.12em] transition-all duration-200 ${
                     active
-                      ? `${link.activeColor} drop-shadow-[0_0_10px_${link.glowColor}]`
+                      ? `${link.activeColor} drop-shadow-[0_0_8px_${link.glowColor}]`
                       : `text-gray-400 ${link.hoverClass}`
                   }`}
                 >
@@ -111,10 +111,10 @@ export default function Header() {
                     to="/profile"
                     className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all shadow-inner"
                   >
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-xs font-black text-white shrink-0 shadow-[0_0_12px_rgba(34,211,238,0.4)]">
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-[10px] font-black text-white shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.4)]">
                       {(profile?.nickname || session.user.email || '?').slice(0, 1).toUpperCase()}
                     </div>
-                    <span className="hidden sm:inline-block text-xs font-bold text-white/90 max-w-[100px] truncate">
+                    <span className="hidden sm:inline-block text-xs font-semibold text-white/90 max-w-[100px] truncate">
                       {profile?.nickname || session.user.email?.split('@')[0]}
                     </span>
                   </Link>
@@ -123,7 +123,7 @@ export default function Header() {
                 <motion.div key="login" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
                   <Link
                     to="/login"
-                    className="group relative flex items-center gap-2 px-6 py-2.5 rounded-full font-black text-white text-[11px] tracking-[0.2em] overflow-hidden transition-all duration-300 shadow-xl"
+                    className="group relative flex items-center gap-2 px-5 py-2 rounded-full font-bold text-white text-[11px] tracking-[0.15em] overflow-hidden transition-all duration-300"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600" />
                     <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -164,7 +164,7 @@ export default function Header() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-20 right-0 h-[calc(100vh-5rem)] w-4/5 max-w-sm bg-[#0B0F19]/90 backdrop-blur-3xl border-l border-white/5 lg:hidden z-[-1] p-8 flex flex-col gap-6"
+              className="fixed top-16 right-0 h-[calc(100vh-4rem)] w-4/5 max-w-sm bg-[#0B0F19]/90 backdrop-blur-3xl border-l border-white/5 lg:hidden z-[-1] p-8 flex flex-col gap-6"
             >
               <div className="text-[10px] font-black tracking-[0.4em] text-white/30 uppercase mb-4">
                 Danh Mục
