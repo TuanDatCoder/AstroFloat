@@ -14,6 +14,7 @@ import Discover from './pages/Discover';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
+import ChangePassword from './pages/ChangePassword';
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="change-password" element={<ChangePassword />} />
         <Route path="zodiac" element={<Zodiac />} />
         <Route path="zodiac/:id" element={<ZodiacDetail />} />
         <Route path="zodiac-match" element={<ZodiacMatch />} />
