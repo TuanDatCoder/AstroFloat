@@ -92,5 +92,60 @@ export const authService = {
       
     if (error) throw error;
     return data;
+  },
+
+  // Cập nhật profile và tính lại các chỉ số tự động
+  async updateProfile(userId, formData) {
+    const currentProfile = await this.getUserProfile(userId);
+    
+    let computed = {};
+    let newBirthDate = formData.birthDate !== undefined ? formData.birthDate : currentProfile.birth_date;
+    let newBirthName = formData.birthName !== undefined ? formData.birthName : currentProfile.birth_name;
+
+    // Tính toán lại Ngày Sinh
+    if (newBirthDate) {
+      const lifePathNumber = numerologyService.calculateLifePathNumber(newBirthDate);
+      const zodiacId = await zodiacService.getZodiacIdByDate(newBirthDate);
+      computed.life_path_number = lifePathNumber || null;
+      computed.sun_sign_id = zodiacId || null;
+    }
+
+    // Tính toán lại Tên Sinh
+    if (newBirthName) {
+      const nameAnalysis = await nameNumerologyService.calculateFullAnalysis(newBirthName);
+      if (nameAnalysis) {
+        computed.destiny_number    = nameAnalysis.expressionNumber || null;
+        computed.soul_urge_number  = nameAnalysis.soulNumber || null;
+        computed.personality_number = nameAnalysis.personalityNumber || null;
+        computed.balance_number    = nameAnalysis.balanceNumber || null;
+      }
+    }
+
+    // Tính số trưởng thành
+    const lp = computed.life_path_number || currentProfile.life_path_number;
+    const dest = computed.destiny_number || currentProfile.destiny_number;
+    if (lp && dest) {
+      const raw = lp + dest;
+      computed.maturity_number = numerologyService.calculateLifePathNumber(raw.toString().padStart(8, '1')) || raw;
+    }
+
+    // Cập nhật DB
+    const { data, error } = await supabase
+      .from('profiles')
+      .update({
+        nickname: formData.nickname !== undefined ? formData.nickname : currentProfile.nickname,
+        phone: formData.phone !== undefined ? formData.phone : currentProfile.phone,
+        gender: formData.gender !== undefined ? formData.gender : currentProfile.gender,
+        avatar_url: formData.avatar_url !== undefined ? formData.avatar_url : currentProfile.avatar_url,
+        birth_name: newBirthName,
+        birth_date: newBirthDate,
+        ...computed,
+      })
+      .eq('id', userId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
   }
 };
