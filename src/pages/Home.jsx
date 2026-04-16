@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Sparkles, Star, ArrowRight, Compass, Moon, UserCircle2 } from 'lucide-react';
-
 import AdBanner from '../components/AdBanner';
 
 const containerVariants = {
@@ -83,7 +82,7 @@ export default function Home() {
         </motion.p>
 
         {/* Cỗ Máy Khám Phá Nổi Bật Trung Tâm */}
-        <motion.div variants={itemVariants} className="w-full flex justify-center mb-16">
+        <motion.div variants={itemVariants} className="w-full flex justify-center mb-32">
           <Link to="/discover">
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0 0 50px rgba(16,185,129,0.3)" }}

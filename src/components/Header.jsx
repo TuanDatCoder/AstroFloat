@@ -5,11 +5,11 @@ import { Link, useLocation } from 'react-router-dom';
 import { supabase } from '../services/supabase';
 
 const navLinks = [
-  { to: '/discover', label: 'GIẢI MÃ', icon: Sparkles, activeColor: 'text-emerald-300', glowColor: 'rgba(16,185,129,0.8)', hoverClass: 'hover:text-emerald-300' },
-  { to: '/zodiac', label: 'CHÒM SAO', icon: Sparkles, activeColor: 'text-cyan-300', glowColor: 'rgba(34,211,238,0.8)', hoverClass: 'hover:text-cyan-300', exact: false, excludes: 'match' },
-  { to: '/zodiac-match', label: 'TƯƠNG HỢP', icon: ChevronRight, activeColor: 'text-pink-300', glowColor: 'rgba(244,114,182,0.8)', hoverClass: 'hover:text-pink-300' },
-  { to: '/numerology', label: 'THẦN SỐ HỌC', icon: Sparkles, activeColor: 'text-purple-300', glowColor: 'rgba(168,85,247,0.8)', hoverClass: 'hover:text-purple-300' },
-  { to: '/name-numerology', label: 'THẦN SỐ TÊN', icon: Sparkles, activeColor: 'text-indigo-300', glowColor: 'rgba(129,140,248,0.8)', hoverClass: 'hover:text-indigo-300' },
+  { to: '/discover', label: 'GIẢI MÃ', activeColor: 'text-emerald-300', glowColor: 'rgba(16,185,129,0.8)', hoverClass: 'hover:text-emerald-300' },
+  { to: '/zodiac', label: 'CHÒM SAO', activeColor: 'text-cyan-300', glowColor: 'rgba(34,211,238,0.8)', hoverClass: 'hover:text-cyan-300', exact: false, excludes: 'match' },
+  { to: '/zodiac-match', label: 'TƯƠNG HỢP', activeColor: 'text-pink-300', glowColor: 'rgba(244,114,182,0.8)', hoverClass: 'hover:text-pink-300' },
+  { to: '/numerology', label: 'THẦN SỐ HỌC', activeColor: 'text-purple-300', glowColor: 'rgba(168,85,247,0.8)', hoverClass: 'hover:text-purple-300' },
+  { to: '/name-numerology', label: 'THẦN SỐ TÊN', activeColor: 'text-indigo-300', glowColor: 'rgba(129,140,248,0.8)', hoverClass: 'hover:text-indigo-300' },
 ];
 
 export default function Header() {
@@ -58,8 +58,6 @@ export default function Header() {
 
       <nav className="flex items-center justify-between px-6 lg:px-10 h-16 bg-black/30 backdrop-blur-xl">
         
-        {/* LEFT PLACEHOLDER FOR MOBILE (to keep logo middle if preferred, but standard is logo left) */}
-
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
           <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6, ease: 'easeInOut' }}>
@@ -111,9 +109,15 @@ export default function Header() {
                     to="/profile"
                     className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all shadow-inner"
                   >
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-[10px] font-black text-white shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.4)]">
-                      {(profile?.nickname || session.user.email || '?').slice(0, 1).toUpperCase()}
-                    </div>
+                    {profile?.avatar_url ? (
+                      <div className="w-7 h-7 rounded-full border border-white/20 shrink-0 overflow-hidden shadow-[0_0_8px_rgba(34,211,238,0.4)]">
+                        <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                      </div>
+                    ) : (
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-[10px] font-black text-white shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.4)]">
+                        {(profile?.nickname || session.user.email || '?').slice(0, 1).toUpperCase()}
+                      </div>
+                    )}
                     <span className="hidden sm:inline-block text-xs font-semibold text-white/90 max-w-[100px] truncate">
                       {profile?.nickname || session.user.email?.split('@')[0]}
                     </span>
@@ -135,7 +139,6 @@ export default function Header() {
             </AnimatePresence>
           </div>
 
-          {/* Toggle Menu Mobile */}
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/80 active:scale-95 transition-all"
@@ -149,7 +152,6 @@ export default function Header() {
       <AnimatePresence>
         {isMenuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -157,8 +159,6 @@ export default function Header() {
               onClick={() => setIsMenuOpen(false)}
               className="fixed inset-0 bg-black/60 backdrop-blur-sm lg:hidden z-[-1]"
             />
-
-            {/* Menu Content */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
@@ -196,7 +196,6 @@ export default function Header() {
                 })}
               </div>
 
-              {/* Decorative detail */}
               <div className="mt-auto p-8 rounded-[2rem] bg-gradient-to-br from-purple-500/10 to-transparent border border-white/5 text-center">
                 <Sparkles className="w-8 h-8 text-purple-400/40 mx-auto mb-4" />
                 <p className="text-[10px] text-white/30 font-medium tracking-widest leading-relaxed uppercase">
