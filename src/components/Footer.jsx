@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Sparkles, Facebook, Instagram, Youtube, Send, Mail, MapPin, ChevronRight, ArrowUp } from 'lucide-react';
+import { Sparkles, Globe, Send, Mail, MapPin, ChevronRight, ArrowUp } from 'lucide-react';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -34,9 +34,9 @@ export default function Footer() {
 
           <div className="flex items-center gap-4">
             {[
-              { Icon: Facebook, color: 'hover:text-blue-400', glow: 'hover:border-blue-400/50' },
-              { Icon: Instagram, color: 'hover:text-pink-400', glow: 'hover:border-pink-400/50' },
-              { Icon: Youtube, color: 'hover:text-red-400', glow: 'hover:border-red-400/50' }
+              { Icon: Globe, color: 'hover:text-blue-400', glow: 'hover:border-blue-400/50' },
+              { Icon: Mail, color: 'hover:text-pink-400', glow: 'hover:border-pink-400/50' },
+              { Icon: Send, color: 'hover:text-red-400', glow: 'hover:border-red-400/50' }
             ].map(({ Icon, color, glow }, i) => (
               <motion.a
                 key={i}
