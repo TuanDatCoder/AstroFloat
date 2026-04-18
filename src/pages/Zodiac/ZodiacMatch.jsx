@@ -1,9 +1,10 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Sparkles, X, Info, Zap, Calendar, User, ArrowRight } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { zodiacService } from '../../services/zodiacService';
 import { zodiacMatchesService } from '../../services/zodiacMatchesService';
+import { ZODIAC_CATEGORIES } from '../../constants';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -151,14 +152,38 @@ export default function ZodiacMatch() {
       (attr2 || []).forEach(a => processAttr(a, 'p2'));
       const comparisons = Object.values(compMap);
 
-      if (!matchData) {
+      // 5. Tính toán điểm tổng hợp dựa trên CATEGORY_MAP chuẩn (để đồng nhất các trang)
+      let sum = 0, countCats = 0;
+      ZODIAC_CATEGORIES.forEach(cat => {
+        const relevant = comparisons.filter(c => cat.dbCats.some(d => (c.criteria?.category || '') === d));
+        if (relevant.length === 0) return;
+        
+        let catSum = 0, catCount = 0;
+        relevant.forEach(c => {
+          if (c.p1?.score && c.p2?.score) {
+            const diff = Math.abs(c.p1.score - c.p2.score);
+            catSum += Math.round((1 - diff / 9) * 100);
+            catCount++;
+          }
+        });
+        
+        if (catCount > 0) {
+          sum += Math.round(catSum / catCount);
+          countCats++;
+        }
+      });
+
+      const calculatedScore = countCats > 0 ? Math.round(sum / countCats) : null;
+
+      if (!matchData && !calculatedScore) {
         setError("Dữ liệu về sự tương hợp giữa hai cung này chưa được cập nhật trong hệ thống.");
       } else {
         setResult({
           sign1,
           sign2,
           match: matchData,
-          comparisons
+          comparisons,
+          calculatedScore
         });
       }
     } catch (err) {
@@ -362,9 +387,9 @@ export default function ZodiacMatch() {
                         fill="transparent"
                         strokeDasharray={552.92}
                         initial={{ strokeDashoffset: 552.92 }}
-                        animate={{ strokeDashoffset: 552.92 - (552.92 * result.match.match_score) / 100 }}
+                        animate={{ strokeDashoffset: 552.92 - (552.92 * (result.calculatedScore || result.match.match_score)) / 100 }}
                         transition={{ duration: 2, ease: "easeOut" }}
-                        className={getScoreColor(result.match.match_score)}
+                        className={getScoreColor(result.calculatedScore || result.match.match_score)}
                       />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -372,9 +397,9 @@ export default function ZodiacMatch() {
                         initial={{ opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.5 }}
-                        className={`text-6xl font-black ${getScoreColor(result.match.match_score)}`}
+                        className={`text-6xl font-black ${getScoreColor(result.calculatedScore || result.match.match_score)}`}
                       >
-                        {result.match.match_score}%
+                        {result.calculatedScore || result.match.match_score}%
                       </motion.span>
                       <span className="text-xs uppercase tracking-[0.3em] text-gray-500 font-bold mt-2">Duyên Phận</span>
                     </div>
@@ -538,7 +563,7 @@ export default function ZodiacMatch() {
                               <h3 className="text-xl font-bold mb-2 text-white">TỔNG THỂ TƯƠNG QUAN CHI TIẾT</h3>
                               <p className="text-gray-400 text-xs uppercase tracking-widest mb-6">Mức độ hòa hợp trung bình qua mọi khía cạnh</p>
                               <div className="text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-indigo-400">
-                                {totalAvg}%
+                                {result.calculatedScore || result.match.match_score}%
                               </div>
                             </div>
                           </div>

@@ -38,3 +38,10 @@ export const ROUTES = {
   ZODIAC_ALL_MATCHES: '/zodiac-all-matches',
   FORGOT_PASSWORD: '/forgot-password'
 };
+
+export const ZODIAC_CATEGORIES = [
+  { id: 'love', name: 'Tình Yêu', dbCats: ['Tình yêu'] },
+  { id: 'friend', name: 'Tình Bạn', dbCats: ['Xã hội'] },
+  { id: 'work', name: 'Sự Nghiệp', dbCats: ['Sự nghiệp', 'Tiền bạc', 'Sự nghiệp & Tiền bạc'] },
+  { id: 'personality', name: 'Tính Cách', dbCats: ['Tính cách', 'Góc tối', 'Góc khuất'] },
+];
