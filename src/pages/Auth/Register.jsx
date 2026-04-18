@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Phone, Clock, Calendar, Sparkles, UserCircle, Eye, EyeOff } from 'lucide-react';
-import { authService } from '../services/authService';
+import { authService } from '../../services/authService';
 
 export default function Register() {
   const navigate = useNavigate();

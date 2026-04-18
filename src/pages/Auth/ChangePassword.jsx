@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Lock, ArrowLeft, Eye, EyeOff, CheckCircle2, AlertCircle, ShieldCheck } from 'lucide-react';
-import { supabase } from '../services/supabase';
+import { supabase } from '../../services/supabase';
 
 export default function ChangePassword() {
   const navigate = useNavigate();

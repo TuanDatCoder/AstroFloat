@@ -168,5 +168,14 @@ export const authService = {
       .getPublicUrl(filePath);
 
     return data.publicUrl;
+  },
+
+  // Gửi email khôi phục mật khẩu
+  async resetPassword(email) {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/change-password`,
+    });
+    if (error) throw error;
+    return data;
   }
 };

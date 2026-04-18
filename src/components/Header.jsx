@@ -3,13 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, LogIn, User, ChevronRight, Menu as MenuIcon, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { supabase } from '../services/supabase';
+import { ROUTES } from '../constants';
 
 const navLinks = [
-  { to: '/discover', label: 'GIẢI MÃ', activeColor: 'text-emerald-300', glowColor: 'rgba(16,185,129,0.8)', hoverClass: 'hover:text-emerald-300' },
-  { to: '/zodiac', label: 'CHÒM SAO', activeColor: 'text-cyan-300', glowColor: 'rgba(34,211,238,0.8)', hoverClass: 'hover:text-cyan-300', exact: false, excludes: 'match' },
-  { to: '/zodiac-match', label: 'TƯƠNG HỢP', activeColor: 'text-pink-300', glowColor: 'rgba(244,114,182,0.8)', hoverClass: 'hover:text-pink-300' },
-  { to: '/numerology', label: 'THẦN SỐ HỌC', activeColor: 'text-purple-300', glowColor: 'rgba(168,85,247,0.8)', hoverClass: 'hover:text-purple-300' },
-  { to: '/name-numerology', label: 'THẦN SỐ TÊN', activeColor: 'text-indigo-300', glowColor: 'rgba(129,140,248,0.8)', hoverClass: 'hover:text-indigo-300' },
+  { to: ROUTES.DISCOVER, label: 'GIẢI MÃ', activeColor: 'text-emerald-300', glowColor: 'rgba(16,185,129,0.8)', hoverClass: 'hover:text-emerald-300' },
+  { to: ROUTES.ZODIAC, label: 'CHÒM SAO', activeColor: 'text-cyan-300', glowColor: 'rgba(34,211,238,0.8)', hoverClass: 'hover:text-cyan-300', exact: false, excludes: 'match' },
+  { to: ROUTES.ZODIAC_MATCH, label: 'TƯƠNG HỢP', activeColor: 'text-pink-300', glowColor: 'rgba(244,114,182,0.8)', hoverClass: 'hover:text-pink-300' },
+  { to: ROUTES.NUMEROLOGY, label: 'THẦN SỐ HỌC', activeColor: 'text-purple-300', glowColor: 'rgba(168,85,247,0.8)', hoverClass: 'hover:text-purple-300' },
+  { to: ROUTES.NAME_NUMEROLOGY, label: 'THẦN SỐ TÊN', activeColor: 'text-indigo-300', glowColor: 'rgba(129,140,248,0.8)', hoverClass: 'hover:text-indigo-300' },
 ];
 
 export default function Header() {
@@ -46,6 +47,16 @@ export default function Header() {
     setIsMenuOpen(false);
   }, [path]);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isMenuOpen]);
+
   const isActive = (link) => {
     if (link.excludes) return path.startsWith(link.to) && !path.includes(link.excludes);
     return path.startsWith(link.to);
@@ -56,7 +67,7 @@ export default function Header() {
       {/* Đường glow mỏng chạy ngang dưới header */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
 
-      <nav className="flex items-center justify-between px-6 lg:px-10 h-16 bg-black/30 backdrop-blur-xl">
+      <nav className="flex items-center justify-between px-4 sm:px-6 lg:px-10 h-16 bg-black/30 backdrop-blur-xl">
         
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
@@ -100,13 +111,13 @@ export default function Header() {
         </nav>
 
         {/* RIGHT SIDE: AUTH + MOBILE MENU TOGGLE */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <div className="shrink-0">
             <AnimatePresence mode="wait">
               {session ? (
                 <motion.div key="user" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
                   <Link
-                    to="/profile"
+                    to={ROUTES.PROFILE}
                     className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all shadow-inner"
                   >
                     {profile?.avatar_url ? (
@@ -126,8 +137,8 @@ export default function Header() {
               ) : (
                 <motion.div key="login" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
                   <Link
-                    to="/login"
-                    className="group relative flex items-center gap-2 px-5 py-2 rounded-full font-bold text-white text-[11px] tracking-[0.15em] overflow-hidden transition-all duration-300"
+                    to={ROUTES.LOGIN}
+                    className="group relative flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-full font-bold text-white text-[10px] sm:text-[11px] tracking-wider sm:tracking-[0.15em] overflow-hidden transition-all duration-300"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600" />
                     <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -141,7 +152,7 @@ export default function Header() {
 
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/80 active:scale-95 transition-all"
+            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/80 active:scale-95 transition-all"
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
           </button>
@@ -164,7 +175,7 @@ export default function Header() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-16 right-0 h-[calc(100vh-4rem)] w-4/5 max-w-sm bg-[#0B0F19]/90 backdrop-blur-3xl border-l border-white/5 lg:hidden z-[-1] p-8 flex flex-col gap-6"
+              className="fixed top-16 right-0 h-[calc(100dvh-4rem)] w-4/5 max-w-sm bg-[#0B0F19]/90 backdrop-blur-3xl border-l border-white/5 lg:hidden z-[-1] p-6 sm:p-8 flex flex-col gap-6 overflow-y-auto"
             >
               <div className="text-[10px] font-black tracking-[0.4em] text-white/30 uppercase mb-4">
                 Danh Mục

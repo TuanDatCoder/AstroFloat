@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, UserCircle, LogIn, Eye, EyeOff } from 'lucide-react';
-import { authService } from '../services/authService';
+import { authService } from '../../services/authService';
+import { ROUTES } from '../../constants';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -111,7 +112,7 @@ export default function Login() {
           </div>
 
           <div className="flex justify-end px-2 mt-[-5px]">
-            <a href="#" className="text-xs text-gray-500 hover:text-cyan-300 transition-colors">Quên mật khẩu?</a>
+            <Link to={ROUTES.FORGOT_PASSWORD} className="text-xs text-gray-500 hover:text-cyan-300 transition-colors">Quên mật khẩu?</Link>
           </div>
 
           <div className="flex flex-col items-center gap-4 mt-8">

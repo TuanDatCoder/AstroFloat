@@ -87,15 +87,15 @@ export default function Home() {
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0 0 50px rgba(16,185,129,0.3)" }}
               whileTap={{ scale: 0.95 }}
-              className="relative px-12 py-6 bg-white text-black rounded-full font-black text-lg tracking-widest flex items-center justify-center gap-3 transition-all uppercase overflow-hidden hover:pr-14"
+              className="relative px-8 py-4 md:px-12 md:py-6 bg-white text-black rounded-full font-black text-sm md:text-lg tracking-widest flex items-center justify-center gap-3 transition-all uppercase overflow-hidden group hover:pr-12 md:hover:pr-14"
             >
-              <Compass className="w-6 h-6" /> 
+              <Compass className="w-5 h-5 md:w-6 md:h-6" /> 
               Bắt đầu hành trình
               <motion.div 
-                className="absolute right-6 opacity-0 group-hover:opacity-100 transition-all"
+                className="absolute right-4 md:right-6 opacity-0 group-hover:opacity-100 transition-all"
                 initial={false}
               >
-                <ArrowRight className="w-6 h-6" />
+                <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
               </motion.div>
             </motion.button>
           </Link>
