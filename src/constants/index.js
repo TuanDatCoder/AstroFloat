@@ -35,5 +35,6 @@ export const ROUTES = {
   REGISTER: '/register',
   NAME_NUMEROLOGY_RESULT: '/name-numerology/result',
   ZODIAC_BEST_MATCHES: '/zodiac-best-matches',
-  ZODIAC_ALL_MATCHES: '/zodiac-all-matches'
+  ZODIAC_ALL_MATCHES: '/zodiac-all-matches',
+  FORGOT_PASSWORD: '/forgot-password'
 };

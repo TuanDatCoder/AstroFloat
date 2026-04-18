@@ -6,11 +6,11 @@ import {
   Sparkles, Hash, Heart, Brain, Scale, TrendingUp, Sun,
   ChevronRight, Lock, Zap
 } from 'lucide-react';
-import { supabase } from '../services/supabase';
-import { authService } from '../services/authService';
-import { numerologyService } from '../services/numerologyService';
-import { zodiacService } from '../services/zodiacService';
-import { ROUTES, TABLES } from '../constants';
+import { supabase } from '../../services/supabase';
+import { authService } from '../../services/authService';
+import { numerologyService } from '../../services/numerologyService';
+import { zodiacService } from '../../services/zodiacService';
+import { ROUTES, TABLES } from '../../constants';
 
 // ─── Hiển thị 1 chỉ số thần số học ────────────────────────────
 function NumerologyCard({ label, value, icon: Icon, color, description }) {

@@ -13,11 +13,12 @@ import NameNumerologyDetail from './pages/Numerology/NameNumerologyDetail';
 import PinnacleDetail from './pages/Numerology/PinnacleDetail';
 import PinnacleFullAnalysis from './pages/Numerology/PinnacleFullAnalysis';
 import Discover from './pages/Discover';
-import Register from './pages/Register';
-import Login from './pages/Login';
-import Profile from './pages/Profile';
-import EditProfile from './pages/EditProfile';
-import ChangePassword from './pages/ChangePassword';
+import Register from './pages/Auth/Register';
+import Login from './pages/Auth/Login';
+import ForgotPassword from './pages/Auth/ForgotPassword';
+import Profile from './pages/Profile/Profile';
+import EditProfile from './pages/Profile/EditProfile';
+import ChangePassword from './pages/Auth/ChangePassword';
 
 import { ROUTES } from './constants';
 
@@ -31,6 +32,7 @@ export default function App() {
         <Route path={ROUTES.DISCOVER} element={<Discover />} />
         <Route path={ROUTES.REGISTER} element={<Register />} />
         <Route path={ROUTES.LOGIN} element={<Login />} />
+        <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={ROUTES.PROFILE} element={<Profile />} />
         <Route path={ROUTES.PROFILE_EDIT} element={<EditProfile />} />
         <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePassword />} />
