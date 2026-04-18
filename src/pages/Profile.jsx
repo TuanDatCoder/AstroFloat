@@ -4,10 +4,13 @@ import { useNavigate, Link } from 'react-router-dom';
 import {
   User, Mail, Calendar, Star, LogOut, Edit3, Shield,
   Sparkles, Hash, Heart, Brain, Scale, TrendingUp, Sun,
-  ChevronRight, Lock
+  ChevronRight, Lock, Zap
 } from 'lucide-react';
 import { supabase } from '../services/supabase';
 import { authService } from '../services/authService';
+import { numerologyService } from '../services/numerologyService';
+import { zodiacService } from '../services/zodiacService';
+import { ROUTES, TABLES } from '../constants';
 
 // ─── Hiển thị 1 chỉ số thần số học ────────────────────────────
 function NumerologyCard({ label, value, icon: Icon, color, description }) {
@@ -48,28 +51,52 @@ export default function Profile() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [zodiacSign, setZodiacSign] = useState(null);
+  const [pinnacles, setPinnacles] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
       try {
+        setLoading(true);
         const user = await authService.getCurrentUser();
         if (!user) { navigate('/login'); return; }
 
         const p = await authService.getUserProfile(user.id);
+        if (!p) { console.warn("Không tìm thấy profile cho user:", user.id); return; }
+        
+        console.log("Profile loaded:", p);
         setProfile(p);
 
-        // Load zodiac sign name nếu có sun_sign_id
-        if (p?.sun_sign_id) {
-          const { data } = await supabase
-            .from('zodiac_signs')
-            .select('name, symbol, element')
-            .eq('id', p.sun_sign_id)
-            .single();
-          setZodiacSign(data);
+        // Load zodiac sign name
+        const birthDateStr = p.birth_date;
+        if (p.sun_sign_id || birthDateStr) {
+            let zid = p.sun_sign_id;
+            if (!zid && birthDateStr) {
+                zid = await zodiacService.getZodiacIdByDate(birthDateStr);
+            }
+
+            if (zid) {
+                console.log("Loading zodiac for ID:", zid);
+                const { data, error: zError } = await supabase
+                    .from(TABLES.ZODIAC_SIGNS)
+                    .select('name, element, english_name')
+                    .eq('id', zid)
+                    .maybeSingle();
+                
+                if (data) setZodiacSign(data);
+                else if (zError) console.error("Lỗi fetch zodiac:", zError);
+            }
+        }
+
+        // Load Pinnacles
+        if (birthDateStr) {
+          console.log("Calculating pinnacles for birthdate:", birthDateStr);
+          const pData = await numerologyService.getPinnaclesForUser(user.id, birthDateStr);
+          console.log("Pinnacles data result:", pData);
+          setPinnacles(pData);
         }
       } catch (err) {
-        console.error(err);
+        console.error("Lỗi trong quá trình load profile:", err);
       } finally {
         setLoading(false);
       }
@@ -207,30 +234,94 @@ export default function Profile() {
 
           {/* CỘT PHẢI */}
           <div className="space-y-5">
-            {/* Chiêm Tinh Học */}
+            {/* 4 Đỉnh Cao (Pinnacles) */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: 0.18 }}
+              className="bg-slate-900/50 backdrop-blur-xl border border-white/8 rounded-[2rem] p-6"
+            >
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-indigo-500/20 flex items-center justify-center">
+                    <Zap className="w-4 h-4 text-indigo-400" />
+                  </div>
+                  <h2 className="text-sm font-bold uppercase tracking-widest text-white/60">4 Đỉnh Cao</h2>
+                </div>
+                {pinnacles && (
+                  <Link 
+                    to={`${ROUTES.PINNACLE_ANALYSIS}?dob=${profile.birth_date}`}
+                    className="text-[10px] font-black text-indigo-400 uppercase tracking-widest hover:text-indigo-300 transition-colors"
+                  >
+                    Xem chi tiết
+                  </Link>
+                )}
+              </div>
+
+              {pinnacles ? (
+                <div className="grid grid-cols-2 gap-4">
+                  {pinnacles.map((p, idx) => (
+                    <Link
+                      key={idx}
+                      to={ROUTES.PINNACLE_DETAIL(p.value)}
+                      className="bg-black/40 border border-white/5 p-4 rounded-2xl group hover:border-indigo-500/30 transition-all text-left"
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="text-[9px] font-bold text-gray-500 uppercase tracking-tighter">Đỉnh {idx + 1}</span>
+                        <span className="text-[10px] font-bold text-indigo-400 group-hover:scale-110 transition-transform">{p.age}t</span>
+                      </div>
+                      <div className="text-2xl font-black text-white group-hover:text-indigo-300 transition-colors">
+                        {p.value}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-6 text-gray-600 text-sm">
+                  <Zap className="w-8 h-8 mx-auto mb-3 opacity-30" />
+                  <p>Cập nhật ngày sinh để xem 4 đỉnh cao cuộc đời.</p>
+                </div>
+              )}
+            </motion.div>
+
+            {/* Cung Hoàng Đạo */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.22 }}
               className="bg-slate-900/50 backdrop-blur-xl border border-white/8 rounded-[2rem] p-6"
             >
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-8 h-8 rounded-xl bg-amber-500/20 flex items-center justify-center">
                   <Sun className="w-4 h-4 text-amber-400" />
                 </div>
-                <h2 className="text-sm font-bold uppercase tracking-widest text-white/60">Chiêm Tinh Học</h2>
+                <h2 className="text-sm font-bold uppercase tracking-widest text-white/60">Cung Hoàng Đạo</h2>
               </div>
               {zodiacSign ? (
-                <Link to={`/zodiac/${profile.sun_sign_id}`} className="flex items-center justify-between group">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Cung Mặt Trời</p>
-                    <p className="text-2xl font-black text-white">{zodiacSign.name}</p>
-                    <p className="text-xs text-gray-500 mt-1">Nguyên tố: {zodiacSign.element}</p>
-                  </div>
-                  <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                    {zodiacSign.symbol || '⭐'}
-                  </div>
-                </Link>
+                <div className="flex flex-col gap-3">
+                  <Link to={ROUTES.ZODIAC_DETAIL(profile.sun_sign_id || zodiacSign.id)} className="flex items-center justify-between group bg-black/40 border border-white/5 p-5 rounded-[2rem] hover:border-amber-500/30 transition-all">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="text-2xl font-black text-white group-hover:text-amber-300 transition-colors">{zodiacSign.name}</p>
+                        <span className="text-[10px] font-bold text-amber-500/60 uppercase tracking-widest">{zodiacSign.english_name}</span>
+                      </div>
+                      <div className="flex items-center gap-3 mt-1">
+                        <span className="px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[9px] font-bold text-amber-200/70 uppercase">Mặt Trời</span>
+                        <span className="text-[10px] text-gray-500 font-medium italic">Nguyên tố: {zodiacSign.element}</span>
+                      </div>
+                    </div>
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/10 to-transparent border border-amber-500/20 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:bg-amber-500 transition-all group-hover:text-black">
+                      ⭐
+                    </div>
+                  </Link>
+                  <Link 
+                    to={`/zodiac-all-matches?sign=${profile.sun_sign_id || zodiacSign.id}`} 
+                    className="flex justify-between items-center w-full px-5 py-4 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 rounded-2xl text-indigo-400 hover:text-indigo-300 font-bold tracking-widest text-xs uppercase transition-all group"
+                  >
+                    <span>Xem Bảng Xếp Hạng Mối Quan Hệ</span>
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
               ) : (
                 <div className="text-center py-6 text-gray-600 text-sm">
                   <Sun className="w-8 h-8 mx-auto mb-3 opacity-30" />

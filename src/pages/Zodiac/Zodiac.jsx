@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Moon, Sun, ArrowRight, Database, X } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { zodiacService } from '../../services/zodiacService';
+import { supabase } from '../../services/supabase';
+import { Lock } from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -30,6 +32,7 @@ export default function Zodiac() {
   const [error, setError] = useState(null);
   const [dob, setDob] = useState(() => localStorage.getItem('astrofloat_dob') || '');
   const [calcLoading, setCalcLoading] = useState(false);
+  const [session, setSession] = useState(null);
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -47,6 +50,11 @@ export default function Zodiac() {
 
   useEffect(() => {
     fetchData();
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+    return () => subscription.unsubscribe();
   }, []);
 
   const handleLookup = async () => {
@@ -73,7 +81,7 @@ export default function Zodiac() {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="text-center mb-16"
+        className="text-center mb-12"
       >
         <span className="inline-block py-1.5 px-4 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-semibold tracking-[0.25em] mb-4 shadow-[0_0_20px_rgba(34,211,238,0.15)] transform-gpu">
           CHIÊM TINH HỌC
@@ -81,6 +89,41 @@ export default function Zodiac() {
         <h1 className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-indigo-400 drop-shadow-sm pb-2">
           Cung Hoàng Đạo
         </h1>
+        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 px-4">
+           <Link to="/zodiac-match" className="w-full sm:w-auto">
+             <motion.button 
+               whileHover={{ scale: 1.05 }}
+               whileTap={{ scale: 0.95 }}
+               className="w-full px-8 py-3 rounded-full bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-500/30 text-pink-300 hover:text-white font-bold tracking-widest text-sm uppercase shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] transition-all flex items-center justify-center gap-2"
+             >
+               <Sparkles className="w-4 h-4" />
+               Kiểm Tra Mức Độ Tương Hợp
+             </motion.button>
+           </Link>
+           {session ? (
+             <Link to="/zodiac-best-matches" className="w-full sm:w-auto">
+               <motion.button 
+                 whileHover={{ scale: 1.05 }}
+                 whileTap={{ scale: 0.95 }}
+                 className="w-full px-8 py-3 rounded-full bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 border border-indigo-500/30 text-indigo-300 hover:text-white font-bold tracking-widest text-sm uppercase shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] transition-all flex items-center justify-center gap-2"
+               >
+                 <Database className="w-4 h-4" />
+                 Xem Matrix Tuyệt Đỉnh Hợp Nhau
+               </motion.button>
+             </Link>
+           ) : (
+             <Link to="/login" className="w-full sm:w-auto">
+               <motion.button 
+                 whileHover={{ scale: 1.05 }}
+                 whileTap={{ scale: 0.95 }}
+                 className="w-full px-8 py-3 rounded-full bg-slate-800 border border-slate-700 text-gray-400 font-bold tracking-widest text-sm uppercase transition-all flex items-center justify-center gap-2 hover:bg-slate-700 hover:text-gray-300"
+               >
+                 <Lock className="w-4 h-4" />
+                 Đăng nhập để xem Matrix Tương Hợp
+               </motion.button>
+             </Link>
+           )}
+        </div>
       </motion.div>
 
       {/* Form tính toán */}

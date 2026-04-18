@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Zap, Sparkles, Star, Calendar, Clock, Crown, Target } from 'lucide-react';
 import { numerologyService } from '../../services/numerologyService';
+import { supabase } from '../../services/supabase';
 
 export default function PinnacleFullAnalysis() {
   const [searchParams] = useSearchParams();
@@ -16,7 +17,9 @@ export default function PinnacleFullAnalysis() {
       if (!dob) return;
       setLoading(true);
       try {
-        const calculatedPinnacles = numerologyService.calculatePinnacles(dob);
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        const calculatedPinnacles = await numerologyService.getPinnaclesForUser(session?.user?.id, dob);
         setPinnacles(calculatedPinnacles);
 
         // Fetch details for all 4 pinnacle numbers

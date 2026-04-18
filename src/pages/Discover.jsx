@@ -5,6 +5,9 @@ import { Sparkles, Star, ArrowRight, UserCircle2, X, Zap, Heart, Target, AlertCi
 import { zodiacService } from '../services/zodiacService';
 import { numerologyService } from '../services/numerologyService';
 import { nameNumerologyService } from '../services/nameNumerologyService';
+import { zodiacMatchesService } from '../services/zodiacMatchesService';
+import { supabase } from '../services/supabase';
+import { ROUTES } from '../constants';
 
 export default function Discover() {
   const [dob, setDob] = useState(() => localStorage.getItem('astrofloat_dob') || '');
@@ -23,14 +26,18 @@ export default function Discover() {
       // 1. Phân tích Cung Hoàng Đạo
       const zodiacId = await zodiacService.getZodiacIdByDate(dob);
       let zodiacData = null;
+      let topMatches = [];
       if (zodiacId) {
         zodiacData = await zodiacService.getZodiacById(zodiacId);
+        topMatches = await zodiacMatchesService.getTopMatches(zodiacId, 3);
       }
       
       // 2. Phân tích Thần Số Học (Ngày sinh)
+      const { data: { session } } = await supabase.auth.getSession();
+      
       const lifePathNum = numerologyService.calculateLifePathNumber(dob);
       const birthGrid = numerologyService.calculateBirthGrid(dob);
-      const pinnacles = numerologyService.calculatePinnacles(dob);
+      const pinnacles = await numerologyService.getPinnaclesForUser(session?.user?.id, dob);
       let numerologyData = null;
       if (lifePathNum) {
         try {
@@ -62,6 +69,7 @@ export default function Discover() {
 
       setResults({
         zodiac: zodiacData,
+        topMatches,
         numerology: numerologyData,
         birthGrid,
         pinnacles,
@@ -99,7 +107,7 @@ export default function Discover() {
         </svg>
 
         {/* Level 3: Đỉnh 3 (Cao nhất trong chuỗi 1-2-3) */}
-        <Link to={`/pinnacle/${pinnacles[2].value}`} className="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center group cursor-pointer z-20">
+        <Link to={ROUTES.PINNACLE_DETAIL(pinnacles[2].value)} className="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center group cursor-pointer z-20">
            <div className="w-12 h-12 rounded-full bg-indigo-500/20 border-2 border-indigo-400 flex items-center justify-center text-indigo-100 font-black shadow-[0_0_15px_rgba(99,102,241,0.5)] bg-slate-900 group-hover:scale-110 group-hover:bg-indigo-500 transition-all">
             {pinnacles[2].value}
           </div>
@@ -107,13 +115,13 @@ export default function Discover() {
         </Link>
 
         {/* Level 2: Đỉnh 1 & 2 */}
-        <Link to={`/pinnacle/${pinnacles[0].value}`} className="absolute top-16 left-[20%] flex flex-col items-center group cursor-pointer z-20">
+        <Link to={ROUTES.PINNACLE_DETAIL(pinnacles[0].value)} className="absolute top-16 left-[20%] flex flex-col items-center group cursor-pointer z-20">
            <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-400/50 flex items-center justify-center text-purple-200 font-bold bg-slate-900 group-hover:scale-110 group-hover:bg-purple-500 transition-all">
             {pinnacles[0].value}
           </div>
           <span className="text-[8px] font-bold text-purple-400 mt-1 group-hover:text-white transition-colors">Đỉnh 1: {pinnacles[0].age}t</span>
         </Link>
-        <Link to={`/pinnacle/${pinnacles[1].value}`} className="absolute top-16 right-[20%] flex flex-col items-center group cursor-pointer z-20">
+        <Link to={ROUTES.PINNACLE_DETAIL(pinnacles[1].value)} className="absolute top-16 right-[20%] flex flex-col items-center group cursor-pointer z-20">
            <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-400/50 flex items-center justify-center text-purple-200 font-bold bg-slate-900 group-hover:scale-110 group-hover:bg-purple-500 transition-all">
             {pinnacles[1].value}
           </div>
@@ -121,7 +129,7 @@ export default function Discover() {
         </Link>
 
         {/* Level 4: Đỉnh cao nhất cuộc đời (thường đặt riêng biệt hoặc cao hơn bản chính) */}
-        <Link to={`/pinnacle/${pinnacles[3].value}`} className="absolute -top-10 right-0 flex flex-col items-center group cursor-pointer z-20">
+        <Link to={ROUTES.PINNACLE_DETAIL(pinnacles[3].value)} className="absolute -top-10 right-0 flex flex-col items-center group cursor-pointer z-20">
            <div className="w-9 h-9 rounded-full bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-200 font-bold bg-slate-900 group-hover:scale-110 group-hover:bg-amber-500 transition-all">
             {pinnacles[3].value}
           </div>
@@ -281,7 +289,7 @@ export default function Discover() {
               </div>
               <div className="relative z-10 mt-8 pt-5 border-t border-purple-500/20">
                 {results.numerology && (
-                  <Link to={`/numerology/${results.numerology.number}`} className="text-purple-300 text-sm font-semibold flex items-center gap-2 group-hover:text-purple-100 w-fit">
+                  <Link to={ROUTES.NUMEROLOGY_DETAIL(results.numerology.number)} className="text-purple-300 text-sm font-semibold flex items-center gap-2 group-hover:text-purple-100 w-fit">
                     Khám phá toàn bộ <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                   </Link>
                 )}
@@ -315,7 +323,7 @@ export default function Discover() {
               </div>
               <div className="relative z-10 mt-8 pt-5 border-t border-cyan-500/20">
                 {results.zodiac && (
-                  <Link to={`/zodiac/${results.zodiac.id}`} className="text-cyan-300 text-sm font-semibold flex items-center gap-2 group-hover:text-cyan-100 w-fit">
+                  <Link to={ROUTES.ZODIAC_DETAIL(results.zodiac.id)} className="text-cyan-300 text-sm font-semibold flex items-center gap-2 group-hover:text-cyan-100 w-fit">
                     Đọc bản giải mã gốc <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                   </Link>
                 )}
@@ -349,7 +357,7 @@ export default function Discover() {
               </div>
               <div className="relative z-10 mt-8 pt-5 border-t border-indigo-500/20 w-full flex justify-center">
                 <Link 
-                  to={`/pinnacle-analysis?dob=${dob}`} 
+                  to={`${ROUTES.PINNACLE_ANALYSIS}?dob=${dob}`} 
                   className="text-indigo-400 text-[10px] font-black uppercase tracking-widest hover:text-indigo-200 transition-colors flex items-center gap-2"
                 >
                   Khám phá toàn bộ <ArrowRight className="w-3 h-3" />
@@ -412,6 +420,49 @@ export default function Discover() {
                     className="flex items-center justify-center gap-2 text-purple-400 text-[10px] font-black uppercase tracking-widest hover:text-purple-300 transition-colors"
                   >
                     Xem chi tiết <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* THÀNH PHẦN 6: CÁC CUNG TƯƠNG HỢP NHẤT */}
+            {results.topMatches && results.topMatches.length > 0 && (
+              <div className="bg-pink-950/40 backdrop-blur-md border border-pink-500/30 rounded-[2rem] p-8 group hover:bg-pink-900/50 transition-all shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[300px]">
+                <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none select-none">
+                  <Heart className="w-32 h-32 text-pink-400" />
+                </div>
+                <div className="relative z-10 w-full mb-4">
+                  <p className="text-pink-400 text-[10px] uppercase font-black tracking-widest mb-6 flex items-center gap-2">
+                    <Heart className="w-4 h-4" /> BẠN HỢP VỚI CUNG NÀO NHẤT?
+                  </p>
+                  
+                  <div className="space-y-4 w-full">
+                    {results.topMatches.map((match, idx) => (
+                      <div key={idx} className="bg-black/30 w-full p-4 rounded-2xl border border-white/5 flex items-center justify-between hover:border-pink-500/20 cursor-default transition-colors">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-pink-500/20 flex items-center justify-center font-black text-pink-300 border border-pink-500/30 shadow-[0_0_10px_rgba(236,72,153,0.2)]">
+                            #{idx + 1}
+                          </div>
+                          <div>
+                            <p className="text-white font-bold text-lg leading-tight">{match.name}</p>
+                            <p className="text-[9px] text-gray-400 uppercase tracking-widest">{match.english_name}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">{match.match_score}%</p>
+                          <p className="text-[8px] text-gray-500 uppercase tracking-widest">Độ Hợp</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="relative z-10 mt-6 pt-5 border-t border-pink-500/20 w-full flex justify-center">
+                  <Link 
+                    to="/zodiac-match" 
+                    className="flex items-center gap-2 text-pink-400 text-[10px] font-black uppercase tracking-widest hover:text-pink-300 transition-colors group-hover:gap-3"
+                  >
+                    So Khớp Chi Tiết <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
               </div>

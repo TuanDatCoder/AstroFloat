@@ -54,10 +54,40 @@ export const numerologyService = {
     return grid;
   },
 
+  // Helper mới để parse date an toàn vì Date.parse có thể chạy khác nhau trên các trình duyệt
+  parseDate(dateString) {
+    if (!dateString) return null;
+    if (dateString instanceof Date) return dateString;
+
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        // Thử parse nếu là format VN DD/MM/YYYY hoặc DD-MM-YYYY
+        const parts = dateString.split(/[\/\-]/);
+        if (parts.length === 3) {
+            // Giả định nếu parts[2] có 4 chữ số thì đó là năm (DD/MM/YYYY)
+            if (parts[2].length === 4) {
+               const day = parseInt(parts[0], 10);
+               const month = parseInt(parts[1], 10) - 1;
+               const year = parseInt(parts[2], 10);
+               const d2 = new Date(year, month, day);
+               if (!isNaN(d2.getTime())) return d2;
+            } else if (parts[0].length === 4) { // YYYY/MM/DD
+                const year = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1;
+                const day = parseInt(parts[2], 10);
+                const d2 = new Date(year, month, day);
+                if (!isNaN(d2.getTime())) return d2;
+            }
+        }
+        return null;
+    }
+    return date;
+  },
+
   calculatePinnacles(dateString) {
     if (!dateString) return null;
-    const date = new Date(dateString);
-    if (isNaN(date)) return null;
+    const date = this.parseDate(dateString);
+    if (!date) return null;
 
     const reduceDigit = (n) => {
       let s = n.toString().split('').reduce((acc, curr) => acc + parseInt(curr, 10), 0);
@@ -94,14 +124,78 @@ export const numerologyService = {
   },
 
   async getAllPinnacles() {
-    const { data, error } = await supabase.from('pinnacle_numerology').select('*').order('number', { ascending: true });
+    const { data, error } = await supabase.from(TABLES.PINNACLE_DETAILS).select('*').order('pinnacle_number', { ascending: true });
     if (error) throw error;
     return data;
   },
 
   async getPinnacleByNumber(number) {
-    const { data, error } = await supabase.from('pinnacle_numerology').select('*').eq('number', number).maybeSingle();
+    const { data, error } = await supabase.from(TABLES.PINNACLE_DETAILS).select('*').eq('pinnacle_number', number);
     if (error) throw error;
-    return data;
+    if (!data || data.length === 0) return null;
+
+    let combinedContent = "";
+    data.forEach(item => {
+      combinedContent += `[${item.topic.toUpperCase()}]\n${item.title}\n${item.content}\n\n`;
+    });
+
+    return {
+      number: number,
+      title: `Năng Lượng Đỉnh Cao Số ${number}`,
+      content: combinedContent.trim(),
+      advice: "Hãy giữ tinh thần cởi mở và tin tưởng vào kế hoạch của vũ trụ dành cho bạn trong giai đoạn này."
+    };
+  },
+
+  // Lấy các đỉnh cao cho User và đồng bộ lên Database
+  async getPinnaclesForUser(userId, dob) {
+    if (!dob) return null;
+    const calculated = this.calculatePinnacles(dob);
+    if (!calculated || !userId) return calculated;
+
+    try {
+      const date = this.parseDate(dob);
+      const birthYear = date ? date.getFullYear() : 2000;
+      
+      const rowsToUpsert = calculated.map((p, index) => {
+          let startAge = 0;
+          let endAge = 0;
+          if (p.level === 1) {
+              startAge = 0;
+              endAge = p.age;
+          } else if (p.level === 2) {
+              startAge = calculated[0].age;
+              endAge = p.age;
+          } else if (p.level === 3) {
+              startAge = calculated[1].age;
+              endAge = p.age;
+          } else if (p.level === 4) {
+              startAge = calculated[2].age;
+              endAge = null;
+          }
+
+          return {
+              profile_id: userId,
+              pinnacle_level: p.level,
+              start_age: startAge,
+              end_age: endAge,
+              start_year: birthYear + startAge,
+              end_year: endAge !== null ? birthYear + endAge : null,
+              pinnacle_number: p.value
+          };
+      });
+
+      const { error } = await supabase
+        .from('profile_pinnacles')
+        .upsert(rowsToUpsert, { onConflict: 'profile_id, pinnacle_level' });
+
+      if (error) {
+          console.error("Lỗi khi lưu vào profile_pinnacles:", error);
+      }
+    } catch (err) {
+      console.error("Lỗi hệ thống khi cập nhật profile_pinnacles:", err);
+    }
+
+    return calculated;
   }
 };
