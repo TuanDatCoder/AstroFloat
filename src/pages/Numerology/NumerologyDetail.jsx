@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Heart, Briefcase, AlertCircle, HelpCircle, Sparkles, LayoutGrid } from 'lucide-react';
+import { ArrowLeft, Heart, Briefcase, AlertCircle, HelpCircle, Sparkles, LayoutGrid, Zap } from 'lucide-react';
+import { ROUTES } from '../../constants';
 import { numerologyService } from '../../services/numerologyService';
 import { numerologyDetailService } from '../../services/numerologyDetailService';
+import { supabase } from '../../services/supabase';
 import AdBanner from '../../components/AdBanner';
 
 // Helper component chuyển string icon_name thành icon thật
@@ -22,6 +24,8 @@ export default function NumerologyDetail() {
   const [details, setDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [pinnacles, setPinnacles] = useState(null);
+  const [dob, setDob] = useState(() => localStorage.getItem('astrofloat_dob') || '');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,9 +36,15 @@ export default function NumerologyDetail() {
         const numData = await numerologyService.getNumerologyByNumber(number);
         setNumerology(numData);
 
-        // Lấy các bài viết chi tiết
         const detailsData = await numerologyDetailService.getDetailsByNumber(number);
         setDetails(detailsData || []);
+
+        // Lấy 4 đỉnh cao nếu có DOB
+        if (dob) {
+          const { data: { session } } = await supabase.auth.getSession();
+          const pData = await numerologyService.getPinnaclesForUser(session?.user?.id, dob);
+          setPinnacles(pData);
+        }
 
       } catch (err) {
         console.error("Lỗi lấy dữ liệu chi tiết:", err);
@@ -68,6 +78,60 @@ export default function NumerologyDetail() {
       </div>
     );
   }
+
+  // Trình bày 4 đỉnh cao (Pinnacles)
+  const renderPinnacles = (pinnacles) => {
+    if (!pinnacles) return null;
+    return (
+      <div className="relative w-full max-w-[320px] aspect-[4/3] mx-auto mt-12 mb-8">
+        {/* SVG lines connecting the peaks */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 200 150">
+          <defs>
+            <linearGradient id="lineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="rgba(168, 85, 247, 0.5)" />
+              <stop offset="100%" stopColor="rgba(168, 85, 247, 0)" />
+            </linearGradient>
+          </defs>
+          <line x1="50" y1="120" x2="75" y2="80" stroke="url(#lineGrad)" strokeWidth="1" />
+          <line x1="100" y1="120" x2="75" y2="80" stroke="url(#lineGrad)" strokeWidth="1" />
+          <line x1="100" y1="120" x2="125" y2="80" stroke="url(#lineGrad)" strokeWidth="1" />
+          <line x1="150" y1="120" x2="125" y2="80" stroke="url(#lineGrad)" strokeWidth="1" />
+          <line x1="75" y1="80" x2="100" y2="30" stroke="url(#lineGrad)" strokeWidth="2" strokeDasharray="4 2" />
+          <line x1="125" y1="80" x2="100" y2="30" stroke="url(#lineGrad)" strokeWidth="2" strokeDasharray="4 2" />
+        </svg>
+
+        {/* Level 3: Đỉnh 3 */}
+        <Link to={ROUTES.PINNACLE_DETAIL(pinnacles[2].value)} className="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center group cursor-pointer z-20">
+           <div className="w-14 h-14 rounded-full bg-purple-500/20 border-2 border-purple-400 flex items-center justify-center text-white font-black shadow-[0_0_20px_rgba(168,85,247,0.5)] bg-slate-900 group-hover:scale-110 group-hover:bg-purple-500 transition-all">
+            {pinnacles[2].value}
+          </div>
+          <span className="text-[10px] font-bold text-purple-300 mt-2 bg-slate-950/80 px-3 py-0.5 rounded-full border border-purple-500/20">Đỉnh 3: {pinnacles[2].age}t</span>
+        </Link>
+
+        {/* Level 2: Đỉnh 1 & 2 */}
+        <Link to={ROUTES.PINNACLE_DETAIL(pinnacles[0].value)} className="absolute top-20 left-[10%] flex flex-col items-center group cursor-pointer z-20">
+           <div className="w-12 h-12 rounded-full bg-slate-800 border border-purple-400/50 flex items-center justify-center text-purple-200 font-bold group-hover:bg-purple-500 transition-all">
+            {pinnacles[0].value}
+          </div>
+          <span className="text-[9px] font-bold text-purple-400 mt-1">Đỉnh 1: {pinnacles[0].age}t</span>
+        </Link>
+        <Link to={ROUTES.PINNACLE_DETAIL(pinnacles[1].value)} className="absolute top-20 right-[10%] flex flex-col items-center group cursor-pointer z-20">
+           <div className="w-12 h-12 rounded-full bg-slate-800 border border-purple-400/50 flex items-center justify-center text-purple-200 font-bold group-hover:bg-purple-500 transition-all">
+            {pinnacles[1].value}
+          </div>
+          <span className="text-[9px] font-bold text-purple-400 mt-1">Đỉnh 2: {pinnacles[1].age}t</span>
+        </Link>
+
+        {/* Level 4: Đỉnh 4 */}
+        <Link to={ROUTES.PINNACLE_DETAIL(pinnacles[3].value)} className="absolute top-[-20px] right-[-10px] flex flex-col items-center group cursor-pointer z-20">
+           <div className="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-200 font-bold bg-slate-900 group-hover:bg-amber-500 transition-all">
+            {pinnacles[3].value}
+          </div>
+          <span className="text-[8px] font-bold text-amber-400 mt-1 uppercase tracking-tighter">Đỉnh 4 ({pinnacles[3].age}t+)</span>
+        </Link>
+      </div>
+    );
+  };
 
   return (
     <div className="flex flex-col items-center pt-8 pb-20 px-6 relative z-10 w-full max-w-5xl mx-auto">
@@ -161,6 +225,35 @@ export default function NumerologyDetail() {
           </div>
         )}
       </div>
+
+      {/* 4 Đỉnh Cao Section */}
+      {pinnacles && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="w-full mt-20 pt-16 border-t border-white/5"
+        >
+          <div className="flex flex-col items-center text-center mb-12">
+            <div className="w-12 h-12 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-4 border border-purple-500/30">
+              <Zap className="w-6 h-6 text-purple-400" />
+            </div>
+            <h2 className="text-3xl font-black text-white mb-2 uppercase tracking-tighter">4 Đỉnh Cao Cuộc Đời</h2>
+            <p className="text-gray-500 text-sm max-w-lg">Khám phá chu kỳ thành công và các giai đoạn chuyển mình quan trọng dựa trên ngày sinh của bạn.</p>
+          </div>
+
+          <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-[3rem] p-10 md:p-16 flex flex-col items-center shadow-inner">
+            {renderPinnacles(pinnacles)}
+            
+            <Link 
+                to={`${ROUTES.PINNACLE_ANALYSIS}?dob=${dob}`} 
+                className="mt-10 px-8 py-3 bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 rounded-xl text-purple-300 font-bold text-xs uppercase tracking-[0.2em] transition-all flex items-center gap-2"
+            >
+                Phân tích chu kỳ chi tiết <Sparkles className="w-4 h-4" />
+            </Link>
+          </div>
+        </motion.div>
+      )}
 
       {/* Google Ads Placement */}
       <AdBanner slot="horizontal" className="w-full mt-16" />
