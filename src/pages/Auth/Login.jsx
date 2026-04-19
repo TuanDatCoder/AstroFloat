@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Mail, Lock, UserCircle, LogIn, Eye, EyeOff } from 'lucide-react';
 import { authService } from '../../services/authService';
 import { ROUTES } from '../../constants';
 
 export default function Login() {
  const navigate = useNavigate();
+ const location = useLocation();
  const [loading, setLoading] = useState(false);
  const [error, setError] = useState(null);
  const [showPassword, setShowPassword] = useState(false);
@@ -29,8 +30,22 @@ export default function Login() {
  const data = await authService.login(formData.email, formData.password);
 
  if (data?.user) {
- // Đăng nhập thành công, chuyển hướng về trang chủ
- navigate('/');
+ // Lấy profile để kiểm tra role
+ try {
+ const profile = await authService.getUserProfile(data.user.id);
+ const from = location.state?.from?.pathname;
+ 
+ if (profile?.role === 'ADMIN') {
+ navigate('/admin', { replace: true });
+ } else if (from) {
+ navigate(from, { replace: true });
+ } else {
+ navigate('/', { replace: true });
+ }
+ } catch (profileErr) {
+ // Nếu không lấy được profile, vẫn cho vào Home
+ navigate('/', { replace: true });
+ }
  }
  } catch (err) {
  console.error(err);

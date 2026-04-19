@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Sparkles, ArrowRight, BookOpen, User, Calculator } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { nameNumerologyService } from '../../services/nameNumerologyService';
+import { supabase } from '../../services/supabase';
+import { authService } from '../../services/authService';
 
 const containerVariants = {
  hidden: { opacity: 0 },
@@ -28,17 +30,41 @@ export default function NameNumerology() {
  const navigate = useNavigate();
 
  useEffect(() => {
- async function fetchData() {
- try {
- const data = await nameNumerologyService.getAllNameNumerologies();
- setNumbers(data || []);
- } catch (err) {
- console.error(err);
- } finally {
- setLoading(false);
- }
- }
- fetchData();
+   async function fetchData() {
+     try {
+       const data = await nameNumerologyService.getAllNameNumerologies();
+       setNumbers(data || []);
+     } catch (err) {
+       console.error(err);
+     } finally {
+       setLoading(false);
+     }
+   }
+   fetchData();
+
+   supabase.auth.getSession().then(async ({ data }) => {
+     if (data.session?.user) {
+       try {
+         const profile = await authService.getUserProfile(data.session.user.id);
+         if (!localStorage.getItem('astrofloat_name') && profile.birth_name) {
+           setName(profile.birth_name);
+         }
+       } catch(e) {}
+     }
+   });
+
+   const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, currentSession) => {
+     if (currentSession?.user) {
+       try {
+         const profile = await authService.getUserProfile(currentSession.user.id);
+         if (!localStorage.getItem('astrofloat_name') && profile.birth_name) {
+           setName(profile.birth_name);
+         }
+       } catch(e) {}
+     }
+   });
+
+   return () => subscription.unsubscribe();
  }, []);
 
  const handleSearch = () => {

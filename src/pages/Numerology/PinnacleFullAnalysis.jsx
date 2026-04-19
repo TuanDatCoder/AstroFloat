@@ -10,20 +10,23 @@ const formatContent = (text) => {
   // Regex to split by [TAG] and keep the tag in the result array
   const parts = text.split(/(\[.*?\])/g);
   
-  return parts.filter(p => p.trim() !== '').map((part, index) => {
+  return parts.filter(p => p && p.trim() !== '').map((part, index) => {
     const match = part.match(/^\[(.*?)\]$/);
     if (match) {
       return (
-        <div key={index} className="mt-5 first:mt-0 mb-2 flex items-center gap-3">
-          <span className="text-indigo-300 font-black text-[10px] uppercase tracking-[0.2em] whitespace-nowrap">
-            {match[1]}
-          </span>
-          <div className="h-px bg-indigo-500/20 flex-1" />
+        <div key={index} className="mt-6 first:mt-0 mb-3 flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_5px_rgba(99,102,241,0.5)]" />
+            <span className="text-indigo-300 font-black text-[10px] uppercase tracking-[0.2em] whitespace-nowrap">
+              {match[1]}
+            </span>
+          </div>
+          <div className="h-px bg-gradient-to-r from-indigo-500/20 to-transparent flex-1" />
         </div>
       );
     }
     return (
-      <p key={index} className="text-gray-400 text-sm font-light leading-relaxed mb-4 last:mb-0">
+      <p key={index} className="text-gray-400 text-sm font-light leading-relaxed mb-4 last:mb-0 border-l border-white/5 pl-3">
         {part.trim()}
       </p>
     );

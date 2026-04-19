@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { TABLES } from '../constants';
+import { TABLES, FIELD_ZODIAC_SIGNS } from '../constants';
 
 export const zodiacService = {
  async getAllZodiacs() {
@@ -9,7 +9,7 @@ export const zodiacService = {
  },
 
  async getZodiacById(id) {
- const { data, error } = await supabase.from(TABLES.ZODIAC_SIGNS).select('*').eq('id', id).single();
+ const { data, error } = await supabase.from(TABLES.ZODIAC_SIGNS).select('*').eq(FIELD_ZODIAC_SIGNS.ID, id).single();
  if (error) throw error;
  return data;
  },
@@ -26,20 +26,38 @@ export const zodiacService = {
  const d = date.getDate();
 
  for (const z of zodiacs) {
- if (!z.start_month || !z.end_month || !z.start_day || !z.end_day) continue;
+ if (!z[FIELD_ZODIAC_SIGNS.START_MONTH] || !z[FIELD_ZODIAC_SIGNS.END_MONTH] || !z[FIELD_ZODIAC_SIGNS.START_DAY] || !z[FIELD_ZODIAC_SIGNS.END_DAY]) continue;
  
  // Nếu cùng trong 1 năm (VD: 3/21 -> 4/19)
- if (z.start_month <= z.end_month) {
- if ((m === z.start_month && d >= z.start_day) || (m === z.end_month && d <= z.end_day) || (m > z.start_month && m < z.end_month)) {
- return z.id;
+ if (z[FIELD_ZODIAC_SIGNS.START_MONTH] <= z[FIELD_ZODIAC_SIGNS.END_MONTH]) {
+ if ((m === z[FIELD_ZODIAC_SIGNS.START_MONTH] && d >= z[FIELD_ZODIAC_SIGNS.START_DAY]) || (m === z[FIELD_ZODIAC_SIGNS.END_MONTH] && d <= z[FIELD_ZODIAC_SIGNS.END_DAY]) || (m > z[FIELD_ZODIAC_SIGNS.START_MONTH] && m < z[FIELD_ZODIAC_SIGNS.END_MONTH])) {
+ return z[FIELD_ZODIAC_SIGNS.ID];
  }
  } else {
  // Vắt qua năm tiếp theo (VD Ma Kết: 12/22 -> 1/19)
- if ((m === z.start_month && d >= z.start_day) || (m === z.end_month && d <= z.end_day) || (m > z.start_month) || (m < z.end_month)) {
- return z.id;
+ if ((m === z[FIELD_ZODIAC_SIGNS.START_MONTH] && d >= z[FIELD_ZODIAC_SIGNS.START_DAY]) || (m === z[FIELD_ZODIAC_SIGNS.END_MONTH] && d <= z[FIELD_ZODIAC_SIGNS.END_DAY]) || (m > z[FIELD_ZODIAC_SIGNS.START_MONTH]) || (m < z[FIELD_ZODIAC_SIGNS.END_MONTH])) {
+ return z[FIELD_ZODIAC_SIGNS.ID];
  }
  }
  }
  return null;
- }
+  },
+
+  async createZodiac(zodiacData) {
+    const { data, error } = await supabase.from(TABLES.ZODIAC_SIGNS).insert([zodiacData]).select().single();
+    if (error) throw error;
+    return data;
+  },
+
+  async updateZodiac(id, zodiacData) {
+    const { data, error } = await supabase.from(TABLES.ZODIAC_SIGNS).update(zodiacData).eq(FIELD_ZODIAC_SIGNS.ID, id).select().single();
+    if (error) throw error;
+    return data;
+  },
+
+  async deleteZodiac(id) {
+    const { error } = await supabase.from(TABLES.ZODIAC_SIGNS).delete().eq(FIELD_ZODIAC_SIGNS.ID, id);
+    if (error) throw error;
+    return true;
+  }
 };

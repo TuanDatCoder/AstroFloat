@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { TABLES } from '../constants';
+import { TABLES, FIELD_ZODIAC_MATCHES, FIELD_ZODIAC_ATTRIBUTES } from '../constants';
 
 export const zodiacMatchesService = {
  async getZodiacMatch(zodiac1Id, zodiac2Id) {
@@ -9,7 +9,7 @@ export const zodiacMatchesService = {
  const { data, error } = await supabase
  .from(TABLES.ZODIAC_MATCHES)
  .select('*')
- .or(`and(zodiac_sign_1_id.eq.${zodiac1Id},zodiac_sign_2_id.eq.${zodiac2Id}),and(zodiac_sign_1_id.eq.${zodiac2Id},zodiac_sign_2_id.eq.${zodiac1Id})`)
+ .or(`and(${FIELD_ZODIAC_MATCHES.ZODIAC_SIGN_1_ID}.eq.${zodiac1Id},${FIELD_ZODIAC_MATCHES.ZODIAC_SIGN_2_ID}.eq.${zodiac2Id}),and(${FIELD_ZODIAC_MATCHES.ZODIAC_SIGN_1_ID}.eq.${zodiac2Id},${FIELD_ZODIAC_MATCHES.ZODIAC_SIGN_2_ID}.eq.${zodiac1Id})`)
  .limit(1)
  .maybeSingle();
 
@@ -27,7 +27,7 @@ export const zodiacMatchesService = {
  const { data, error } = await supabase
  .from(TABLES.ZODIAC_ATTRIBUTES)
  .select('*, criteria:zodiac_criteria(*)')
- .eq('zodiac_id', zodiacId);
+ .eq(FIELD_ZODIAC_ATTRIBUTES.ZODIAC_ID, zodiacId);
 
  if (error) {
  console.error('Error fetching zodiac attributes:', error);
@@ -42,8 +42,8 @@ export const zodiacMatchesService = {
  const { data, error } = await supabase
  .from(TABLES.ZODIAC_MATCHES)
  .select('*')
- .or(`zodiac_sign_1_id.eq.${zodiacId},zodiac_sign_2_id.eq.${zodiacId}`)
- .order('match_score', { ascending: false })
+ .or(`${FIELD_ZODIAC_MATCHES.ZODIAC_SIGN_1_ID}.eq.${zodiacId},${FIELD_ZODIAC_MATCHES.ZODIAC_SIGN_2_ID}.eq.${zodiacId}`)
+ .order(FIELD_ZODIAC_MATCHES.MATCH_SCORE, { ascending: false })
  .limit(limit);
 
  if (error || !data) return [];
@@ -52,11 +52,11 @@ export const zodiacMatchesService = {
  const allZodiacs = await zodiacService.getAllZodiacs();
  
  return data.map(match => {
- const otherId = match.zodiac_sign_1_id === zodiacId ? match.zodiac_sign_2_id : match.zodiac_sign_1_id;
+ const otherId = match[FIELD_ZODIAC_MATCHES.ZODIAC_SIGN_1_ID] === zodiacId ? match[FIELD_ZODIAC_MATCHES.ZODIAC_SIGN_2_ID] : match[FIELD_ZODIAC_MATCHES.ZODIAC_SIGN_1_ID];
  const otherSign = allZodiacs.find(z => z.id === otherId);
  return {
  ...otherSign,
- match_score: match.match_score
+ match_score: match[FIELD_ZODIAC_MATCHES.MATCH_SCORE]
  };
  });
  },
@@ -71,5 +71,29 @@ export const zodiacMatchesService = {
  return [];
  }
  return data;
+ },
+
+ async getAllMatches() {
+ const { data, error } = await supabase.from(TABLES.ZODIAC_MATCHES).select('*, sign1:zodiac_signs!zodiac_sign_1_id(*), sign2:zodiac_signs!zodiac_sign_2_id(*)');
+ if (error) throw error;
+ return data;
+ },
+
+ async createMatch(matchData) {
+ const { data, error } = await supabase.from(TABLES.ZODIAC_MATCHES).insert([matchData]).select().single();
+ if (error) throw error;
+ return data;
+ },
+
+ async updateMatch(id, matchData) {
+ const { data, error } = await supabase.from(TABLES.ZODIAC_MATCHES).update(matchData).eq(FIELD_ZODIAC_MATCHES.ID, id).select().single();
+ if (error) throw error;
+ return data;
+ },
+
+ async deleteMatch(id) {
+ const { error } = await supabase.from(TABLES.ZODIAC_MATCHES).delete().eq(FIELD_ZODIAC_MATCHES.ID, id);
+ if (error) throw error;
+ return true;
  }
 };

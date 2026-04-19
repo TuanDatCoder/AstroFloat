@@ -184,6 +184,9 @@ export default function NumerologyDetail() {
  </div>
  </motion.div>
 
+ {/* In-Article Advertisement */}
+ <AdBanner slot="horizontal" className="mb-12 mt-4" />
+
  {/* Details Sections */}
  <div className="w-full">
  <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">

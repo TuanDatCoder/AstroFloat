@@ -1,52 +1,77 @@
 @import "tailwindcss";
 
+/* stylelint-disable-next-line */
 @theme {
- --color-slate-950: #020617;
- --color-indigo-900: #312e81;
- --color-purple-900: #581c87;
+  --color-slate-950: #020617;
+  --color-indigo-900: #312e81;
+  --color-purple-900: #581c87;
 }
 
 body {
- margin: 0;
- font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
- background-color: #020617;
- color: #f8fafc;
+  margin: 0;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #020617;
+  color: #f8fafc;
+}
+
+/* ==========================================
+   CUSTOM SCROLLBAR
+   ========================================== */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px; /* Siêu mỏng */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05); /* Mặc định mờ */
+  border-radius: 10px;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3); /* Hiện màu indigo khi hover sidebar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.6); /* Hiện rõ hơn khi rê chuột vào thanh cuộn */
 }
 
 /* === Ngôi sao background - chạy hoàn toàn trên GPU, không block scroll === */
 @keyframes star-float {
- 0% { transform: translate(0, 0); opacity: 0.1; }
- 50% { transform: translate(var(--move-x, 0px), -110px); opacity: 0.65; }
- 100% { transform: translate(0, 0); opacity: 0.1; }
+  0% { transform: translate(0, 0); opacity: 0.1; }
+  50% { transform: translate(var(--move-x, 0px), -110px); opacity: 0.65; }
+  100% { transform: translate(0, 0); opacity: 0.1; }
 }
 
 .star-particle {
- position: absolute;
- border-radius: 9999px;
- background-color: rgb(207 250 254); /* cyan-100 */
- animation: star-float var(--dur, 14s) var(--delay, 0s) infinite ease-in-out;
- /* Đưa hoàn toàn lên GPU compositor layer */
- will-change: transform, opacity;
+  position: absolute;
+  border-radius: 9999px;
+  background-color: rgb(207 250 254); /* cyan-100 */
+  animation: star-float var(--dur, 14s) var(--delay, 0s) infinite ease-in-out;
+  /* Đưa hoàn toàn lên GPU compositor layer */
+  will-change: transform, opacity;
 }
 
 /* === Các thẻ lơ lửng - chạy hoàn toàn trên GPU, không block javascript khi scroll === */
 @keyframes card-float {
- 0% { transform: translateY(-4px); }
- 50% { transform: translateY(4px); }
- 100% { transform: translateY(-4px); }
+  0% { transform: translateY(-4px); }
+  50% { transform: translateY(4px); }
+  100% { transform: translateY(-4px); }
 }
 
 .float-card-0 {
- animation: card-float 6s ease-in-out infinite;
- will-change: transform;
+  animation: card-float 6s ease-in-out infinite;
+  will-change: transform;
 }
 .float-card-1 {
- animation: card-float 7s ease-in-out infinite;
- animation-delay: 0.5s;
- will-change: transform;
+  animation: card-float 7s ease-in-out infinite;
+  animation-delay: 0.5s;
+  will-change: transform;
 }
 .float-card-2 {
- animation: card-float 8s ease-in-out infinite;
- animation-delay: 1s;
- will-change: transform;
+  animation: card-float 8s ease-in-out infinite;
+  animation-delay: 1s;
+  will-change: transform;
 }

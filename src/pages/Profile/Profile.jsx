@@ -77,11 +77,11 @@ export default function Profile() {
 
  if (zid) {
  console.log("Loading zodiac for ID:", zid);
- const { data, error: zError } = await supabase
- .from(TABLES.ZODIAC_SIGNS)
- .select('name, element, english_name')
- .eq('id', zid)
- .maybeSingle();
+        const { data, error: zError } = await supabase
+        .from(TABLES.ZODIAC_SIGNS)
+        .select('*')
+        .eq('id', zid)
+        .maybeSingle();
  
  if (data) setZodiacSign(data);
  else if (zError) console.error("Lỗi fetch zodiac:", zError);
@@ -310,8 +310,12 @@ export default function Profile() {
  <span className="text-[10px] text-gray-500 font-medium italic">Nguyên tố: {zodiacSign.element}</span>
  </div>
  </div>
- <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/10 to-transparent border border-amber-500/20 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:bg-amber-500 transition-all group-hover:text-black">
- ⭐
+ <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/5 to-amber-500/20 border border-amber-500/20 flex items-center justify-center overflow-hidden shadow-[0_0_15px_rgba(245,158,11,0.2)] group-hover:scale-105 transition-all">
+ {zodiacSign.image_url ? (
+ <img src={zodiacSign.image_url} alt={zodiacSign.name} className="w-full h-full object-cover filter brightness-110" />
+ ) : (
+ <span className="text-3xl">⭐</span>
+ )}
  </div>
  </Link>
  <Link 
