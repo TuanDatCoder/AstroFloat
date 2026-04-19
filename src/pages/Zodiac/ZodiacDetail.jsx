@@ -58,7 +58,7 @@ export default function ZodiacDetail() {
   if (error || !zodiac) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] z-10 relative px-6">
-        <p className="text-red-400 mb-8 bg-red-950/40 px-6 py-3 rounded-xl border border-red-500/20 backdrop-blur-md">
+        <p className="text-red-400 mb-8 bg-red-950/40 px-6 py-3 rounded-xl border border-red-500/20 ">
           {error ? `Lỗi: ${error}` : `Không tìm thấy chòm sao này`}
         </p>
         <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-cyan-300 hover:text-cyan-200 transition-colors cursor-pointer">
@@ -72,9 +72,9 @@ export default function ZodiacDetail() {
     <div className="flex flex-col items-center pt-8 pb-20 px-6 relative z-10 w-full max-w-5xl mx-auto">
       <div className="w-full mb-10 flex justify-start">
         <button onClick={() => navigate(-1)} className="cursor-pointer">
-          <motion.div 
+          <motion.div
             whileHover={{ x: -5 }}
-            className="flex items-center gap-2 text-gray-400 hover:text-cyan-300 transition-colors bg-white/5 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md"
+            className="flex items-center gap-2 text-gray-400 hover:text-cyan-300 transition-colors bg-white/5 px-4 py-2 rounded-full border border-white/10 "
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="text-sm font-medium">Trở về</span>
@@ -87,23 +87,23 @@ export default function ZodiacDetail() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
-        className="w-full bg-gradient-to-b from-cyan-900/40 to-slate-900/60 backdrop-blur-xl border border-cyan-500/20 rounded-[3rem] p-8 md:p-16 mb-16 relative overflow-hidden shadow-2xl shadow-cyan-900/20"
+        className="w-full bg-gradient-to-b from-cyan-900/40 to-slate-900/60 border border-cyan-500/20 rounded-[3rem] p-8 md:p-16 mb-16 relative overflow-hidden shadow-2xl shadow-cyan-900/20"
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0">
           <span className="text-[120px] md:text-[250px] font-black leading-none uppercase text-white/5 opacity-50 tracking-tighter">
             {zodiac.english_name || zodiac.name}
           </span>
         </div>
-        
+
         <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-10">
           <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-[2rem] md:rounded-[2.5rem] flex items-center justify-center border-4 border-cyan-500/30 shadow-[0_0_30px_rgba(34,211,238,0.3)] overflow-hidden">
-             {zodiac.image_url ? (
-               <img src={zodiac.image_url} alt={zodiac.name} className="w-full h-full object-cover" />
-             ) : (
-               <Sun className="w-16 h-16 md:w-20 md:h-20 text-cyan-200 drop-shadow-md" />
-             )}
+            {zodiac.image_url ? (
+              <img src={zodiac.image_url} alt={zodiac.name} className="w-full h-full object-cover" />
+            ) : (
+              <Sun className="w-16 h-16 md:w-20 md:h-20 text-cyan-200 drop-shadow-md" />
+            )}
           </div>
-          
+
           <div className="text-center md:text-left flex-1">
             <span className="inline-block py-1.5 px-4 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-300 text-xs font-semibold tracking-[0.25em] mb-4 uppercase">
               {zodiac.english_name || 'ZODIAC SIGN'}
@@ -118,10 +118,10 @@ export default function ZodiacDetail() {
                 <span className="text-cyan-400/80 font-medium text-lg">({zodiac.start_day}/{zodiac.start_month} - {zodiac.end_day}/{zodiac.end_month})</span>
               ) : null}
             </div>
-            
+
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
-              {zodiac.element && <span className="px-3 py-1 bg-cyan-900/40 text-cyan-200 text-sm rounded-lg border border-cyan-500/20">Nguyên tố: {zodiac.element}</span>}
-              {zodiac.modality && <span className="px-3 py-1 bg-indigo-900/40 text-indigo-200 text-sm rounded-lg border border-indigo-500/20">Tính chất: {zodiac.modality}</span>}
+              {zodiac.element && <span className="px-3 py-1 bg-cyan-900/70 text-cyan-200 text-sm rounded-lg border border-cyan-500/20">Nguyên tố: {zodiac.element}</span>}
+              {zodiac.modality && <span className="px-3 py-1 bg-indigo-900/70 text-indigo-200 text-sm rounded-lg border border-indigo-500/20">Tính chất: {zodiac.modality}</span>}
               {zodiac.ruling_planet && <span className="px-3 py-1 bg-blue-900/40 text-blue-200 text-sm rounded-lg border border-blue-500/20">Hành tinh: {zodiac.ruling_planet}</span>}
             </div>
 
@@ -152,17 +152,17 @@ export default function ZodiacDetail() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.15 }}
-                className="bg-slate-900/60 backdrop-blur-lg border border-cyan-500/10 rounded-3xl p-8 hover:bg-slate-900/80 transition-colors relative overflow-hidden"
+                className="bg-slate-900/80 border border-cyan-500/10 rounded-3xl p-8 hover:bg-slate-900/80 transition-colors relative overflow-hidden"
               >
                 {detail.is_premium && (
                   <div className="absolute top-0 right-0 bg-gradient-to-r from-amber-500 to-yellow-400 text-black text-[10px] font-bold px-3 py-1 rounded-bl-xl shadow-lg">
                     PREMIUM
                   </div>
                 )}
-                
+
                 <div className="flex items-center gap-4 mb-6">
                   <div className="p-3 bg-cyan-500/10 rounded-xl border border-cyan-500/20">
-                     {getTopicIcon(detail.topic, "w-6 h-6 text-cyan-400")}
+                    {getTopicIcon(detail.topic, "w-6 h-6 text-cyan-400")}
                   </div>
                   <div>
                     <span className="text-[10px] uppercase tracking-widest text-cyan-400 font-bold block mb-1">
@@ -171,7 +171,7 @@ export default function ZodiacDetail() {
                     <h3 className="text-xl font-bold text-white pr-6">{detail.title}</h3>
                   </div>
                 </div>
-                
+
                 <p className="text-slate-300 leading-relaxed font-light">
                   {detail.is_premium ? (
                     <span className="filter blur-[3px] select-none block">
@@ -181,9 +181,9 @@ export default function ZodiacDetail() {
                 </p>
 
                 {detail.is_premium && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-slate-900/40 backdrop-blur-[1px] opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+                  <div className="absolute inset-0 flex items-center justify-center bg-slate-900/70 -[1px] opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
                     <button className="px-6 py-2 bg-gradient-to-r from-yellow-500 to-amber-600 rounded-full font-bold text-sm shadow-xl flex items-center gap-2">
-                       <Sparkles className="w-4 h-4" /> Mở khóa ngay
+                      <Sparkles className="w-4 h-4" /> Mở khóa ngay
                     </button>
                   </div>
                 )}

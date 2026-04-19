@@ -1,56 +1,63 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import AdBanner from './AdBanner';
 
+// Tạo dữ liệu sao 1 lần duy nhất ngoài component — không tính lại mỗi lần render
+const STAR_DATA = Array.from({ length: 35 }, (_, i) => ({
+ id: i,
+ width: Math.random() * 2.5 + 0.8,
+ left: Math.random() * 100,
+ top: Math.random() * 100,
+ duration: Math.random() * 12 + 8,
+ delay: Math.random() * -20, // negative delay = bắt đầu giữa chừng, trông tự nhiên hơn
+ moveX: (Math.random() - 0.5) * 40,
+}));
+
 export default function Layout() {
-  return (
-    <div className="min-h-screen bg-[#0B0F19] text-white overflow-hidden relative font-sans flex flex-col">
-      
-      {/* Hiệu ứng các vì sao bay lơ lửng background (Anti-gravity) - Dùng chung */}
-      <div className="absolute inset-0 z-0 pointer-events-none fixed">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-[#0B0F19] to-[#0B0F19]"></div>
-        
-        {[...Array(35)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute bg-cyan-100 rounded-full opacity-30"
-            style={{ 
-              width: Math.random() * 3 + 1, 
-              height: Math.random() * 3 + 1,
-              left: `${Math.random() * 100}%`, 
-              top: `${Math.random() * 100}%` 
-            }}
-            animate={{ 
-              y: [0, -120, 0], 
-              x: [0, (Math.random() - 0.5) * 50, 0],
-              opacity: [0.1, 0.7, 0.1] 
-            }}
-            transition={{ 
-              duration: Math.random() * 12 + 8, 
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
-      </div>
+ // useMemo đảm bảo DOM nodes chỉ tính 1 lần, không bao giờ gây re-render
+ const stars = useMemo(() =>
+ STAR_DATA.map((s) => (
+ <div
+ key={s.id}
+ className="star-particle"
+ style={{
+ width: s.width,
+ height: s.width,
+ left: `${s.left}%`,
+ top: `${s.top}%`,
+ '--dur': `${s.duration}s`,
+ '--delay': `${s.delay}s`,
+ '--move-x': `${s.moveX}px`,
+ }}
+ />
+ )),
+ []);
 
-      {/* Header tách riêng */}
-      <Header />
+ return (
+ <div className="min-h-screen bg-[#0B0F19] text-white overflow-x-hidden relative font-sans flex flex-col">
+ 
+ {/* Hiệu ứng các vì sao bay lơ lửng background - Pure CSS, không block JS */}
+ <div className="fixed inset-0 z-0 pointer-events-none">
+ <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-[#0B0F19] to-[#0B0F19]"></div>
+ {stars}
+ </div>
 
-      {/* Vùng chứa nội dung trang con (Outlet) */}
-      <main className="relative z-10 flex-grow">
-        <Outlet />
-      </main>
+ {/* Header tách riêng */}
+ <Header />
 
-      {/* Global Ad Placement before Footer */}
-      <AdBanner className="mt-20 -mb-10" />
+ {/* Vùng chứa nội dung trang con (Outlet) */}
+ <main className="relative z-10 flex-grow">
+ <Outlet />
+ </main>
 
-      {/* Footer tách riêng */}
-      <Footer />
-      
-    </div>
-  );
+ {/* Global Ad Placement before Footer */}
+ <AdBanner className="mt-20 -mb-10" />
+
+ {/* Footer tách riêng */}
+ <Footer />
+ 
+ </div>
+ );
 }
