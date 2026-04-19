@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { TABLES } from '../constants';
+import { TABLES, FIELD_NAME_NUMEROLOGY, FIELD_NAME_NUMEROLOGY_DETAILS, FIELD_NAME_ADVANCED_METRICS } from '../constants';
 
 export const nameNumerologyService = {
  // Bản đồ mặc định theo Pythagoras nếu bảng letter_mapping trống
@@ -99,7 +99,7 @@ export const nameNumerologyService = {
  const { data, error } = await supabase
  .from(TABLES.NAME_NUMEROLOGIES)
  .select('*')
- .eq('number', number)
+ .eq(FIELD_NAME_NUMEROLOGY.NUMBER, number)
  .maybeSingle();
  
  if (error) throw error;
@@ -110,7 +110,7 @@ export const nameNumerologyService = {
  const { data, error } = await supabase
  .from(TABLES.NAME_NUMEROLOGY_DETAILS)
  .select('*')
- .eq('number', number);
+ .eq(FIELD_NAME_NUMEROLOGY_DETAILS.NUMBER, number);
  
  if (error) throw error;
  return data;
@@ -120,7 +120,7 @@ export const nameNumerologyService = {
  const { data, error } = await supabase
  .from(TABLES.NAME_NUMEROLOGIES)
  .select('*')
- .order('number', { ascending: true });
+ .order(FIELD_NAME_NUMEROLOGY.NUMBER, { ascending: true });
  
  if (error) throw error;
  return data;
@@ -131,14 +131,14 @@ export const nameNumerologyService = {
  
  // Tạo mảng các điều kiện or
  const conditions = [
- `and(metric_type.eq.LINH_HON,number.eq.${soulNum})`,
- `and(metric_type.eq.NHAN_CACH,number.eq.${personalityNum})`,
- `and(metric_type.eq.CAN_BANG,number.eq.${balanceNum})`
+ `and(${FIELD_NAME_ADVANCED_METRICS.METRIC_TYPE}.eq.LINH_HON,${FIELD_NAME_ADVANCED_METRICS.NUMBER}.eq.${soulNum})`,
+ `and(${FIELD_NAME_ADVANCED_METRICS.METRIC_TYPE}.eq.NHAN_CACH,${FIELD_NAME_ADVANCED_METRICS.NUMBER}.eq.${personalityNum})`,
+ `and(${FIELD_NAME_ADVANCED_METRICS.METRIC_TYPE}.eq.CAN_BANG,${FIELD_NAME_ADVANCED_METRICS.NUMBER}.eq.${balanceNum})`
  ];
 
  if (karmicNums && karmicNums.length > 0) {
  karmicNums.forEach(num => {
- conditions.push(`and(metric_type.eq.CHI_SO_THIEU,number.eq.${num})`);
+ conditions.push(`and(${FIELD_NAME_ADVANCED_METRICS.METRIC_TYPE}.eq.CHI_SO_THIEU,${FIELD_NAME_ADVANCED_METRICS.NUMBER}.eq.${num})`);
  });
  }
 
@@ -154,10 +154,10 @@ export const nameNumerologyService = {
 
  // Tổ chức lại dữ liệu
  const result = {
- soul: data.find(m => m.metric_type === 'LINH_HON' && m.number === soulNum),
- personality: data.find(m => m.metric_type === 'NHAN_CACH' && m.number === personalityNum),
- balance: data.find(m => m.metric_type === 'CAN_BANG' && m.number === balanceNum),
- karmic: data.filter(m => m.metric_type === 'CHI_SO_THIEU')
+ soul: data.find(m => m[FIELD_NAME_ADVANCED_METRICS.METRIC_TYPE] === 'LINH_HON' && m[FIELD_NAME_ADVANCED_METRICS.NUMBER] === soulNum),
+ personality: data.find(m => m[FIELD_NAME_ADVANCED_METRICS.METRIC_TYPE] === 'NHAN_CACH' && m[FIELD_NAME_ADVANCED_METRICS.NUMBER] === personalityNum),
+ balance: data.find(m => m[FIELD_NAME_ADVANCED_METRICS.METRIC_TYPE] === 'CAN_BANG' && m[FIELD_NAME_ADVANCED_METRICS.NUMBER] === balanceNum),
+ karmic: data.filter(m => m[FIELD_NAME_ADVANCED_METRICS.METRIC_TYPE] === 'CHI_SO_THIEU')
  };
 
  return result;

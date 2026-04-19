@@ -4,6 +4,8 @@ import { Heart, Sparkles, X, Info, Zap, Calendar, User, ArrowRight } from 'lucid
 import * as Icons from 'lucide-react';
 import { zodiacService } from '../../services/zodiacService';
 import { zodiacMatchesService } from '../../services/zodiacMatchesService';
+import { supabase } from '../../services/supabase';
+import { authService } from '../../services/authService';
 import { ZODIAC_CATEGORIES } from '../../constants';
 
 const containerVariants = {
@@ -78,6 +80,30 @@ export default function ZodiacMatch() {
 
  useEffect(() => {
  zodiacService.getAllZodiacs().then(data => setAllZodiacs(data || []));
+
+ const loadUserData = async (currentSession) => {
+   if (currentSession?.user) {
+     try {
+       const profile = await authService.getUserProfile(currentSession.user.id);
+       if (profile) {
+         if (!sessionStorage.getItem('astro_match_dob1') && profile.birth_date) {
+           setDob1(profile.birth_date.substring(0, 10));
+         }
+         if (!sessionStorage.getItem('astro_match_sign1') && profile.sun_sign_id) {
+           setSign1Id(profile.sun_sign_id.toString());
+         }
+       }
+     } catch(e) {}
+   }
+ };
+
+ supabase.auth.getSession().then(({ data }) => loadUserData(data.session));
+
+ const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, currentSession) => {
+   loadUserData(currentSession);
+ });
+
+ return () => subscription.unsubscribe();
  }, []);
 
  const [dob1, setDob1] = useState(() => sessionStorage.getItem('astro_match_dob1') || '');

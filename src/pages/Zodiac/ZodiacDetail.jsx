@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, BookOpen, Moon, Briefcase, Heart, Sparkles, LayoutGrid, Sun } from 'lucide-react';
 import { zodiacService } from '../../services/zodiacService';
 import { zodiacDetailService } from '../../services/zodiacDetailService';
+import AdBanner from '../../components/AdBanner';
 
 // Helper component chọn icon dựa theo chủ đề (topic) do bảng zodiac_details không có icon_name
 const getTopicIcon = (topic, className) => {
@@ -131,6 +132,9 @@ export default function ZodiacDetail() {
           </div>
         </div>
       </motion.div>
+
+      {/* Tích hợp quảng cáo sau phần giới thiệu tổng quan */}
+      <AdBanner slot="horizontal" className="mb-12 mt-4" />
 
       {/* Details Sections */}
       <div className="w-full">

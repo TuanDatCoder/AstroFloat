@@ -4,6 +4,7 @@ import { Sparkles, Moon, Sun, ArrowRight, Database, X } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { zodiacService } from '../../services/zodiacService';
 import { supabase } from '../../services/supabase';
+import { authService } from '../../services/authService';
 import { Lock } from 'lucide-react';
 
 const containerVariants = {
@@ -50,9 +51,27 @@ export default function Zodiac() {
 
  useEffect(() => {
  fetchData();
- supabase.auth.getSession().then(({ data }) => setSession(data.session));
- const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
- setSession(session);
+ supabase.auth.getSession().then(async ({ data }) => {
+   setSession(data.session);
+   if (data.session?.user) {
+     try {
+       const profile = await authService.getUserProfile(data.session.user.id);
+       if (!localStorage.getItem('astrofloat_dob') && profile.birth_date) {
+         setDob(profile.birth_date.substring(0, 10));
+       }
+     } catch(e) {}
+   }
+ });
+ const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+   setSession(session);
+   if (session?.user) {
+     try {
+       const profile = await authService.getUserProfile(session.user.id);
+       if (!localStorage.getItem('astrofloat_dob') && profile.birth_date) {
+         setDob(profile.birth_date.substring(0, 10));
+       }
+     } catch(e) {}
+   }
  });
  return () => subscription.unsubscribe();
  }, []);

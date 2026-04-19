@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* stylelint-disable-next-line */
 @theme {
  --color-slate-950: #020617;
  --color-indigo-900: #312e81;

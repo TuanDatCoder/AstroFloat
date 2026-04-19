@@ -6,25 +6,28 @@ import { numerologyService } from '../../services/numerologyService';
 
 const formatContent = (text) => {
   if (!text) return null;
-  return text.split('\n').map((line, index) => {
-    const trimmedLine = line.trim();
-    // Bắt đầu bằng [ và kết thúc bằng ]
-    const match = trimmedLine.match(/^\[(.*?)\]$/);
-    
+  // Regex split to keep tags like [TOPIC]
+  const parts = text.split(/(\[.*?\])/g);
+  
+  return parts.filter(p => p && p.trim() !== '').map((part, index) => {
+    const match = part.match(/^\[(.*?)\]$/);
     if (match) {
       return (
         <div key={index} className="mt-10 mb-4 flex items-center gap-4">
-          <h4 className="text-indigo-300 font-black text-sm uppercase tracking-[0.2em]">{match[1]}</h4>
-          <div className="h-px bg-indigo-500/20 flex-1" />
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+            <h4 className="text-indigo-300 font-black text-xs uppercase tracking-[0.25em] whitespace-nowrap">{match[1]}</h4>
+          </div>
+          <div className="h-px bg-gradient-to-r from-indigo-500/30 to-transparent flex-1" />
         </div>
       );
     }
     
-    if (trimmedLine === '') {
-      return <div key={index} className="h-2" />;
-    }
-    
-    return <p key={index} className="mb-3 whitespace-pre-line">{line}</p>;
+    return (
+      <p key={index} className="text-gray-400 text-sm font-light leading-relaxed mb-4 last:mb-0 border-l-2 border-white/5 pl-4 ml-1">
+        {part.trim()}
+      </p>
+    );
   });
 };
 

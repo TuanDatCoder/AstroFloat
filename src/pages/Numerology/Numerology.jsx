@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, Database, X } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { numerologyService } from '../../services/numerologyService';
+import { supabase } from '../../services/supabase';
+import { authService } from '../../services/authService';
 
 const containerVariants = {
  hidden: { opacity: 0 },
@@ -47,6 +49,29 @@ export default function Numerology() {
 
  useEffect(() => {
  fetchData();
+ supabase.auth.getSession().then(async ({ data }) => {
+   if (data.session?.user) {
+     try {
+       const profile = await authService.getUserProfile(data.session.user.id);
+       if (!localStorage.getItem('astrofloat_dob') && profile.birth_date) {
+         setDob(profile.birth_date.substring(0, 10));
+       }
+     } catch(e) {}
+   }
+ });
+
+ const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, currentSession) => {
+   if (currentSession?.user) {
+     try {
+       const profile = await authService.getUserProfile(currentSession.user.id);
+       if (!localStorage.getItem('astrofloat_dob') && profile.birth_date) {
+         setDob(profile.birth_date.substring(0, 10));
+       }
+     } catch(e) {}
+   }
+ });
+
+ return () => subscription.unsubscribe();
  }, []);
 
  const handleLookup = () => {

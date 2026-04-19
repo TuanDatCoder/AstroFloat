@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { TABLES } from '../constants';
+import { TABLES, FIELD_NUMEROLOGIES, FIELD_PINNACLE_NUMEROLOGY } from '../constants';
 
 export const numerologyService = {
  async getAllNumerologies() {
@@ -9,7 +9,7 @@ export const numerologyService = {
  },
 
  async getNumerologyByNumber(number) {
- const { data, error } = await supabase.from(TABLES.NUMEROLOGIES).select('*').eq('number', number).single();
+ const { data, error } = await supabase.from(TABLES.NUMEROLOGIES).select('*').eq(FIELD_NUMEROLOGIES.NUMBER, number).single();
  if (error) throw error;
  return data;
  },
@@ -124,27 +124,15 @@ export const numerologyService = {
  },
 
  async getAllPinnacles() {
- const { data, error } = await supabase.from(TABLES.PINNACLE_DETAILS).select('*').order('pinnacle_number', { ascending: true });
+ const { data, error } = await supabase.from(TABLES.PINNACLE_NUMEROLOGY).select('*').order(FIELD_PINNACLE_NUMEROLOGY.NUMBER, { ascending: true });
  if (error) throw error;
  return data;
  },
 
  async getPinnacleByNumber(number) {
- const { data, error } = await supabase.from(TABLES.PINNACLE_DETAILS).select('*').eq('pinnacle_number', number);
+ const { data, error } = await supabase.from(TABLES.PINNACLE_NUMEROLOGY).select('*').eq(FIELD_PINNACLE_NUMEROLOGY.NUMBER, number).maybeSingle();
  if (error) throw error;
- if (!data || data.length === 0) return null;
-
- let combinedContent = "";
- data.forEach(item => {
- combinedContent += `[${item.topic.toUpperCase()}]\n${item.title}\n${item.content}\n\n`;
- });
-
- return {
- number: number,
- title: `Năng Lượng Đỉnh Cao Số ${number}`,
- content: combinedContent.trim(),
- advice: "Hãy giữ tinh thần cởi mở và tin tưởng vào kế hoạch của vũ trụ dành cho bạn trong giai đoạn này."
- };
+ return data;
  },
 
  // Lấy các đỉnh cao cho User và đồng bộ lên Database
