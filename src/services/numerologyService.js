@@ -185,5 +185,42 @@ export const numerologyService = {
  }
 
  return calculated;
- }
+ },
+
+ async createNumerology(data) {
+    const { data: result, error } = await supabase.from(TABLES.NUMEROLOGIES).insert([data]).select().single();
+    if (error) throw error;
+    return result;
+  },
+
+  async updateNumerology(number, data) {
+    const { data: result, error } = await supabase.from(TABLES.NUMEROLOGIES).update(data).eq(FIELD_NUMEROLOGIES.NUMBER, number).select().single();
+    if (error) throw error;
+    return result;
+  },
+
+  async deleteNumerology(number) {
+    const { error } = await supabase.from(TABLES.NUMEROLOGIES).delete().eq(FIELD_NUMEROLOGIES.NUMBER, number);
+    if (error) throw error;
+    return true;
+  },
+
+  // Pinnacle Multi-Management
+  async createPinnacle(data) {
+    const { data: result, error } = await supabase.from(TABLES.PINNACLE_NUMEROLOGY).insert([data]).select().single();
+    if (error) throw error;
+    return result;
+  },
+
+  async updatePinnacle(number, data) {
+    const { data: result, error } = await supabase.from(TABLES.PINNACLE_NUMEROLOGY).update(data).eq(FIELD_PINNACLE_NUMEROLOGY.NUMBER, number).select().single();
+    if (error) throw error;
+    return result;
+  },
+
+  async deletePinnacle(number) {
+    const { error } = await supabase.from(TABLES.PINNACLE_NUMEROLOGY).delete().eq(FIELD_PINNACLE_NUMEROLOGY.NUMBER, number);
+    if (error) throw error;
+    return true;
+  }
 };

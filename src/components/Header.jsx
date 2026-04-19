@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, LogIn, User, ChevronRight, Menu as MenuIcon, X } from 'lucide-react';
+import { Sparkles, LogIn, User, ChevronRight, Menu as MenuIcon, X, ShieldCheck } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { supabase } from '../services/supabase';
 import { ROUTES } from '../constants';
@@ -23,7 +23,7 @@ export default function Header() {
  const fetchProfile = async (userId) => {
  const { data } = await supabase
  .from('profiles')
- .select('nickname, avatar_url')
+ .select('nickname, avatar_url, role')
  .eq('id', userId)
  .single();
  setProfile(data);
@@ -112,6 +112,19 @@ export default function Header() {
 
  {/* RIGHT SIDE: AUTH + MOBILE MENU TOGGLE */}
  <div className="flex items-center gap-2 sm:gap-4">
+      {/* Nút Admin - Chỉ hiện cho Admin */}
+      {profile?.role === 'ADMIN' && (
+        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}>
+          <Link
+            to="/admin"
+            className="hidden sm:flex items-center gap-2 px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-full text-amber-400 transition-all group shadow-[0_0_15px_rgba(245,158,11,0.1)]"
+          >
+            <ShieldCheck className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+            <span className="text-[10px] font-black uppercase tracking-widest hidden md:inline">Admin</span>
+          </Link>
+        </motion.div>
+      )}
+
  <div className="shrink-0">
  <AnimatePresence mode="wait">
  {session ? (
@@ -180,6 +193,17 @@ export default function Header() {
  <div className="text-[10px] font-black tracking-[0.4em] text-white/30 uppercase mb-4">
  Danh Mục
  </div>
+
+    {profile?.role === 'ADMIN' && (
+      <Link 
+        to="/admin"
+        className="flex items-center gap-3 px-6 py-4 bg-amber-500/10 border border-amber-500/30 rounded-3xl text-amber-400 mb-2"
+        onClick={() => setIsMenuOpen(false)}
+      >
+        <ShieldCheck className="w-5 h-5" />
+        <span className="text-sm font-black tracking-widest uppercase">Quản Trị Hệ Thống</span>
+      </Link>
+    )}
  
  <div className="flex flex-col gap-2">
  {navLinks.map((link, idx) => {

@@ -146,6 +146,26 @@ export const FIELD_ZODIAC_ATTRIBUTES = {
  DESCRIPTION: 'description',
 };
 
+export const FIELD_PROFILE_PINNACLES = {
+ ID: 'id',
+ PROFILE_ID: 'profile_id',
+ PINNACLE_LEVEL: 'pinnacle_level',
+ START_AGE: 'start_age',
+ END_AGE: 'end_age',
+ START_YEAR: 'start_year',
+ END_YEAR: 'end_year',
+ PINNACLE_NUMBER: 'pinnacle_number',
+};
+
+export const FIELD_PINNACLE_DETAILS = {
+ ID: 'id',
+ PINNACLE_NUMBER: 'pinnacle_number',
+ TOPIC: 'topic',
+ TITLE: 'title',
+ CONTENT: 'content',
+ IS_PREMIUM: 'is_premium',
+};
+
 export const FIELD_NUMEROLOGY_DETAILS = {
  ID: 'id',
  NUMBER: 'number',

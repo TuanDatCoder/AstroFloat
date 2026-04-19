@@ -41,5 +41,23 @@ export const zodiacService = {
  }
  }
  return null;
- }
+  },
+
+  async createZodiac(zodiacData) {
+    const { data, error } = await supabase.from(TABLES.ZODIAC_SIGNS).insert([zodiacData]).select().single();
+    if (error) throw error;
+    return data;
+  },
+
+  async updateZodiac(id, zodiacData) {
+    const { data, error } = await supabase.from(TABLES.ZODIAC_SIGNS).update(zodiacData).eq(FIELD_ZODIAC_SIGNS.ID, id).select().single();
+    if (error) throw error;
+    return data;
+  },
+
+  async deleteZodiac(id) {
+    const { error } = await supabase.from(TABLES.ZODIAC_SIGNS).delete().eq(FIELD_ZODIAC_SIGNS.ID, id);
+    if (error) throw error;
+    return true;
+  }
 };

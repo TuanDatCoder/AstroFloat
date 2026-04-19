@@ -71,5 +71,29 @@ export const zodiacMatchesService = {
  return [];
  }
  return data;
+ },
+
+ async getAllMatches() {
+ const { data, error } = await supabase.from(TABLES.ZODIAC_MATCHES).select('*, sign1:zodiac_signs!zodiac_sign_1_id(*), sign2:zodiac_signs!zodiac_sign_2_id(*)');
+ if (error) throw error;
+ return data;
+ },
+
+ async createMatch(matchData) {
+ const { data, error } = await supabase.from(TABLES.ZODIAC_MATCHES).insert([matchData]).select().single();
+ if (error) throw error;
+ return data;
+ },
+
+ async updateMatch(id, matchData) {
+ const { data, error } = await supabase.from(TABLES.ZODIAC_MATCHES).update(matchData).eq(FIELD_ZODIAC_MATCHES.ID, id).select().single();
+ if (error) throw error;
+ return data;
+ },
+
+ async deleteMatch(id) {
+ const { error } = await supabase.from(TABLES.ZODIAC_MATCHES).delete().eq(FIELD_ZODIAC_MATCHES.ID, id);
+ if (error) throw error;
+ return true;
  }
 };
