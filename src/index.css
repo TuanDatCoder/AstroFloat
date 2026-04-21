@@ -52,6 +52,9 @@ body {
   animation: star-float var(--dur, 14s) var(--delay, 0s) infinite ease-in-out;
   /* Đưa hoàn toàn lên GPU compositor layer */
   will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  pointer-events: none;
 }
 
 /* === Các thẻ lơ lửng - chạy hoàn toàn trên GPU, không block javascript khi scroll === */
@@ -71,7 +74,49 @@ body {
   will-change: transform;
 }
 .float-card-2 {
-  animation: card-float 8s ease-in-out infinite;
+  animation: bg-float-large 12s ease-in-out infinite;
   animation-delay: 1s;
   will-change: transform;
+}
+
+/* === Pronounced Floating for Background === */
+@keyframes bg-float-large {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes bg-float-reverse {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(40px) rotate(-10deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+.bg-float-large {
+  animation: bg-float-large 15s ease-in-out infinite;
+  will-change: transform;
+}
+
+.bg-float-reverse {
+  animation: bg-float-reverse 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* === Gradient Text Animation === */
+@keyframes gradient-x {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 8s ease infinite;
+}
+
+/* === Performance Optimization for Blurs === */
+.blur-layer {
+  will-change: filter, transform;
+  transform: translateZ(0); /* Force GPU acceleration */
+  backface-visibility: hidden;
 }

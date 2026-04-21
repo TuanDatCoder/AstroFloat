@@ -5,14 +5,14 @@ import Footer from './Footer';
 import AdBanner from './AdBanner';
 
 // Tạo dữ liệu sao 1 lần duy nhất ngoài component — không tính lại mỗi lần render
-const STAR_DATA = Array.from({ length: 35 }, (_, i) => ({
- id: i,
- width: Math.random() * 2.5 + 0.8,
- left: Math.random() * 100,
- top: Math.random() * 100,
- duration: Math.random() * 12 + 8,
- delay: Math.random() * -20, // negative delay = bắt đầu giữa chừng, trông tự nhiên hơn
- moveX: (Math.random() - 0.5) * 40,
+const STAR_DATA = Array.from({ length: 20 }, (_, i) => ({
+  id: i,
+  width: Math.random() * 2 + 0.5,
+  left: Math.random() * 100,
+  top: Math.random() * 100,
+  duration: Math.random() * 10 + 10,
+  delay: Math.random() * -20,
+  moveX: (Math.random() - 0.5) * 30,
 }));
 
 export default function Layout() {

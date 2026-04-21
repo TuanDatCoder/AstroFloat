@@ -15,6 +15,8 @@ import NameNumerologyDetail from './pages/Numerology/NameNumerologyDetail';
 import PinnacleDetail from './pages/Numerology/PinnacleDetail';
 import PinnacleFullAnalysis from './pages/Numerology/PinnacleFullAnalysis';
 import Discover from './pages/Discover';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import ForgotPassword from './pages/Auth/ForgotPassword';
@@ -74,6 +76,8 @@ export default function App() {
         <Route path={ROUTES.NAME_NUMEROLOGY_RESULT} element={<NameNumerologyDetail />} />
         <Route path={ROUTES.PINNACLE_DETAIL(':number')} element={<PinnacleDetail />} />
         <Route path={ROUTES.PINNACLE_ANALYSIS} element={<PinnacleFullAnalysis />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
       </Route>
 
       <Route element={<ProtectedRoute requireAdmin={true} />}>

@@ -8,7 +8,7 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.1 }
+    transition: { staggerChildren: 0.1, delayChildren: 0.05 }
   }
 };
 
@@ -17,7 +17,7 @@ const itemVariants = {
   visible: { 
     y: 0, 
     opacity: 1,
-    transition: { type: "spring", stiffness: 80, damping: 20 }
+    transition: { type: "spring", stiffness: 100, damping: 20 }
   }
 };
 
@@ -25,26 +25,22 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center pt-32 pb-40 px-6 min-h-screen relative overflow-hidden w-full">
       
-      {/* Background Orbs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-600/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[1200px] bg-indigo-900/5 blur-[100px] rounded-full pointer-events-none" />
+      {/* Background Orbs - Use high performance radial-gradient instead of heavy blur */}
+      <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-[radial-gradient(circle_at_center,_rgba(147,51,234,0.15)_0%,_transparent_60%)] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.1)_0%,_transparent_60%)] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[1200px] bg-[radial-gradient(circle_at_center,_rgba(67,56,202,0.08)_0%,_transparent_60%)] rounded-full pointer-events-none" />
       
-      <motion.div 
-        animate={{ y: [0, -30, 0], rotate: [0, 5, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-[10%] text-cyan-400/10 z-0 pointer-events-none"
+      <div 
+        className="absolute top-1/4 left-[10%] text-cyan-400/10 z-0 pointer-events-none float-card-1"
       >
         <Star className="w-16 h-16" />
-      </motion.div>
+      </div>
 
-      <motion.div 
-        animate={{ y: [0, 40, 0], rotate: [0, -10, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute bottom-1/4 right-[10%] text-purple-400/10 z-0 pointer-events-none"
+      <div 
+        className="absolute bottom-1/4 right-[10%] text-purple-400/10 z-0 pointer-events-none float-card-2"
       >
         <Moon className="w-24 h-24" />
-      </motion.div>
+      </div>
 
       <motion.div
         variants={containerVariants}
@@ -64,7 +60,7 @@ export default function Home() {
         {/* Tiêu đề thanh lịch hơn */}
         <motion.h1 
           variants={itemVariants}
-          className="text-6xl md:text-8xl lg:text-[100px] font-black text-white mb-8 tracking-tighter leading-[0.9] drop-shadow-2xl"
+          className="text-6xl md:text-8xl lg:text-[100px] font-black text-white mb-8 tracking-tighter leading-[0.9]"
         >
           Your Destiny is <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-emerald-400 to-cyan-400 animate-gradient-x">
