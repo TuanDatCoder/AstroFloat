@@ -59,7 +59,7 @@ export default function Register() {
  </div>
  <h2 className="text-3xl font-bold text-white mb-4">Đăng Ký Thành Công!</h2>
  <p className="text-emerald-100/80 mb-6">
- Hồ sơ năng lượng của bạn đã được lưu trữ vào vũ trụ AstroFloat. Đang chuyển hướng...
+ Hồ sơ năng lượng của bạn đã được lưu trữ vào vũ trụ Góc Vũ Trụ. Đang chuyển hướng...
  </p>
  </motion.div>
  </div>
@@ -86,7 +86,7 @@ export default function Register() {
  Thiết Lập Hồ Sơ Số Học
  </h1>
  <p className="text-gray-400 max-w-xl mx-auto font-light">
- Cung cấp thông tin <span className="text-white font-medium">chính xác nhất</span> để AstroFloat tính toán Bản đồ Thần Số Học và Cung Hoàng Đạo của bạn.
+ Cung cấp thông tin <span className="text-white font-medium">chính xác nhất</span> để Góc Vũ Trụ tính toán Bản đồ Thần Số Học và Cung Hoàng Đạo của bạn.
  </p>
  </div>
 

@@ -9,7 +9,7 @@ const sections = [
     bg: 'bg-purple-500/10',
     border: 'border-purple-500/20',
     title: '1. Chấp Thuận Điều Khoản',
-    content: `Bằng việc truy cập và sử dụng AstroFloat ("Dịch vụ"), bạn xác nhận rằng bạn đã đọc, hiểu và đồng ý bị ràng buộc bởi các Điều khoản Dịch vụ này. Nếu bạn không đồng ý với bất kỳ điều khoản nào, vui lòng không sử dụng Dịch vụ của chúng tôi.
+    content: `Bằng việc truy cập và sử dụng Góc Vũ Trụ ("Dịch vụ"), bạn xác nhận rằng bạn đã đọc, hiểu và đồng ý bị ràng buộc bởi các Điều khoản Dịch vụ này. Nếu bạn không đồng ý với bất kỳ điều khoản nào, vui lòng không sử dụng Dịch vụ của chúng tôi.
 
 Các điều khoản này áp dụng cho tất cả người dùng, bao gồm khách vãng lai, thành viên đã đăng ký và người dùng cao cấp. Chúng tôi có quyền cập nhật các điều khoản này bất kỳ lúc nào mà không cần thông báo trước.`,
   },
@@ -19,7 +19,7 @@ Các điều khoản này áp dụng cho tất cả người dùng, bao gồm kh
     bg: 'bg-cyan-500/10',
     border: 'border-cyan-500/20',
     title: '2. Tài Khoản Người Dùng',
-    content: `Khi tạo tài khoản tại AstroFloat, bạn có trách nhiệm:
+    content: `Khi tạo tài khoản tại Góc Vũ Trụ, bạn có trách nhiệm:
 
 • Cung cấp thông tin chính xác và đầy đủ.
 • Bảo mật thông tin đăng nhập của bạn.
@@ -34,7 +34,7 @@ Chúng tôi có quyền tạm ngưng hoặc chấm dứt tài khoản của bạ
     bg: 'bg-emerald-500/10',
     border: 'border-emerald-500/20',
     title: '3. Sử Dụng Hợp Lệ',
-    content: `AstroFloat được cung cấp chỉ cho mục đích giải trí và tham khảo. Bạn đồng ý không sử dụng dịch vụ để:
+    content: `Góc Vũ Trụ được cung cấp chỉ cho mục đích giải trí và tham khảo. Bạn đồng ý không sử dụng dịch vụ để:
 
 • Phân phối nội dung bất hợp pháp, có hại hoặc xúc phạm.
 • Can thiệp hoặc gây gián đoạn cho cơ sở hạ tầng của dịch vụ.
@@ -48,9 +48,9 @@ Chúng tôi có quyền tạm ngưng hoặc chấm dứt tài khoản của bạ
     bg: 'bg-amber-500/10',
     border: 'border-amber-500/20',
     title: '4. Giới Hạn Trách Nhiệm',
-    content: `Nội dung về chiêm tinh học và thần số học trên AstroFloat chỉ mang tính giải trí và tham khảo. Chúng tôi không đảm bảo tính chính xác tuyệt đối của bất kỳ phân tích hay dự đoán nào.
+    content: `Nội dung về chiêm tinh học và thần số học trên Góc Vũ Trụ chỉ mang tính giải trí và tham khảo. Chúng tôi không đảm bảo tính chính xác tuyệt đối của bất kỳ phân tích hay dự đoán nào.
 
-AstroFloat và các đối tác của chúng tôi không chịu trách nhiệm cho bất kỳ thiệt hại trực tiếp, gián tiếp, ngẫu nhiên hoặc do hậu quả nào phát sinh từ việc sử dụng hoặc không thể sử dụng dịch vụ của chúng tôi.`,
+Góc Vũ Trụ và các đối tác của chúng tôi không chịu trách nhiệm cho bất kỳ thiệt hại trực tiếp, gián tiếp, ngẫu nhiên hoặc do hậu quả nào phát sinh từ việc sử dụng hoặc không thể sử dụng dịch vụ của chúng tôi.`,
   },
   {
     icon: RefreshCw,
@@ -110,7 +110,7 @@ export default function Terms() {
           </span>
         </h1>
         <p className="text-gray-500 font-light max-w-xl mx-auto text-sm leading-relaxed">
-          Vui lòng đọc kỹ các điều khoản này trước khi sử dụng AstroFloat. Bằng cách sử dụng dịch vụ, bạn đồng ý với các điều khoản sau.
+          Vui lòng đọc kỹ các điều khoản này trước khi sử dụng Góc Vũ Trụ. Bằng cách sử dụng dịch vụ, bạn đồng ý với các điều khoản sau.
         </p>
         <p className="text-gray-600 text-xs mt-4 font-medium">Cập nhật lần cuối: Tháng 4, 2026</p>
       </motion.div>
@@ -158,7 +158,7 @@ export default function Terms() {
       >
         <p className="text-gray-500 text-sm font-light">
           Bằng việc sử dụng{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 font-bold">AstroFloat</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 font-bold">Góc Vũ Trụ</span>
           , bạn xác nhận đã đọc và đồng ý với toàn bộ điều khoản trên.
         </p>
       </motion.div>

@@ -13,7 +13,7 @@ export default function Dashboard() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-black text-white mb-2">Tổng Quan Hệ Thống</h1>
-        <p className="text-gray-400">Chào mừng trở lại bảng điều khiển quản trị AstroFloat.</p>
+        <p className="text-gray-400">Chào mừng trở lại bảng điều khiển quản trị Góc Vũ Trụ.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -73,7 +73,7 @@ export default function Home() {
           variants={itemVariants}
           className="text-slate-400 text-lg md:text-xl font-light mb-16 max-w-2xl mx-auto leading-relaxed px-4"
         >
-          Chào mừng bạn đến với <span className="text-white font-medium">AstroFloat</span>. 
+          Chào mừng bạn đến với <span className="text-white font-medium">Góc Vũ Trụ</span>. 
           Nơi khoa học cổ đại gặp gỡ nghệ thuật hiện đại để giải mã rung động của linh hồn bạn qua các con số và tinh tú.
         </motion.p>
 

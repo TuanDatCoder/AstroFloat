@@ -75,7 +75,7 @@ export default function Header() {
  <Sparkles className="w-5 h-5 text-purple-400 drop-shadow-[0_0_6px_rgba(168,85,247,0.8)]" />
  </motion.div>
  <span className="text-lg font-extrabold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-300">
- AstroFloat
+ Góc Vũ Trụ
  </span>
  </Link>
 
@@ -234,7 +234,7 @@ export default function Header() {
  <div className="mt-auto p-8 rounded-[2rem] bg-gradient-to-br from-purple-500/10 to-transparent border border-white/5 text-center">
  <Sparkles className="w-8 h-8 text-purple-400/40 mx-auto mb-4" />
  <p className="text-[10px] text-white/30 font-medium tracking-widest leading-relaxed uppercase">
- Giải mã vận mệnh <br /> cùng AstroFloat
+ Giải mã vận mệnh <br /> cùng Góc Vũ Trụ
  </p>
  </div>
  </motion.div>
