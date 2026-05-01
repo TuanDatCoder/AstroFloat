@@ -155,7 +155,7 @@ export default function Profile() {
  <div className="flex-1 text-center md:text-left">
  <div className="flex flex-col md:flex-row md:items-center gap-3 mb-3">
  <h1 className="text-3xl font-black text-white">
- {profile.nickname || 'Người Dùng AstroFloat'}
+ {profile.nickname || 'Người Dùng Góc Vũ Trụ'}
  </h1>
  <TierBadge tier={profile.tier} />
  </div>

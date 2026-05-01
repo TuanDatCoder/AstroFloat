@@ -131,7 +131,7 @@ export default function ForgotPassword() {
 
  <div className="mt-10 pt-8 border-t border-white/5 text-center">
  <p className="text-xs text-gray-500 font-medium italic">
- AstroFloat bảo vệ quyền truy cập vào bản đồ tinh tú của bạn.
+ Góc Vũ Trụ bảo vệ quyền truy cập vào bản đồ tinh tú của bạn.
  </p>
  </div>
  </motion.div>

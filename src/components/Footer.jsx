@@ -17,7 +17,7 @@ export default function Footer() {
       <div className="absolute top-[-20%] right-[-10%] w-[40%] h-[40%] bg-emerald-600/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 relative z-10">
-        
+
         {/* Column 1: Brand & Social */}
         <div className="flex flex-col items-start space-y-6">
           <div className="flex items-center gap-3 text-2xl font-black tracking-tighter">
@@ -25,10 +25,10 @@ export default function Footer() {
               <Sparkles className="w-7 h-7 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" />
             </motion.div>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-cyan-300 to-emerald-400">
-              AstroFloat
+              Góc Vũ Trụ
             </span>
           </div>
-          
+
           <p className="text-gray-400 text-sm font-light leading-relaxed max-w-xs text-left">
             Khám phá hành trình tâm linh qua nhịp đập của những con số và sự sắp đặt của tinh tú. Cùng bạn kết nối với bản ngã thực sự.
           </p>
@@ -92,8 +92,8 @@ export default function Footer() {
             Nhận thông điệp vũ trụ và ưu đãi VIP mỗi tuần.
           </p>
           <div className="relative w-full max-w-sm">
-            <input 
-              type="email" 
+            <input
+              type="email"
               placeholder="Email của bạn..."
               className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 px-5 text-sm text-white placeholder:text-gray-600 focus:border-cyan-500/50 outline-none transition-all shadow-inner"
             />
@@ -107,16 +107,16 @@ export default function Footer() {
       {/* Bottom Row */}
       <div className="max-w-7xl mx-auto pt-8 border-t border-white/5">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          
+
           {/* Copyright */}
           <p className="flex items-center gap-2 text-gray-600 text-[11px] font-medium tracking-widest uppercase">
             <span>&copy; {new Date().getFullYear()}</span>
             <span className="w-1 h-1 rounded-full bg-white/20 inline-block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">AstroFloat</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Góc Vũ Trụ</span>
             <span className="w-1 h-1 rounded-full bg-white/20 inline-block" />
             <span>Crafted with</span>
             <Sparkles className="w-3 h-3 text-purple-400" />
-            <span>by TuanDatCoder</span>
+            <span>by Family Love Studio</span>
           </p>
 
           {/* Links + Scroll to top */}
@@ -125,7 +125,7 @@ export default function Footer() {
             <span className="w-px h-3 bg-white/10" />
             <Link to="/privacy" className="px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-600 hover:text-white rounded-lg hover:bg-white/5 transition-all">Bảo mật</Link>
             <span className="w-px h-3 bg-white/10 mx-1" />
-            <motion.button 
+            <motion.button
               onClick={scrollToTop}
               whileHover={{ y: -3, scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

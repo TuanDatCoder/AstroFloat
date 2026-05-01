@@ -49,7 +49,7 @@ export default function Unauthorized() {
 
       {/* Footer watermark */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] uppercase font-black tracking-[0.5em] text-gray-800 select-none pointer-events-none">
-        AstroFloat · Access Denied
+        Góc Vũ Trụ · Access Denied
       </div>
     </div>
   );

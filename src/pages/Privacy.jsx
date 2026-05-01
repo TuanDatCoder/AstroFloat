@@ -9,7 +9,7 @@ const sections = [
     bg: 'bg-cyan-500/10',
     border: 'border-cyan-500/20',
     title: '1. Thông Tin Chúng Tôi Thu Thập',
-    content: `Khi bạn sử dụng AstroFloat, chúng tôi có thể thu thập các loại thông tin sau:
+    content: `Khi bạn sử dụng Góc Vũ Trụ, chúng tôi có thể thu thập các loại thông tin sau:
 
 Thông tin bạn cung cấp trực tiếp:
 • Họ tên, địa chỉ email khi đăng ký tài khoản.
@@ -30,7 +30,7 @@ Thông tin tự động:
     title: '2. Cách Chúng Tôi Sử Dụng Thông Tin',
     content: `Chúng tôi sử dụng thông tin thu thập được để:
 
-• Cung cấp, duy trì và cải thiện dịch vụ AstroFloat.
+• Cung cấp, duy trì và cải thiện dịch vụ Góc Vũ Trụ.
 • Tính toán và hiển thị kết quả thần số học, chiêm tinh học cá nhân hóa.
 • Xác thực danh tính và bảo vệ tài khoản của bạn.
 • Gửi thông báo quan trọng về tài khoản (không phải spam).
@@ -63,9 +63,9 @@ Mặc dù vậy, không có hệ thống nào hoàn toàn an toàn. Chúng tôi 
 
 Chúng tôi có thể chia sẻ thông tin trong các trường hợp:
 
-• Nhà cung cấp dịch vụ tin cậy giúp vận hành AstroFloat (ví dụ: Supabase để lưu trữ dữ liệu, Google AdSense để hiển thị quảng cáo phù hợp).
+• Nhà cung cấp dịch vụ tin cậy giúp vận hành Góc Vũ Trụ (ví dụ: Supabase để lưu trữ dữ liệu, Google AdSense để hiển thị quảng cáo phù hợp).
 • Khi được yêu cầu bởi luật pháp hoặc lệnh tòa án.
-• Để bảo vệ quyền lợi, tài sản và sự an toàn của AstroFloat và người dùng.`,
+• Để bảo vệ quyền lợi, tài sản và sự an toàn của Góc Vũ Trụ và người dùng.`,
   },
   {
     icon: Cookie,
@@ -73,7 +73,7 @@ Chúng tôi có thể chia sẻ thông tin trong các trường hợp:
     bg: 'bg-pink-500/10',
     border: 'border-pink-500/20',
     title: '5. Cookie và Công Nghệ Theo Dõi',
-    content: `AstroFloat sử dụng cookie và các công nghệ tương tự để:
+    content: `Góc Vũ Trụ sử dụng cookie và các công nghệ tương tự để:
 
 • Duy trì phiên đăng nhập của bạn.
 • Ghi nhớ sở thích và ngày sinh đã nhập.
@@ -144,7 +144,7 @@ export default function Privacy() {
           </span>
         </h1>
         <p className="text-gray-500 font-light max-w-xl mx-auto text-sm leading-relaxed">
-          Bảo vệ thông tin cá nhân của bạn là ưu tiên hàng đầu của AstroFloat. Chính sách này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ dữ liệu của bạn.
+          Bảo vệ thông tin cá nhân của bạn là ưu tiên hàng đầu của Góc Vũ Trụ. Chính sách này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ dữ liệu của bạn.
         </p>
         <p className="text-gray-600 text-xs mt-4 font-medium">Cập nhật lần cuối: Tháng 4, 2026</p>
       </motion.div>
@@ -192,7 +192,7 @@ export default function Privacy() {
       >
         <p className="text-gray-500 text-sm font-light">
           Chúng tôi cam kết bảo vệ quyền riêng tư của bạn.{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-bold">AstroFloat</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-bold">Góc Vũ Trụ</span>
           {' '}không bao giờ bán dữ liệu của bạn.
         </p>
       </motion.div>
