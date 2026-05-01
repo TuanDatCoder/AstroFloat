@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gocvutru.com/sitemap.xml
+Sitemap: https://www.gocvutru.com/sitemap.xml
