@@ -165,6 +165,7 @@ export default function Header() {
 
  <button 
  onClick={() => setIsMenuOpen(!isMenuOpen)}
+ aria-label={isMenuOpen ? "Đóng menu" : "Mở menu"}
  className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/80 active:scale-95 transition-all"
  >
  {isMenuOpen ? <X className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}

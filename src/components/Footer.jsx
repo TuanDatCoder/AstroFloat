@@ -35,13 +35,14 @@ export default function Footer() {
 
           <div className="flex items-center gap-4">
             {[
-              { Icon: Globe, color: 'hover:text-blue-400', glow: 'hover:border-blue-400/50' },
-              { Icon: Mail, color: 'hover:text-pink-400', glow: 'hover:border-pink-400/50' },
-              { Icon: Send, color: 'hover:text-red-400', glow: 'hover:border-red-400/50' }
-            ].map(({ Icon, color, glow }, i) => (
+              { Icon: Globe, color: 'hover:text-blue-400', glow: 'hover:border-blue-400/50', label: 'Trang web' },
+              { Icon: Mail, color: 'hover:text-pink-400', glow: 'hover:border-pink-400/50', label: 'Email liên hệ' },
+              { Icon: Send, color: 'hover:text-red-400', glow: 'hover:border-red-400/50', label: 'Kênh Telegram' }
+            ].map(({ Icon, color, glow, label }, i) => (
               <motion.a
                 key={i}
                 href="#"
+                aria-label={label}
                 whileHover={{ y: -5, scale: 1.1 }}
                 className={`w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 transition-all ${color} ${glow} shadow-lg`}
               >
@@ -53,7 +54,7 @@ export default function Footer() {
 
         {/* Column 2: Quick Links */}
         <div className="flex flex-col items-start">
-          <h3 className="text-white font-black text-xs tracking-[0.3em] uppercase mb-8 opacity-70">Công Cụ</h3>
+          <h2 className="text-white font-black text-xs tracking-[0.3em] uppercase mb-8 opacity-70">Công Cụ</h2>
           <ul className="space-y-4 w-full flex flex-col items-start">
             {[
               { to: ROUTES.DISCOVER, label: 'Giải Mã Vận Mệnh' },
@@ -74,7 +75,7 @@ export default function Footer() {
 
         {/* Column 3: Contact */}
         <div className="flex flex-col items-start text-left">
-          <h3 className="text-white font-black text-xs tracking-[0.3em] uppercase mb-8 opacity-70">Liên Hệ</h3>
+          <h2 className="text-white font-black text-xs tracking-[0.3em] uppercase mb-8 opacity-70">Liên Hệ</h2>
           <div className="space-y-6">
             <div className="flex items-center gap-4 text-sm text-gray-400">
               <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group shrink-0">
@@ -87,7 +88,7 @@ export default function Footer() {
 
         {/* Column 4: Newsletter */}
         <div className="flex flex-col items-start">
-          <h3 className="text-white font-black text-xs tracking-[0.3em] uppercase mb-8 opacity-70">Bản Tin</h3>
+          <h2 className="text-white font-black text-xs tracking-[0.3em] uppercase mb-8 opacity-70">Bản Tin</h2>
           <p className="text-gray-400 text-sm font-light mb-6 text-left">
             Nhận thông điệp vũ trụ và ưu đãi VIP mỗi tuần.
           </p>
@@ -97,7 +98,7 @@ export default function Footer() {
               placeholder="Email của bạn..."
               className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 px-5 text-sm text-white placeholder:text-gray-600 focus:border-cyan-500/50 outline-none transition-all shadow-inner"
             />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-xl flex items-center justify-center text-white hover:shadow-[0_0_15px_rgba(34,211,238,0.5)] active:scale-95 transition-all">
+            <button aria-label="Đăng ký nhận bản tin" className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-xl flex items-center justify-center text-white hover:shadow-[0_0_15px_rgba(34,211,238,0.5)] active:scale-95 transition-all">
               <Send className="w-4 h-4" />
             </button>
           </div>
@@ -109,7 +110,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
 
           {/* Copyright */}
-          <p className="flex items-center gap-2 text-gray-600 text-[11px] font-medium tracking-widest uppercase">
+          <p className="flex items-center gap-2 text-gray-400 text-[11px] font-medium tracking-widest uppercase">
             <span>&copy; {new Date().getFullYear()}</span>
             <span className="w-1 h-1 rounded-full bg-white/20 inline-block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Góc Vũ Trụ</span>
@@ -121,9 +122,9 @@ export default function Footer() {
 
           {/* Links + Scroll to top */}
           <div className="flex items-center gap-2">
-            <Link to={ROUTES.TERMS} className="px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-600 hover:text-white rounded-lg hover:bg-white/5 transition-all">Điều khoản</Link>
+            <Link to={ROUTES.TERMS} aria-label="Điều khoản sử dụng" className="px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-all">Điều khoản</Link>
             <span className="w-px h-3 bg-white/10" />
-            <Link to={ROUTES.PRIVACY} className="px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-600 hover:text-white rounded-lg hover:bg-white/5 transition-all">Bảo mật</Link>
+            <Link to={ROUTES.PRIVACY} aria-label="Chính sách bảo mật" className="px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-all">Bảo mật</Link>
             <span className="w-px h-3 bg-white/10 mx-1" />
             <motion.button
               onClick={scrollToTop}
