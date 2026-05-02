@@ -21,14 +21,14 @@ const AdBanner = ({ className = "", slot = "horizontal" }) => {
  
  {/* Content */}
  <div className="relative z-10 flex flex-col items-center gap-2">
- <span className="text-[10px] font-black tracking-[0.3em] text-white/20 uppercase">
+ <span className="text-[10px] font-black tracking-[0.3em] text-gray-400 uppercase">
  Quảng cáo / Advertisement
  </span>
  <div className="flex items-center gap-3">
  <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center">
  <div className="w-4 h-4 rounded-full bg-indigo-500/20 animate-pulse"></div>
  </div>
- <p className="text-white/30 font-light text-sm italic">
+ <p className="text-gray-400 font-light text-sm italic">
  Google Ads Placement
  </p>
  </div>

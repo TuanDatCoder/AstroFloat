@@ -111,7 +111,7 @@ export default function Home() {
               <div className="w-20 h-20 rounded-3xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-8 rotate-3 group-hover:rotate-0 transition-transform">
                 <Star className="w-10 h-10 text-cyan-400" />
               </div>
-              <h3 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">12 Chòm Sao</h3>
+              <h2 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">12 Chòm Sao</h2>
               <p className="text-slate-400 text-sm font-light leading-relaxed mb-8">
                 Phân tích tính cách và vận mệnh dựa trên bản đồ sao của riêng bạn.
               </p>
@@ -127,7 +127,7 @@ export default function Home() {
               <div className="w-20 h-20 rounded-3xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-8 -rotate-3 group-hover:rotate-0 transition-transform">
                 <Sparkles className="w-10 h-10 text-purple-400" />
               </div>
-              <h3 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">Thần Số Học</h3>
+              <h2 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">Thần Số Học</h2>
               <p className="text-slate-400 text-sm font-light leading-relaxed mb-8">
                 Tìm hiểu con số chủ đạo và sứ mệnh cuộc đời qua ngày sinh.
               </p>
@@ -143,7 +143,7 @@ export default function Home() {
               <div className="w-20 h-20 rounded-3xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-8 rotate-6 group-hover:rotate-0 transition-transform">
                 <UserCircle2 className="w-10 h-10 text-emerald-400" />
               </div>
-              <h3 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">Thần Số Tên</h3>
+              <h2 className="text-2xl font-black text-white mb-4 tracking-tight uppercase">Thần Số Tên</h2>
               <p className="text-slate-400 text-sm font-light leading-relaxed mb-8">
                 Giải mã tần số năng lượng ẩn sau cái tên và linh hồn của bạn.
               </p>
