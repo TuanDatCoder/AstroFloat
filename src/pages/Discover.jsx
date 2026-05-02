@@ -462,7 +462,7 @@ export default function Discover() {
                       ))}
                     </div>
 
-                    <Link to={`/name-numerology/result?name=${encodeURIComponent(fullName)}`} className="relative z-10 mt-6 pt-4 border-t border-white/5 flex items-center gap-2 text-violet-300 text-[10px] font-black uppercase tracking-widest hover:text-white transition-colors">
+                    <Link to={`${ROUTES.NAME_NUMEROLOGY_RESULT}?name=${encodeURIComponent(fullName)}`} className="relative z-10 mt-6 pt-4 border-t border-white/5 flex items-center gap-2 text-violet-300 text-[10px] font-black uppercase tracking-widest hover:text-white transition-colors">
                       Phân tích chi tiết <ArrowRight className="w-3 h-3" />
                     </Link>
                   </div>
@@ -494,7 +494,7 @@ export default function Discover() {
                       ))}
                     </div>
                     <Link 
-                      to={isLoggedIn ? `/zodiac-all-matches?sign=${results.zodiac.id}` : "/login"} 
+                      to={isLoggedIn ? `${ROUTES.ZODIAC_ALL_MATCHES}?sign=${results.zodiac.id}` : ROUTES.LOGIN} 
                       className="relative z-10 mt-6 pt-4 border-t border-pink-500/10 flex items-center gap-2 text-pink-300 text-[10px] font-black uppercase tracking-widest hover:text-white transition-colors"
                     >
                       <TrendingUp className="w-3 h-3" /> 

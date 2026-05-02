@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Sparkles, Star, ArrowRight, Compass, Moon, UserCircle2 } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import { ROUTES } from '../constants';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -79,7 +80,7 @@ export default function Home() {
 
         {/* Cỗ Máy Khám Phá Nổi Bật Trung Tâm */}
         <motion.div variants={itemVariants} className="w-full flex justify-center mb-32">
-          <Link to="/discover">
+          <Link to={ROUTES.DISCOVER}>
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0 0 50px rgba(16,185,129,0.3)" }}
               whileTap={{ scale: 0.95 }}
@@ -105,7 +106,7 @@ export default function Home() {
         {/* Features Grid - 3 Columns */}
         <motion.div variants={itemVariants} className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
           {/* Zodiac Card */}
-          <Link to="/zodiac" className="group">
+          <Link to={ROUTES.ZODIAC} className="group">
             <div className="relative h-full p-10 bg-slate-900/70 rounded-[3rem] border border-white/5 hover:border-cyan-500/30 transition-all duration-500 flex flex-col items-center text-center">
               <div className="w-20 h-20 rounded-3xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-8 rotate-3 group-hover:rotate-0 transition-transform">
                 <Star className="w-10 h-10 text-cyan-400" />
@@ -121,7 +122,7 @@ export default function Home() {
           </Link>
 
           {/* Numerology Day Card */}
-          <Link to="/numerology" className="group">
+          <Link to={ROUTES.NUMEROLOGY} className="group">
             <div className="relative h-full p-10 bg-slate-900/70 rounded-[3rem] border border-white/5 hover:border-purple-500/30 transition-all duration-500 flex flex-col items-center text-center">
               <div className="w-20 h-20 rounded-3xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-8 -rotate-3 group-hover:rotate-0 transition-transform">
                 <Sparkles className="w-10 h-10 text-purple-400" />
@@ -137,7 +138,7 @@ export default function Home() {
           </Link>
 
           {/* Name Numerology Card */}
-          <Link to="/name-numerology" className="group">
+          <Link to={ROUTES.NAME_NUMEROLOGY} className="group">
             <div className="relative h-full p-10 bg-slate-900/70 rounded-[3rem] border border-white/5 hover:border-emerald-500/30 transition-all duration-500 flex flex-col items-center text-center">
               <div className="w-20 h-20 rounded-3xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-8 rotate-6 group-hover:rotate-0 transition-transform">
                 <UserCircle2 className="w-10 h-10 text-emerald-400" />

@@ -121,9 +121,9 @@ export default function Footer() {
 
           {/* Links + Scroll to top */}
           <div className="flex items-center gap-2">
-            <Link to="/terms" className="px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-600 hover:text-white rounded-lg hover:bg-white/5 transition-all">Điều khoản</Link>
+            <Link to={ROUTES.TERMS} className="px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-600 hover:text-white rounded-lg hover:bg-white/5 transition-all">Điều khoản</Link>
             <span className="w-px h-3 bg-white/10" />
-            <Link to="/privacy" className="px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-600 hover:text-white rounded-lg hover:bg-white/5 transition-all">Bảo mật</Link>
+            <Link to={ROUTES.PRIVACY} className="px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-600 hover:text-white rounded-lg hover:bg-white/5 transition-all">Bảo mật</Link>
             <span className="w-px h-3 bg-white/10 mx-1" />
             <motion.button
               onClick={scrollToTop}

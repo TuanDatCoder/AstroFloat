@@ -194,25 +194,27 @@ export const FIELD_ZODIAC_MATCHES = {
 };
 
 export const ROUTES = {
- HOME: '/',
- ZODIAC: '/zodiac',
- ZODIAC_DETAIL: (id) => `/zodiac/${id}`,
- NUMEROLOGY: '/numerology',
- NUMEROLOGY_DETAIL: (number) => `/numerology/${number}`,
- ZODIAC_MATCH: '/zodiac-match',
- NAME_NUMEROLOGY: '/name-numerology',
- DISCOVER: '/discover',
- PINNACLE_DETAIL: (number) => `/pinnacle/${number}`,
- PINNACLE_ANALYSIS: '/pinnacle-analysis',
- PROFILE: '/profile',
- PROFILE_EDIT: '/profile/edit',
- CHANGE_PASSWORD: '/change-password',
- LOGIN: '/login',
- REGISTER: '/register',
- NAME_NUMEROLOGY_RESULT: '/name-numerology/result',
- ZODIAC_BEST_MATCHES: '/zodiac-best-matches',
- ZODIAC_ALL_MATCHES: '/zodiac-all-matches',
- FORGOT_PASSWORD: '/forgot-password'
+  HOME: '/',
+  ZODIAC: '/cung-hoang-dao',
+  ZODIAC_DETAIL: (id) => `/cung-hoang-dao/${id}`,
+  NUMEROLOGY: '/than-so-hoc',
+  NUMEROLOGY_DETAIL: (number) => `/than-so-hoc/${number}`,
+  ZODIAC_MATCH: '/do-hop-cung-hoang-dao',
+  NAME_NUMEROLOGY: '/than-so-hoc-theo-ten',
+  DISCOVER: '/kham-pha',
+  PINNACLE_DETAIL: (number) => `/bieu-do-pinnacle/${number}`,
+  PINNACLE_ANALYSIS: '/phan-tich-4-dinh-cao',
+  PROFILE: '/ho-so',
+  PROFILE_EDIT: '/ho-so/chinh-sua',
+  CHANGE_PASSWORD: '/doi-mat-khau',
+  LOGIN: '/dang-nhap',
+  REGISTER: '/dang-ky',
+  NAME_NUMEROLOGY_RESULT: '/than-so-hoc-theo-ten/ket-qua',
+  ZODIAC_BEST_MATCHES: '/cung-hoang-dao-tuong-hop-nhat',
+  ZODIAC_ALL_MATCHES: '/tat-ca-cap-doi-cung-hoang-dao',
+  FORGOT_PASSWORD: '/quen-mat-khau',
+  TERMS: '/dieu-khoan-su-dung',
+  PRIVACY: '/chinh-sach-bao-mat'
 };
 
 export const ZODIAC_CATEGORIES = [

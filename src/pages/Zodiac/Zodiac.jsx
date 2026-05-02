@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { zodiacService } from '../../services/zodiacService';
 import { supabase } from '../../services/supabase';
 import { authService } from '../../services/authService';
+import { ROUTES } from '../../constants';
 import { Lock } from 'lucide-react';
 
 const containerVariants = {
@@ -83,7 +84,7 @@ export default function Zodiac() {
  try {
  const id = await zodiacService.getZodiacIdByDate(dob);
  if (id) {
- navigate(`/zodiac/${id}`);
+ navigate(ROUTES.ZODIAC_DETAIL(id));
  } else {
  setError("Hệ thống chưa có đủ phổ dữ liệu cho ngày sinh này.");
  }
@@ -109,7 +110,7 @@ export default function Zodiac() {
  Cung Hoàng Đạo
  </h1>
  <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 px-4">
- <Link to="/zodiac-match" className="w-full sm:w-auto">
+ <Link to={ROUTES.ZODIAC_MATCH} className="w-full sm:w-auto">
  <motion.button 
  whileHover={{ scale: 1.05 }}
  whileTap={{ scale: 0.95 }}
@@ -120,7 +121,7 @@ export default function Zodiac() {
  </motion.button>
  </Link>
  {session ? (
- <Link to="/zodiac-best-matches" className="w-full sm:w-auto">
+ <Link to={ROUTES.ZODIAC_BEST_MATCHES} className="w-full sm:w-auto">
  <motion.button 
  whileHover={{ scale: 1.05 }}
  whileTap={{ scale: 0.95 }}
@@ -131,7 +132,7 @@ export default function Zodiac() {
  </motion.button>
  </Link>
  ) : (
- <Link to="/login" className="w-full sm:w-auto">
+ <Link to={ROUTES.LOGIN} className="w-full sm:w-auto">
  <motion.button 
  whileHover={{ scale: 1.05 }}
  whileTap={{ scale: 0.95 }}
@@ -232,7 +233,7 @@ export default function Zodiac() {
  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full"
  >
  {data.map((sign, index) => (
- <Link to={`/zodiac/${sign.id}`} key={sign.id || index} className="block">
+ <Link to={ROUTES.ZODIAC_DETAIL(sign.id)} key={sign.id || index} className="block">
  <motion.div
  variants={itemVariants}
  className="hover:-translate-y-2 hover:scale-[1.02] transform-gpu will-change-transform group p-[1px] rounded-[2rem] overflow-hidden bg-gradient-to-b from-white/10 to-transparent shadow-xl h-full transition-transform duration-300 ease-out"
