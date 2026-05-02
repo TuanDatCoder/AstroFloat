@@ -76,8 +76,8 @@ export default function App() {
         <Route path={ROUTES.NAME_NUMEROLOGY_RESULT} element={<NameNumerologyDetail />} />
         <Route path={ROUTES.PINNACLE_DETAIL(':number')} element={<PinnacleDetail />} />
         <Route path={ROUTES.PINNACLE_ANALYSIS} element={<PinnacleFullAnalysis />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/privacy" element={<Privacy />} />
+        <Route path={ROUTES.TERMS} element={<Terms />} />
+        <Route path={ROUTES.PRIVACY} element={<Privacy />} />
       </Route>
 
       <Route element={<ProtectedRoute requireAdmin={true} />}>

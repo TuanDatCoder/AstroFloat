@@ -156,7 +156,7 @@ export default function Header() {
  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600" />
  <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
  <LogIn className="w-3.5 h-3.5 relative z-10" />
- <span className="relative z-10">LOGIN</span>
+ <span className="relative z-10">ĐĂNG NHẬP</span>
  </Link>
  </motion.div>
  )}
