@@ -45,14 +45,19 @@ export default function ProtectedRoute({ requireAdmin = false }) {
     }
 
     // Khởi tạo lần đầu
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!mounted) return;
-      if (!session) {
-        setLoading(false);
-        return;
-      }
-      checkUser(session);
-    });
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        if (!mounted) return;
+        if (!session) {
+          setLoading(false);
+          return;
+        }
+        checkUser(session);
+      })
+      .catch(err => {
+        console.warn("Lỗi khi lấy session (có thể do lock):", err);
+        if (mounted) setLoading(false);
+      });
 
     // Lắng nghe thay đổi
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {

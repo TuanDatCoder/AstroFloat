@@ -33,7 +33,7 @@ export default function Header() {
  supabase.auth.getSession().then(({ data: { session } }) => {
  setSession(session);
  if (session?.user) fetchProfile(session.user.id);
- });
+ }).catch(err => console.warn("Lỗi getSession:", err));
  const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
  setSession(session);
  if (session?.user) fetchProfile(session.user.id);
