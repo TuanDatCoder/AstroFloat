@@ -1,12 +1,55 @@
-import React from 'react';
-import { Users, Star, Database, Activity } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Users, Star, Database, Activity, Heart } from 'lucide-react';
+import { supabase } from '../../services/supabase';
+import { TABLES } from '../../constants';
 
 export default function Dashboard() {
+  const [statsData, setStatsData] = useState({
+    users: 0,
+    zodiacs: 0,
+    numerologies: 0,
+    matches: 0,
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        setLoading(true);
+        // Fetch counts in parallel
+        const [
+          { count: usersCount },
+          { count: zodiacsCount },
+          { count: numerologiesCount },
+          { count: matchesCount }
+        ] = await Promise.all([
+          supabase.from(TABLES.PROFILES).select('id', { count: 'exact', head: true }),
+          supabase.from(TABLES.ZODIAC_SIGNS).select('id', { count: 'exact', head: true }),
+          supabase.from(TABLES.NUMEROLOGIES).select('number', { count: 'exact', head: true }),
+          supabase.from(TABLES.ZODIAC_MATCHES).select('id', { count: 'exact', head: true })
+        ]);
+
+        setStatsData({
+          users: usersCount || 0,
+          zodiacs: zodiacsCount || 0,
+          numerologies: numerologiesCount || 0,
+          matches: matchesCount || 0,
+        });
+      } catch (error) {
+        console.error("Error fetching dashboard stats:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchStats();
+  }, []);
+
   const stats = [
-    { name: 'Tổng Users', value: '124', icon: Users, color: 'text-cyan-400', bg: 'bg-cyan-500/10' },
-    { name: 'Cung Hoàng Đạo', value: '12', icon: Star, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-    { name: 'Chỉ số Thần Số', value: '45', icon: Database, color: 'text-indigo-400', bg: 'bg-indigo-500/10' },
-    { name: 'Tương tác', value: '89%', icon: Activity, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+    { name: 'Tổng Users', value: statsData.users, icon: Users, color: 'text-cyan-400', bg: 'bg-cyan-500/10' },
+    { name: 'Cung Hoàng Đạo', value: statsData.zodiacs, icon: Star, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+    { name: 'Chỉ số Thần Số', value: statsData.numerologies, icon: Database, color: 'text-indigo-400', bg: 'bg-indigo-500/10' },
+    { name: 'Cặp Tương Hợp', value: statsData.matches, icon: Heart, color: 'text-rose-400', bg: 'bg-rose-500/10' },
   ];
 
   return (
@@ -26,7 +69,11 @@ export default function Dashboard() {
             </div>
             <h3 className="text-gray-400 text-sm font-semibold mb-1">{stat.name}</h3>
             <p className="text-3xl font-black text-white group-hover:scale-105 origin-left transition-transform">
-              {stat.value}
+              {loading ? (
+                <span className="text-gray-500 text-xl font-medium animate-pulse">Đang tải...</span>
+              ) : (
+                stat.value
+              )}
             </p>
           </div>
         ))}
