@@ -63,9 +63,9 @@ export default function Home() {
           variants={itemVariants}
           className="text-6xl md:text-8xl lg:text-[100px] font-black text-white mb-8 tracking-tighter leading-[0.9]"
         >
-          Your Destiny is <br />
+          Giải Mã Vận Mệnh <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-emerald-400 to-cyan-400 animate-gradient-x">
-            Written in Stars.
+            Của Riêng Bạn.
           </span>
         </motion.h1>
         
