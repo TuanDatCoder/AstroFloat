@@ -147,7 +147,7 @@ export default function Login() {
  </button>
 
  <p className="text-sm text-gray-400 mt-2">
- Chưa có hồ sơ? <Link to="/register" className="text-cyan-400 font-bold hover:text-cyan-300 hover:underline transition-colors underline-offset-4">Đăng ký ngay</Link>
+ Chưa có hồ sơ? <Link to={ROUTES.REGISTER} className="text-cyan-400 font-bold hover:text-cyan-300 hover:underline transition-colors underline-offset-4">Đăng ký ngay</Link>
  </p>
  </div>
  </form>

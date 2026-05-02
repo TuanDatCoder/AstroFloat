@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldOff, Home, LogIn } from 'lucide-react';
+import { ROUTES } from '../constants';
 
 export default function Unauthorized() {
   return (
@@ -38,7 +39,7 @@ export default function Unauthorized() {
           </button>
 
           <button 
-            onClick={() => { window.location.href = '/login'; }}
+            onClick={() => { window.location.href = ROUTES.LOGIN; }}
             className="flex items-center gap-2 px-8 py-4 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white rounded-2xl font-black transition-all shadow-xl shadow-rose-500/20 uppercase tracking-widest text-xs cursor-pointer"
           >
             <LogIn className="w-4 h-4" />

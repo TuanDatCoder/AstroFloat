@@ -59,7 +59,7 @@ export default function Profile() {
  try {
  setLoading(true);
  const user = await authService.getCurrentUser();
- if (!user) { navigate('/login'); return; }
+ if (!user) { navigate(ROUTES.LOGIN); return; }
 
  const p = await authService.getUserProfile(user.id);
  if (!p) { console.warn("Không tìm thấy profile cho user:", user.id); return; }
@@ -106,7 +106,7 @@ export default function Profile() {
 
  const handleLogout = async () => {
  await authService.logout();
- navigate('/login');
+ navigate(ROUTES.LOGIN);
  };
 
  if (loading) {
@@ -175,11 +175,10 @@ export default function Profile() {
  </span>
  )}
  </div>
-
- <div className="flex flex-wrap gap-3 justify-center md:justify-start">
- <Link to="/profile/edit" className="flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-semibold text-white transition-all">
- <Edit3 className="w-4 h-4" /> Chỉnh sửa
- </Link>
+  <div className="flex items-center justify-center md:justify-start gap-3">
+  <Link to={ROUTES.PROFILE_EDIT} className="flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-semibold text-white transition-all">
+  <Edit3 className="w-4 h-4" /> Chỉnh sửa
+  </Link>
  <button
  onClick={handleLogout}
  className="flex items-center gap-2 px-5 py-2.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded-full text-sm font-semibold text-red-300 transition-all"
@@ -319,7 +318,7 @@ export default function Profile() {
  </div>
  </Link>
  <Link 
- to={`/zodiac-all-matches?sign=${profile.sun_sign_id || zodiacSign.id}`} 
+ to={`${ROUTES.ZODIAC_ALL_MATCHES}?sign=${profile.sun_sign_id || zodiacSign.id}`} 
  className="flex justify-between items-center w-full px-5 py-4 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 rounded-2xl text-indigo-400 hover:text-indigo-300 font-bold tracking-widest text-xs uppercase transition-all group"
  >
  <span>Xem Bảng Xếp Hạng Mối Quan Hệ</span>
@@ -376,7 +375,7 @@ export default function Profile() {
  <h2 className="text-sm font-bold uppercase tracking-widest text-white/60">Bảo Mật</h2>
  </div>
  <Link 
- to="/change-password"
+ to={ROUTES.CHANGE_PASSWORD}
  className="w-full flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-white/5 transition-colors text-sm text-gray-400 hover:text-white group"
  >
  <span>Đổi mật khẩu</span>

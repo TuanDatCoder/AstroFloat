@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { supabase } from '../services/supabase';
 import { authService } from '../services/authService';
+import { ROUTES } from '../constants';
 
 export default function ProtectedRoute({ requireAdmin = false }) {
   const [loading, setLoading] = useState(true);
@@ -98,7 +99,7 @@ export default function ProtectedRoute({ requireAdmin = false }) {
 
   // Redirect logic
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to={ROUTES.LOGIN} state={{ from: location }} replace />;
   }
 
   if (requireAdmin && !isAdmin) {

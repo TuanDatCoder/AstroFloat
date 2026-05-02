@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { User, Sparkles, Star, ChevronRight, Briefcase, Heart, Lightbulb, AlertCircle, Info, Target, Quote, ArrowLeft } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { nameNumerologyService } from '../../services/nameNumerologyService';
+import { ROUTES } from '../../constants';
 
 const containerVariants = {
  hidden: { opacity: 0 },
@@ -131,7 +132,7 @@ export default function NameNumerologyDetail() {
  return (
  <div className="flex flex-col items-center pt-20 pb-24 px-6 relative z-10 w-full max-w-7xl mx-auto min-h-[80vh]">
  
- <Link to="/name-numerology" className="self-start mb-8 flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors text-sm font-bold uppercase tracking-widest">
+ <Link to={ROUTES.NAME_NUMEROLOGY} className="self-start mb-8 flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors text-sm font-bold uppercase tracking-widest">
  <ArrowLeft className="w-4 h-4" /> TRỞ VỀ DANH SÁCH
  </Link>
 
