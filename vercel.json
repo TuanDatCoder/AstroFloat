@@ -1,4 +1,14 @@
 {
+  "redirects": [
+    { "source": "/discover", "destination": "/kham-pha", "permanent": true },
+    { "source": "/zodiac", "destination": "/cung-hoang-dao", "permanent": true },
+    { "source": "/numerology", "destination": "/than-so-hoc", "permanent": true },
+    { "source": "/name-numerology", "destination": "/than-so-hoc-theo-ten", "permanent": true },
+    { "source": "/zodiac-match", "destination": "/do-hop-cung-hoang-dao", "permanent": true },
+    { "source": "/pinnacle-analysis", "destination": "/phan-tich-4-dinh-cao", "permanent": true },
+    { "source": "/privacy", "destination": "/chinh-sach-bao-mat", "permanent": true },
+    { "source": "/terms", "destination": "/dieu-khoan-su-dung", "permanent": true }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
