@@ -80,25 +80,27 @@ export default function Discover() {
   };
 
   React.useEffect(() => {
+    let isMounted = true;
+
     const initData = async () => {
       let currentDob = dob;
       let currentName = fullName;
       let shouldAutoFetch = !!currentDob;
 
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        setIsLoggedIn(!!session);
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (isMounted) setIsLoggedIn(!!sessionData.session);
         
-        if (session?.user) {
-          const profile = await authService.getUserProfile(session.user.id);
+        if (sessionData.session?.user) {
+          const profile = await authService.getUserProfile(sessionData.session.user.id);
           
-          if (!localStorage.getItem('astrofloat_dob') && profile.birth_date) {
+          if (isMounted && !localStorage.getItem('astrofloat_dob') && profile.birth_date) {
             const dateOnly = profile.birth_date.substring(0, 10);
             setDob(dateOnly);
             currentDob = dateOnly;
             shouldAutoFetch = true;
           }
-          if (!localStorage.getItem('astrofloat_name') && profile.birth_name) {
+          if (isMounted && !localStorage.getItem('astrofloat_name') && profile.birth_name) {
             setFullName(profile.birth_name);
             currentName = profile.birth_name;
             shouldAutoFetch = true;
@@ -108,12 +110,22 @@ export default function Discover() {
         console.error("Lỗi lấy thông tin cá nhân:", err);
       }
 
-      if (shouldAutoFetch && currentDob) {
+      if (shouldAutoFetch && currentDob && isMounted) {
         handleDiscover(currentDob, currentName);
       }
     };
 
     initData();
+
+    // Safety timeout: 10s tự động tắt loading nếu bị treo
+    const timer = setTimeout(() => {
+      if (isMounted) setLoading(prev => (prev ? false : prev));
+    }, 10000);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+    };
   }, []);
 
   const renderBirthGrid = (grid) => {
