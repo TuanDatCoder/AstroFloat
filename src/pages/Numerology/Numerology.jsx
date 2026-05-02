@@ -47,32 +47,54 @@ export default function Numerology() {
  }
  };
 
- useEffect(() => {
- fetchData();
- supabase.auth.getSession().then(async ({ data }) => {
-   if (data.session?.user) {
-     try {
-       const profile = await authService.getUserProfile(data.session.user.id);
-       if (!localStorage.getItem('astrofloat_dob') && profile.birth_date) {
-         setDob(profile.birth_date.substring(0, 10));
-       }
-     } catch(e) {}
-   }
- });
+  useEffect(() => {
+    // 1. Fetch dữ liệu chính (danh sách thần số học)
+    fetchData();
 
- const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, currentSession) => {
-   if (currentSession?.user) {
-     try {
-       const profile = await authService.getUserProfile(currentSession.user.id);
-       if (!localStorage.getItem('astrofloat_dob') && profile.birth_date) {
-         setDob(profile.birth_date.substring(0, 10));
-       }
-     } catch(e) {}
-   }
- });
+    // 2. Xử lý Auth (không block loading chính)
+    const checkAuth = async () => {
+      try {
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (sessionData.session?.user) {
+          const profile = await authService.getUserProfile(sessionData.session.user.id);
+          if (!localStorage.getItem('astrofloat_dob') && profile.birth_date) {
+            setDob(profile.birth_date.substring(0, 10));
+          }
+        }
+      } catch (e) {
+        console.error("Auth check error:", e);
+      }
+    };
 
- return () => subscription.unsubscribe();
- }, []);
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, currentSession) => {
+      if (currentSession?.user) {
+        try {
+          const profile = await authService.getUserProfile(currentSession.user.id);
+          if (!localStorage.getItem('astrofloat_dob') && profile.birth_date) {
+            setDob(profile.birth_date.substring(0, 10));
+          }
+        } catch (e) {}
+      }
+    });
+
+    // 3. Cơ chế bảo vệ: Nếu sau 8 giây vẫn loading thì tự tắt (Tránh kẹt UI)
+    const safetyTimer = setTimeout(() => {
+      setLoading(prev => {
+        if (prev) {
+          console.warn("Dữ liệu nạp quá lâu, tự động tắt loading để hiển thị UI.");
+          return false;
+        }
+        return prev;
+      });
+    }, 8000);
+
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(safetyTimer);
+    };
+  }, []);
 
  const handleLookup = () => {
  if (!dob) return;
