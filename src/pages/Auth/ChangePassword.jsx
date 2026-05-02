@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Lock, ArrowLeft, Eye, EyeOff, CheckCircle2, AlertCircle, ShieldCheck } from 'lucide-react';
 import { supabase } from '../../services/supabase';
+import { ROUTES } from '../../constants';
 
 export default function ChangePassword() {
  const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function ChangePassword() {
  
  setSuccess(true);
  setTimeout(() => {
- navigate('/profile');
+ navigate(ROUTES.PROFILE);
  }, 3000);
  } catch (err) {
  setError(err.message || 'Có lỗi xảy ra khi đổi mật khẩu.');

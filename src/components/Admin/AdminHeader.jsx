@@ -3,6 +3,7 @@ import { LogOut, Menu, UserCircle, Sparkles, Bell, Shield, Home } from 'lucide-r
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { supabase } from '../../services/supabase';
 import { authService } from '../../services/authService';
+import { ROUTES } from '../../constants';
 
 const breadcrumbMap = {
   '/admin': 'Dashboard',
@@ -40,7 +41,7 @@ export default function AdminHeader({ toggleSidebar }) {
 
   const handleLogout = async () => {
     await authService.logout();
-    navigate('/login');
+    navigate(ROUTES.LOGIN);
   };
 
   // Build breadcrumb

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Phone, Calendar, ArrowLeft, Save, Sparkles, UserCircle, Image as ImageIcon } from 'lucide-react';
 import { authService } from '../../services/authService';
+import { ROUTES } from '../../constants';
 
 export default function EditProfile() {
  const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function EditProfile() {
  try {
  const user = await authService.getCurrentUser();
  if (!user) {
- navigate('/login');
+ navigate(ROUTES.LOGIN);
  return;
  }
  setUserId(user.id);
@@ -89,7 +90,7 @@ export default function EditProfile() {
  setSuccess(true);
  
  setTimeout(() => {
- navigate('/profile');
+ navigate(ROUTES.PROFILE);
  }, 2000);
  
  } catch (err) {
@@ -121,7 +122,7 @@ export default function EditProfile() {
  </div>
 
  <div className="flex items-center justify-between mb-10 relative z-10">
- <Link to="/profile" className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all">
+ <Link to={ROUTES.PROFILE} className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all">
  <ArrowLeft className="w-5 h-5" />
  </Link>
  <div className="text-center flex-1">

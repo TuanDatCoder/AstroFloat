@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Phone, Clock, Calendar, Sparkles, UserCircle, Eye, EyeOff } from 'lucide-react';
 import { authService } from '../../services/authService';
+import { ROUTES } from '../../constants';
 
 export default function Register() {
  const navigate = useNavigate();
@@ -35,7 +36,7 @@ export default function Register() {
 
  setSuccess(true);
  setTimeout(() => {
- navigate('/login');
+ navigate(ROUTES.LOGIN);
  }, 3000);
 
  } catch (err) {
@@ -217,7 +218,7 @@ export default function Register() {
  </button>
  <p className="text-sm text-gray-400">
  Đã có hồ sơ?{' '}
- <Link to="/login" className="text-cyan-400 font-bold hover:underline">Hãy kết nối</Link>
+ <Link to={ROUTES.LOGIN} className="text-cyan-400 font-bold hover:underline">Hãy kết nối</Link>
  </p>
  </div>
  </form>

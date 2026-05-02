@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, ArrowLeft, Key, Sparkles, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { authService } from '../../services/authService';
+import { ROUTES } from '../../constants';
 
 export default function ForgotPassword() {
  const navigate = useNavigate();
@@ -44,7 +45,7 @@ export default function ForgotPassword() {
  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
 
  <Link
- to="/login"
+ to={ROUTES.LOGIN}
  className="mb-8 flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
  >
  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />

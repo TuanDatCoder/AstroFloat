@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Zap, Sparkles, Star, Calendar, Clock, Crown, Target } from 'lucide-react';
 import { numerologyService } from '../../services/numerologyService';
 import { supabase } from '../../services/supabase';
+import { ROUTES } from '../../constants';
 
 const formatContent = (text) => {
   if (!text) return null;
@@ -81,7 +82,7 @@ export default function PinnacleFullAnalysis() {
  return (
  <div className="flex flex-col items-center pt-24 pb-32 px-6 relative z-10 w-full max-w-5xl mx-auto min-h-screen">
  
- <Link to="/discover" className="self-start mb-12 flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors text-sm font-black uppercase tracking-widest group">
+ <Link to={ROUTES.DISCOVER} className="self-start mb-12 flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors text-sm font-black uppercase tracking-widest group">
  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> HỒ SƠ CỦA BẠN
  </Link>
 
@@ -160,7 +161,7 @@ export default function PinnacleFullAnalysis() {
  )}
 
  <div className="mt-8">
- <Link to={`/pinnacle/${p.value}`} className="inline-flex items-center gap-2 text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] group-hover:text-white transition-colors">
+ <Link to={ROUTES.PINNACLE_DETAIL(p.value)} className="inline-flex items-center gap-2 text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] group-hover:text-white transition-colors">
  CHI TIẾT CON SỐ <ArrowLeft className="w-3 h-3 rotate-180" />
  </Link>
  </div>

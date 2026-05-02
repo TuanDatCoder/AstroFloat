@@ -5,6 +5,7 @@ import { Heart, Briefcase, Users, Star, ArrowLeft, Zap, Sparkles } from 'lucide-
 import { zodiacService } from '../../services/zodiacService';
 import { zodiacMatchesService } from '../../services/zodiacMatchesService';
 import { supabase } from '../../services/supabase';
+import { ROUTES } from '../../constants';
 
 const containerVariants = {
  hidden: { opacity: 0 },
@@ -180,14 +181,14 @@ export default function ZodiacBestMatches() {
  {/* Navigation Top Bar */}
  <div className="w-full flex justify-between items-center mb-6 md:mb-10 gap-2">
  <Link 
- to="/zodiac" 
+ to={ROUTES.ZODIAC} 
  className="flex items-center gap-1.5 md:gap-2 text-cyan-400 hover:text-cyan-300 transition-all uppercase tracking-widest text-[9px] md:text-[10px] font-black bg-cyan-950/40 px-3 md:px-5 py-2.5 md:py-3 rounded-full border border-cyan-500/20 active:scale-95 shadow-lg shadow-cyan-900/10"
  >
  <ArrowLeft className="w-3.5 h-3.5" /> <span>Quay Lại</span>
  </Link>
 
  <Link 
- to={`/zodiac-all-matches?sign=${selectedSignId}`} 
+ to={`${ROUTES.ZODIAC_ALL_MATCHES}?sign=${selectedSignId}`} 
  className="flex items-center gap-1.5 md:gap-2 text-amber-400 hover:text-amber-300 transition-all uppercase tracking-widest text-[9px] md:text-[10px] font-black bg-amber-950/50 px-3 md:px-5 py-2.5 md:py-3 rounded-full border border-amber-500/20 active:scale-95 shadow-lg shadow-amber-900/10 text-right"
  >
  <span>Toàn Bộ BXH</span> <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
@@ -293,7 +294,7 @@ export default function ZodiacBestMatches() {
  {/* Button So Sánh Chi Tiết */}
  <div className="relative z-10 mt-8 pt-5 border-t border-white/5 flex justify-center">
  <Link 
- to={`/zodiac-match`} 
+ to={ROUTES.ZODIAC_MATCH} 
  className={`flex items-center gap-2 ${cat.text} font-bold text-xs uppercase tracking-widest hover:text-white transition-colors`}
  >
  Mở tính năng So Khớp Trực Tiếp <ArrowLeft className="w-3 h-3 rotate-180" />

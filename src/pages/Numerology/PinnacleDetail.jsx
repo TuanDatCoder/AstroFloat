@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Sparkles, Lightbulb, Zap, Info, ChevronRight, Calculator } from 'lucide-react';
 import { numerologyService } from '../../services/numerologyService';
+import { ROUTES } from '../../constants';
 
 const formatContent = (text) => {
   if (!text) return null;
@@ -67,9 +68,9 @@ export default function PinnacleDetail() {
  }
 
  return (
- <div className="flex flex-col items-center pt-24 pb-32 px-6 relative z-10 w-full max-w-5xl mx-auto min-h-screen">
+ <div className="flex flex-col items-center pt-24 pb-32 px-6 relative z-10 w-full max-w-4xl mx-auto min-h-screen">
  
- <Link to="/discover" className="self-start mb-12 flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors text-sm font-bold uppercase tracking-widest group">
+ <Link to={ROUTES.DISCOVER} className="self-start mb-12 flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors text-sm font-bold uppercase tracking-widest group">
  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> QUAY LẠI HỒ SƠ
  </Link>
 
