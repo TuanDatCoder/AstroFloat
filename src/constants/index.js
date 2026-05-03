@@ -14,8 +14,13 @@ export const TABLES = {
  PINNACLE_NUMEROLOGY: 'pinnacle_numerology',
  PINNACLE_DETAILS: 'pinnacle_details',
  PROFILE_PINNACLES: 'profile_pinnacles',
- ZODIAC_CRITERIA: 'zodiac_criteria',
- ZODIAC_ATTRIBUTES: 'zodiac_attributes'
+  ZODIAC_CRITERIA: 'zodiac_criteria',
+  ZODIAC_ATTRIBUTES: 'zodiac_attributes',
+  NEWS_CATEGORIES: 'news_categories',
+  NEWS_ARTICLES: 'news_articles',
+  NEWS_ARTICLE_CATEGORIES: 'news_article_categories',
+  NEWS_TAGS: 'news_tags',
+  NEWS_ARTICLE_TAGS: 'news_article_tags'
 };
 
 // ==========================================
@@ -214,7 +219,10 @@ export const ROUTES = {
   ZODIAC_ALL_MATCHES: '/tat-ca-cap-doi-cung-hoang-dao',
   FORGOT_PASSWORD: '/quen-mat-khau',
   TERMS: '/dieu-khoan-su-dung',
-  PRIVACY: '/chinh-sach-bao-mat'
+  PRIVACY: '/chinh-sach-bao-mat',
+  NEWS: '/tin-tuc',
+  NEWS_DETAIL: (slug) => `/tin-tuc/${slug}`,
+  ZODIAC_DATE_SEO: (day, month) => `/cung-hoang-dao/sinh-ngay-${day}-thang-${month}-la-cung-gi`
 };
 
 export const ZODIAC_CATEGORIES = [

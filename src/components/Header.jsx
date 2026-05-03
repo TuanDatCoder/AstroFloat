@@ -5,12 +5,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { supabase } from '../services/supabase';
 import { ROUTES } from '../constants';
 
-const navLinks = [
- { to: ROUTES.DISCOVER, label: 'GIẢI MÃ', activeColor: 'text-emerald-300', glowColor: 'rgba(16,185,129,0.8)', hoverClass: 'hover:text-emerald-300' },
- { to: ROUTES.ZODIAC, label: 'CHÒM SAO', activeColor: 'text-cyan-300', glowColor: 'rgba(34,211,238,0.8)', hoverClass: 'hover:text-cyan-300', exact: false, excludes: 'match' },
- { to: ROUTES.ZODIAC_MATCH, label: 'TƯƠNG HỢP', activeColor: 'text-pink-300', glowColor: 'rgba(244,114,182,0.8)', hoverClass: 'hover:text-pink-300' },
- { to: ROUTES.NUMEROLOGY, label: 'THẦN SỐ HỌC', activeColor: 'text-purple-300', glowColor: 'rgba(168,85,247,0.8)', hoverClass: 'hover:text-purple-300' },
- { to: ROUTES.NAME_NUMEROLOGY, label: 'THẦN SỐ TÊN', activeColor: 'text-indigo-300', glowColor: 'rgba(129,140,248,0.8)', hoverClass: 'hover:text-indigo-300' },
+ const navLinks = [
+  { to: ROUTES.DISCOVER, label: 'GIẢI MÃ', activeColor: 'text-emerald-300', glowColor: 'rgba(16,185,129,0.8)', hoverClass: 'hover:text-emerald-300' },
+  { to: ROUTES.ZODIAC, label: 'CHÒM SAO', activeColor: 'text-cyan-300', glowColor: 'rgba(34,211,238,0.8)', hoverClass: 'hover:text-cyan-300', exact: false, excludes: 'match' },
+  { to: ROUTES.ZODIAC_MATCH, label: 'TƯƠNG HỢP', activeColor: 'text-pink-300', glowColor: 'rgba(244,114,182,0.8)', hoverClass: 'hover:text-pink-300' },
+  { to: ROUTES.NUMEROLOGY, label: 'THẦN SỐ HỌC', activeColor: 'text-purple-300', glowColor: 'rgba(168,85,247,0.8)', hoverClass: 'hover:text-purple-300' },
+  { to: ROUTES.NAME_NUMEROLOGY, label: 'THẦN SỐ TÊN', activeColor: 'text-indigo-300', glowColor: 'rgba(129,140,248,0.8)', hoverClass: 'hover:text-indigo-300' },
+  { to: ROUTES.NEWS, label: 'TIN TỨC', activeColor: 'text-yellow-300', glowColor: 'rgba(253,224,71,0.8)', hoverClass: 'hover:text-yellow-300' },
 ];
 
 export default function Header() {

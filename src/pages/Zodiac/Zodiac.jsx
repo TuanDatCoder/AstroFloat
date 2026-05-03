@@ -77,23 +77,18 @@ export default function Zodiac() {
  return () => subscription.unsubscribe();
  }, []);
 
- const handleLookup = async () => {
- if (!dob) return;
- setCalcLoading(true);
- setError(null);
- try {
- const id = await zodiacService.getZodiacIdByDate(dob);
- if (id) {
- navigate(ROUTES.ZODIAC_DETAIL(id));
- } else {
- setError("Hệ thống chưa có đủ phổ dữ liệu cho ngày sinh này.");
- }
- } catch (err) {
- setError(err.message);
- } finally {
- setCalcLoading(false);
- }
- };
+  const handleLookup = () => {
+    if (!dob) return;
+    const date = new Date(dob);
+    if (isNaN(date)) {
+      setError("Ngày sinh không hợp lệ.");
+      return;
+    }
+
+    const d = date.getDate();
+    const m = date.getMonth() + 1;
+    navigate(`/cung-hoang-dao/sinh-ngay-${d}-thang-${m}-la-cung-gi`);
+  };
 
  return (
  <div className="flex flex-col items-center pt-10 pb-20 px-6 relative z-10 w-full max-w-7xl mx-auto min-h-[80vh]">
@@ -187,6 +182,40 @@ export default function Zodiac() {
  {calcLoading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Giải Mã"}
  </button>
  </div>
+ </motion.div>
+
+ {/* Phần Tra cứu nhanh (Internal Links cho SEO) */}
+ <motion.div
+   initial={{ opacity: 0 }}
+   animate={{ opacity: 1 }}
+   transition={{ delay: 0.5 }}
+   className="mb-16 w-full text-center"
+ >
+   <p className="text-gray-500 text-sm mb-4 flex items-center justify-center gap-2 font-light">
+     <Sparkles className="w-4 h-4 text-cyan-500/50" />
+     Tra cứu nhanh theo ngày sinh
+   </p>
+   <div className="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto">
+     {[
+       { d: 1, m: 1, name: '1/1' },
+       { d: 14, m: 2, name: '14/2' },
+       { d: 8, m: 3, name: '8/3' },
+       { d: 30, m: 4, name: '30/4' },
+       { d: 1, m: 6, name: '1/6' },
+       { d: 2, m: 9, name: '2/9' },
+       { d: 20, m: 10, name: '20/10' },
+       { d: 25, m: 12, name: '25/12' },
+     ].map((item) => (
+       <Link 
+         key={`${item.d}-${item.m}`}
+         to={`/cung-hoang-dao/sinh-ngay-${item.d}-thang-${item.m}-la-cung-gi`}
+         className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[11px] text-gray-400 hover:text-cyan-300 hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all font-medium"
+       >
+         {item.name}
+       </Link>
+     ))}
+     <span className="text-gray-600 text-[11px] flex items-center px-2">... và 366 ngày khác</span>
+   </div>
  </motion.div>
 
  <AnimatePresence mode="wait">

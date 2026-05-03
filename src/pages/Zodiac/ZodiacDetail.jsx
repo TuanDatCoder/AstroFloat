@@ -17,7 +17,8 @@ const getTopicIcon = (topic, className) => {
 };
 
 export default function ZodiacDetail() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params.id || params['*']; // Hỗ trợ cả hai loại route
   const [zodiac, setZodiac] = useState(null);
   const [details, setDetails] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,6 +27,19 @@ export default function ZodiacDetail() {
 
   useEffect(() => {
     const fetchDetailData = async () => {
+      // ĐIỀU HƯỚNG THÔNG MINH (Chỉ dành cho các URL cũ dạng ngay-11-1)
+      if (id && id.startsWith('ngay-')) {
+        const parts = id.replace('ngay-', '').split('-');
+        navigate(`/cung-hoang-dao/sinh-ngay-${parts[0]}-thang-${parts[1]}-la-cung-gi`, { replace: true });
+        return;
+      }
+
+      if (isNaN(id)) {
+        setError("Mã cung hoàng đạo không hợp lệ.");
+        setLoading(false);
+        return;
+      }
+
       setLoading(true);
       try {
         // Lấy thông tin tổng quát của cung hoàng đạo
@@ -45,7 +59,7 @@ export default function ZodiacDetail() {
     };
 
     fetchDetailData();
-  }, [id]);
+  }, [id, navigate]);
 
   if (loading) {
     return (
