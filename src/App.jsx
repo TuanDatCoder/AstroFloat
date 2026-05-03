@@ -3,6 +3,8 @@ import Layout from './components/Layout';
 import Home from './pages/Home';
 import Zodiac from './pages/Zodiac/Zodiac';
 import ZodiacDetail from './pages/Zodiac/ZodiacDetail';
+import ZodiacDateSEO from './pages/Zodiac/ZodiacDateSEO';
+import ZodiacContentWrapper from './pages/Zodiac/ZodiacContentWrapper';
 import ZodiacMatch from './pages/Zodiac/ZodiacMatch';
 import ZodiacBestMatches from './pages/Zodiac/ZodiacBestMatches';
 import ZodiacAllMatches from './pages/Zodiac/ZodiacAllMatches';
@@ -17,6 +19,8 @@ import PinnacleFullAnalysis from './pages/Numerology/PinnacleFullAnalysis';
 import Discover from './pages/Discover';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
+import News from './pages/News/News';
+import NewsDetail from './pages/News/NewsDetail';
 import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import ForgotPassword from './pages/Auth/ForgotPassword';
@@ -48,6 +52,8 @@ import AdminPinnacleDetailList from './pages/Admin/Numerology/AdminPinnacleDetai
 import AdminUserPinnacleList from './pages/Admin/Numerology/AdminUserPinnacleList';
 
 import AdminUserList from './pages/Admin/Users/AdminUserList';
+import AdminNewsList from './pages/Admin/News/AdminNewsList';
+import AdminNewsForm from './pages/Admin/News/AdminNewsForm';
 
 import { ROUTES } from './constants';
 
@@ -65,8 +71,12 @@ export default function App() {
         <Route path={ROUTES.PROFILE} element={<Profile />} />
         <Route path={ROUTES.PROFILE_EDIT} element={<EditProfile />} />
         <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePassword />} />
-        <Route path={ROUTES.ZODIAC} element={<Zodiac />} />
-        <Route path={ROUTES.ZODIAC_DETAIL(':id')} element={<ZodiacDetail />} />
+        
+        {/* NHÓM ROUTE CUNG HOÀNG ĐẠO - Dùng Wrapper để điều phối thông minh, tránh xung đột */}
+        <Route path="cung-hoang-dao">
+          <Route index element={<Zodiac />} />
+          <Route path="*" element={<ZodiacContentWrapper />} />
+        </Route>
         <Route path={ROUTES.ZODIAC_MATCH} element={<ZodiacMatch />} />
         <Route path={ROUTES.ZODIAC_BEST_MATCHES} element={<ZodiacBestMatches />} />
         <Route path={ROUTES.ZODIAC_ALL_MATCHES} element={<ZodiacAllMatches />} />
@@ -78,6 +88,10 @@ export default function App() {
         <Route path={ROUTES.PINNACLE_ANALYSIS} element={<PinnacleFullAnalysis />} />
         <Route path={ROUTES.TERMS} element={<Terms />} />
         <Route path={ROUTES.PRIVACY} element={<Privacy />} />
+        <Route path="tin-tuc">
+          <Route index element={<News />} />
+          <Route path=":slug" element={<NewsDetail />} />
+        </Route>
       </Route>
 
       <Route element={<ProtectedRoute requireAdmin={true} />}>
@@ -115,6 +129,12 @@ export default function App() {
           <Route path="pinnacles/:number/details" element={<AdminPinnacleDetailManager />} />
           <Route path="pinnacle-details" element={<AdminPinnacleDetailList />} />
           <Route path="user-pinnacles" element={<AdminUserPinnacleList />} />
+          
+          {/* News Management */}
+          <Route path="news" element={<AdminNewsList />} />
+          <Route path="news/new" element={<AdminNewsForm />} />
+          <Route path="news/edit/:id" element={<AdminNewsForm />} />
+
           {/* Admin Catch-all → redirect về /not-found */}
           <Route path="*" element={<Navigate to="/not-found" replace />} />
         </Route>

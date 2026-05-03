@@ -40,6 +40,12 @@ const navGroups = [
       { name: 'Bài viết Chi tiết', path: '/admin/pinnacle-details', icon: BookOpenIcon },
       { name: 'User Pinnacles', path: '/admin/user-pinnacles', icon: Sparkles },
     ]
+  },
+  {
+    label: 'Tin Tức',
+    items: [
+      { name: 'Quản lý bài viết', path: '/admin/news', icon: BookOpenIcon },
+    ]
   }
 ];
 
