@@ -1,7 +1,7 @@
 import React from 'react';
 import ZodiacDetailClient from './ZodiacDetailClient';
-import { zodiacService } from '@/src/services/zodiacService';
-import { zodiacDetailService } from '@/src/services/zodiacDetailService';
+import { zodiacService } from '@/services/zodiacService';
+import { zodiacDetailService } from '@/services/zodiacDetailService';
 
 export async function generateMetadata({ params }) {
   const { id } = params;

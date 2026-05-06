@@ -1,7 +1,7 @@
 import React from 'react';
 import NumerologyDetailClient from './NumerologyDetailClient';
-import { numerologyService } from '@/src/services/numerologyService';
-import { numerologyDetailService } from '@/src/services/numerologyDetailService';
+import { numerologyService } from '@/services/numerologyService';
+import { numerologyDetailService } from '@/services/numerologyDetailService';
 
 export async function generateMetadata({ params }) {
   const { number } = params;

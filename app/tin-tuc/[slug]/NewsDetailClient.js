@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Clock, Tag, ChevronLeft, Calendar, User, Eye } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { newsService } from '@/src/services/newsService';
+import { newsService } from '@/services/newsService';
 
 export default function NewsDetailClient({ initialArticle, slug }) {
   const router = useRouter();

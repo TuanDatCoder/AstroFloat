@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Star, Sparkles, ArrowRight, Moon } from 'lucide-react';
-import { zodiacService } from '@/src/services/zodiacService';
-import { zodiacDetailService } from '@/src/services/zodiacDetailService';
+import { zodiacService } from '@/services/zodiacService';
+import { zodiacDetailService } from '@/services/zodiacDetailService';
 
 // Fallback map (copy từ bản cũ)
 export const ZODIAC_MAP = {
