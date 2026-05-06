@@ -1,0 +1,7 @@
+{
+  "/ho-so/page": "app/ho-so/page.js",
+  "/tat-ca-cap-doi-cung-hoang-dao/page": "app/tat-ca-cap-doi-cung-hoang-dao/page.js",
+  "/cung-hoang-dao-tuong-hop-nhat/page": "app/cung-hoang-dao-tuong-hop-nhat/page.js",
+  "/dang-nhap/page": "app/dang-nhap/page.js",
+  "/dang-ky/page": "app/dang-ky/page.js"
+}

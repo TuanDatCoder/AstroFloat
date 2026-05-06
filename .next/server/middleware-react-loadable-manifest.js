@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST="{\"services\\\\zodiacMatchesService.js -> ./zodiacService\":{\"id\":\"services\\\\zodiacMatchesService.js -> ./zodiacService\",\"files\":[\"static/chunks/_app-pages-browser_services_zodiacService_js.js\"]}}"
