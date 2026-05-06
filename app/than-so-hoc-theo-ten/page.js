@@ -1,6 +1,6 @@
 import React from 'react';
 import NameNumerologyClient from './NameNumerologyClient';
-import { nameNumerologyService } from '@/src/services/nameNumerologyService';
+import { nameNumerologyService } from '@/services/nameNumerologyService';
 
 export const metadata = {
   title: 'Thần Số Học Theo Tên - Giải mã tần số tên gọi | Góc Vũ Trụ',

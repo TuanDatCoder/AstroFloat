@@ -1,6 +1,6 @@
 import React from 'react';
 import NumerologyListClient from './NumerologyListClient';
-import { numerologyService } from '@/src/services/numerologyService';
+import { numerologyService } from '@/services/numerologyService';
 
 export const metadata = {
   title: 'Thần Số Học - Giải mã vận mệnh qua ngày sinh | Góc Vũ Trụ',

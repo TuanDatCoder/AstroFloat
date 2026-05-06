@@ -1,6 +1,6 @@
 import React from 'react';
 import ZodiacMatchClient from './ZodiacMatchClient';
-import { zodiacService } from '@/src/services/zodiacService';
+import { zodiacService } from '@/services/zodiacService';
 
 export const metadata = {
   title: 'Xem Độ Tương Hợp 12 Cung Hoàng Đạo - So Đôi Lứa Đôi | Góc Vũ Trụ',

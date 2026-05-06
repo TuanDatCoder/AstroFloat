@@ -1,6 +1,6 @@
 import React from 'react';
 import ZodiacListClient from './ZodiacListClient';
-import { zodiacService } from '@/src/services/zodiacService';
+import { zodiacService } from '@/services/zodiacService';
 
 // Cấu hình SEO cho trang danh sách cung hoàng đạo
 export const metadata = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import NewsDetailClient from './NewsDetailClient';
-import { newsService } from '@/src/services/newsService';
+import { newsService } from '@/services/newsService';
 
 export async function generateMetadata({ params }) {
   const { slug } = params;

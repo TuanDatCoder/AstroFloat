@@ -1,6 +1,6 @@
 import React from 'react';
 import ZodiacDateSEOClient from './ZodiacDateSEOClient';
-import { ZODIAC_MAP } from '@/src/pages/Zodiac/ZodiacDateSEO'; // Tạm thời dùng lại map cũ
+import { ZODIAC_MAP } from './ZodiacDateSEOClient';
 
 // Logic tính cung hoàng đạo (copy từ bản cũ để đảm bảo tính nhất quán)
 function calculateZodiacByDate(day, month) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import NewsListClient from './NewsListClient';
-import { newsService } from '@/src/services/newsService';
+import { newsService } from '@/services/newsService';
 
 export const metadata = {
   title: 'Tin Tức Chiêm Tinh & Thần Số Học | Góc Vũ Trụ',

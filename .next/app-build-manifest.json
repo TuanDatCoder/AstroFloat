@@ -1,9 +1,9 @@
 {
   "pages": {
-    "/than-so-hoc-theo-ten/ket-qua/page": [
+    "/ho-so/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/than-so-hoc-theo-ten/ket-qua/page.js"
+      "static/chunks/app/ho-so/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -11,200 +11,55 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/loading.js"
+    ],
     "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
-    ],
-    "/tin-tuc/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/tin-tuc/page.js"
-    ],
-    "/than-so-hoc-theo-ten/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/than-so-hoc-theo-ten/page.js"
-    ],
-    "/than-so-hoc/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/than-so-hoc/page.js"
-    ],
-    "/do-hop-cung-hoang-dao/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/do-hop-cung-hoang-dao/page.js"
-    ],
-    "/cung-hoang-dao/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/cung-hoang-dao/page.js"
-    ],
-    "/ho-so/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/ho-so/page.js"
-    ],
-    "/than-so-hoc/[number]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/than-so-hoc/[number]/page.js"
-    ],
-    "/bieu-do-pinnacle/[number]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/bieu-do-pinnacle/[number]/page.js"
-    ],
-    "/tin-tuc/[slug]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/tin-tuc/[slug]/page.js"
-    ],
-    "/dang-nhap/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dang-nhap/page.js"
-    ],
-    "/admin/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/page.js"
-    ],
-    "/admin/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/layout.js"
-    ],
-    "/admin/users/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/users/page.js"
-    ],
-    "/admin/zodiac/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/zodiac/page.js"
-    ],
-    "/admin/zodiac/edit/[id]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/zodiac/edit/[id]/page.js"
-    ],
-    "/admin/news/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/news/page.js"
-    ],
-    "/admin/news/edit/[id]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/news/edit/[id]/page.js"
-    ],
-    "/admin/pinnacles/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/pinnacles/page.js"
-    ],
-    "/_not-found/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
     ],
     "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
-    "/admin/pinnacles/details/[number]/page": [
+    "/dang-nhap/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/admin/pinnacles/details/[number]/page.js"
+      "static/chunks/app/dang-nhap/page.js"
     ],
-    "/admin/user-pinnacles/page": [
+    "/cung-hoang-dao/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/admin/user-pinnacles/page.js"
+      "static/chunks/app/cung-hoang-dao/page.js"
     ],
-    "/admin/zodiac-matches/page": [
+    "/do-hop-cung-hoang-dao/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/admin/zodiac-matches/page.js"
+      "static/chunks/app/do-hop-cung-hoang-dao/page.js"
     ],
-    "/admin/numerology/page": [
+    "/than-so-hoc/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/admin/numerology/page.js"
+      "static/chunks/app/than-so-hoc/page.js"
     ],
-    "/admin/name-numerology/page": [
+    "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/admin/name-numerology/page.js"
+      "static/chunks/app/_not-found/page.js"
     ],
-    "/admin/name-advanced-metrics/page": [
+    "/than-so-hoc-theo-ten/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/admin/name-advanced-metrics/page.js"
-    ],
-    "/admin/pinnacle-details/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/pinnacle-details/page.js"
+      "static/chunks/app/than-so-hoc-theo-ten/page.js"
     ],
     "/kham-pha/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/kham-pha/page.js"
-    ],
-    "/phan-tich-4-dinh-cao/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/phan-tich-4-dinh-cao/page.js"
-    ],
-    "/ho-so/chinh-sua/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/ho-so/chinh-sua/page.js"
-    ],
-    "/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/loading.js"
-    ],
-    "/dang-ky/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dang-ky/page.js"
-    ],
-    "/tin-tuc/[slug]/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/tin-tuc/[slug]/loading.js"
-    ],
-    "/than-so-hoc/[number]/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/than-so-hoc/[number]/loading.js"
-    ],
-    "/cung-hoang-dao/[id]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/cung-hoang-dao/[id]/page.js"
-    ],
-    "/cung-hoang-dao/[id]/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/cung-hoang-dao/[id]/loading.js"
-    ],
-    "/tat-ca-cap-doi-cung-hoang-dao/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/tat-ca-cap-doi-cung-hoang-dao/page.js"
-    ],
-    "/cung-hoang-dao-tuong-hop-nhat/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/cung-hoang-dao-tuong-hop-nhat/page.js"
     ]
   }
 }

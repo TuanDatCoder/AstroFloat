@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, UserCircle, LogIn, Eye, EyeOff } from 'lucide-react';
-import { authService } from '@/src/services/authService';
+import { authService } from '@/services/authService';
 import { ROUTES } from '@/src/constants';
 
 export default function LoginPage() {

@@ -8,7 +8,7 @@ import { zodiacService } from '@/src/services/zodiacService';
 import { zodiacDetailService } from '@/src/services/zodiacDetailService';
 
 // Fallback map (copy từ bản cũ)
-const ZODIAC_MAP = {
+export const ZODIAC_MAP = {
   'bach-duong':  { name: 'Bạch Dương', english: 'Aries',       range: '21/3 – 19/4',   element: 'Lửa',  planet: 'Sao Hỏa',  emoji: '♈' },
   'kim-nguu':    { name: 'Kim Ngưu',   english: 'Taurus',      range: '20/4 – 20/5',   element: 'Đất',  planet: 'Sao Kim',  emoji: '♉' },
   'song-tu':     { name: 'Song Tử',    english: 'Gemini',      range: '21/5 – 20/6',   element: 'Khí',  planet: 'Sao Thủy', emoji: '♊' },
@@ -26,7 +26,7 @@ const ZODIAC_MAP = {
 const MONTH_NAMES = ['', 'tháng 1', 'tháng 2', 'tháng 3', 'tháng 4', 'tháng 5', 'tháng 6',
   'tháng 7', 'tháng 8', 'tháng 9', 'tháng 10', 'tháng 11', 'tháng 12'];
 
-function calculateZodiacByDate(day, month) {
+export function calculateZodiacByDate(day, month) {
     if (month === 3 && day >= 21) return 'bach-duong';
     if (month === 4 && day <= 19) return 'bach-duong';
     if (month === 4 && day >= 20) return 'kim-nguu';
