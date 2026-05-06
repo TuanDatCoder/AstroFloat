@@ -60,7 +60,7 @@ export default function ZodiacDateSEOClient({ slug }) {
   const [loading, setLoading] = useState(true);
 
   // Parse ngày tháng từ slug
-  const match = slug.match(/^(\d+)-thang-(\d+)/);
+  const match = slug ? slug.match(/^(\d+)-thang-(\d+)/) : null;
   const day = match ? Number(match[1]) : 0;
   const month = match ? Number(match[2]) : 0;
 
