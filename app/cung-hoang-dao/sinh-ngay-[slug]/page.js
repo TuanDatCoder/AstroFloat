@@ -49,7 +49,9 @@ export async function generateStaticParams() {
 
 // 2. Cấu hình Metadata (SEO) cực mạnh cho từng ngày
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const slug = params?.slug;
+  if (!slug) return { title: 'Ngày sinh không hợp lệ' };
+  
   const match = slug.match(/^(\d+)-thang-(\d+)/);
   if (!match) return { title: 'Ngày sinh không hợp lệ' };
 
@@ -76,5 +78,5 @@ export async function generateMetadata({ params }) {
 }
 
 export default function ZodiacDateSEOPage({ params }) {
-  return <ZodiacDateSEOClient slug={params.slug} />;
+  return <ZodiacDateSEOClient slug={params?.slug} />;
 }
