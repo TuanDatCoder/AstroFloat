@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, User, Phone, Calendar, Sparkles, UserCircle, Eye, EyeOff } from 'lucide-react';
 import { authService } from '@/services/authService';
-import { ROUTES } from '@/src/constants';
+import { ROUTES } from '@/constants';
 
 export default function RegisterPage() {
   const router = useRouter();
