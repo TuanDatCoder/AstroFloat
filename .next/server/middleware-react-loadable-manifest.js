@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{\"services\\\\zodiacMatchesService.js -> ./zodiacService\":{\"id\":\"services\\\\zodiacMatchesService.js -> ./zodiacService\",\"files\":[]}}"
+self.__REACT_LOADABLE_MANIFEST="{}"

@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  distDir: 'dist',
   reactStrictMode: true,
   // Bỏ qua lỗi linting khi build để đẩy nhanh quá trình di cư
   eslint: {
