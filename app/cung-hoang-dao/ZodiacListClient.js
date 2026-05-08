@@ -69,7 +69,7 @@ export default function ZodiacListClient({ initialData }) {
           Cung Hoàng Đạo
         </h1>
         
-        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 px-4 relative z-20">
+        <div className="mt-8 flex flex-wrap justify-center gap-4 px-4 relative z-20">
           <Link href={ROUTES.ZODIAC_MATCH} className="w-full sm:w-auto">
             <motion.button 
               whileHover={{ scale: 1.05 }} 
@@ -80,20 +80,27 @@ export default function ZodiacListClient({ initialData }) {
               Kiểm Tra Tương Hợp
             </motion.button>
           </Link>
-          <Link href={ROUTES.ZODIAC_ALL_MATCHES} className="w-full sm:w-auto">
-            <motion.button 
-              whileHover={{ scale: 1.05 }} 
-              whileTap={{ scale: 0.95 }} 
-              className="w-full px-10 py-4 rounded-2xl bg-slate-900 border border-indigo-500/30 text-indigo-300 hover:text-white font-black tracking-[0.2em] text-xs uppercase transition-all flex items-center justify-center gap-3 shadow-[0_10px_40px_rgba(79,70,229,0.1)] hover:bg-indigo-500/10"
-            >
-              <Sparkles className="w-4 h-4" />
-              Bảng Xếp Hạng
-            </motion.button>
-          </Link>
-          {!session && (
+
+          {session ? (
+            <Link href={ROUTES.ZODIAC_ALL_MATCHES} className="w-full sm:w-auto">
+              <motion.button 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }} 
+                className="w-full px-10 py-4 rounded-2xl bg-slate-900 border border-indigo-500/30 text-indigo-300 hover:text-white font-black tracking-[0.2em] text-xs uppercase transition-all flex items-center justify-center gap-3 shadow-[0_10px_40px_rgba(79,70,229,0.1)] hover:bg-indigo-500/10"
+              >
+                <Sparkles className="w-4 h-4" />
+                Bảng Xếp Hạng Matrix
+              </motion.button>
+            </Link>
+          ) : (
             <Link href={ROUTES.LOGIN} className="w-full sm:w-auto">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full px-8 py-3 rounded-full bg-slate-800 border border-slate-700 text-gray-400 font-bold tracking-widest text-sm uppercase transition-all flex items-center justify-center gap-2">
-                <Lock className="w-4 h-4" /> Đăng nhập để xem Matrix
+              <motion.button 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }} 
+                className="w-full px-10 py-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 hover:text-indigo-200 font-black tracking-[0.2em] text-xs uppercase transition-all flex items-center justify-center gap-3 shadow-[0_10px_40px_rgba(79,70,229,0.05)] hover:bg-indigo-500/20"
+              >
+                <Lock className="w-4 h-4" />
+                Đăng nhập để xem Xếp hạng
               </motion.button>
             </Link>
           )}
