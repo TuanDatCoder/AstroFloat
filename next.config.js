@@ -1,10 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Bỏ qua lỗi linting khi build để đẩy nhanh quá trình di cư
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   // Bỏ qua lỗi Typescript nếu có
   typescript: {
     ignoreBuildErrors: true,
