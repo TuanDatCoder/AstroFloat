@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/* stylelint-disable-next-line */
+@theme {
+  --color-slate-950: #020617;
+  --color-indigo-900: #312e81;
+  --color-purple-900: #581c87;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #020617;
+  color: #f8fafc;
+  /* Prevent scroll jank from repainting background on scroll */
+  overscroll-behavior: none;
+}
+
+/* Copy from src/index.css */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.6);
+}
+
+@keyframes star-float {
+  0% { transform: translate3d(0, 0, 0); opacity: 0.1; }
+  50% { transform: translate3d(var(--move-x, 0px), -60px, 0); opacity: 0.6; }
+  100% { transform: translate3d(0, 0, 0); opacity: 0.1; }
+}
+
+.star-particle {
+  position: absolute;
+  border-radius: 9999px;
+  background-color: rgb(207 250 254);
+  animation: star-float var(--dur, 14s) var(--delay, 0s) infinite ease-in-out;
+  will-change: transform;
+  contain: layout style paint;
+  backface-visibility: hidden;
+  pointer-events: none;
+}
+
+@keyframes card-float {
+  0% { transform: translate3d(0, -4px, 0); }
+  50% { transform: translate3d(0, 4px, 0); }
+  100% { transform: translate3d(0, -4px, 0); }
+}
+
+.float-card-0 {
+  animation: card-float 6s ease-in-out infinite;
+  will-change: transform;
+  contain: layout style;
+}
+.float-card-1 {
+  animation: card-float 7s ease-in-out infinite;
+  animation-delay: 0.5s;
+  will-change: transform;
+  contain: layout style;
+}
+.float-card-2 {
+  /* Đơn giản hóa: bỏ rotate để giảm composite cost */
+  animation: card-float-slow 12s ease-in-out infinite;
+  animation-delay: 1s;
+  will-change: transform;
+  contain: layout style;
+}
+
+@keyframes card-float-slow {
+  0% { transform: translate3d(0, -15px, 0); }
+  50% { transform: translate3d(0, 15px, 0); }
+  100% { transform: translate3d(0, -15px, 0); }
+}
+
+@keyframes bg-float-large {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -20px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes bg-float-reverse {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, 20px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.bg-float-large {
+  animation: bg-float-large 15s ease-in-out infinite;
+  will-change: transform;
+  contain: layout style;
+}
+
+.bg-float-reverse {
+  animation: bg-float-reverse 18s ease-in-out infinite;
+  will-change: transform;
+  contain: layout style;
+}
+
+@keyframes gradient-x {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 8s ease infinite;
+}
+
+.blur-layer {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: paint layout;
+}
+
+/* GPU-accelerated static glow: dùng radial-gradient thay cho blur */
+.static-glow {
+  transform: translateZ(0);
+  pointer-events: none;
+}
