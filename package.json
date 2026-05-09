@@ -26,11 +26,5 @@
     "globals": "^17.4.0",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.2"
-  },
-  "browserslist": [
-    ">0.3%",
-    "not dead",
-    "not op_mini all",
-    "not IE 11"
-  ]
+  }
 }
