@@ -1,16 +1,33 @@
 @import "tailwindcss";
 
-/* Cosmic Scrollbar Utility - Removed to avoid blue line */
+/* Global Cosmic Scrollbar System */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
 
-/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Specific utility to hide scrollbars where needed */
 .no-scrollbar::-webkit-scrollbar {
   display: none !important;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none !important;  /* IE and Edge */
-  scrollbar-width: none !important;  /* Firefox */
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }
 
 /* stylelint-disable-next-line */

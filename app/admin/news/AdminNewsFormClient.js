@@ -303,14 +303,13 @@ export default function AdminNewsFormClient({ id }) {
 
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-gray-400 ml-1">Tóm tắt ngắn</label>
-                  <textarea 
-                    name="summary"
-                    rows="2"
-                    value={formData.summary}
-                    onChange={handleInputChange}
-                    placeholder="Mô tả ngắn gọn về bài viết để thu hút người đọc..."
-                    className="w-full bg-slate-950/50 border border-white/10 rounded-2xl py-4 px-6 text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all resize-none"
-                  ></textarea>
+                  <textarea
+                      name="summary"
+                      value={formData.summary}
+                      onChange={handleInputChange}
+                      placeholder="Nhập tóm tắt ngắn cho bài viết..."
+                      className="w-full bg-slate-950/40 border border-white/5 rounded-2xl py-5 px-6 text-slate-300 text-sm leading-relaxed focus:outline-none focus:border-indigo-500/30 transition-all min-h-[120px] resize-none"
+                    ></textarea>
                 </div>
               </>
             )}
@@ -380,7 +379,7 @@ export default function AdminNewsFormClient({ id }) {
                       value={formData.content}
                       onChange={handleInputChange}
                       placeholder="Bắt đầu viết nội dung tuyệt vời của bạn ở đây..."
-                      className="w-full bg-slate-950/50 border border-white/10 rounded-2xl py-4 px-6 text-white text-base leading-loose focus:outline-none focus:border-indigo-500/50 transition-all min-h-[500px] font-mono text-sm"
+                      className="w-full bg-slate-950/40 border border-white/5 rounded-2xl py-6 px-8 text-white text-base leading-relaxed focus:outline-none focus:border-indigo-500/30 transition-all min-h-[500px] font-mono text-sm shadow-inner"
                     ></textarea>
                     {editMode === 'edit' && (
                       <div className="flex items-center gap-2 mt-2 ml-1">
