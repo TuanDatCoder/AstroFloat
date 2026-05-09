@@ -1,8 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, LogIn, User, ChevronRight, Menu as MenuIcon, X, ShieldCheck } from 'lucide-react';
+import { m, AnimatePresence } from 'framer-motion';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import LogIn from 'lucide-react/dist/esm/icons/log-in';
+import User from 'lucide-react/dist/esm/icons/user';
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
+import MenuIcon from 'lucide-react/dist/esm/icons/menu';
+import X from 'lucide-react/dist/esm/icons/x';
+import ShieldCheck from 'lucide-react/dist/esm/icons/shield-check';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -81,9 +87,9 @@ export default function Header() {
 
       <nav className="flex items-center justify-between px-4 sm:px-6 lg:px-10 h-16 bg-black/60 ">
         <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-          <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6, ease: 'easeInOut' }}>
+          <m.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6, ease: 'easeInOut' }}>
             <Sparkles className="w-5 h-5 text-purple-400 drop-shadow-[0_0_6px_rgba(168,85,247,0.8)]" />
-          </motion.div>
+          </m.div>
           <span className="text-lg font-extrabold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-300">
             Góc Vũ Trụ
           </span>
@@ -95,7 +101,7 @@ export default function Header() {
             return (
               <Link key={link.to} href={link.to} className="relative px-4 py-2 group">
                 {active && (
-                  <motion.span
+                  <m.span
                     layoutId="nav-highlight"
                     className="absolute inset-0 rounded-full bg-white/5 border border-white/10"
                     transition={{ type: 'spring', stiffness: 350, damping: 30 }}
@@ -113,12 +119,12 @@ export default function Header() {
 
         <div className="flex items-center gap-2 sm:gap-4">
           {profile?.role === 'ADMIN' && (
-            <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}>
+            <m.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}>
               <Link href="/admin" className="hidden sm:flex items-center gap-2 px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-full text-amber-400 transition-all group shadow-[0_0_15px_rgba(245,158,11,0.1)]">
                 <ShieldCheck className="w-4 h-4 group-hover:rotate-12 transition-transform" />
                 <span className="text-[10px] font-black uppercase tracking-widest hidden md:inline">Admin</span>
               </Link>
-            </motion.div>
+            </m.div>
           )}
 
           <div className="shrink-0 relative">
@@ -129,7 +135,7 @@ export default function Header() {
                   onMouseEnter={() => setIsUserDropdownOpen(true)}
                   onMouseLeave={() => setIsUserDropdownOpen(false)}
                 >
-                  <motion.div key="user" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
+                  <m.div key="user" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
                     <Link 
                       href={ROUTES.PROFILE}
                       className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all shadow-inner"
@@ -147,11 +153,11 @@ export default function Header() {
                         {profile?.nickname || session.user.email?.split('@')[0]}
                       </span>
                     </Link>
-                  </motion.div>
+                  </m.div>
 
                   <AnimatePresence>
                     {isUserDropdownOpen && (
-                      <motion.div
+                      <m.div
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -172,19 +178,19 @@ export default function Header() {
                             <LogIn className="w-4 h-4 rotate-180" /> Đăng xuất
                           </button>
                         </div>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
               ) : (
-                <motion.div key="login" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
+                <m.div key="login" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
                   <Link href={ROUTES.LOGIN} className="group relative flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-full font-bold text-white text-[10px] sm:text-[11px] tracking-wider sm:tracking-[0.15em] overflow-hidden transition-all duration-300">
                     <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600" />
                     <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                     <LogIn className="w-3.5 h-3.5 relative z-10" />
                     <span className="relative z-10">ĐĂNG NHẬP</span>
                   </Link>
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
           </div>
@@ -199,8 +205,8 @@ export default function Header() {
       <AnimatePresence>
         {isMenuOpen && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsMenuOpen(false)} className="fixed inset-0 bg-black/60 lg:hidden z-[-1]" />
-            <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }} className="fixed top-16 right-0 h-[calc(100dvh-4rem)] w-4/5 max-w-sm bg-[#0B0F19]/90 border-l border-white/5 lg:hidden z-[-1] p-6 sm:p-8 flex flex-col gap-6 overflow-y-auto">
+            <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsMenuOpen(false)} className="fixed inset-0 bg-black/60 lg:hidden z-[-1]" />
+            <m.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }} className="fixed top-16 right-0 h-[calc(100dvh-4rem)] w-4/5 max-w-sm bg-[#0B0F19]/90 border-l border-white/5 lg:hidden z-[-1] p-6 sm:p-8 flex flex-col gap-6 overflow-y-auto">
               <div className="text-[10px] font-black tracking-[0.4em] text-white/30 uppercase mb-4">Danh Mục</div>
               {profile?.role === 'ADMIN' && (
                 <Link href="/admin" className="flex items-center gap-3 px-6 py-4 bg-amber-500/10 border border-amber-500/30 rounded-3xl text-amber-400 mb-2" onClick={() => setIsMenuOpen(false)}>
@@ -212,16 +218,16 @@ export default function Header() {
                 {navLinks.map((link, idx) => {
                   const active = isActive(link);
                   return (
-                    <motion.div key={link.to} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }}>
+                    <m.div key={link.to} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }}>
                       <Link href={link.to} className={`flex items-center justify-between px-6 py-5 rounded-3xl border transition-all ${active ? `bg-white/5 border-white/10 ${link.activeColor}` : 'bg-transparent border-transparent text-gray-400 hover:text-white'}`}>
                         <span className="text-sm font-black tracking-widest">{link.label}</span>
                         <ChevronRight className={`w-4 h-4 ${active ? 'opacity-100' : 'opacity-30'}`} />
                       </Link>
-                    </motion.div>
+                    </m.div>
                   );
                 })}
               </div>
-            </motion.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>

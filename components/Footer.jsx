@@ -1,9 +1,14 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import Link from 'next/link';
-import { Sparkles, Globe, Send, Mail, ChevronRight, ArrowUp } from 'lucide-react';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import Globe from 'lucide-react/dist/esm/icons/globe';
+import Send from 'lucide-react/dist/esm/icons/send';
+import Mail from 'lucide-react/dist/esm/icons/mail';
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
+import ArrowUp from 'lucide-react/dist/esm/icons/arrow-up';
 import { supabase } from '@/services/supabase';
 import { ROUTES } from '@/constants';
 
@@ -22,9 +27,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 relative z-10">
         <div className="flex flex-col items-start space-y-6">
           <div className="flex items-center gap-3 text-2xl font-black tracking-tighter">
-            <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.8 }}>
+            <m.div whileHover={{ rotate: 360 }} transition={{ duration: 0.8 }}>
               <Sparkles className="w-7 h-7 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" />
-            </motion.div>
+            </m.div>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-cyan-300 to-emerald-400">
               Góc Vũ Trụ
             </span>
@@ -38,9 +43,9 @@ export default function Footer() {
               { Icon: Mail, color: 'hover:text-pink-400', label: 'Email liên hệ' },
               { Icon: Send, color: 'hover:text-red-400', label: 'Kênh Telegram' }
             ].map(({ Icon, color, label }, i) => (
-              <motion.a key={i} href="#" aria-label={label} whileHover={{ y: -5, scale: 1.1 }} className={`w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 transition-all ${color} shadow-lg`}>
+              <m.a key={i} href="#" aria-label={label} whileHover={{ y: -5, scale: 1.1 }} className={`w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 transition-all ${color} shadow-lg`}>
                 <Icon className="w-5 h-5" />
-              </motion.a>
+              </m.a>
             ))}
           </div>
         </div>
@@ -109,10 +114,10 @@ export default function Footer() {
             <span className="w-px h-3 bg-white/10" />
             <Link href={ROUTES.PRIVACY} className="px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-all">Bảo mật</Link>
             <span className="w-px h-3 bg-white/10 mx-1" />
-            <motion.button onClick={scrollToTop} whileHover={{ y: -3, scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/10 to-cyan-500/10 border border-purple-500/20 text-purple-300 hover:text-white hover:border-purple-400/40 transition-all group">
+            <m.button onClick={scrollToTop} whileHover={{ y: -3, scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/10 to-cyan-500/10 border border-purple-500/20 text-purple-300 hover:text-white hover:border-purple-400/40 transition-all group">
               <span className="text-[10px] font-black tracking-widest uppercase">Lên đầu</span>
               <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
-            </motion.button>
+            </m.button>
           </div>
         </div>
       </div>

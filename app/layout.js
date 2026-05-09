@@ -2,7 +2,12 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import PublicElements from '@/components/PublicElements';
 
-const inter = Inter({ subsets: ['latin', 'vietnamese'], display: 'swap' });
+const inter = Inter({ 
+  subsets: ['latin', 'vietnamese'], 
+  display: 'swap',
+  preload: true,
+  adjustFontFallback: false,
+});
 
 export const metadata = {
   metadataBase: new URL('https://www.gocvutru.com'),
