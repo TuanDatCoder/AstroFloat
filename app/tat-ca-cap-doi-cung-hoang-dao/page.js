@@ -9,12 +9,13 @@ export const metadata = {
 };
 
 export default async function ZodiacAllMatchesPage({ searchParams }) {
-  const [allZodiacs, attributesMatrix] = await Promise.all([
+  const [allZodiacs, attributesMatrix, sParams] = await Promise.all([
     zodiacService.getAllZodiacs(),
-    zodiacMatchesService.getAllAttributesMatrix()
+    zodiacMatchesService.getAllAttributesMatrix(),
+    searchParams
   ]);
 
-  const initSign = searchParams.sign || '';
+  const initSign = sParams.sign || '';
 
   return (
     <ZodiacAllMatchesClient 

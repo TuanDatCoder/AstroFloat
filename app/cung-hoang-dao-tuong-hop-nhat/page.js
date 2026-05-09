@@ -10,12 +10,13 @@ export const metadata = {
 
 export default async function ZodiacBestMatchesPage({ searchParams }) {
   // Fetch data on server for better SEO and performance
-  const [allZodiacs, attributesMatrix] = await Promise.all([
+  const [allZodiacs, attributesMatrix, sParams] = await Promise.all([
     zodiacService.getAllZodiacs(),
-    zodiacMatchesService.getAllAttributesMatrix()
+    zodiacMatchesService.getAllAttributesMatrix(),
+    searchParams
   ]);
 
-  const initSign = searchParams.sign || '';
+  const initSign = sParams.sign || '';
 
   return (
     <ZodiacBestMatchesClient 

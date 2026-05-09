@@ -179,7 +179,7 @@ export const authService = {
   // Gửi email khôi phục mật khẩu
   async resetPassword(email) {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${typeof window !== 'undefined' ? window.location.origin : ''}/change-password`,
+      redirectTo: `${typeof window !== 'undefined' ? window.location.origin : ''}/doi-mat-khau`,
     });
     if (error) throw error;
     return data;

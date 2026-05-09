@@ -5,6 +5,7 @@ export const metadata = {
   title: 'Chỉnh sửa Tương Hợp | Admin AstroFloat',
 };
 
-export default function EditZodiacMatchPage({ params }) {
-  return <AdminZodiacMatchFormClient id={params.id} />;
+export default async function EditZodiacMatchPage({ params }) {
+  const { id } = await params;
+  return <AdminZodiacMatchFormClient id={id} />;
 }

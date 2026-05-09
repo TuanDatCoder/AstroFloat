@@ -3,7 +3,7 @@ import NewsDetailClient from './NewsDetailClient';
 import { newsService } from '@/services/newsService';
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const article = await newsService.getArticleBySlug(slug);
   return {
     title: `${article?.title || 'Tin Tức'} | Góc Vũ Trụ`,
@@ -12,7 +12,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function NewsDetailPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   let article = null;
 
   try {

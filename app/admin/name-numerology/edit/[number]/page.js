@@ -5,6 +5,7 @@ export const metadata = {
   title: 'Chỉnh sửa Số Sứ Mệnh | Admin AstroFloat',
 };
 
-export default function EditNameNumerologyPage({ params }) {
-  return <AdminNameNumerologyFormClient number={params.number} />;
+export default async function EditNameNumerologyPage({ params }) {
+  const { number } = await params;
+  return <AdminNameNumerologyFormClient number={number} />;
 }

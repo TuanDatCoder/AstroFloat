@@ -221,13 +221,31 @@ export default function ZodiacMatchClient({ allZodiacs }) {
                 </div>
                 <div className="flex-1 flex flex-col items-center">
                   <div className="relative">
-                    <svg className="w-48 h-48 transform -rotate-90">
+                    <motion.svg 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 1 }}
+                      className="w-48 h-48 transform -rotate-90"
+                    >
                       <circle cx="96" cy="96" r="88" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-white/5" />
-                      <motion.circle cx="96" cy="96" r="88" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray={552.92} initial={{ strokeDashoffset: 552.92 }} animate={{ strokeDashoffset: 552.92 - (552.92 * (result.calculatedScore || 50)) / 100 }} transition={{ duration: 2 }} className={getScoreColor(result.calculatedScore || 50)} />
-                    </svg>
+                      <motion.circle 
+                        cx="96" cy="96" r="88" 
+                        stroke="currentColor" strokeWidth="8" 
+                        fill="transparent" 
+                        strokeDasharray={552.92} 
+                        initial={{ strokeDashoffset: 552.92 }} 
+                        animate={{ strokeDashoffset: 552.92 - (552.92 * (result.calculatedScore || 50)) / 100 }} 
+                        transition={{ duration: 1.5, ease: "easeOut" }} 
+                        className={getScoreColor(result.calculatedScore || 50)} 
+                      />
+                    </motion.svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className={`text-6xl font-black ${getScoreColor(result.calculatedScore || 50)}`}>{result.calculatedScore || 50}%</span>
-                      <span className="text-xs uppercase tracking-[0.3em] text-gray-500 font-bold mt-2">Duyên Phận</span>
+                      <span className={`text-6xl font-black ${getScoreColor(result.calculatedScore || 50)}`}>
+                        {result.calculatedScore || 50}%
+                      </span>
+                      <span className="text-xs uppercase tracking-[0.3em] text-gray-500 font-bold mt-2">
+                        Duyên Phận
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -320,19 +338,23 @@ export default function ZodiacMatchClient({ allZodiacs }) {
                                 </div>
 
                                 <div className="flex items-center gap-1.5 h-3">
-                                  <div className="flex-1 h-full bg-black/60 rounded-l-full overflow-hidden flex justify-end">
+                                  <div className="flex-1 h-full bg-black/40 rounded-l-full overflow-hidden flex justify-end relative">
                                     <motion.div 
                                       initial={{ width: 0 }} 
-                                      animate={{ width: `${(c.p1?.score || 0) * 10}%` }} 
-                                      className="h-full bg-gradient-to-l from-pink-400 to-pink-600 rounded-l-full shadow-[0_0_10px_rgba(244,114,182,0.5)]" 
+                                      animate={{ width: `${(c.p1?.score || 0) * 10}%` }}
+                                      transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+                                      className="h-full bg-gradient-to-l from-pink-500 to-pink-600 rounded-l-full shadow-[0_0_8px_rgba(236,72,153,0.3)]" 
                                     />
                                   </div>
-                                  <div className="w-1 h-full bg-white/20 rounded-full"></div>
-                                  <div className="flex-1 h-full bg-black/60 rounded-r-full overflow-hidden">
+                                  
+                                  <div className="w-1 h-full bg-white/10 rounded-full"></div>
+
+                                  <div className="flex-1 h-full bg-black/40 rounded-r-full overflow-hidden relative">
                                     <motion.div 
                                       initial={{ width: 0 }} 
                                       animate={{ width: `${(c.p2?.score || 0) * 10}%` }} 
-                                      className="h-full bg-gradient-to-r from-purple-400 to-purple-600 rounded-r-full shadow-[0_0_10px_rgba(168,85,247,0.5)]" 
+                                      transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+                                      className="h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-r-full shadow-[0_0_8px_rgba(168,85,247,0.3)]" 
                                     />
                                   </div>
                                 </div>

@@ -34,54 +34,141 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
   return (
     <div className="min-h-screen pt-32 pb-20 relative overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-cyan-300 text-sm font-semibold mb-6 uppercase tracking-widest">
-            <Newspaper className="w-4 h-4" /> <span>TIN TỨC & BÀI VIẾT</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-cyan-300 to-amber-300">
-            Khám Phá Tri Thức Vũ Trụ
+        <motion.div 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center max-w-3xl mx-auto mb-20"
+        >
+          <span className="text-[10px] font-black tracking-[0.4em] text-gray-500 uppercase mb-4 block">
+            Archive & Knowledge
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white tracking-tight">
+            Góc Nhìn Vũ Trụ
           </h1>
-          <p className="text-lg text-gray-400 leading-relaxed">Cập nhật những tin tức mới nhất về Thần Số Học, Chiêm Tinh và các bài viết luận giải chuyên sâu.</p>
+          <p className="text-sm text-gray-500 leading-relaxed max-w-xl mx-auto">
+            Nơi lưu trữ những tri thức về chiêm tinh, thần số học và hành trình khám phá bản thân qua các vì sao.
+          </p>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-12">
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-            {initialCategories.map((cat) => (
-              <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-widest transition-all ${activeCategory === cat ? 'bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-lg' : 'bg-white/5 text-gray-400 hover:text-white border border-white/10'}`}>
-                {cat}
-              </button>
-            ))}
+        <div className="relative mb-20 px-4">
+          <div className="flex flex-col xl:flex-row items-center justify-between gap-8 bg-white/[0.01] backdrop-blur-3xl border border-white/5 p-2 rounded-full shadow-2xl">
+            
+            <div className="flex items-center gap-1 overflow-x-auto w-full xl:w-auto scrollbar-hide p-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+              {initialCategories.map((cat) => {
+                const isActive = activeCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`relative px-6 py-2.5 rounded-full text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 whitespace-nowrap ${
+                      isActive ? 'text-white' : 'text-gray-400 hover:text-gray-200'
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeNewsCategory"
+                        className="absolute inset-0 bg-white/[0.05] backdrop-blur-md border border-white/10 rounded-full"
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                    <span className="relative z-10">{cat}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="relative w-full xl:w-80 group hidden md:block mr-2">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-white transition-colors" />
+              <input
+                type="text"
+                placeholder="TÌM KIẾM BÀI VIẾT..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-transparent border border-white/5 rounded-full py-3 pl-11 pr-6 text-[10px] font-bold tracking-widest text-white placeholder:text-gray-600 focus:bg-white/[0.03] focus:outline-none transition-all"
+              />
+            </div>
           </div>
-          <div className="relative w-full lg:w-80">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input type="text" placeholder="Tìm kiếm bài viết..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-[#111827] border border-white/10 rounded-full pl-12 pr-4 py-3 focus:border-cyan-400/50 outline-none text-white text-sm" />
+          
+          {/* Mobile Search */}
+          <div className="md:hidden mt-4 relative w-full group">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-white transition-colors" />
+            <input
+              type="text"
+              placeholder="TÌM KIẾM..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-white/[0.01] backdrop-blur-xl border border-white/5 rounded-full py-4 pl-12 pr-6 text-xs text-white placeholder:text-gray-600 focus:outline-none transition-all"
+            />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           <AnimatePresence mode="popLayout">
             {filteredNews.length > 0 ? (
               filteredNews.map((news, index) => (
-                <Link key={news.id} href={ROUTES.NEWS_DETAIL(news.slug)} className="block group relative bg-[#111827]/80 rounded-[2rem] border border-white/5 overflow-hidden hover:border-white/20 transition-all hover:-translate-y-2">
-                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
-                    <div className="relative h-56 overflow-hidden">
-                      <img src={news.imageUrl} alt={news.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                      <div className="absolute top-4 left-4 z-20"><span className="px-3 py-1 rounded-full text-[10px] font-black uppercase bg-purple-500/30 text-purple-200 border border-white/20 backdrop-blur-md">{news.category}</span></div>
+                <Link 
+                  key={news.id} 
+                  href={ROUTES.NEWS_DETAIL(news.slug)} 
+                  className="block group relative h-full"
+                >
+                  <motion.div 
+                    layout
+                    initial={{ opacity: 0, scale: 0.98 }} 
+                    animate={{ opacity: 1, scale: 1 }} 
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ 
+                      duration: 0.4,
+                      delay: index * 0.03
+                    }}
+                    className="h-full bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500 flex flex-col"
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <img 
+                        src={news.imageUrl} 
+                        alt={news.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-80 group-hover:opacity-100" 
+                      />
+                      <div className="absolute top-6 left-6 z-20">
+                        <span className="px-4 py-1.5 rounded-full text-[9px] font-black uppercase bg-black/60 text-white border border-white/10 backdrop-blur-md tracking-widest">
+                          {news.category}
+                        </span>
+                      </div>
                     </div>
-                    <div className="p-6">
-                      <div className="flex items-center gap-4 text-xs text-gray-500 mb-4"><span>{news.date}</span><div className="w-1 h-1 rounded-full bg-gray-600" /><span>{news.readTime} đọc</span></div>
-                      <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-cyan-300 transition-colors">{news.title}</h3>
-                      <p className="text-gray-400 text-sm mb-6 line-clamp-3">{news.summary}</p>
-                      <div className="pt-4 border-t border-white/5 flex justify-between items-center">
-                        <span className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Đọc tiếp</span>
-                        <ArrowRight className="w-4 h-4 text-purple-400 group-hover:translate-x-1 transition-transform" />
+                    
+                    <div className="p-8 flex-1 flex flex-col">
+                      <div className="flex items-center gap-3 text-[9px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-4">
+                        <span>{news.date}</span>
+                        <span className="w-1 h-1 rounded-full bg-gray-800" />
+                        <span>{news.readTime} ĐỌC</span>
+                      </div>
+                      
+                      <h3 className="text-xl font-bold text-white mb-4 line-clamp-2 group-hover:text-gray-300 transition-colors leading-snug">
+                        {news.title}
+                      </h3>
+                      
+                      <p className="text-gray-500 text-sm mb-8 line-clamp-3 leading-relaxed flex-1">
+                        {news.summary}
+                      </p>
+                      
+                      <div className="pt-2 flex justify-between items-center mt-auto">
+                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors">
+                          <span>CHI TIẾT</span>
+                          <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                        </div>
                       </div>
                     </div>
                   </motion.div>
                 </Link>
               ))
             ) : (
-              <div className="col-span-full py-20 text-center text-gray-500"><BookOpen className="w-16 h-16 mx-auto mb-4" /><h3 className="text-2xl font-bold">Không tìm thấy bài viết</h3></div>
+              <div className="col-span-full py-32 text-center">
+                <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/10">
+                  <BookOpen className="w-10 h-10 text-gray-600" />
+                </div>
+                <h3 className="text-3xl font-black text-white mb-4 italic">Vũ trụ đang im lặng</h3>
+                <p className="text-gray-500 max-w-sm mx-auto">Chúng tôi không tìm thấy bài viết nào khớp với tìm kiếm của bạn. Hãy thử từ khóa khác nhé.</p>
+              </div>
             )}
           </AnimatePresence>
         </div>

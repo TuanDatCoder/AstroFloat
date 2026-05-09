@@ -71,7 +71,7 @@ export const newsService = {
         )
       `)
       .eq('slug', slug)
-      .single();
+      .maybeSingle();
 
     if (error) {
       console.error('Error fetching article details:', error);

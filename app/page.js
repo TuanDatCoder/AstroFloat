@@ -197,29 +197,28 @@ export default function Home() {
              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
              viewport={{ once: true, margin: "-100px" }}
              transition={{ duration: 1, type: "spring" }}
-             className="relative flex items-center justify-center"
+             className="relative flex items-center justify-center transform-gpu"
           >
-            {/* Multi-layered Rotating Rings */}
+            {/* Multi-layered Rotating Rings - Optimized */}
             <motion.div 
               animate={{ rotate: 360 }}
               transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-              className="absolute w-[110%] h-[110%] border border-white/5 rounded-full border-dashed"
+              className="absolute w-[110%] h-[110%] border border-white/5 rounded-full border-dashed will-change-transform"
             />
             <motion.div 
               animate={{ rotate: -360 }}
               transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-              className="absolute w-[95%] h-[95%] border border-indigo-500/10 rounded-full border-dotted"
+              className="absolute w-[95%] h-[95%] border border-indigo-500/10 rounded-full border-dotted will-change-transform"
             />
             
             {/* Main Visual Container */}
-            <div className="relative w-full aspect-square max-w-[550px] rounded-[4rem] overflow-hidden group shadow-[0_0_80px_rgba(79,70,229,0.2)] border border-white/10 bg-slate-900">
-               {/* High-quality Cosmic Image from Unsplash */}
+            <div className="relative w-full aspect-square max-w-[550px] rounded-[4rem] overflow-hidden group shadow-[0_0_80px_rgba(79,70,229,0.2)] border border-white/10 bg-slate-900 transform-gpu translate-z-0">
+               {/* High-quality Cosmic Image - Optimized Size */}
                <img 
-                src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2000" 
+                src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1000" 
                 alt="Cosmic Destiny Portal" 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80"
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 will-change-transform"
                />
-               <Sparkles className="w-24 h-24 text-white opacity-20 animate-pulse" />
             </div>
           </motion.div>
         </div>

@@ -3,7 +3,7 @@ import PinnacleDetailClient from './PinnacleDetailClient';
 import { numerologyService } from '@/services/numerologyService';
 
 export async function generateMetadata({ params }) {
-  const { number } = params;
+  const { number } = await params;
   return {
     title: `Ý Nghĩa Đỉnh Cao Số ${number} - Giải mã lộ trình cuộc đời | Góc Vũ Trụ`,
     description: `Khám phá chi tiết về năng lượng và cơ hội khi bạn đạt đến đỉnh cao số ${number} trong kim tự tháp thần số học.`,
@@ -11,7 +11,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function PinnacleDetailPage({ params }) {
-  const { number } = params;
+  const { number } = await params;
   let pinnacle = null;
 
   try {
