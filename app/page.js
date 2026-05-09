@@ -234,7 +234,7 @@ export default function Home() {
             <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2 flex items-center gap-3">
               <Newspaper className="w-6 h-6 text-indigo-400" /> Tin Tức Vũ Trụ
             </h2>
-            <p className="text-gray-500 font-medium">Cập nhật chuyển động từ các tinh tú.</p>
+            <p className="text-gray-400 font-medium">Cập nhật chuyển động từ các tinh tú.</p>
           </div>
           <Link href={ROUTES.NEWS} className="text-xs font-black text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">
             Xem tất cả <ArrowRight className="w-4 h-4 inline ml-1" />
@@ -257,7 +257,7 @@ export default function Home() {
                   </div>
                   <div className="p-6 flex flex-col flex-1">
                     <h3 className="font-bold text-white mb-2 line-clamp-2 group-hover:text-indigo-400 transition-colors">{news.title}</h3>
-                    <p className="text-gray-500 text-xs line-clamp-2 mb-4 font-light">{news.summary}</p>
+                    <p className="text-gray-400 text-xs line-clamp-2 mb-4 font-light">{news.summary}</p>
                     <div className="mt-auto flex items-center justify-between">
                        <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Khám phá ngay</span>
                        <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-2 transition-transform" />
@@ -276,7 +276,7 @@ export default function Home() {
           <h2 className="text-3xl font-black text-white uppercase tracking-tight mb-2 flex items-center justify-center gap-3">
              <HelpCircle className="w-8 h-8 text-emerald-400" /> FAQ
           </h2>
-          <p className="text-gray-500 italic text-sm">Thắc mắc thường gặp</p>
+          <p className="text-gray-400 italic text-sm">Thắc mắc thường gặp</p>
         </div>
         <div className="space-y-4">
           {faqItems.map((item, idx) => (
@@ -362,7 +362,7 @@ function FAQItem({ q, a }) {
     <div className="bg-slate-900 border border-white/5 rounded-2xl overflow-hidden transition-colors hover:border-white/10">
       <button onClick={() => setIsOpen(!isOpen)} className="w-full px-6 py-5 flex items-center justify-between text-left">
         <span className="font-bold text-white text-sm">{q}</span>
-        <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       <AnimatePresence>
         {isOpen && (
@@ -372,7 +372,7 @@ function FAQItem({ q, a }) {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-5 text-gray-500 text-xs leading-relaxed border-t border-white/5 pt-4">
+            <div className="px-6 pb-5 text-gray-400 text-xs leading-relaxed border-t border-white/5 pt-4">
               {a}
             </div>
           </motion.div>
