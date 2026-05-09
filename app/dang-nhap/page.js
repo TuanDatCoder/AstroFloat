@@ -53,7 +53,10 @@ export default function LoginPage() {
             </div>
           </div>
           <div>
-            <label className="text-[10px] uppercase font-bold tracking-widest text-purple-400 mb-2 block ml-2">Mật khẩu</label>
+            <div className="flex justify-between items-center mb-2 ml-2">
+              <label className="text-[10px] uppercase font-bold tracking-widest text-purple-400">Mật khẩu</label>
+              <Link href={ROUTES.FORGOT_PASSWORD} className="text-[10px] uppercase font-bold tracking-widest text-gray-500 hover:text-cyan-400 transition-colors">Quên mật khẩu?</Link>
+            </div>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
               <input type={showPassword ? "text" : "password"} name="password" required value={formData.password} onChange={handleChange} className="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-12 py-4 text-white focus:border-purple-500 outline-none" placeholder="••••••••" />

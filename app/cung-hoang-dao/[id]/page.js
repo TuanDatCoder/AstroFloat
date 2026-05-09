@@ -4,7 +4,7 @@ import { zodiacService } from '@/services/zodiacService';
 import { zodiacDetailService } from '@/services/zodiacDetailService';
 
 export async function generateMetadata({ params }) {
-  const { id } = params;
+  const { id } = await params;
   if (isNaN(id)) return { title: 'Cung Hoàng Đạo | Góc Vũ Trụ' };
   
   const zodiac = await zodiacService.getZodiacById(id);
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ZodiacDetailPage({ params }) {
-  const { id } = params;
+  const { id } = await params;
   let zodiac = null;
   let details = [];
 

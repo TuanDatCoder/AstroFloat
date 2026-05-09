@@ -60,9 +60,18 @@ export default function Header() {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isMenuOpen]);
 
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+
   const isActive = (link) => {
     if (link.excludes) return path.startsWith(link.to) && !path.includes(link.excludes);
     return path.startsWith(link.to);
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+    setProfile(null);
+    setIsUserDropdownOpen(false);
   };
 
   return (
@@ -111,25 +120,61 @@ export default function Header() {
             </motion.div>
           )}
 
-          <div className="shrink-0">
+          <div className="shrink-0 relative">
             <AnimatePresence mode="wait">
               {session ? (
-                <motion.div key="user" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
-                  <Link href={ROUTES.PROFILE} className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all shadow-inner">
-                    {profile?.avatar_url ? (
-                      <div className="w-7 h-7 rounded-full border border-white/20 shrink-0 overflow-hidden shadow-[0_0_8px_rgba(34,211,238,0.4)]">
-                        <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
-                      </div>
-                    ) : (
-                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-[10px] font-black text-white shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.4)]">
-                        {(profile?.nickname || session.user.email || '?').slice(0, 1).toUpperCase()}
-                      </div>
+                <div 
+                  className="relative group/user"
+                  onMouseEnter={() => setIsUserDropdownOpen(true)}
+                  onMouseLeave={() => setIsUserDropdownOpen(false)}
+                >
+                  <motion.div key="user" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
+                    <Link 
+                      href={ROUTES.PROFILE}
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all shadow-inner"
+                    >
+                      {profile?.avatar_url ? (
+                        <div className="w-7 h-7 rounded-full border border-white/20 shrink-0 overflow-hidden shadow-[0_0_8px_rgba(34,211,238,0.4)]">
+                          <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                        </div>
+                      ) : (
+                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-[10px] font-black text-white shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.4)]">
+                          {(profile?.nickname || session.user.email || '?').slice(0, 1).toUpperCase()}
+                        </div>
+                      )}
+                      <span className="hidden sm:inline-block text-xs font-semibold text-white/90 max-w-[100px] truncate">
+                        {profile?.nickname || session.user.email?.split('@')[0]}
+                      </span>
+                    </Link>
+                  </motion.div>
+
+                  <AnimatePresence>
+                    {isUserDropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        className="absolute right-0 top-full pt-3 w-48 z-50"
+                      >
+                        <div className="bg-[#0B0F19]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden py-1">
+                          <Link 
+                            href={ROUTES.PROFILE} 
+                            onClick={() => setIsUserDropdownOpen(false)}
+                            className="flex items-center gap-3 px-4 py-3 text-[11px] font-black text-gray-300 hover:text-white hover:bg-white/5 transition-all uppercase tracking-widest"
+                          >
+                            <User className="w-4 h-4" /> Xem hồ sơ
+                          </Link>
+                          <button 
+                            onClick={handleLogout}
+                            className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-black text-rose-400 hover:text-rose-300 hover:bg-rose-500/5 transition-all uppercase tracking-widest border-t border-white/5"
+                          >
+                            <LogIn className="w-4 h-4 rotate-180" /> Đăng xuất
+                          </button>
+                        </div>
+                      </motion.div>
                     )}
-                    <span className="hidden sm:inline-block text-xs font-semibold text-white/90 max-w-[100px] truncate">
-                      {profile?.nickname || session.user.email?.split('@')[0]}
-                    </span>
-                  </Link>
-                </motion.div>
+                  </AnimatePresence>
+                </div>
               ) : (
                 <motion.div key="login" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
                   <Link href={ROUTES.LOGIN} className="group relative flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-full font-bold text-white text-[10px] sm:text-[11px] tracking-wider sm:tracking-[0.15em] overflow-hidden transition-all duration-300">
