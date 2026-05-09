@@ -3,7 +3,6 @@
 import { usePathname } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import AdBanner from '@/components/AdBanner';
 import StarsBackground from '@/components/StarsBackground';
 
 export default function PublicElements({ children }) {
@@ -26,9 +25,6 @@ export default function PublicElements({ children }) {
       <main className="relative z-10 flex-grow">
         {children}
       </main>
-
-      {/* Quảng cáo */}
-      <AdBanner className="mt-20 -mb-10" />
 
       {/* Footer */}
       <Footer />

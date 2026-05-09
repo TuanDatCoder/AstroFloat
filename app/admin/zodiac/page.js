@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Plus, Edit2, Trash2, Search, Info } from 'lucide-react';
 import { zodiacService } from '@/services/zodiacService';
 import { FIELD_ZODIAC_SIGNS } from '@/constants';
@@ -89,9 +90,9 @@ export default function AdminZodiacList() {
                 {filteredZodiacs.map((z) => (
                   <tr key={z.id} className="bg-white/5 hover:bg-white/10 transition-colors group">
                     <td className="px-4 py-3 rounded-l-xl">
-                      <div className="w-12 h-12 rounded-lg bg-slate-800 border border-white/5 overflow-hidden">
+                      <div className="w-12 h-12 rounded-lg bg-slate-800 border border-white/5 overflow-hidden relative">
                         {z[FIELD_ZODIAC_SIGNS.IMAGE_URL] ? (
-                          <img src={z[FIELD_ZODIAC_SIGNS.IMAGE_URL]} alt={z.name} className="w-full h-full object-cover" />
+                          <Image src={z[FIELD_ZODIAC_SIGNS.IMAGE_URL]} alt={z.name} fill sizes="48px" className="object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-gray-700">?</div>
                         )}

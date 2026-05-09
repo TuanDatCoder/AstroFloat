@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, Save, Loader2, Image as ImageIcon } from 'lucide-react';
 import { zodiacService } from '@/services/zodiacService';
 import { FIELD_ZODIAC_SIGNS } from '@/constants';
@@ -227,8 +228,8 @@ export default function AdminZodiacFormClient({ id }) {
                 />
               </div>
               {formData[FIELD_ZODIAC_SIGNS.IMAGE_URL] && (
-                <div className="w-12 h-12 rounded-lg overflow-hidden border border-white/10">
-                  <img src={formData[FIELD_ZODIAC_SIGNS.IMAGE_URL]} alt="Preview" className="w-full h-full object-cover" />
+                <div className="w-12 h-12 rounded-lg overflow-hidden border border-white/10 relative">
+                  <Image src={formData[FIELD_ZODIAC_SIGNS.IMAGE_URL]} alt="Preview" fill sizes="48px" className="object-cover" />
                 </div>
               )}
             </div>

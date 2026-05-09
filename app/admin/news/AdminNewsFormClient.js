@@ -8,6 +8,7 @@ import {
   CheckCircle, Clock, AlertCircle, Sparkles
 } from 'lucide-react';
 import { newsService } from '@/services/newsService';
+import Image from 'next/image';
 
 export default function AdminNewsFormClient({ id }) {
   const router = useRouter();
@@ -312,10 +313,11 @@ export default function AdminNewsFormClient({ id }) {
             <div className="space-y-4">
               <div className="aspect-video bg-slate-950/50 rounded-2xl border-2 border-dashed border-white/10 overflow-hidden relative group">
                 {formData.thumbnail_url ? (
-                  <img 
+                  <Image 
                     src={formData.thumbnail_url} 
                     alt="Preview" 
-                    className="w-full h-full object-cover"
+                    fill sizes="(max-width: 1024px) 100vw, 800px"
+                    className="object-cover"
                   />
                 ) : (
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-600 gap-2">

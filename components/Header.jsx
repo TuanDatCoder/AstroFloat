@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, LogIn, User, ChevronRight, Menu as MenuIcon, X, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { supabase } from '@/services/supabase';
 import { ROUTES } from '@/constants';
@@ -134,8 +135,8 @@ export default function Header() {
                       className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all shadow-inner"
                     >
                       {profile?.avatar_url ? (
-                        <div className="w-7 h-7 rounded-full border border-white/20 shrink-0 overflow-hidden shadow-[0_0_8px_rgba(34,211,238,0.4)]">
-                          <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                        <div className="w-7 h-7 rounded-full border border-white/20 shrink-0 overflow-hidden shadow-[0_0_8px_rgba(34,211,238,0.4)] relative">
+                          <Image src={profile.avatar_url} alt="Avatar" fill sizes="28px" className="object-cover" />
                         </div>
                       ) : (
                         <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-[10px] font-black text-white shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.4)]">

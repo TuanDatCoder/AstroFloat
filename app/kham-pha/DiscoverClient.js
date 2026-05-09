@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Sparkles, Star, ArrowRight, UserCircle2, X, Zap,
   Heart, Target, AlertCircle, CalendarDays, User,
@@ -16,7 +17,7 @@ import { zodiacMatchesService } from '@/services/zodiacMatchesService';
 import { supabase } from '@/services/supabase';
 import { authService } from '@/services/authService';
 import { ROUTES } from '@/constants';
-import AdBanner from '@/components/AdBanner';
+
 
 export default function DiscoverClient() {
   const [dob, setDob] = useState('');
@@ -234,7 +235,7 @@ export default function DiscoverClient() {
         </div>
       </div>
 
-      <AdBanner slot="horizontal" className="w-full max-w-5xl mb-16 transform-gpu" />
+
 
       {/* ─── RESULTS ─── */}
       <AnimatePresence mode="wait">
@@ -270,8 +271,8 @@ export default function DiscoverClient() {
               {/* Card 2 */}
               <div className="relative overflow-hidden rounded-[2.5rem] border border-cyan-500/20 bg-slate-900 p-10 flex flex-col justify-between min-h-[300px] shadow-xl">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(6,182,212,0.07)_0%,_transparent_60%)] pointer-events-none" />
-                <div className="absolute top-6 right-6 opacity-20">
-                  {results.zodiac?.image_url ? <img src={results.zodiac.image_url} alt="" className="w-40 h-40 object-cover rounded-full" /> : <Telescope className="w-40 h-40 text-cyan-500/5" />}
+                <div className="absolute top-6 right-6 opacity-20 w-40 h-40 relative">
+                  {results.zodiac?.image_url ? <Image src={results.zodiac.image_url} alt="" fill sizes="160px" className="object-cover rounded-full" /> : <Telescope className="w-full h-full text-cyan-500/5" />}
                 </div>
                 <div className="relative z-10">
                   <div className="flex items-center gap-3 mb-8">
