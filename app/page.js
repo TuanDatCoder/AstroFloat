@@ -80,7 +80,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative z-10 w-full pt-32 pb-24 flex flex-col items-center px-6 text-center transform-gpu">
         <div className="max-w-6xl w-full flex flex-col items-center">
-          <div className="animate-[fadeInUp_0.5s_ease-out_forwards]">
+          <div>
             <div className="inline-flex items-center gap-2 py-2 px-6 rounded-full bg-slate-900 border border-white/10 text-white/80 text-[10px] font-black tracking-[0.4em] mb-10 uppercase shadow-[0_0_20px_rgba(34,211,238,0.1)]">
               <Sparkles className="w-3 h-3 text-emerald-400 animate-pulse" /> 
               Tâm Điểm Năng Lượng Vũ Trụ 
@@ -89,7 +89,7 @@ export default function Home() {
           </div>
 
           <h1 
-            className="text-6xl md:text-8xl lg:text-[100px] font-black text-white mb-10 tracking-tighter leading-[0.9] animate-[fadeInUp_0.5s_ease-out_forwards]"
+            className="text-6xl md:text-8xl lg:text-[100px] font-black text-white mb-10 tracking-tighter leading-[0.9]"
           >
             Giải Mã Bản Đồ <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-emerald-400 to-cyan-400">
@@ -98,7 +98,7 @@ export default function Home() {
           </h1>
           
           <p 
-            className="text-slate-400 text-lg md:text-xl font-light mb-16 max-w-3xl mx-auto leading-relaxed px-4 animate-[fadeInUp_0.5s_ease-out_0.2s_forwards] opacity-0"
+            className="text-slate-400 text-lg md:text-xl font-light mb-16 max-w-3xl mx-auto leading-relaxed px-4"
           >
             Khám phá rung động của linh hồn qua <span className="text-white font-medium italic">Thần Số Học</span> và 
             các tinh tú từ <span className="text-white font-medium italic">Chiêm Tinh Học</span> hiện đại.
