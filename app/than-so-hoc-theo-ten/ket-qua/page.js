@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { 
   User, Sparkles, Star, Briefcase, Heart, Lightbulb, 
   AlertCircle, Info, Target, ArrowLeft, UserCircle2, BookOpen, Crown 
@@ -110,7 +110,7 @@ function NameNumerologyResultContent() {
       </button>
 
       {/* Header Section */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-20 transform-gpu"
@@ -126,12 +126,12 @@ function NameNumerologyResultContent() {
             Dành cho: <span className="text-white font-black uppercase tracking-wider">{name}</span>
           </p>
         )}
-      </motion.div>
+      </m.div>
 
       {/* Loading State */}
       <AnimatePresence>
         {loading && (
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -139,14 +139,14 @@ function NameNumerologyResultContent() {
           >
             <div className="w-16 h-16 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin mb-6" />
             <p className="text-purple-300 font-black tracking-[0.3em] uppercase text-xs animate-pulse">ĐANG GIẢI MÃ NĂNG LƯỢNG...</p>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {/* Error Message */}
       <AnimatePresence>
         {error && (
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
@@ -154,14 +154,14 @@ function NameNumerologyResultContent() {
           >
             <AlertCircle className="w-5 h-5 shrink-0" />
             <p className="font-bold">{error}</p>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {/* Kết quả hiển thị (Result Display) */}
       <AnimatePresence mode="wait">
         {result && (
-          <motion.div
+          <m.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -171,7 +171,7 @@ function NameNumerologyResultContent() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
               {/* Soul Urge & Personality */}
               <div className="flex flex-col gap-6">
-                <motion.div variants={itemVariants} className="flex-1 bg-slate-900 border border-pink-500/20 p-8 rounded-[2.5rem] relative overflow-hidden group shadow-xl">
+                <m.div variants={itemVariants} className="flex-1 bg-slate-900 border border-pink-500/20 p-8 rounded-[2.5rem] relative overflow-hidden group shadow-xl">
                   <Heart className="absolute -right-6 -top-6 w-32 h-32 text-pink-500/5 group-hover:scale-110 transition-transform duration-700" />
                   <div className="relative z-10">
                     <div className="flex justify-between items-start mb-6">
@@ -183,18 +183,18 @@ function NameNumerologyResultContent() {
                         {result.analysis.soulNumber}
                       </div>
                     </div>
-                    <p className="text-gray-400 text-sm font-medium leading-relaxed mb-6">
-                      {result.metrics?.soul?.content || "Khát khao thầm kín, động lực sâu thẳm nhất và những gì thực sự khiến trái tim bạn hạnh phúc."}
-                    </p>
+                    <div className="text-gray-400 text-sm font-medium leading-relaxed mb-6 prose prose-invert prose-pink max-w-none prose-p:leading-relaxed">
+                      <ReactMarkdown>{result.metrics?.soul?.content || "Khát khao thầm kín, động lực sâu thẳm nhất và những gì thực sự khiến trái tim bạn hạnh phúc."}</ReactMarkdown>
+                    </div>
                     {result.metrics?.soul?.advice && (
                       <div className="text-[11px] text-pink-300/80 bg-pink-500/5 p-4 rounded-2xl border border-pink-500/10 italic">
                         💡 {result.metrics.soul.advice}
                       </div>
                     )}
                   </div>
-                </motion.div>
+                </m.div>
 
-                <motion.div variants={itemVariants} className="flex-1 bg-slate-900 border border-cyan-500/20 p-8 rounded-[2.5rem] relative overflow-hidden group shadow-xl">
+                <m.div variants={itemVariants} className="flex-1 bg-slate-900 border border-cyan-500/20 p-8 rounded-[2.5rem] relative overflow-hidden group shadow-xl">
                   <User className="absolute -right-6 -top-6 w-32 h-32 text-cyan-500/5 group-hover:scale-110 transition-transform duration-700" />
                   <div className="relative z-10">
                     <div className="flex justify-between items-start mb-6">
@@ -206,20 +206,20 @@ function NameNumerologyResultContent() {
                         {result.analysis.personalityNumber}
                       </div>
                     </div>
-                    <p className="text-gray-400 text-sm font-medium leading-relaxed mb-6">
-                      {result.metrics?.personality?.content || "Cách bạn cư xử với thế giới bên ngoài và ấn tượng đầu tiên bạn tạo ra với người khác."}
-                    </p>
+                    <div className="text-gray-400 text-sm font-medium leading-relaxed mb-6 prose prose-invert prose-cyan max-w-none prose-p:leading-relaxed">
+                      <ReactMarkdown>{result.metrics?.personality?.content || "Cách bạn cư xử với thế giới bên ngoài và ấn tượng đầu tiên bạn tạo ra với người khác."}</ReactMarkdown>
+                    </div>
                     {result.metrics?.personality?.advice && (
                       <div className="text-[11px] text-cyan-300/80 bg-cyan-500/5 p-4 rounded-2xl border border-cyan-500/10 italic">
                         💡 {result.metrics.personality.advice}
                       </div>
                     )}
                   </div>
-                </motion.div>
+                </m.div>
               </div>
 
               {/* Master Destiny Box (Sứ Mệnh) */}
-              <motion.div variants={itemVariants} className="bg-slate-900 rounded-[3rem] border border-white/10 p-10 shadow-2xl relative overflow-hidden text-center flex flex-col items-center justify-center group min-h-[500px]">
+              <m.div variants={itemVariants} className="bg-slate-900 rounded-[3rem] border border-white/10 p-10 shadow-2xl relative overflow-hidden text-center flex flex-col items-center justify-center group min-h-[500px]">
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-500/5 to-indigo-600/5 opacity-50" />
                 
                 <p className="text-purple-400 font-black uppercase text-xs tracking-[0.4em] mb-10 relative z-10">CON SỐ SỨ MỆNH</p>
@@ -243,11 +243,11 @@ function NameNumerologyResultContent() {
                 <p className="text-gray-400 text-sm leading-relaxed font-medium px-6 relative z-10 max-w-sm">
                   {result.traits}
                 </p>
-              </motion.div>
+              </m.div>
 
               {/* Karmic & Balance */}
               <div className="flex flex-col gap-6">
-                <motion.div variants={itemVariants} className="flex-1 bg-slate-900 border border-amber-500/20 p-8 rounded-[2.5rem] relative overflow-hidden group shadow-xl">
+                <m.div variants={itemVariants} className="flex-1 bg-slate-900 border border-amber-500/20 p-8 rounded-[2.5rem] relative overflow-hidden group shadow-xl">
                   <Target className="absolute -right-6 -top-6 w-32 h-32 text-amber-500/5 group-hover:scale-110 transition-transform duration-700" />
                   <div className="relative z-10">
                     <div className="flex justify-between items-start mb-6">
@@ -268,9 +268,9 @@ function NameNumerologyResultContent() {
                       </div>
                     )}
                   </div>
-                </motion.div>
+                </m.div>
 
-                <motion.div variants={itemVariants} className="flex-1 bg-slate-900 border border-emerald-500/20 p-8 rounded-[2.5rem] relative overflow-hidden group shadow-xl">
+                <m.div variants={itemVariants} className="flex-1 bg-slate-900 border border-emerald-500/20 p-8 rounded-[2.5rem] relative overflow-hidden group shadow-xl">
                   <AlertCircle className="absolute -right-6 -top-6 w-32 h-32 text-emerald-500/5 group-hover:scale-110 transition-transform duration-700" />
                   <div className="relative z-10">
                     <div className="flex justify-between items-start mb-6">
@@ -308,7 +308,7 @@ function NameNumerologyResultContent() {
                       )}
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               </div>
             </div>
 
@@ -320,7 +320,7 @@ function NameNumerologyResultContent() {
                 { icon: Briefcase, label: 'Sự Nghiệp', color: 'text-cyan-400', border: 'hover:border-cyan-500/30', content: result.career_paths },
                 { icon: Heart, label: 'Tình Yêu', color: 'text-pink-400', border: 'hover:border-pink-500/30', content: result.love_style }
               ].map((item, i) => (
-                <motion.div 
+                <m.div 
                   key={i} 
                   variants={itemVariants} 
                   className={`bg-slate-900/50 p-8 rounded-[2rem] border border-white/5 transition-all duration-300 ${item.border} group`}
@@ -332,11 +332,11 @@ function NameNumerologyResultContent() {
                   <p className="text-gray-400 text-sm font-medium leading-relaxed line-clamp-6 group-hover:text-gray-300 transition-colors">
                     {item.content || "Dữ liệu phân tích đang được cập nhật..."}
                   </p>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
-            <motion.div variants={itemVariants} className="bg-slate-900 border border-amber-500/20 p-10 rounded-[2.5rem] shadow-xl relative overflow-hidden">
+            <m.div variants={itemVariants} className="bg-slate-900 border border-amber-500/20 p-10 rounded-[2.5rem] shadow-xl relative overflow-hidden">
               <div className="absolute -top-12 -right-12 w-48 h-48 bg-amber-500/5 rounded-full" />
               <div className="flex items-center gap-4 text-amber-400 mb-6">
                 <Lightbulb className="w-8 h-8" />
@@ -345,11 +345,11 @@ function NameNumerologyResultContent() {
               <p className="text-gray-300 text-lg font-light leading-relaxed italic border-l-4 border-amber-500/40 pl-8">
                 {result.advice || "Tên của bạn mang năng lượng rất đặc biệt. Hãy tin vào trực giác và tự tin tỏa sáng trên hành trình của mình!"}
               </p>
-            </motion.div>
+            </m.div>
             
             {/* Detailed Topics Section */}
             {details.length > 0 && (
-              <motion.div variants={itemVariants} className="space-y-10 pt-16">
+              <m.div variants={itemVariants} className="space-y-10 pt-16">
                 <div className="flex items-center gap-6">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
                   <h3 className="text-3xl font-black text-white uppercase tracking-[0.3em] px-4">Giải Mã Chi Tiết</h3>
@@ -358,7 +358,7 @@ function NameNumerologyResultContent() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {details.map((detail, index) => (
-                    <motion.div 
+                    <m.div 
                       key={detail.id}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -373,12 +373,12 @@ function NameNumerologyResultContent() {
                       </div>
                       <h4 className="text-2xl font-black text-white mb-4 group-hover:text-purple-300 transition-colors">{detail.title}</h4>
                       <p className="text-gray-400 leading-relaxed font-medium text-sm">{detail.content}</p>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </div>
-              </motion.div>
+              </m.div>
             )}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 

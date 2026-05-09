@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Clock, Tag, ChevronLeft, Calendar, User, Eye } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
 import { newsService } from '@/services/newsService';
 
 export default function NewsDetailClient({ initialArticle, slug }) {
@@ -59,7 +60,7 @@ export default function NewsDetailClient({ initialArticle, slug }) {
           <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> Quay lại tin tức
         </Link>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
           <div className="flex flex-wrap items-center gap-4 text-xs font-semibold uppercase tracking-widest text-cyan-400 mb-6">
             <span className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20">{categoryName}</span>
           </div>
@@ -72,12 +73,12 @@ export default function NewsDetailClient({ initialArticle, slug }) {
             </div>
             <div className="flex items-center gap-2"><User className="w-4 h-4" /> <span>Góc Vũ Trụ</span></div>
           </div>
-        </motion.div>
+        </m.div>
 
         {initialArticle.thumbnail_url && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden mb-12 border border-white/10 shadow-2xl relative">
+          <m.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden mb-12 border border-white/10 shadow-2xl relative">
             <Image src={initialArticle.thumbnail_url} alt={initialArticle.title} fill sizes="(max-width: 1024px) 100vw, 896px" className="object-cover" priority />
-          </motion.div>
+          </m.div>
         )}
 
         {initialArticle.summary && (
@@ -86,8 +87,19 @@ export default function NewsDetailClient({ initialArticle, slug }) {
           </div>
         )}
 
-        <div className="prose prose-invert prose-lg max-w-none text-gray-300 leading-loose">
-          {initialArticle.content?.split('\n').map((p, i) => <p key={i} className="mb-6">{p}</p>)}
+        <div className="prose prose-invert prose-cyan prose-lg max-w-none 
+          text-gray-300 leading-relaxed 
+          prose-headings:text-white prose-headings:font-black prose-headings:tracking-tight
+          prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-4 prose-h2:border-b prose-h2:border-white/5
+          prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-cyan-400
+          prose-p:mb-6 prose-p:leading-loose
+          prose-strong:text-cyan-300 prose-strong:font-bold
+          prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-8 prose-ul:space-y-3
+          prose-li:marker:text-cyan-500 prose-li:pl-2
+          prose-blockquote:border-l-4 prose-blockquote:border-cyan-500 prose-blockquote:bg-cyan-500/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-2xl prose-blockquote:italic
+          prose-hr:border-white/10 prose-hr:my-12
+          prose-img:rounded-3xl prose-img:shadow-2xl prose-img:border prose-img:border-white/10">
+          <ReactMarkdown>{initialArticle.content}</ReactMarkdown>
         </div>
 
         {tags.length > 0 && (

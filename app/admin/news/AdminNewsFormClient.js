@@ -5,10 +5,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { 
   ChevronLeft, Save, Image as ImageIcon, 
-  CheckCircle, Clock, AlertCircle, Sparkles
+  CheckCircle, Clock, AlertCircle, Sparkles,
+  Bold, Italic, List, Quote, Type, Link as LinkIcon, 
+  Minus, Code, Eye, Edit2
 } from 'lucide-react';
 import { newsService } from '@/services/newsService';
 import Image from 'next/image';
+import ReactMarkdown from 'react-markdown';
 
 export default function AdminNewsFormClient({ id }) {
   const router = useRouter();
@@ -129,6 +132,92 @@ export default function AdminNewsFormClient({ id }) {
     }
   };
 
+  const [editMode, setEditMode] = useState('edit'); // 'edit', 'preview', 'split'
+
+  // Sync scroll refs
+  const editorRef = useRef(null);
+  const previewRef = useRef(null);
+  const isSyncingRef = useRef(false);
+
+  const handleScroll = (source) => {
+    if (editMode !== 'split' || isSyncingRef.current) return;
+    
+    const editor = editorRef.current;
+    const preview = previewRef.current;
+    if (!editor || !preview) return;
+
+    isSyncingRef.current = true;
+    if (source === 'editor') {
+      const percentage = editor.scrollTop / (editor.scrollHeight - editor.clientHeight);
+      preview.scrollTop = percentage * (preview.scrollHeight - preview.clientHeight);
+    } else {
+      const percentage = preview.scrollTop / (preview.scrollHeight - preview.clientHeight);
+      editor.scrollTop = percentage * (editor.scrollHeight - editor.clientHeight);
+    }
+    
+    setTimeout(() => { isSyncingRef.current = false; }, 50);
+  };
+
+  const insertMarkdown = (tag, type = 'prefix') => {
+    const textarea = document.getElementsByName('content')[0];
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = formData.content;
+    const selectedText = text.substring(start, end);
+    
+    let newText;
+    if (type === 'prefix') {
+      newText = text.substring(0, start) + tag + selectedText + text.substring(end);
+    } else if (type === 'wrap') {
+      newText = text.substring(0, start) + tag + selectedText + tag + text.substring(end);
+    }
+    
+    setFormData(prev => ({ ...prev, content: newText }));
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(start + tag.length, end + tag.length);
+    }, 10);
+  };
+
+  const toggleHeading = (action) => {
+    const textarea = document.getElementsByName('content')[0];
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const text = formData.content;
+    
+    // Find the start and end of the current line
+    const lineStart = text.lastIndexOf('\n', start - 1) + 1;
+    const lineEnd = text.indexOf('\n', start);
+    const line = text.substring(lineStart, lineEnd === -1 ? text.length : lineEnd);
+    
+    // Check current heading level
+    const match = line.match(/^(#+)\s/);
+    const currentLevel = match ? match[1].length : 0;
+    
+    let nextLevel = currentLevel;
+    if (action === 'increase') {
+      // Larger size = Fewer hashes (H3 -> H2 -> H1)
+      if (currentLevel === 0) nextLevel = 3;
+      else if (currentLevel > 1) nextLevel = currentLevel - 1;
+    } else {
+      // Smaller size = More hashes (H1 -> H2 -> H3 -> text)
+      if (currentLevel === 0) nextLevel = 3;
+      else if (currentLevel < 4) nextLevel = currentLevel + 1;
+      else nextLevel = 0;
+    }
+
+    let newLine = line.replace(/^(#+)\s/, '');
+    if (nextLevel > 0) {
+      newLine = '#'.repeat(nextLevel) + ' ' + newLine;
+    }
+
+    const newText = text.substring(0, lineStart) + newLine + text.substring(lineEnd === -1 ? text.length : lineEnd);
+    setFormData(prev => ({ ...prev, content: newText }));
+  };
+
   if (fetching) {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-4">
@@ -139,7 +228,7 @@ export default function AdminNewsFormClient({ id }) {
   }
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-8 max-w-7xl mx-auto">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Link 
@@ -152,7 +241,7 @@ export default function AdminNewsFormClient({ id }) {
             <h1 className="text-2xl font-black text-white">
               {isEdit ? 'Chỉnh sửa bài viết' : 'Viết bài mới'}
             </h1>
-            <p className="text-sm text-gray-400">Tạo nội dung hấp dẫn cho cộng đồng của bạn.</p>
+            <p className="text-sm text-gray-400">Tối ưu nội dung với trình soạn thảo Pro.</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -178,66 +267,149 @@ export default function AdminNewsFormClient({ id }) {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-6">
+      <form onSubmit={handleSubmit} className={`grid grid-cols-1 ${editMode === 'split' ? 'lg:grid-cols-1' : 'lg:grid-cols-3'} gap-8`}>
+        <div className={`${editMode === 'split' ? 'col-span-1' : 'lg:col-span-2'} space-y-6`}>
           <div className="bg-slate-900/50 p-6 rounded-[2rem] border border-white/5 space-y-6 shadow-xl">
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-400 ml-1">Tiêu đề bài viết</label>
-              <input 
-                type="text" 
-                name="title"
-                required
-                value={formData.title}
-                onChange={handleInputChange}
-                placeholder="Ví dụ: Ý nghĩa số chủ đạo 1 trong Thần số học"
-                className="w-full bg-slate-950/50 border border-white/10 rounded-2xl py-4 px-6 text-white text-lg font-bold focus:outline-none focus:border-indigo-500/50 transition-all placeholder:text-gray-700"
-              />
-            </div>
+            {editMode !== 'split' && (
+              <>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-400 ml-1">Tiêu đề bài viết</label>
+                  <input 
+                    type="text" 
+                    name="title"
+                    required
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    placeholder="Ví dụ: Ý nghĩa số chủ đạo 1 trong Thần số học"
+                    className="w-full bg-slate-950/50 border border-white/10 rounded-2xl py-4 px-6 text-white text-lg font-bold focus:outline-none focus:border-indigo-500/50 transition-all placeholder:text-gray-700"
+                  />
+                </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-400 ml-1 flex items-center gap-2">
-                Đường dẫn tĩnh (Slug)
-                <Sparkles className="w-3 h-3 text-amber-400" />
-              </label>
-              <input 
-                type="text" 
-                name="slug"
-                required
-                value={formData.slug}
-                onChange={handleInputChange}
-                placeholder="y-nghia-so-chu-dao-1"
-                className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 px-4 text-gray-300 text-sm focus:outline-none focus:border-indigo-500/50 transition-all"
-              />
-            </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-400 ml-1 flex items-center gap-2">
+                    Đường dẫn tĩnh (Slug)
+                    <Sparkles className="w-3 h-3 text-amber-400" />
+                  </label>
+                  <input 
+                    type="text" 
+                    name="slug"
+                    required
+                    value={formData.slug}
+                    onChange={handleInputChange}
+                    placeholder="y-nghia-so-chu-dao-1"
+                    className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 px-4 text-gray-300 text-sm focus:outline-none focus:border-indigo-500/50 transition-all"
+                  />
+                </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-400 ml-1">Tóm tắt ngắn</label>
-              <textarea 
-                name="summary"
-                rows="3"
-                value={formData.summary}
-                onChange={handleInputChange}
-                placeholder="Mô tả ngắn gọn về bài viết để thu hút người đọc..."
-                className="w-full bg-slate-950/50 border border-white/10 rounded-2xl py-4 px-6 text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all resize-none"
-              ></textarea>
-            </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-400 ml-1">Tóm tắt ngắn</label>
+                  <textarea 
+                    name="summary"
+                    rows="2"
+                    value={formData.summary}
+                    onChange={handleInputChange}
+                    placeholder="Mô tả ngắn gọn về bài viết để thu hút người đọc..."
+                    className="w-full bg-slate-950/50 border border-white/10 rounded-2xl py-4 px-6 text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all resize-none"
+                  ></textarea>
+                </div>
+              </>
+            )}
 
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-400 ml-1">Nội dung chính</label>
-              <textarea 
-                name="content"
-                required
-                rows="15"
-                value={formData.content}
-                onChange={handleInputChange}
-                placeholder="Bắt đầu viết nội dung tuyệt vời của bạn ở đây..."
-                className="w-full bg-slate-950/50 border border-white/10 rounded-2xl py-4 px-6 text-white text-base leading-loose focus:outline-none focus:border-indigo-500/50 transition-all min-h-[400px]"
-              ></textarea>
+            <div className="space-y-8">
+              <div className="relative flex items-center justify-center py-4">
+                <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                  <div className="w-full border-t border-white/5 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                </div>
+                <div className="relative flex items-center gap-4 bg-[#020617] px-6">
+                  <div className="w-1.5 h-1.5 rounded-full bg-white/40 shadow-[0_0_8px_rgba(255,255,255,0.3)]"></div>
+                  <label className="text-[11px] font-black uppercase tracking-[0.4em] text-white/90">Nội dung chính</label>
+                  <div className="w-1.5 h-1.5 rounded-full bg-white/40 shadow-[0_0_8px_rgba(255,255,255,0.3)]"></div>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                   {/* Mode Switcher */}
+                   <div className="flex bg-slate-950/80 p-1 rounded-xl border border-white/10">
+                      <button 
+                        type="button"
+                        onClick={() => setEditMode('edit')}
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${editMode === 'edit' ? 'bg-indigo-600 text-white shadow-lg' : 'text-gray-500 hover:text-gray-300'}`}
+                      >
+                        <Edit2 className="w-3 h-3" /> SOẠN THẢO
+                      </button>
+                      <button 
+                        type="button"
+                        onClick={() => setEditMode('split')}
+                        className={`hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${editMode === 'split' ? 'bg-indigo-600 text-white shadow-lg' : 'text-gray-500 hover:text-gray-300'}`}
+                      >
+                        <Sparkles className="w-3 h-3" /> SONG SONG
+                      </button>
+                      <button 
+                        type="button"
+                        onClick={() => setEditMode('preview')}
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${editMode === 'preview' ? 'bg-indigo-600 text-white shadow-lg' : 'text-gray-500 hover:text-gray-300'}`}
+                      >
+                        <Eye className="w-3 h-3" /> XEM TRƯỚC
+                      </button>
+                   </div>
+
+                   {editMode !== 'preview' && (
+                      <div className="flex items-center gap-1 bg-slate-950/50 p-1 rounded-xl border border-white/5">
+                        <button type="button" onClick={() => toggleHeading('increase')} title="Tăng cấp Tiêu đề" className="px-2 py-1 hover:bg-white/10 rounded-lg text-cyan-400 text-[10px] font-black border border-cyan-500/20">H+</button>
+                        <button type="button" onClick={() => toggleHeading('decrease')} title="Giảm cấp Tiêu đề" className="px-2 py-1 hover:bg-white/10 rounded-lg text-gray-500 hover:text-white text-[10px] font-black border border-white/10">H-</button>
+                        <div className="w-[1px] h-4 bg-white/10 mx-1"></div>
+                        <button type="button" onClick={() => insertMarkdown('**', 'wrap')} title="Bold" className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-cyan-400"><Bold className="w-4 h-4" /></button>
+                        <button type="button" onClick={() => insertMarkdown('_', 'wrap')} title="Italic" className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-cyan-400"><Italic className="w-4 h-4" /></button>
+                        <button type="button" onClick={() => insertMarkdown('- ', 'prefix')} title="List" className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-cyan-400"><List className="w-4 h-4" /></button>
+                        <button type="button" onClick={() => insertMarkdown('> ', 'prefix')} title="Quote" className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-cyan-400"><Quote className="w-4 h-4" /></button>
+                        <button type="button" onClick={() => insertMarkdown('[Tên link](https://...)', 'prefix')} title="Link" className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-cyan-400"><LinkIcon className="w-4 h-4" /></button>
+                        <button type="button" onClick={() => insertMarkdown('---', 'prefix')} title="Divider" className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-cyan-400"><Minus className="w-4 h-4" /></button>
+                        <button type="button" onClick={() => insertMarkdown('```\n\n```', 'prefix')} title="Code block" className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-cyan-400"><Code className="w-4 h-4" /></button>
+                      </div>
+                   )}
+                </div>
+
+              <div className={`grid grid-cols-1 ${editMode === 'split' ? 'md:grid-cols-2' : ''} gap-6`}>
+                {(editMode === 'edit' || editMode === 'split') && (
+                  <div className="space-y-2">
+                    <textarea 
+                      ref={editorRef}
+                      onScroll={() => handleScroll('editor')}
+                      name="content"
+                      required
+                      rows={editMode === 'split' ? '25' : '15'}
+                      value={formData.content}
+                      onChange={handleInputChange}
+                      placeholder="Bắt đầu viết nội dung tuyệt vời của bạn ở đây..."
+                      className="w-full bg-slate-950/50 border border-white/10 rounded-2xl py-4 px-6 text-white text-base leading-loose focus:outline-none focus:border-indigo-500/50 transition-all min-h-[500px] font-mono text-sm"
+                    ></textarea>
+                    {editMode === 'edit' && (
+                      <div className="flex items-center gap-2 mt-2 ml-1">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Trình soạn thảo Pro đã sẵn sàng</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {(editMode === 'preview' || editMode === 'split') && (
+                  <div 
+                    ref={previewRef}
+                    onScroll={() => handleScroll('preview')}
+                    className={`w-full bg-slate-950/30 border border-white/10 rounded-2xl pt-32 pb-12 px-10 min-h-[500px] max-h-[800px] overflow-y-auto ${editMode === 'split' ? 'max-h-[700px]' : ''}`}
+                  >
+                    <div className="prose prose-invert prose-cyan max-w-none prose-p:leading-loose prose-headings:text-white prose-strong:text-cyan-400 [&>*:first-child]:!mt-10 prose-h1:!mt-20 prose-h2:!mt-16 prose-h3:!mt-12 prose-hr:!mt-16 prose-hr:!mb-16 [&_hr+*]:!mt-20">
+                      <ReactMarkdown>{formData.content || "*Chưa có nội dung để xem trước...*"}</ReactMarkdown>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="space-y-6">
+        {editMode !== 'split' && (
+          <div className="space-y-6">
+            {/* ... Right Sidebar Settings ... */}
           <div className="bg-slate-900/50 p-6 rounded-[2rem] border border-white/5 space-y-6 shadow-xl">
             <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
               Thiết lập bài viết
@@ -380,6 +552,7 @@ export default function AdminNewsFormClient({ id }) {
             </div>
           )}
         </div>
+        )}
       </form>
     </div>
   );

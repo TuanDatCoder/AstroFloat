@@ -75,7 +75,7 @@ export default function AdminZodiacList() {
             <div className="w-10 h-10 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto scrollbar-cosmic">
             <table className="w-full text-left border-separate border-spacing-y-2">
               <thead>
                 <tr className="text-gray-500 text-xs uppercase tracking-widest font-bold">
@@ -89,21 +89,21 @@ export default function AdminZodiacList() {
               <tbody>
                 {filteredZodiacs.map((z) => (
                   <tr key={z.id} className="bg-white/5 hover:bg-white/10 transition-colors group">
-                    <td className="px-4 py-3 rounded-l-xl">
-                      <div className="w-12 h-12 rounded-lg bg-slate-800 border border-white/5 overflow-hidden relative">
+                    <td className="px-3 py-3 rounded-l-xl">
+                      <div className="w-10 h-10 rounded-lg bg-slate-800 border border-white/5 overflow-hidden relative">
                         {z[FIELD_ZODIAC_SIGNS.IMAGE_URL] ? (
-                          <Image src={z[FIELD_ZODIAC_SIGNS.IMAGE_URL]} alt={z.name} fill sizes="48px" className="object-cover" />
+                          <Image src={z[FIELD_ZODIAC_SIGNS.IMAGE_URL]} alt={z.name} fill sizes="40px" className="object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-gray-700">?</div>
                         )}
                       </div>
                     </td>
-                    <td className="px-4 py-3">
-                      <p className="font-bold text-white">{z[FIELD_ZODIAC_SIGNS.NAME]}</p>
-                      <p className="text-xs text-gray-500 uppercase">{z[FIELD_ZODIAC_SIGNS.ENGLISH_NAME]}</p>
+                    <td className="px-3 py-3">
+                      <p className="font-bold text-white text-sm">{z[FIELD_ZODIAC_SIGNS.NAME]}</p>
+                      <p className="text-[10px] text-gray-500 uppercase">{z[FIELD_ZODIAC_SIGNS.ENGLISH_NAME]}</p>
                     </td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase ${
+                    <td className="px-3 py-3">
+                      <span className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase ${
                         z[FIELD_ZODIAC_SIGNS.ELEMENT] === 'Lửa' ? 'bg-orange-500/20 text-orange-400' :
                         z[FIELD_ZODIAC_SIGNS.ELEMENT] === 'Đất' ? 'bg-emerald-500/20 text-emerald-400' :
                         z[FIELD_ZODIAC_SIGNS.ELEMENT] === 'Khí' ? 'bg-cyan-500/20 text-cyan-400' :
@@ -112,11 +112,11 @@ export default function AdminZodiacList() {
                         {z[FIELD_ZODIAC_SIGNS.ELEMENT]}
                       </span>
                     </td>
-                    <td className="px-4 py-3">
-                      <p className="text-sm text-gray-300">{z[FIELD_ZODIAC_SIGNS.RULING_PLANET]}</p>
+                    <td className="px-3 py-3">
+                      <p className="text-xs text-gray-400">{z[FIELD_ZODIAC_SIGNS.RULING_PLANET]}</p>
                     </td>
-                    <td className="px-4 py-3 text-right rounded-r-xl">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="px-3 py-3 text-right rounded-r-xl">
+                      <div className="flex items-center justify-end gap-1">
                         <Link 
                           href={`/admin/zodiac/details/${z.id}`} 
                           className="p-2 text-cyan-400 hover:bg-cyan-500/10 rounded-lg transition-colors"
