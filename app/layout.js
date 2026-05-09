@@ -1,5 +1,8 @@
+import { Inter } from 'next/font/google';
 import './globals.css';
 import PublicElements from '@/components/PublicElements';
+
+const inter = Inter({ subsets: ['latin', 'vietnamese'], display: 'swap' });
 
 export const metadata = {
   metadataBase: new URL('https://www.gocvutru.com'),
@@ -12,8 +15,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="vi">
-      <body className="min-h-screen bg-[#0B0F19] text-white overflow-x-hidden relative font-sans flex flex-col">
+    <html lang="vi" className={inter.className}>
+      <body className="min-h-screen bg-[#0B0F19] text-white overflow-x-hidden relative flex flex-col">
         <PublicElements>
           {children}
         </PublicElements>

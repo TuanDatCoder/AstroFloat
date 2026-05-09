@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Clock, Tag, ChevronLeft, Calendar, User, Eye } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { newsService } from '@/services/newsService';
 
@@ -74,8 +75,8 @@ export default function NewsDetailClient({ initialArticle, slug }) {
         </motion.div>
 
         {initialArticle.thumbnail_url && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden mb-12 border border-white/10 shadow-2xl">
-            <img src={initialArticle.thumbnail_url} alt={initialArticle.title} className="w-full h-full object-cover" />
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden mb-12 border border-white/10 shadow-2xl relative">
+            <Image src={initialArticle.thumbnail_url} alt={initialArticle.title} fill sizes="(max-width: 1024px) 100vw, 896px" className="object-cover" priority />
           </motion.div>
         )}
 

@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants';
 import { numerologyService } from '@/services/numerologyService';
 import { supabase } from '@/services/supabase';
-import AdBanner from '@/components/AdBanner';
 import { Crown, Clock, ArrowRight } from 'lucide-react';
 
 const DynamicIcon = ({ name, className }) => {
@@ -96,7 +95,6 @@ export default function NumerologyDetailClient({ number, initialNumerology, init
         </div>
       </motion.div>
 
-      <AdBanner className="mb-12" />
 
       <div className="w-full">
         <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3"><LayoutGrid className="w-6 h-6 text-fuchsia-400" /> Giải mã chi tiết</h2>

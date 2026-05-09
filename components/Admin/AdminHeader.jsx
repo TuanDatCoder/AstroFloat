@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { supabase } from '@/services/supabase';
 import { authService } from '@/services/authService';
 import { ROUTES } from '@/constants';
+import Image from 'next/image';
 
 const breadcrumbMap = {
   '/admin': 'Dashboard',
@@ -103,10 +104,12 @@ export default function AdminHeader({ toggleSidebar }) {
             </div>
 
             {profile?.avatar_url ? (
-              <img
+              <Image
                 src={profile.avatar_url}
                 alt="Admin Avatar"
-                className="w-8 h-8 rounded-xl object-cover border border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.3)]"
+                width={32}
+                height={32}
+                className="rounded-xl object-cover border border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.3)]"
               />
             ) : (
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center border border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.3)]">

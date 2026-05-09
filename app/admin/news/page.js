@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { newsService } from '@/services/newsService';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 export default function AdminNewsList() {
   const [articles, setArticles] = useState([]);
@@ -127,11 +128,12 @@ export default function AdminNewsList() {
                     >
                       <td className="px-6 py-5">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-lg bg-slate-800 overflow-hidden flex-shrink-0 border border-white/5">
-                            <img 
+                          <div className="w-12 h-12 rounded-lg bg-slate-800 overflow-hidden flex-shrink-0 border border-white/5 relative">
+                            <Image 
                               src={article.thumbnail_url || 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=100&auto=format&fit=crop'} 
                               alt="" 
-                              className="w-full h-full object-cover"
+                              fill sizes="48px"
+                              className="object-cover"
                             />
                           </div>
                           <div className="min-w-0">

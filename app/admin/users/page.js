@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { authService } from '@/services/authService';
 import { supabase } from '@/services/supabase';
+import Image from 'next/image';
 
 export default function AdminUserList() {
   const [users, setUsers] = useState([]);
@@ -96,9 +97,9 @@ export default function AdminUserList() {
             {/* Header with User Info */}
             <div className="flex flex-col items-center mb-10">
               <div className="relative mb-6">
-                <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${isPromoting ? 'from-indigo-500/20 to-purple-500/20 border-indigo-500/30' : 'from-cyan-500/20 to-blue-500/20 border-cyan-500/30'} border-2 p-1.5 shadow-2xl overflow-hidden`}>
+                <div className={`relative w-24 h-24 rounded-3xl bg-gradient-to-br ${isPromoting ? 'from-indigo-500/20 to-purple-500/20 border-indigo-500/30' : 'from-cyan-500/20 to-blue-500/20 border-cyan-500/30'} border-2 p-1.5 shadow-2xl overflow-hidden`}>
                   {selectedUser.avatar_url ? (
-                    <img src={selectedUser.avatar_url} alt="" className="w-full h-full object-cover rounded-2xl" />
+                    <Image src={selectedUser.avatar_url} alt="" fill sizes="96px" className="object-cover rounded-2xl" />
                   ) : (
                     <div className="w-full h-full bg-slate-800 rounded-2xl flex items-center justify-center">
                       <Users className="w-10 h-10 text-gray-600" />
@@ -301,9 +302,9 @@ export default function AdminUserList() {
                     <tr key={user.id} className={`transition-colors group ${isMe ? 'bg-indigo-500/10 border-l-2 border-indigo-500' : 'hover:bg-white/[0.02]'}`}>
                       <td className="px-6 py-5">
                         <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br border flex items-center justify-center overflow-hidden ${isMe ? 'from-indigo-500 to-purple-600 border-indigo-400 shadow-lg shadow-indigo-500/20' : 'from-slate-800 to-slate-900 border-white/10'}`}>
+                          <div className={`relative w-10 h-10 rounded-xl bg-gradient-to-br border flex items-center justify-center overflow-hidden ${isMe ? 'from-indigo-500 to-purple-600 border-indigo-400 shadow-lg shadow-indigo-500/20' : 'from-slate-800 to-slate-900 border-white/10'}`}>
                             {user.avatar_url ? (
-                              <img src={user.avatar_url} alt="" className="w-full h-full object-cover" />
+                              <Image src={user.avatar_url} alt="" fill sizes="40px" className="object-cover" />
                             ) : (
                               <Users className={`w-5 h-5 ${isMe ? 'text-white' : 'text-gray-600'}`} />
                             )}

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { User, Phone, Calendar, ArrowLeft, Save, Sparkles, UserCircle, Image as ImageIcon } from 'lucide-react';
 import { authService } from '@/services/authService';
 import { ROUTES } from '@/constants';
@@ -151,7 +152,7 @@ export default function EditProfilePage() {
           <div className="flex flex-col items-center mb-8">
             <div className="relative group cursor-pointer w-28 h-28 rounded-full border-2 border-dashed border-white/30 overflow-hidden bg-white/5 flex items-center justify-center hover:border-cyan-400 transition-colors">
               {avatarPreview ? (
-                <img src={avatarPreview} alt="Avatar Preview" className="w-full h-full object-cover" />
+                <Image src={avatarPreview} alt="Avatar Preview" fill sizes="112px" className="object-cover" />
               ) : (
                 <ImageIcon className="w-8 h-8 text-white/30 group-hover:text-cyan-400 transition-colors" />
               )}

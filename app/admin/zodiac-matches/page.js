@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Plus, Edit2, Trash2, Search } from 'lucide-react';
 import { zodiacMatchesService } from '@/services/zodiacMatchesService';
 import { FIELD_ZODIAC_MATCHES } from '@/constants';
@@ -92,13 +93,17 @@ export default function AdminZodiacMatchList() {
                   <tr key={m.id} className="bg-white/5 hover:bg-white/10 transition-colors group">
                     <td className="px-6 py-4 rounded-l-2xl">
                       <div className="flex items-center gap-3">
-                        <img src={m.sign1?.image_url} alt="" className="w-8 h-8 rounded-full bg-black/40 border border-white/10" />
+                        <div className="w-8 h-8 rounded-full bg-black/40 border border-white/10 overflow-hidden relative shrink-0">
+                          {m.sign1?.image_url && <Image src={m.sign1.image_url} alt="" fill sizes="32px" className="object-cover" />}
+                        </div>
                         <span className="font-bold text-white">{m.sign1?.name}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={m.sign2?.image_url} alt="" className="w-8 h-8 rounded-full bg-black/40 border border-white/10" />
+                        <div className="w-8 h-8 rounded-full bg-black/40 border border-white/10 overflow-hidden relative shrink-0">
+                          {m.sign2?.image_url && <Image src={m.sign2.image_url} alt="" fill sizes="32px" className="object-cover" />}
+                        </div>
                         <span className="font-bold text-white">{m.sign2?.name}</span>
                       </div>
                     </td>

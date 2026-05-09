@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   User, Mail, Calendar, Star, LogOut, Edit3, Shield, Sparkles,
   Hash, Heart, Sun, Zap, Fingerprint, Crown, Compass, Waves,
@@ -102,9 +103,9 @@ export default function ProfileClient() {
               {/* Avatar */}
               <div className="relative shrink-0">
                 <div className="w-32 h-32 rounded-[2rem] bg-gradient-to-br from-cyan-500 via-blue-600 to-purple-600 p-[2px] shadow-[0_0_40px_rgba(34,211,238,0.2)]">
-                  <div className="w-full h-full rounded-[1.9rem] bg-slate-950 flex items-center justify-center overflow-hidden">
+                  <div className="w-full h-full rounded-[1.9rem] bg-slate-950 flex items-center justify-center overflow-hidden relative">
                     {profile.avatar_url
-                      ? <img src={profile.avatar_url} className="w-full h-full object-cover" alt="Avatar" />
+                      ? <Image src={profile.avatar_url} fill sizes="128px" className="object-cover" alt="Avatar" />
                       : <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-cyan-300 to-purple-300">{initials}</span>
                     }
                   </div>
@@ -224,7 +225,7 @@ export default function ProfileClient() {
                       <div className="absolute inset-0 bg-amber-500/20 blur-[60px] rounded-full group-hover:bg-amber-500/30 transition-all duration-700" />
                       <div className="relative w-44 h-44 rounded-[3rem] overflow-hidden border border-white/10 bg-slate-950 shadow-2xl group-hover:scale-105 transition-transform duration-700">
                         {zodiacSign.image_url && (
-                          <img src={zodiacSign.image_url} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt={zodiacSign.name} />
+                          <Image src={zodiacSign.image_url} fill sizes="176px" className="object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt={zodiacSign.name} />
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
