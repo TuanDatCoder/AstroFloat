@@ -1,14 +1,23 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  Sparkles, Star, ArrowRight, Compass, Moon, UserCircle2, 
-  Newspaper, HelpCircle, Zap, ShieldCheck, Heart, 
-  Gem, BookOpen, ChevronDown
-} from 'lucide-react';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import Star from 'lucide-react/dist/esm/icons/star';
+import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right';
+import Compass from 'lucide-react/dist/esm/icons/compass';
+import Moon from 'lucide-react/dist/esm/icons/moon';
+import UserCircle2 from 'lucide-react/dist/esm/icons/user-circle-2';
+import Newspaper from 'lucide-react/dist/esm/icons/newspaper';
+import HelpCircle from 'lucide-react/dist/esm/icons/help-circle';
+import Zap from 'lucide-react/dist/esm/icons/zap';
+import ShieldCheck from 'lucide-react/dist/esm/icons/shield-check';
+import Heart from 'lucide-react/dist/esm/icons/heart';
+import Gem from 'lucide-react/dist/esm/icons/gem';
+import BookOpen from 'lucide-react/dist/esm/icons/book-open';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
 
 import { ROUTES } from '@/constants';
 import { newsService } from '@/services/newsService';
@@ -70,19 +79,14 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative z-10 w-full pt-32 pb-24 flex flex-col items-center px-6 text-center transform-gpu">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="max-w-6xl w-full flex flex-col items-center"
-        >
-          <motion.div variants={itemVariants}>
+        <div className="max-w-6xl w-full flex flex-col items-center">
+          <div className="animate-[fadeInUp_0.5s_ease-out_forwards]">
             <div className="inline-flex items-center gap-2 py-2 px-6 rounded-full bg-slate-900 border border-white/10 text-white/80 text-[10px] font-black tracking-[0.4em] mb-10 uppercase shadow-[0_0_20px_rgba(34,211,238,0.1)]">
               <Sparkles className="w-3 h-3 text-emerald-400 animate-pulse" /> 
               Tâm Điểm Năng Lượng Vũ Trụ 
               <Sparkles className="w-3 h-3 text-purple-400 animate-pulse" />
             </div>
-          </motion.div>
+          </div>
 
           <h1 
             className="text-6xl md:text-8xl lg:text-[100px] font-black text-white mb-10 tracking-tighter leading-[0.9] animate-[fadeInUp_0.5s_ease-out_forwards]"
@@ -93,35 +97,31 @@ export default function Home() {
             </span>
           </h1>
           
-          <motion.p 
-            variants={itemVariants}
-            className="text-slate-400 text-lg md:text-xl font-light mb-16 max-w-3xl mx-auto leading-relaxed px-4"
+          <p 
+            className="text-slate-400 text-lg md:text-xl font-light mb-16 max-w-3xl mx-auto leading-relaxed px-4 animate-[fadeInUp_0.5s_ease-out_0.2s_forwards] opacity-0"
           >
             Khám phá rung động của linh hồn qua <span className="text-white font-medium italic">Thần Số Học</span> và 
             các tinh tú từ <span className="text-white font-medium italic">Chiêm Tinh Học</span> hiện đại.
-          </motion.p>
+          </p>
 
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6 mb-24">
+          <div className="flex flex-col sm:flex-row items-center gap-6 mb-24 animate-[fadeInUp_0.5s_ease-out_0.4s_forwards] opacity-0">
             <Link href={ROUTES.DISCOVER}>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-10 py-5 bg-white text-black rounded-full font-black text-sm tracking-widest flex items-center gap-3 transition-all uppercase hover:bg-emerald-400 shadow-xl shadow-white/10"
+              <button
+                className="px-10 py-5 bg-white text-black rounded-full font-black text-sm tracking-widest flex items-center gap-3 transition-all uppercase hover:bg-emerald-400 shadow-xl shadow-white/10 active:scale-95"
               >
                 <Compass className="w-5 h-5" /> 
                 Bắt đầu khám phá
-              </motion.button>
+              </button>
             </Link>
             <Link href={ROUTES.NUMEROLOGY}>
-              <motion.button
-                whileHover={{ backgroundColor: "rgba(255,255,255,0.05)", scale: 1.02 }}
-                className="px-10 py-5 border border-white/10 text-white rounded-full font-black text-sm tracking-widest uppercase transition-all"
+              <button
+                className="px-10 py-5 border border-white/10 text-white rounded-full font-black text-sm tracking-widest uppercase transition-all hover:bg-white/5 active:scale-95"
               >
                 Xem số chủ đạo
-              </motion.button>
+              </button>
             </Link>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </section>
 
       {/* Core Services Grid */}
@@ -160,7 +160,7 @@ export default function Home() {
         <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -190,25 +190,21 @@ export default function Home() {
                 <FeatureItem icon={<Gem className="text-purple-400" />} text="Khai phá tiềm năng" />
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div 
+          <m.div 
              initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
              viewport={{ once: true, margin: "-100px" }}
              transition={{ duration: 1, type: "spring" }}
              className="relative flex items-center justify-center transform-gpu"
           >
-            {/* Multi-layered Rotating Rings - Optimized */}
-            <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-              className="absolute w-[110%] h-[110%] border border-white/5 rounded-full border-dashed will-change-transform"
+            {/* Multi-layered Rotating Rings - Optimized with CSS */}
+            <div 
+              className="absolute w-[110%] h-[110%] border border-white/5 rounded-full border-dashed animate-spin-slow will-change-transform"
             />
-            <motion.div 
-              animate={{ rotate: -360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-              className="absolute w-[95%] h-[95%] border border-indigo-500/10 rounded-full border-dotted will-change-transform"
+            <div 
+              className="absolute w-[95%] h-[95%] border border-indigo-500/10 rounded-full border-dotted animate-spin-slow-reverse will-change-transform"
             />
             
             {/* Main Visual Container */}
@@ -222,7 +218,7 @@ export default function Home() {
                 className="object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 will-change-transform"
                />
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -243,7 +239,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 min-h-[400px]">
           {latestNews.length === 0 ? (
             [1, 2, 3].map((key, idx) => (
-              <motion.div 
+              <m.div 
                 key={`skeleton-${key}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -260,11 +256,11 @@ export default function Home() {
                      <div className="w-4 h-4 bg-slate-800/50 rounded animate-pulse" />
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             ))
           ) : (
             latestNews.map((news, idx) => (
-              <motion.div 
+              <m.div 
                 key={news.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -286,7 +282,7 @@ export default function Home() {
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </m.div>
             ))
           )}
         </div>
@@ -309,7 +305,7 @@ export default function Home() {
 
       {/* Final CTA */}
       <section className="relative z-10 w-full py-32 flex flex-col items-center px-6 bg-indigo-600/5">
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -317,15 +313,15 @@ export default function Home() {
         >
           <h2 className="text-4xl font-black text-white mb-8 uppercase leading-tight">Thay đổi cuộc đời <br /> <span className="text-indigo-400 italic">Ngay Hôm Nay</span></h2>
           <Link href={ROUTES.REGISTER}>
-            <motion.button
+            <m.button
               whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(79,70,229,0.3)" }}
               whileTap={{ scale: 0.95 }}
               className="px-10 py-5 bg-indigo-600 text-white rounded-full font-black text-sm tracking-widest uppercase transition-all shadow-xl shadow-indigo-600/20"
             >
               Đăng ký thành viên
-            </motion.button>
+            </m.button>
           </Link>
-        </motion.div>
+        </m.div>
       </section>
       
     </div>
@@ -346,7 +342,7 @@ function ServiceCard({ href, icon, title, desc, color, floatClass }) {
   };
 
   return (
-    <motion.div 
+    <m.div 
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -363,7 +359,7 @@ function ServiceCard({ href, icon, title, desc, color, floatClass }) {
           </div>
         </div>
       </Link>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -388,7 +384,7 @@ function FAQItem({ q, a }) {
       </button>
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -397,7 +393,7 @@ function FAQItem({ q, a }) {
             <div className="px-6 pb-5 text-gray-400 text-xs leading-relaxed border-t border-white/5 pt-4">
               {a}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>
