@@ -23,7 +23,7 @@ export default function PublicElements({ children }) {
       <Header />
 
       {/* Nội dung chính */}
-      <main className="relative z-10 flex-grow">
+      <main className="relative z-10 flex-grow min-h-[70vh]">
         {children}
       </main>
 
