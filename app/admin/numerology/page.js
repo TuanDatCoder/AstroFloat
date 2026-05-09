@@ -74,7 +74,7 @@ export default function AdminNumerologyList() {
             <div className="w-10 h-10 border-2 border-purple-500/20 border-t-purple-500 rounded-full animate-spin" />
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto scrollbar-cosmic">
             <table className="w-full text-left border-separate border-spacing-y-2">
               <thead>
                 <tr className="text-gray-500 text-[10px] uppercase tracking-widest font-black">
@@ -87,20 +87,20 @@ export default function AdminNumerologyList() {
               <tbody>
                 {filteredItems.map((item) => (
                   <tr key={item.number} className="bg-white/5 hover:bg-white/10 transition-colors group">
-                    <td className="px-6 py-4 rounded-l-2xl">
-                      <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30 text-purple-400 font-black">
+                    <td className="px-4 py-4 rounded-l-2xl">
+                      <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30 text-purple-400 font-black text-xs">
                         {item[FIELD_NUMEROLOGIES.NUMBER]}
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <p className="font-bold text-white">{item[FIELD_NUMEROLOGIES.TITLE]}</p>
+                    <td className="px-4 py-4">
+                      <p className="font-bold text-white text-sm">{item[FIELD_NUMEROLOGIES.TITLE]}</p>
                     </td>
-                    <td className="px-6 py-4">
-                      <p className="text-xs text-emerald-400 line-clamp-1 mb-1">{item[FIELD_NUMEROLOGIES.STRENGTHS]}</p>
-                      <p className="text-xs text-rose-400 line-clamp-1">{item[FIELD_NUMEROLOGIES.WEAKNESSES]}</p>
+                    <td className="px-4 py-4">
+                      <p className="text-[10px] text-emerald-400 line-clamp-1 mb-0.5">{item[FIELD_NUMEROLOGIES.STRENGTHS]}</p>
+                      <p className="text-[10px] text-rose-400 line-clamp-1">{item[FIELD_NUMEROLOGIES.WEAKNESSES]}</p>
                     </td>
-                    <td className="px-6 py-4 text-right rounded-r-2xl">
-                      <div className="flex items-center justify-end gap-2 text-indigo-400">
+                    <td className="px-4 py-4 text-right rounded-r-2xl">
+                      <div className="flex items-center justify-end gap-1 text-indigo-400">
                         <Link 
                           href={`/admin/numerology/details/${item.number}`}
                           className="p-2 hover:bg-white/5 rounded-lg transition-colors"

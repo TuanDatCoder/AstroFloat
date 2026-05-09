@@ -91,16 +91,16 @@ export default function AdminNewsList() {
       </div>
 
       <div className="bg-slate-900/50 rounded-[2rem] border border-white/5 overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto scrollbar-cosmic">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-white/5 bg-white/[0.02]">
-                <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500">Bài viết</th>
-                <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500">Danh mục</th>
-                <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 text-center">Lượt xem</th>
-                <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500">Trạng thái</th>
-                <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500">Ngày tạo</th>
-                <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 text-right">Thao tác</th>
+                <th className="px-4 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Bài viết</th>
+                <th className="px-4 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Danh mục</th>
+                <th className="px-4 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 text-center whitespace-nowrap">Lượt xem</th>
+                <th className="px-4 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Trạng thái</th>
+                <th className="px-4 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Ngày tạo</th>
+                <th className="px-4 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 text-right whitespace-nowrap">Thao tác</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -126,51 +126,51 @@ export default function AdminNewsList() {
                       exit={{ opacity: 0 }}
                       className="hover:bg-white/[0.02] transition-colors group"
                     >
-                      <td className="px-6 py-5">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-lg bg-slate-800 overflow-hidden flex-shrink-0 border border-white/5 relative">
+                      <td className="px-4 py-5">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-slate-800 overflow-hidden flex-shrink-0 border border-white/5 relative">
                             <Image 
                               src={article.thumbnail_url || 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=100&auto=format&fit=crop'} 
                               alt="" 
-                              fill sizes="48px"
+                              fill sizes="40px"
                               className="object-cover"
                             />
                           </div>
                           <div className="min-w-0">
-                            <p className="font-bold text-white truncate max-w-[250px]">{article.title}</p>
-                            <p className="text-xs text-gray-500 truncate max-w-[200px]">{article.slug}</p>
+                            <p className="font-bold text-white truncate max-w-[200px] text-sm">{article.title}</p>
+                            <p className="text-[10px] text-gray-600 truncate max-w-[150px]">{article.slug}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-5">
-                        <span className="inline-block whitespace-nowrap px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-bold uppercase tracking-wider">
+                      <td className="px-4 py-5">
+                        <span className="inline-block whitespace-nowrap px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[9px] font-bold uppercase tracking-wider">
                           {article.news_article_categories?.[0]?.news_categories?.name || 'Chưa phân loại'}
                         </span>
                       </td>
-                      <td className="px-6 py-5 text-center">
+                      <td className="px-4 py-5 text-center">
                         <div className="flex flex-col items-center">
-                           <span className="text-sm font-black text-cyan-400">{(article.view_count || 0).toLocaleString()}</span>
-                           <span className="text-[9px] text-gray-600 font-bold uppercase tracking-tighter">Views</span>
+                           <span className="text-xs font-black text-cyan-400">{(article.view_count || 0).toLocaleString()}</span>
+                           <span className="text-[8px] text-gray-600 font-bold uppercase tracking-tighter">Views</span>
                         </div>
                       </td>
-                      <td className="px-6 py-5">
+                      <td className="px-4 py-5">
                         {article.status === 'published' ? (
-                          <div className="flex items-center gap-1.5 text-emerald-400">
-                            <CheckCircle className="w-3.5 h-3.5" />
-                            <span className="text-xs font-bold uppercase tracking-wider">Công khai</span>
+                          <div className="flex items-center gap-1 text-emerald-400">
+                            <CheckCircle className="w-3 h-3" />
+                            <span className="text-[10px] font-bold uppercase tracking-wider">Public</span>
                           </div>
                         ) : (
-                          <div className="flex items-center gap-1.5 text-amber-400">
-                            <Clock className="w-3.5 h-3.5" />
-                            <span className="text-xs font-bold uppercase tracking-wider">Bản nháp</span>
+                          <div className="flex items-center gap-1 text-amber-400">
+                            <Clock className="w-3 h-3" />
+                            <span className="text-[10px] font-bold uppercase tracking-wider">Draft</span>
                           </div>
                         )}
                       </td>
-                      <td className="px-6 py-5 text-gray-400 text-sm">
+                      <td className="px-4 py-5 text-gray-500 text-xs whitespace-nowrap">
                         {new Date(article.published_at || article.created_at).toLocaleDateString('vi-VN')}
                       </td>
-                      <td className="px-6 py-5">
-                        <div className="flex items-center justify-end gap-2">
+                      <td className="px-4 py-5">
+                        <div className="flex items-center justify-end gap-1">
                           <Link 
                             href={`/tin-tuc/${article.slug}`}
                             target="_blank"

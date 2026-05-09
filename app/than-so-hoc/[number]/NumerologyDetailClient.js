@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ArrowLeft, Heart, Briefcase, AlertCircle, Sparkles, LayoutGrid, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -9,6 +9,7 @@ import { ROUTES } from '@/constants';
 import { numerologyService } from '@/services/numerologyService';
 import { supabase } from '@/services/supabase';
 import { Crown, Clock, ArrowRight } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 const DynamicIcon = ({ name, className }) => {
   switch(name) {
@@ -72,13 +73,13 @@ export default function NumerologyDetailClient({ number, initialNumerology, init
     <div className="flex flex-col items-center pt-32 pb-20 px-6 relative z-10 w-full max-w-5xl mx-auto">
       <div className="w-full mb-10 flex justify-start">
         <button onClick={() => router.back()}>
-          <motion.div whileHover={{ x: -5 }} className="flex items-center gap-2 text-gray-400 hover:text-purple-300 transition-colors bg-white/5 px-4 py-2 rounded-full border border-white/10">
+          <m.div whileHover={{ x: -5 }} className="flex items-center gap-2 text-gray-400 hover:text-purple-300 transition-colors bg-white/5 px-4 py-2 rounded-full border border-white/10">
             <ArrowLeft className="w-4 h-4" /> <span className="text-sm font-medium">Trở về</span>
-          </motion.div>
+          </m.div>
         </button>
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="w-full bg-gradient-to-b from-purple-900/40 to-slate-900/60 border border-purple-500/20 rounded-[3rem] p-10 md:p-16 mb-16 relative overflow-hidden shadow-2xl">
+      <m.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="w-full bg-gradient-to-b from-purple-900/40 to-slate-900/60 border border-purple-500/20 rounded-[3rem] p-10 md:p-16 mb-16 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
           <span className="text-[200px] font-black leading-none">{initialNumerology.number}</span>
         </div>
@@ -89,18 +90,20 @@ export default function NumerologyDetailClient({ number, initialNumerology, init
           <div className="text-center md:text-left flex-1">
             <span className="inline-block py-1.5 px-4 rounded-full bg-fuchsia-500/10 border border-fuchsia-400/30 text-fuchsia-300 text-xs font-semibold tracking-widest mb-4">THÔNG ĐIỆP CHÍNH</span>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-wide">{initialNumerology.title}</h1>
-            <p className="text-purple-100/80 text-lg leading-relaxed font-light mb-6"><strong>Đặc điểm:</strong> {initialNumerology.traits}</p>
+            <div className="text-purple-100/80 text-lg leading-relaxed font-light mb-6 prose prose-invert prose-fuchsia max-w-none prose-p:leading-relaxed prose-p:mb-4">
+              <ReactMarkdown>{`**Đặc điểm:** ${initialNumerology.traits}`}</ReactMarkdown>
+            </div>
             <div className="bg-black/20 p-6 rounded-2xl border border-white/5"><p className="text-gray-300 font-light italic">Lời khuyên: "{initialNumerology.advice}"</p></div>
           </div>
         </div>
-      </motion.div>
+      </m.div>
 
 
       <div className="w-full">
         <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3"><LayoutGrid className="w-6 h-6 text-fuchsia-400" /> Giải mã chi tiết</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
           {initialDetails.map((detail, index) => (
-            <motion.div key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }} className="bg-slate-900/80 border border-purple-500/10 rounded-3xl p-8">
+            <m.div key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }} className="bg-slate-900/80 border border-purple-500/10 rounded-3xl p-8">
               <div className="flex items-center gap-4 mb-6">
                 <div className="p-3 bg-purple-500/10 rounded-xl border border-purple-500/20"><DynamicIcon name={detail.icon_name} className="w-6 h-6 text-fuchsia-400" /></div>
                 <div>
@@ -108,8 +111,17 @@ export default function NumerologyDetailClient({ number, initialNumerology, init
                   <h3 className="text-xl font-bold text-white">{detail.title}</h3>
                 </div>
               </div>
-              <p className="text-slate-300 leading-relaxed font-light">{detail.content}</p>
-            </motion.div>      
+              <div className="text-slate-300 leading-relaxed font-light prose prose-invert prose-fuchsia max-w-none 
+                prose-p:leading-loose prose-p:mb-6
+                prose-headings:text-white prose-headings:font-black prose-headings:tracking-tight
+                prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-fuchsia-400
+                prose-strong:text-fuchsia-300 prose-strong:font-bold
+                prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-8 prose-ul:space-y-3
+                prose-li:marker:text-fuchsia-500 prose-li:pl-2
+                prose-blockquote:border-l-4 prose-blockquote:border-fuchsia-500 prose-blockquote:bg-fuchsia-500/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-2xl prose-blockquote:italic">
+                <ReactMarkdown>{detail.content}</ReactMarkdown>
+              </div>
+            </m.div>      
           ))}
         </div>
       </div>

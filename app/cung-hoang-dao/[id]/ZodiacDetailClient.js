@@ -1,10 +1,11 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ArrowLeft, BookOpen, Moon, Briefcase, Heart, Sparkles, LayoutGrid, Sun } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import ReactMarkdown from 'react-markdown';
 
 
 const getTopicIcon = (topic, className) => {
@@ -29,7 +30,7 @@ export default function ZodiacDetailClient({ id, initialZodiac, initialDetails }
   }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, ease: "easeOut" }} className="flex flex-col items-center pt-32 pb-20 px-6 relative z-10 w-full max-w-5xl mx-auto">
+    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, ease: "easeOut" }} className="flex flex-col items-center pt-32 pb-20 px-6 relative z-10 w-full max-w-5xl mx-auto">
       <div className="w-full mb-10 flex justify-start">
         <button onClick={() => router.back()}>
           <div className="flex items-center gap-2 text-gray-400 hover:text-cyan-300 hover:-translate-x-1 transition-all duration-300 bg-white/5 px-4 py-2 rounded-full border border-white/10">
@@ -70,7 +71,9 @@ export default function ZodiacDetailClient({ id, initialZodiac, initialDetails }
               {initialZodiac.modality && <span className="px-3 py-1 bg-indigo-900/70 text-indigo-200 text-sm rounded-lg border border-indigo-500/20">Tính chất: {initialZodiac.modality}</span>}
               {initialZodiac.ruling_planet && <span className="px-3 py-1 bg-blue-900/40 text-blue-200 text-sm rounded-lg border border-blue-500/20">Hành tinh: {initialZodiac.ruling_planet}</span>}
             </div>
-            <p className="text-cyan-100/80 text-lg leading-relaxed font-light">{initialZodiac.description}</p>
+            <div className="text-cyan-100/80 text-lg leading-relaxed font-light prose prose-invert prose-cyan max-w-none prose-p:leading-relaxed prose-p:mb-4">
+              <ReactMarkdown>{initialZodiac.description}</ReactMarkdown>
+            </div>
           </div>
         </div>
       </div>
@@ -100,13 +103,22 @@ export default function ZodiacDetailClient({ id, initialZodiac, initialDetails }
                     <h3 className="text-xl font-bold text-white pr-6">{detail.title}</h3>
                   </div>
                 </div>
-                <p className="text-slate-300 leading-relaxed font-light">
+                <div className="text-slate-300 leading-relaxed font-light prose prose-invert prose-cyan max-w-none 
+                  prose-p:leading-loose prose-p:mb-6
+                  prose-headings:text-white prose-headings:font-black prose-headings:tracking-tight
+                  prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-cyan-400
+                  prose-strong:text-cyan-300 prose-strong:font-bold
+                  prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-8 prose-ul:space-y-3
+                  prose-li:marker:text-cyan-500 prose-li:pl-2
+                  prose-blockquote:border-l-4 prose-blockquote:border-cyan-500 prose-blockquote:bg-cyan-500/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-2xl prose-blockquote:italic">
                   {detail.is_premium ? (
                     <span className="filter blur-[4px] select-none block opacity-70">
                       Đây là nội dung premium. Nó đang bị ẩn đi để chờ người dùng nâng cấp gói xem nội dung đầy đủ. Vui lòng làm một ly cafe rồi quay lại sau nhé. Chòm sao này có những đặc điểm cực kỳ độc đáo và thu hút...
                     </span>
-                  ) : detail.content}
-                </p>
+                  ) : (
+                    <ReactMarkdown>{detail.content}</ReactMarkdown>
+                  )}
+                </div>
                 {detail.is_premium && (
                   <div className="absolute inset-0 flex items-center justify-center bg-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer backdrop-blur-[2px]">
                     <button className="px-6 py-2 bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-400 hover:to-amber-500 rounded-full font-bold text-sm shadow-[0_0_20px_rgba(245,158,11,0.4)] flex items-center gap-2 text-black transition-all transform hover:scale-105">
@@ -119,6 +131,6 @@ export default function ZodiacDetailClient({ id, initialZodiac, initialDetails }
           </div>
         )}
       </div>
-    </motion.div>
+    </m.div>
   );
 }

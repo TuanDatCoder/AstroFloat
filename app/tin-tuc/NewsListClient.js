@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Search, Newspaper, Star, Moon, ArrowRight, Clock, Tag, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -35,7 +35,7 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
   return (
     <div className="min-h-screen pt-32 pb-20 relative overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0 }} 
           animate={{ opacity: 1 }} 
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -50,12 +50,12 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
           <p className="text-sm text-gray-400 leading-relaxed max-w-xl mx-auto">
             Nơi lưu trữ những tri thức về chiêm tinh, thần số học và hành trình khám phá bản thân qua các vì sao.
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="relative mb-20 px-4 transform-gpu">
           <div className="flex flex-col xl:flex-row items-center justify-between gap-8 bg-white/[0.01] backdrop-blur-xl border border-white/5 p-2 rounded-full shadow-2xl translate-z-0">
             
-            <div className="flex items-center gap-1 overflow-x-auto w-full xl:w-auto scrollbar-hide p-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+            <div className="flex items-center gap-1 overflow-x-auto w-full xl:w-auto no-scrollbar p-1">
               {initialCategories.map((cat) => {
                 const isActive = activeCategory === cat;
                 return (
@@ -67,7 +67,7 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
                     }`}
                   >
                     {isActive && (
-                      <motion.div
+                      <m.div
                         layoutId="activeNewsCategory"
                         className="absolute inset-0 bg-white/[0.05] backdrop-blur-md border border-white/10 rounded-full"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
@@ -113,7 +113,7 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
                   href={ROUTES.NEWS_DETAIL(news.slug)} 
                   className="block group relative h-full transform-gpu"
                 >
-                  <motion.div 
+                  <m.div 
                     layout
                     initial={{ opacity: 0, scale: 0.98 }} 
                     animate={{ opacity: 1, scale: 1 }} 
@@ -161,7 +161,7 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </m.div>
                 </Link>
               ))
             ) : (

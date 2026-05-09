@@ -89,7 +89,7 @@ export default function Home() {
           </div>
 
           <h1 
-            className="text-6xl md:text-8xl lg:text-[100px] font-black text-white mb-10 tracking-tighter leading-[0.9] animate-[fadeInUp_0.5s_ease-out_forwards]"
+            className="text-5xl md:text-8xl lg:text-[100px] font-black text-white mb-10 tracking-tighter leading-[0.9] animate-[fadeInUp_0.5s_ease-out_forwards]"
           >
             Giải Mã Bản Đồ <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-emerald-400 to-cyan-400">
@@ -125,8 +125,8 @@ export default function Home() {
       </section>
 
       {/* Core Services Grid */}
-      <section className="relative z-10 w-full max-w-7xl px-6 py-24">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <section className="relative z-10 w-full max-w-7xl px-4 md:px-6 py-20 md:py-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <ServiceCard 
             href={ROUTES.ZODIAC}
             icon={<Star className="w-10 h-10 text-cyan-400" />}
@@ -155,11 +155,11 @@ export default function Home() {
       </section>
 
       {/* SEO Content Section - Premium Redesign */}
-      <section className="relative z-10 w-full py-32 bg-slate-900/40 border-y border-white/5 transform-gpu overflow-hidden">
+      <section className="relative z-10 w-full py-20 md:py-32 bg-slate-900/40 border-y border-white/5 transform-gpu overflow-hidden">
         {/* Decorative background for this section */}
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[300px] md:w-[400px] h-[300px] md:h-[400px] bg-indigo-500/10 rounded-full blur-[100px] md:blur-[120px] pointer-events-none" />
         
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
           <m.div 
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -169,7 +169,7 @@ export default function Home() {
           >
             <div className="space-y-4">
                <span className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.5em]">Tầm Nhìn Sứ Mệnh</span>
-               <h2 className="text-4xl md:text-6xl font-black text-white leading-[1.1] uppercase tracking-tight">
+               <h2 className="text-3xl md:text-6xl font-black text-white leading-[1.1] uppercase tracking-tight">
                 Tại sao bạn cần biết <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 italic">Vận Mệnh Của Mình?</span>
               </h2>
@@ -201,10 +201,10 @@ export default function Home() {
           >
             {/* Multi-layered Rotating Rings - Optimized with CSS */}
             <div 
-              className="absolute w-[110%] h-[110%] border border-white/5 rounded-full border-dashed animate-spin-slow will-change-transform"
+              className="absolute w-[100%] h-[100%] md:w-[110%] md:h-[110%] border border-white/5 rounded-full border-dashed animate-spin-slow will-change-transform"
             />
             <div 
-              className="absolute w-[95%] h-[95%] border border-indigo-500/10 rounded-full border-dotted animate-spin-slow-reverse will-change-transform"
+              className="absolute w-[85%] h-[85%] md:w-[95%] md:h-[95%] border border-indigo-500/10 rounded-full border-dotted animate-spin-slow-reverse will-change-transform"
             />
             
             {/* Main Visual Container */}
@@ -223,15 +223,15 @@ export default function Home() {
       </section>
 
       {/* Latest News */}
-      <section className="relative z-10 w-full py-24 max-w-7xl px-6">
-        <div className="flex items-end justify-between mb-12">
+      <section className="relative z-10 w-full py-20 md:py-24 max-w-7xl px-4 md:px-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
           <div>
-            <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2 flex items-center gap-3">
+            <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-widest mb-2 flex items-center gap-3">
               <Newspaper className="w-6 h-6 text-indigo-400" /> Tin Tức Vũ Trụ
             </h2>
-            <p className="text-gray-400 font-medium">Cập nhật chuyển động từ các tinh tú.</p>
+            <p className="text-gray-400 font-medium text-sm md:text-base">Cập nhật chuyển động từ các tinh tú.</p>
           </div>
-          <Link href={ROUTES.NEWS} className="text-xs font-black text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">
+          <Link href={ROUTES.NEWS} className="text-[10px] md:text-xs font-black text-white hover:text-indigo-400 transition-colors uppercase tracking-widest border border-white/10 px-4 py-2 rounded-full">
             Xem tất cả <ArrowRight className="w-4 h-4 inline ml-1" />
           </Link>
         </div>
@@ -270,7 +270,13 @@ export default function Home() {
                 <Link href={ROUTES.NEWS_DETAIL(news.slug)} className="group">
                   <div className="bg-slate-900 border border-white/5 rounded-3xl overflow-hidden hover:border-indigo-500/30 transition-all h-full flex flex-col group-hover:-translate-y-2">
                     <div className="relative h-48 bg-slate-800 overflow-hidden">
-                      <Image src={news.thumbnail_url} alt={news.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
+                      {news.thumbnail_url ? (
+                        <Image src={news.thumbnail_url} alt={news.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-slate-800">
+                          <Newspaper className="w-8 h-8 text-slate-700 opacity-20" />
+                        </div>
+                      )}
                     </div>
                     <div className="p-6 flex flex-col flex-1">
                       <h3 className="font-bold text-white mb-2 line-clamp-2 group-hover:text-indigo-400 transition-colors">{news.title}</h3>
@@ -304,19 +310,19 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="relative z-10 w-full py-32 flex flex-col items-center px-6 bg-indigo-600/5">
+      <section className="relative z-10 w-full py-24 md:py-32 flex flex-col items-center px-4 md:px-6 bg-indigo-600/5">
         <m.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           className="text-center max-w-2xl"
         >
-          <h2 className="text-4xl font-black text-white mb-8 uppercase leading-tight">Thay đổi cuộc đời <br /> <span className="text-indigo-400 italic">Ngay Hôm Nay</span></h2>
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-8 uppercase leading-tight">Thay đổi cuộc đời <br /> <span className="text-indigo-400 italic text-2xl md:text-4xl block md:inline mt-2 md:mt-0">Ngay Hôm Nay</span></h2>
           <Link href={ROUTES.REGISTER}>
             <m.button
               whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(79,70,229,0.3)" }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-5 bg-indigo-600 text-white rounded-full font-black text-sm tracking-widest uppercase transition-all shadow-xl shadow-indigo-600/20"
+              className="px-8 md:px-10 py-4 md:py-5 bg-indigo-600 text-white rounded-full font-black text-xs md:text-sm tracking-widest uppercase transition-all shadow-xl shadow-indigo-600/20"
             >
               Đăng ký thành viên
             </m.button>
@@ -346,14 +352,15 @@ function ServiceCard({ href, icon, title, desc, color, floatClass }) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
+      className="h-full"
     >
-      <Link href={href} className="h-full">
-        <div className={`h-full p-10 bg-slate-900 border border-white/5 rounded-[2.5rem] ${borderMap[color]} transition-all flex flex-col items-center text-center group hover:-translate-y-2`}>
-          <div className={`w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors ${floatClass}`}>
+      <Link href={href} className="h-full block">
+        <div className={`h-full p-6 md:p-10 bg-slate-900 border border-white/5 rounded-[2rem] md:rounded-[2.5rem] ${borderMap[color]} transition-all flex flex-col items-center text-center group hover:-translate-y-2`}>
+          <div className={`w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors ${floatClass}`}>
             {icon}
           </div>
-          <h2 className={`text-xl font-black text-white mb-3 uppercase tracking-tight transition-colors ${textMap[color]}`}>{title}</h2>
-          <p className="text-slate-400 text-xs leading-relaxed mb-6 font-light">{desc}</p>
+          <h2 className={`text-lg md:text-xl font-black text-white mb-3 uppercase tracking-tight transition-colors ${textMap[color]}`}>{title}</h2>
+          <p className="text-slate-400 text-[11px] md:text-xs leading-relaxed mb-6 font-light">{desc}</p>
           <div className="mt-auto text-[10px] font-black text-white/40 group-hover:text-white uppercase tracking-widest flex items-center gap-2">
             Chi tiết <ArrowRight className="w-3 h-3 group-hover:translate-x-2 transition-transform" />
           </div>
