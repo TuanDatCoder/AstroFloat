@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Newspaper, Star, Moon, ArrowRight, Clock, Tag, BookOpen } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { ROUTES } from '@/constants';
 
@@ -124,11 +125,12 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
                     className="h-full bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500 flex flex-col will-change-transform translate-z-0"
                   >
                     <div className="relative h-64 overflow-hidden transform-gpu">
-                      <img 
+                      <Image 
                         src={news.imageUrl} 
                         alt={news.title} 
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-80 group-hover:opacity-100 will-change-transform" 
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-80 group-hover:opacity-100 will-change-transform" 
                       />
                       <div className="absolute top-6 left-6 z-20">
                         <span className="px-4 py-1.5 rounded-full text-[9px] font-black uppercase bg-black/60 text-white border border-white/10 backdrop-blur-md tracking-widest">
