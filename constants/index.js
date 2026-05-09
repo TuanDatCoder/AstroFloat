@@ -218,7 +218,8 @@ export const ROUTES = {
   PRIVACY: '/chinh-sach-bao-mat',
   NEWS: '/tin-tuc',
   NEWS_DETAIL: (slug) => `/tin-tuc/${slug}`,
-  ZODIAC_DATE_SEO: (day, month) => `/cung-hoang-dao/sinh-ngay-${day}-thang-${month}-la-cung-gi`
+  ZODIAC_DATE_SEO: (day, month) => `/cung-hoang-dao/sinh-ngay-${day}-thang-${month}-la-cung-gi`,
+  FAMILY_LOVE_STUDIO: '/family-love-studio'
 };
 
 export const ZODIAC_CATEGORIES = [

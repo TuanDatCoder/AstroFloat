@@ -217,7 +217,7 @@ export default function ZodiacMatchClient({ allZodiacs }) {
               <div className="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10 text-center">
                 <div className="flex-1">
                   <h2 className="text-3xl font-bold text-white">{result.sign1.name}</h2>
-                  <p className="text-pink-400 text-sm uppercase font-semibold">{result.sign1.english_name}</p>
+                  <p className="text-pink-400 text-sm uppercase font-semibold mt-2">{result.sign1.english_name}</p>
                 </div>
                 <div className="flex-1 flex flex-col items-center">
                   <div className="relative">
@@ -251,7 +251,7 @@ export default function ZodiacMatchClient({ allZodiacs }) {
                 </div>
                 <div className="flex-1">
                   <h2 className="text-3xl font-bold text-white">{result.sign2.name}</h2>
-                  <p className="text-purple-400 text-sm uppercase font-semibold">{result.sign2.english_name}</p>
+                  <p className="text-purple-400 text-sm uppercase font-semibold mt-2">{result.sign2.english_name}</p>
                 </div>
               </div>
 

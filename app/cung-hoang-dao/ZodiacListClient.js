@@ -74,7 +74,7 @@ export default function ZodiacListClient({ initialData }) {
             <motion.button 
               whileHover={{ scale: 1.05 }} 
               whileTap={{ scale: 0.95 }} 
-              className="w-full px-10 py-4 rounded-2xl bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500 text-white font-black tracking-[0.2em] text-xs uppercase transition-all flex items-center justify-center gap-3 shadow-[0_10px_40px_rgba(236,72,153,0.3)] border border-white/10"
+              className="w-full px-10 py-4 rounded-2xl bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500 text-white font-black tracking-[0.2em] text-xs uppercase transition-all flex items-center justify-center gap-3 shadow-[0_10px_40px_rgba(168,85,247,0.4)] overflow-hidden"
             >
               <Zap className="w-4 h-4 fill-white" />
               Kiểm Tra Tương Hợp
@@ -126,10 +126,10 @@ export default function ZodiacListClient({ initialData }) {
         </div>
       </motion.div>
 
-      <motion.div variants={containerVariants} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
         {data.map((sign, index) => (
           <Link href={ROUTES.ZODIAC_DETAIL(sign.id)} key={sign.id} className="block">
-            <motion.div variants={itemVariants} className="hover:-translate-y-2 hover:scale-[1.02] group p-[1px] rounded-[2rem] overflow-hidden bg-gradient-to-b from-white/10 to-transparent shadow-xl h-full transition-transform duration-300">
+            <div className="hover:-translate-y-2 hover:scale-[1.02] group p-[1px] rounded-[2rem] overflow-hidden bg-gradient-to-b from-white/10 to-transparent shadow-xl h-full transition-transform duration-300">
               <div className="relative h-full px-8 py-10 bg-slate-900/80 rounded-[31px] flex flex-col justify-between border border-white/5 transition-colors group-hover:bg-slate-900/90">
                 <div>
                   <div className="flex justify-between items-start mb-6">
@@ -153,10 +153,10 @@ export default function ZodiacListClient({ initialData }) {
                   <ArrowRight className="w-4 h-4 text-cyan-300 transform group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
-            </motion.div>
+            </div>
           </Link>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
