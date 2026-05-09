@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Sparkles, Star, ArrowRight, Compass, Moon, UserCircle2, 
   Newspaper, HelpCircle, Zap, ShieldCheck, Heart, 
@@ -214,10 +215,12 @@ export default function Home() {
             {/* Main Visual Container */}
             <div className="relative w-full aspect-square max-w-[550px] rounded-[4rem] overflow-hidden group shadow-[0_0_80px_rgba(79,70,229,0.2)] border border-white/10 bg-slate-900 transform-gpu translate-z-0">
                {/* High-quality Cosmic Image - Optimized Size */}
-               <img 
+               <Image 
                 src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1000" 
                 alt="Cosmic Destiny Portal" 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 will-change-transform"
+                fill
+                sizes="(max-width: 768px) 100vw, 550px"
+                className="object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 will-change-transform"
                />
             </div>
           </motion.div>
@@ -231,14 +234,14 @@ export default function Home() {
             <h2 className="text-3xl font-black text-white uppercase tracking-widest mb-2 flex items-center gap-3">
               <Newspaper className="w-6 h-6 text-indigo-400" /> Tin Tức Vũ Trụ
             </h2>
-            <p className="text-gray-500 font-medium">Cập nhật chuyển động từ các tinh tú.</p>
+            <p className="text-gray-400 font-medium">Cập nhật chuyển động từ các tinh tú.</p>
           </div>
           <Link href={ROUTES.NEWS} className="text-xs font-black text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">
             Xem tất cả <ArrowRight className="w-4 h-4 inline ml-1" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 min-h-[400px]">
           {latestNews.map((news, idx) => (
             <motion.div 
               key={news.id}
@@ -249,12 +252,12 @@ export default function Home() {
             >
               <Link href={ROUTES.NEWS_DETAIL(news.slug)} className="group">
                 <div className="bg-slate-900 border border-white/5 rounded-3xl overflow-hidden hover:border-indigo-500/30 transition-all h-full flex flex-col group-hover:-translate-y-2">
-                  <div className="h-48 bg-slate-800 overflow-hidden">
-                    <img src={news.thumbnail_url} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <div className="relative h-48 bg-slate-800 overflow-hidden">
+                    <Image src={news.thumbnail_url} alt={news.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
                   </div>
                   <div className="p-6 flex flex-col flex-1">
                     <h3 className="font-bold text-white mb-2 line-clamp-2 group-hover:text-indigo-400 transition-colors">{news.title}</h3>
-                    <p className="text-gray-500 text-xs line-clamp-2 mb-4 font-light">{news.summary}</p>
+                    <p className="text-gray-400 text-xs line-clamp-2 mb-4 font-light">{news.summary}</p>
                     <div className="mt-auto flex items-center justify-between">
                        <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Khám phá ngay</span>
                        <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-2 transition-transform" />
@@ -273,7 +276,7 @@ export default function Home() {
           <h2 className="text-3xl font-black text-white uppercase tracking-tight mb-2 flex items-center justify-center gap-3">
              <HelpCircle className="w-8 h-8 text-emerald-400" /> FAQ
           </h2>
-          <p className="text-gray-500 italic text-sm">Thắc mắc thường gặp</p>
+          <p className="text-gray-400 italic text-sm">Thắc mắc thường gặp</p>
         </div>
         <div className="space-y-4">
           {faqItems.map((item, idx) => (
@@ -359,7 +362,7 @@ function FAQItem({ q, a }) {
     <div className="bg-slate-900 border border-white/5 rounded-2xl overflow-hidden transition-colors hover:border-white/10">
       <button onClick={() => setIsOpen(!isOpen)} className="w-full px-6 py-5 flex items-center justify-between text-left">
         <span className="font-bold text-white text-sm">{q}</span>
-        <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       <AnimatePresence>
         {isOpen && (
@@ -369,7 +372,7 @@ function FAQItem({ q, a }) {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-5 text-gray-500 text-xs leading-relaxed border-t border-white/5 pt-4">
+            <div className="px-6 pb-5 text-gray-400 text-xs leading-relaxed border-t border-white/5 pt-4">
               {a}
             </div>
           </motion.div>
