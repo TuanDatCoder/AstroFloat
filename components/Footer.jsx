@@ -100,7 +100,9 @@ export default function Footer() {
             <span className="w-1 h-1 rounded-full bg-white/20 inline-block" />
             <span>Crafted with</span>
             <Sparkles className="w-3 h-3 text-purple-400" />
-            <span>by Family Love Studio</span>
+            <Link href={ROUTES.FAMILY_LOVE_STUDIO} className="hover:text-purple-300 transition-colors cursor-pointer border-b border-transparent hover:border-purple-400/50 pb-0.5">
+              by Family Love Studio
+            </Link>
           </p>
           <div className="flex items-center gap-2">
             <Link href={ROUTES.TERMS} className="px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-all">Điều khoản</Link>
