@@ -84,15 +84,14 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <motion.h1 
-            variants={itemVariants}
-            className="text-6xl md:text-8xl lg:text-[100px] font-black text-white mb-10 tracking-tighter leading-[0.9]"
+          <h1 
+            className="text-6xl md:text-8xl lg:text-[100px] font-black text-white mb-10 tracking-tighter leading-[0.9] animate-[fadeInUp_0.5s_ease-out_forwards]"
           >
             Giải Mã Bản Đồ <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-emerald-400 to-cyan-400">
               Vận Mệnh.
             </span>
-          </motion.h1>
+          </h1>
           
           <motion.p 
             variants={itemVariants}

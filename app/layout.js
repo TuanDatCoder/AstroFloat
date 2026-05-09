@@ -16,6 +16,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="vi" className={inter.className}>
+      <head>
+        <link rel="preconnect" href="https://dhfdllzdnemmrxubnldu.supabase.co" crossOrigin="anonymous" />
+      </head>
       <body className="min-h-screen bg-[#0B0F19] text-white overflow-x-hidden relative flex flex-col">
         <PublicElements>
           {children}
