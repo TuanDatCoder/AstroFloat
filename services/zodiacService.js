@@ -59,5 +59,22 @@ export const zodiacService = {
     const { error } = await supabase.from(TABLES.ZODIAC_SIGNS).delete().eq(FIELD_ZODIAC_SIGNS.ID, id);
     if (error) throw error;
     return true;
+  },
+
+  async getZodiacBySlug(slug) {
+    const zodiacs = await this.getAllZodiacs();
+    return zodiacs.find(z => {
+      const nameSlug = z.name.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove accents
+        .replace(/[đĐ]/g, 'd')
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '');
+      
+      const englishSlug = z.english_name.toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '');
+
+      return nameSlug === slug || englishSlug === slug;
+    });
   }
 };

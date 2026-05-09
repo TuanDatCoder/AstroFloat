@@ -5,9 +5,14 @@ import { zodiacDetailService } from '@/services/zodiacDetailService';
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  if (isNaN(id)) return { title: 'Cung Hoàng Đạo | Góc Vũ Trụ' };
+  let zodiac = null;
   
-  const zodiac = await zodiacService.getZodiacById(id);
+  if (!isNaN(id)) {
+    zodiac = await zodiacService.getZodiacById(id);
+  } else {
+    zodiac = await zodiacService.getZodiacBySlug(id);
+  }
+
   return {
     title: `${zodiac?.name || 'Cung Hoàng Đạo'} - Giải mã tính cách & Bí mật vận mệnh | Góc Vũ Trụ`,
     description: zodiac?.description || 'Khám phá chi tiết về cung hoàng đạo của bạn.',
@@ -22,11 +27,16 @@ export default async function ZodiacDetailPage({ params }) {
   try {
     if (!isNaN(id)) {
       zodiac = await zodiacService.getZodiacById(id);
-      details = await zodiacDetailService.getDetailsByZodiacId(id);
+    } else {
+      zodiac = await zodiacService.getZodiacBySlug(id);
+    }
+
+    if (zodiac) {
+      details = await zodiacDetailService.getDetailsByZodiacId(zodiac.id);
     }
   } catch (err) {
     console.error("Lỗi lấy dữ liệu chi tiết cung hoàng đạo:", err);
   }
 
-  return <ZodiacDetailClient id={id} initialZodiac={zodiac} initialDetails={details} />;
+  return <ZodiacDetailClient id={zodiac?.id || id} initialZodiac={zodiac} initialDetails={details} />;
 }

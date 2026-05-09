@@ -51,8 +51,8 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
           </p>
         </motion.div>
 
-        <div className="relative mb-20 px-4">
-          <div className="flex flex-col xl:flex-row items-center justify-between gap-8 bg-white/[0.01] backdrop-blur-3xl border border-white/5 p-2 rounded-full shadow-2xl">
+        <div className="relative mb-20 px-4 transform-gpu">
+          <div className="flex flex-col xl:flex-row items-center justify-between gap-8 bg-white/[0.01] backdrop-blur-xl border border-white/5 p-2 rounded-full shadow-2xl translate-z-0">
             
             <div className="flex items-center gap-1 overflow-x-auto w-full xl:w-auto scrollbar-hide p-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
               {initialCategories.map((cat) => {
@@ -103,14 +103,14 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 transform-gpu">
           <AnimatePresence mode="popLayout">
             {filteredNews.length > 0 ? (
               filteredNews.map((news, index) => (
                 <Link 
                   key={news.id} 
                   href={ROUTES.NEWS_DETAIL(news.slug)} 
-                  className="block group relative h-full"
+                  className="block group relative h-full transform-gpu"
                 >
                   <motion.div 
                     layout
@@ -121,13 +121,14 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
                       duration: 0.4,
                       delay: index * 0.03
                     }}
-                    className="h-full bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500 flex flex-col"
+                    className="h-full bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500 flex flex-col will-change-transform translate-z-0"
                   >
-                    <div className="relative h-64 overflow-hidden">
+                    <div className="relative h-64 overflow-hidden transform-gpu">
                       <img 
                         src={news.imageUrl} 
                         alt={news.title} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-80 group-hover:opacity-100" 
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-80 group-hover:opacity-100 will-change-transform" 
                       />
                       <div className="absolute top-6 left-6 z-20">
                         <span className="px-4 py-1.5 rounded-full text-[9px] font-black uppercase bg-black/60 text-white border border-white/10 backdrop-blur-md tracking-widest">
