@@ -9,7 +9,7 @@ import {
   Newspaper, HelpCircle, Zap, ShieldCheck, Heart, 
   Gem, BookOpen, ChevronDown
 } from 'lucide-react';
-import AdBanner from '@/components/AdBanner';
+
 import { ROUTES } from '@/constants';
 import { newsService } from '@/services/newsService';
 
@@ -242,31 +242,54 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 min-h-[400px]">
-          {latestNews.map((news, idx) => (
-            <motion.div 
-              key={news.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-            >
-              <Link href={ROUTES.NEWS_DETAIL(news.slug)} className="group">
-                <div className="bg-slate-900 border border-white/5 rounded-3xl overflow-hidden hover:border-indigo-500/30 transition-all h-full flex flex-col group-hover:-translate-y-2">
-                  <div className="relative h-48 bg-slate-800 overflow-hidden">
-                    <Image src={news.thumbnail_url} alt={news.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
-                  </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="font-bold text-white mb-2 line-clamp-2 group-hover:text-indigo-400 transition-colors">{news.title}</h3>
-                    <p className="text-gray-400 text-xs line-clamp-2 mb-4 font-light">{news.summary}</p>
-                    <div className="mt-auto flex items-center justify-between">
-                       <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Khám phá ngay</span>
-                       <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-2 transition-transform" />
-                    </div>
+          {latestNews.length === 0 ? (
+            [1, 2, 3].map((key, idx) => (
+              <motion.div 
+                key={`skeleton-${key}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="bg-slate-900 border border-white/5 rounded-3xl overflow-hidden h-full flex flex-col min-h-[380px]"
+              >
+                <div className="h-48 bg-slate-800/50 animate-pulse" />
+                <div className="p-6 flex flex-col flex-1 gap-4">
+                  <div className="h-6 bg-slate-800/50 rounded animate-pulse w-3/4" />
+                  <div className="h-4 bg-slate-800/50 rounded animate-pulse w-full mt-2" />
+                  <div className="h-4 bg-slate-800/50 rounded animate-pulse w-5/6" />
+                  <div className="mt-auto flex items-center justify-between pt-4">
+                     <div className="h-3 bg-slate-800/50 rounded animate-pulse w-1/3" />
+                     <div className="w-4 h-4 bg-slate-800/50 rounded animate-pulse" />
                   </div>
                 </div>
-              </Link>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))
+          ) : (
+            latestNews.map((news, idx) => (
+              <motion.div 
+                key={news.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+              >
+                <Link href={ROUTES.NEWS_DETAIL(news.slug)} className="group">
+                  <div className="bg-slate-900 border border-white/5 rounded-3xl overflow-hidden hover:border-indigo-500/30 transition-all h-full flex flex-col group-hover:-translate-y-2">
+                    <div className="relative h-48 bg-slate-800 overflow-hidden">
+                      <Image src={news.thumbnail_url} alt={news.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
+                    </div>
+                    <div className="p-6 flex flex-col flex-1">
+                      <h3 className="font-bold text-white mb-2 line-clamp-2 group-hover:text-indigo-400 transition-colors">{news.title}</h3>
+                      <p className="text-gray-400 text-xs line-clamp-2 mb-4 font-light">{news.summary}</p>
+                      <div className="mt-auto flex items-center justify-between">
+                         <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Khám phá ngay</span>
+                         <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-2 transition-transform" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))
+          )}
         </div>
       </section>
 
