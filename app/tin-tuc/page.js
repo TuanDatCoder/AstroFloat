@@ -36,7 +36,9 @@ export default async function NewsPage() {
         slug: a.slug,
         summary: a.summary,
         is_featured: a.is_featured,
-        category: a.news_article_categories?.[0]?.news_categories?.name || 'Chưa phân loại',
+        category: a.news_article_categories?.[0]?.news_categories?.name || 
+                  a.news_article_categories?.[0]?.name || 
+                  'Chưa phân loại',
         imageUrl: a.thumbnail_url || 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80\u0026w=1000\u0026auto=format\u0026fit=crop',
         date: new Date(a.published_at || a.created_at).toLocaleDateString('vi-VN'),
         rawDate: a.published_at || a.created_at,
