@@ -4,7 +4,20 @@ import { ROUTES } from '@/constants';
 export default async function sitemap() {
   const baseUrl = 'https://www.gocvutru.com';
 
-  // 1. TRANG TĨNH CHÍNH
+
+  // 1. LẤY DỮ LIỆU TIN TỨC TRƯỚC ĐỂ LẤY NGÀY MỚI NHẤT
+  let articles = [];
+  try {
+    articles = await newsService.getArticles();
+  } catch (error) {
+    console.error('Sitemap: Lỗi lấy bài viết tin tức:', error);
+  }
+
+  const latestNewsDate = articles.length > 0 
+    ? new Date(articles[0].published_at || articles[0].created_at) 
+    : new Date('2026-05-08T00:00:00Z');
+
+  // 2. TRANG TĨNH CHÍNH
   const staticRoutes = [
     '',
     '/kham-pha',
@@ -18,26 +31,24 @@ export default async function sitemap() {
     '/phan-tich-4-dinh-cao',
     '/chinh-sach-bao-mat',
     '/dieu-khoan-su-dung',
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date('2026-05-08T00:00:00Z'), // Dùng ngày cố định cho trang tĩnh
-    changeFrequency: route === '' ? 'daily' : 'weekly',
-    priority: route === '' ? 1.0 : 0.8,
-  }));
+  ].map((route) => {
+    // Ưu tiên ngày mới nhất cho trang chủ và trang tin tức
+    const isDynamicStatic = route === '' || route === '/tin-tuc';
+    return {
+      url: `${baseUrl}${route}`,
+      lastModified: isDynamicStatic ? latestNewsDate : new Date('2026-05-08T00:00:00Z'),
+      changeFrequency: route === '' ? 'daily' : 'weekly',
+      priority: route === '' ? 1.0 : (route === '/tin-tuc' ? 0.9 : 0.8),
+    };
+  });
 
-  // 2. BÀI VIẾT TIN TỨC (DỰA TRÊN DATABASE)
-  let newsRoutes = [];
-  try {
-    const articles = await newsService.getArticles();
-    newsRoutes = articles.map((article) => ({
-      url: `${baseUrl}/tin-tuc/${article.slug}`,
-      lastModified: new Date(article.published_at || article.created_at || new Date()),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    }));
-  } catch (error) {
-    console.error('Sitemap: Lỗi lấy bài viết tin tức:', error);
-  }
+  // 3. BÀI VIẾT TIN TỨC CHI TIẾT
+  const newsRoutes = articles.map((article) => ({
+    url: `${baseUrl}/tin-tuc/${article.slug}`,
+    lastModified: new Date(article.published_at || article.created_at || new Date()),
+    changeFrequency: 'weekly', // Chuyển từ monthly sang weekly cho tin tức
+    priority: 0.7,
+  }));
 
   // 3. 12 CUNG HOÀNG ĐẠO (SLUG ĐÃ TỐI ƯU)
   const zodiacSlugs = [
