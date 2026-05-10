@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   Plus, Search, Edit2, Trash2, Eye, 
-  CheckCircle, Clock
+  CheckCircle, Clock, Star
 } from 'lucide-react';
 import { newsService } from '@/services/newsService';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -40,6 +40,18 @@ export default function AdminNewsList() {
       } catch (error) {
         alert('Lỗi khi xóa bài viết: ' + error.message);
       }
+    }
+  }
+
+  async function handleToggleFeatured(article) {
+    try {
+      const newStatus = !article.is_featured;
+      await newsService.updateArticle(article.id, { is_featured: newStatus });
+      setArticles(articles.map(a => 
+        a.id === article.id ? { ...a, is_featured: newStatus } : a
+      ));
+    } catch (error) {
+      alert('Lỗi khi cập nhật trạng thái nổi bật: ' + error.message);
     }
   }
 
@@ -96,6 +108,7 @@ export default function AdminNewsList() {
             <thead>
               <tr className="border-b border-white/5 bg-white/[0.02]">
                 <th className="px-4 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Bài viết</th>
+                <th className="px-4 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap text-center">Nổi bật</th>
                 <th className="px-4 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Danh mục</th>
                 <th className="px-4 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 text-center whitespace-nowrap">Lượt xem</th>
                 <th className="px-4 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Trạng thái</th>
@@ -107,13 +120,13 @@ export default function AdminNewsList() {
               <AnimatePresence>
                 {loading ? (
                   <tr>
-                    <td colSpan="5" className="px-6 py-20 text-center text-gray-500 italic">
+                    <td colSpan="6" className="px-6 py-20 text-center text-gray-500 italic">
                       Đang tải danh sách bài viết...
                     </td>
                   </tr>
                 ) : filteredArticles.length === 0 ? (
                   <tr>
-                    <td colSpan="5" className="px-6 py-20 text-center text-gray-500 italic">
+                    <td colSpan="6" className="px-6 py-20 text-center text-gray-500 italic">
                       Không tìm thấy bài viết nào phù hợp.
                     </td>
                   </tr>
@@ -141,6 +154,19 @@ export default function AdminNewsList() {
                             <p className="text-[10px] text-gray-600 truncate max-w-[150px]">{article.slug}</p>
                           </div>
                         </div>
+                      </td>
+                      <td className="px-4 py-5 text-center">
+                        <button
+                          onClick={() => handleToggleFeatured(article)}
+                          className={`p-2 rounded-lg transition-all duration-300 ${
+                            article.is_featured 
+                              ? 'text-amber-400 bg-amber-400/20 border border-amber-400/40 shadow-[0_0_15px_rgba(245,158,11,0.4)] scale-110' 
+                              : 'text-gray-600 hover:text-gray-400 bg-white/5 border border-white/5 hover:scale-105'
+                          }`}
+                          title={article.is_featured ? 'Bỏ nổi bật' : 'Đánh dấu nổi bật'}
+                        >
+                          <Star className={`w-4 h-4 ${article.is_featured ? 'fill-current' : ''}`} />
+                        </button>
                       </td>
                       <td className="px-4 py-5">
                         <span className="inline-block whitespace-nowrap px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[9px] font-bold uppercase tracking-wider">

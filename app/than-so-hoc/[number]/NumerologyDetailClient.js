@@ -171,9 +171,9 @@ export default function NumerologyDetailClient({ number, initialNumerology, init
             {/* Right: Milestone List */}
             <div className="lg:col-span-5 space-y-6 relative">
                <div className="absolute left-6 top-6 bottom-6 w-px bg-gradient-to-b from-indigo-500/40 via-purple-500/20 to-transparent" />
-               {pinnacles.map((p, i) => (
+                {pinnacles.map((p, i) => (
                  <Link key={i} href={ROUTES.PINNACLE_DETAIL(p.value)} className="block group">
-                   <motion.div initial={{ opacity:0, x:20 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }} transition={{ delay: i*0.1 }} className="ml-12 bg-white/5 border border-white/5 hover:border-indigo-500/30 p-6 rounded-[2rem] flex items-center gap-6 transition-all">
+                   <m.div initial={{ opacity:0, x:20 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }} transition={{ delay: i*0.1 }} className="ml-12 bg-white/5 border border-white/5 hover:border-indigo-500/30 p-6 rounded-[2rem] flex items-center gap-6 transition-all">
                       <div className="w-12 h-12 shrink-0 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-2xl font-black text-indigo-300 group-hover:bg-indigo-500 group-hover:text-white transition-all">{p.value}</div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-indigo-400/70 mb-1">
@@ -182,7 +182,7 @@ export default function NumerologyDetailClient({ number, initialNumerology, init
                         <h3 className="text-white font-bold text-sm tracking-tight">{i === 3 ? `${p.age} tuổi trở đi` : `${p.age} tuổi`}</h3>
                       </div>
                       <Crown className="w-5 h-5 text-gray-700 group-hover:text-indigo-400/40 transition-colors" />
-                   </motion.div>
+                   </m.div>
                  </Link>
                ))}
             </div>
