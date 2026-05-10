@@ -9,7 +9,7 @@ const sections = [
   { icon: Users, color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/20', title: '2. Tài Khoản Người Dùng', content: `Khi tạo tài khoản, bạn có trách nhiệm bảo mật thông tin đăng nhập và chịu trách nhiệm cho mọi hoạt động diễn ra dưới tài khoản của bạn.` },
   { icon: Shield, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', title: '3. Sử Dụng Hợp Lệ', content: `Góc Vũ Trụ được cung cấp chỉ cho mục đích giải trí và tham khảo. Không sử dụng cho các hành vi bất hợp pháp hoặc can thiệp hệ thống.` },
   { icon: AlertCircle, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20', title: '4. Giới Hạn Trách Nhiệm', content: `Nội dung chiêm tinh và thần số học chỉ mang tính giải trí. Chúng tôi không đảm bảo tính chính xác tuyệt đối của các phân tích.` },
-  { icon: Mail, color: 'text-pink-400', bg: 'bg-pink-500/10', border: 'border-pink-500/20', title: '5. Liên Hệ', content: `📧 Email: contact@astrofloat.app\nChúng tôi cam kết phản hồi trong vòng 72 giờ làm việc.` },
+  { icon: Mail, color: 'text-pink-400', bg: 'bg-pink-500/10', border: 'border-pink-500/20', title: '5. Liên Hệ', content: `📧 Email: devprojectlabvn@gmail.com\nChúng tôi cam kết phản hồi trong vòng 72 giờ làm việc.` },
 ];
 
 export default function TermsPage() {

@@ -19,7 +19,7 @@ export const newsService = {
     const { data, error } = await supabase
       .from(TABLES.NEWS_ARTICLES)
       .select(`
-        id, title, slug, summary, thumbnail_url, published_at, view_count, status, is_featured,
+        id, title, slug, summary, content, thumbnail_url, published_at, view_count, status, is_featured,
         news_article_categories (
           news_categories ( id, name, slug )
         ),
