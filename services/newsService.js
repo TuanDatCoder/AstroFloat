@@ -129,18 +129,19 @@ export const newsService = {
 
     // 2. Cập nhật danh mục
     if (id) {
-      // Luôn xóa các danh mục cũ để cập nhật mới (hoặc xóa trắng nếu categoryId trống)
+      const articleId = parseInt(id);
+      // Luôn xóa các danh mục cũ để cập nhật mới
       await supabase
         .from(TABLES.NEWS_ARTICLE_CATEGORIES)
         .delete()
-        .eq('article_id', id);
+        .eq('article_id', articleId);
 
       if (categoryId) {
         // Thêm danh mục mới
         const { error: catError } = await supabase
           .from(TABLES.NEWS_ARTICLE_CATEGORIES)
           .insert({
-            article_id: id,
+            article_id: articleId,
             category_id: parseInt(categoryId)
           });
         if (catError) console.error("Lỗi cập nhật danh mục:", catError);
