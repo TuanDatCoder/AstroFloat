@@ -77,21 +77,21 @@ export default function Footer() {
               <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
                 <Mail className="w-4 h-4" />
               </div>
-              <span className="hover:text-cyan-300 transition-colors cursor-pointer">contact@astrofloat.app</span>
+              <span className="hover:text-cyan-300 transition-colors cursor-pointer">devprojectlabvn@gmail.com</span>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col items-start">
-          <h2 className="text-white font-black text-xs tracking-[0.3em] uppercase mb-8 opacity-70">Bản Tin</h2>
-          <p className="text-gray-400 text-sm font-light mb-6 text-left">
-            Nhận thông điệp vũ trụ và ưu đãi VIP mỗi tuần.
+          <h2 className="text-white font-black text-xs tracking-[0.3em] uppercase mb-8 opacity-70">Sứ Mệnh</h2>
+          <p className="text-gray-400 text-sm font-light mb-6 text-left leading-relaxed">
+            Góc Vũ Trụ mong muốn mang lại những góc nhìn sâu sắc về bản thân thông qua ngôn ngữ của những vì sao và con số.
           </p>
-          <div className="relative w-full max-w-sm">
-            <input type="email" placeholder="Email của bạn..." className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 px-5 text-sm text-white placeholder:text-gray-600 focus:border-cyan-500/50 outline-none transition-all shadow-inner" />
-            <button aria-label="Đăng ký nhận bản tin" className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-xl flex items-center justify-center text-white hover:shadow-[0_0_15px_rgba(34,211,238,0.5)] active:scale-95 transition-all">
-              <Send className="w-4 h-4" />
-            </button>
+          <div className="flex flex-col items-start gap-2">
+            <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">Hợp tác & Feedback</span>
+            <a href="mailto:devprojectlabvn@gmail.com" className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors font-medium">
+              devprojectlabvn@gmail.com
+            </a>
           </div>
         </div>
       </div>

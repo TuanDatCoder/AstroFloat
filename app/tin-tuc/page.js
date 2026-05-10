@@ -22,6 +22,14 @@ export default async function NewsPage() {
     }
 
     if (artsData) {
+      const calculateReadTime = (content) => {
+        if (!content) return '1 phút';
+        const wordsPerMinute = 200;
+        const wordCount = content.trim().split(/\s+/).length;
+        const minutes = Math.ceil(wordCount / wordsPerMinute);
+        return `${minutes} phút`;
+      };
+
       articles = artsData.map(a => ({
         id: a.id,
         title: a.title,
@@ -32,7 +40,7 @@ export default async function NewsPage() {
         imageUrl: a.thumbnail_url || 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80\u0026w=1000\u0026auto=format\u0026fit=crop',
         date: new Date(a.published_at || a.created_at).toLocaleDateString('vi-VN'),
         rawDate: a.published_at || a.created_at,
-        readTime: '5 phút',
+        readTime: calculateReadTime(a.content || a.summary),
         tags: a.news_article_tags?.map(t => t.news_tags?.name).filter(Boolean) || []
       }));
     }

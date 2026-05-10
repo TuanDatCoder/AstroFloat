@@ -67,7 +67,7 @@ export default function FamilyLoveStudioClient() {
           Mọi đóng góp, phản hồi hay lời nhắn gửi từ các bạn đều là nguồn động lực to lớn giúp Family Love Studio tiếp tục phát triển Góc Vũ Trụ ngày một hoàn thiện hơn.
         </p>
         <a 
-          href="https://mail.google.com/mail/?view=cm&fs=1&to=contact@astrofloat.app" 
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=devprojectlabvn@gmail.com" 
           target="_blank" 
           rel="noopener noreferrer" 
           onClick={handleEmailClick}
@@ -97,7 +97,7 @@ export default function FamilyLoveStudioClient() {
               <button 
                 onClick={() => {
                   setShowConfirm(false);
-                  window.open('https://mail.google.com/mail/?view=cm&fs=1&to=contact@astrofloat.app', '_blank', 'noopener,noreferrer');
+                  window.open('https://mail.google.com/mail/?view=cm&fs=1&to=devprojectlabvn@gmail.com', '_blank', 'noopener,noreferrer');
                 }}
                 className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] text-sm"
               >

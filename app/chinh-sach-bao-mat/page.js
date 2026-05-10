@@ -9,7 +9,7 @@ const sections = [
   { icon: Database, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', title: '2. Cách Sử Dụng', content: `Dữ liệu dùng để hiển thị các bản giải mã, xác thực tài khoản và cải thiện dịch vụ. Chúng tôi không bao giờ bán dữ liệu của bạn.` },
   { icon: Lock, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20', title: '3. Bảo Mật', content: `Mọi dữ liệu được mã hóa qua HTTPS/TLS. Mật khẩu được băm bảo mật. Cơ sở dữ liệu được bảo vệ bởi các tiêu chuẩn cao nhất từ Supabase.` },
   { icon: ShieldCheck, color: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'border-indigo-500/20', title: '4. Quyền Của Bạn', content: `Bạn có quyền truy cập, chỉnh sửa hoặc yêu cầu xóa bỏ toàn bộ dữ liệu cá nhân bất cứ lúc nào.` },
-  { icon: Mail, color: 'text-rose-400', bg: 'bg-rose-500/10', border: 'border-rose-500/20', title: '5. Liên Hệ', content: `📧 Email: contact@astrofloat.app\nChúng tôi cam kết bảo vệ sự riêng tư của cư dân Góc Vũ Trụ.` },
+  { icon: Mail, color: 'text-rose-400', bg: 'bg-rose-500/10', border: 'border-rose-500/20', title: '5. Liên Hệ', content: `📧 Email: devprojectlabvn@gmail.com\nChúng tôi cam kết bảo vệ sự riêng tư của cư dân Góc Vũ Trụ.` },
 ];
 
 export default function PrivacyPage() {
