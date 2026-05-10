@@ -9,9 +9,11 @@ import {
   Bold, Italic, List, Quote, Type, Link as LinkIcon, 
   Minus, Code, Eye, Edit2
 } from 'lucide-react';
+import { m, AnimatePresence } from 'framer-motion';
 import { newsService } from '@/services/newsService';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
+import imageCompression from 'browser-image-compression';
 
 export default function AdminNewsFormClient({ id }) {
   const router = useRouter();
@@ -30,6 +32,7 @@ export default function AdminNewsFormClient({ id }) {
 
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  const [isCatOpen, setIsCatOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [fetching, setFetching] = useState(isEdit);
@@ -99,7 +102,19 @@ export default function AdminNewsFormClient({ id }) {
 
     try {
       setUploading(true);
-      const publicUrl = await newsService.uploadImage(file);
+
+      // Cấu hình nén ảnh: tối đa 200KB, chiều rộng 1200px
+      const options = {
+        maxSizeMB: 0.2,
+        maxWidthOrHeight: 1200,
+        useWebWorker: true,
+      };
+
+      // Thực hiện nén
+      const compressedFile = await imageCompression(file, options);
+      
+      // Upload file đã nén
+      const publicUrl = await newsService.uploadImage(compressedFile);
       setFormData(prev => ({ ...prev, thumbnail_url: publicUrl }));
     } catch (error) {
       alert('Lỗi khi tải ảnh lên: ' + error.message);
@@ -119,9 +134,9 @@ export default function AdminNewsFormClient({ id }) {
       };
 
       if (isEdit) {
-        await newsService.updateArticle(id, payload);
+        await newsService.updateArticle(id, payload, selectedCategoryId);
       } else {
-        await newsService.createArticle(payload);
+        await newsService.createArticle(payload, selectedCategoryId);
       }
 
       router.push('/admin/news');
@@ -461,16 +476,62 @@ export default function AdminNewsFormClient({ id }) {
 
               <div className="space-y-2 pt-2">
                 <label className="text-xs font-black uppercase tracking-widest text-gray-500">Danh mục</label>
-                <select 
-                  value={selectedCategoryId}
-                  onChange={(e) => setSelectedCategoryId(e.target.value)}
-                  className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:outline-none focus:border-indigo-500/50"
-                >
-                  <option value="">Chọn danh mục...</option>
-                  {categories.map(cat => (
-                    <option key={cat.id} value={cat.id}>{cat.name}</option>
-                  ))}
-                </select>
+                <div className="relative group/dropdown">
+                  <button
+                    type="button"
+                    onClick={() => setIsCatOpen(!isCatOpen)}
+                    className="w-full flex items-center justify-between bg-slate-950/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all hover:bg-slate-900/80"
+                  >
+                    <span>
+                      {categories.find(c => c.id.toString() === selectedCategoryId.toString())?.name || 'Chọn danh mục...'}
+                    </span>
+                    <ChevronLeft className={`w-4 h-4 text-gray-500 transition-transform ${isCatOpen ? 'rotate-90' : '-rotate-90'}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {isCatOpen && (
+                      <>
+                        <div className="fixed inset-0 z-10" onClick={() => setIsCatOpen(false)}></div>
+                        <m.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          className="absolute left-0 right-0 top-full mt-2 bg-[#0B0F19]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-20 py-1"
+                        >
+                          <div className="max-h-[200px] overflow-y-auto custom-scrollbar">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSelectedCategoryId('');
+                                setIsCatOpen(false);
+                              }}
+                              className="w-full text-left px-4 py-3 text-xs font-bold text-gray-500 hover:text-white hover:bg-white/5 transition-all"
+                            >
+                              Chọn danh mục...
+                            </button>
+                            {categories.map(cat => (
+                              <button
+                                key={cat.id}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedCategoryId(cat.id.toString());
+                                  setIsCatOpen(false);
+                                }}
+                                className={`w-full text-left px-4 py-3 text-xs font-bold transition-all border-l-2 ${
+                                  selectedCategoryId.toString() === cat.id.toString()
+                                    ? 'bg-indigo-500/10 border-indigo-500 text-indigo-400'
+                                    : 'border-transparent text-gray-400 hover:text-white hover:bg-white/5'
+                                }`}
+                              >
+                                {cat.name}
+                              </button>
+                            ))}
+                          </div>
+                        </m.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
           </div>

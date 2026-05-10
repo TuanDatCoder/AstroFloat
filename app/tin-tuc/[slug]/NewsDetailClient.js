@@ -90,15 +90,17 @@ export default function NewsDetailClient({ initialArticle, slug }) {
         <div className="prose prose-invert prose-cyan prose-lg max-w-none 
           text-gray-300 leading-relaxed 
           prose-headings:text-white prose-headings:font-black prose-headings:tracking-tight
-          prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-4 prose-h2:border-b prose-h2:border-white/5
-          prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-cyan-400
+          prose-h2:text-3xl prose-h2:mt-20 prose-h2:mb-6 prose-h2:pb-4 prose-h2:border-b prose-h2:border-white/5 prose-h2:scroll-mt-24
+          prose-h1:mt-24 prose-h1:scroll-mt-24
+          prose-h3:text-2xl prose-h3:mt-14 prose-h3:mb-4 prose-h3:text-cyan-400 prose-h3:scroll-mt-24
           prose-p:mb-6 prose-p:leading-loose
           prose-strong:text-cyan-300 prose-strong:font-bold
           prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-8 prose-ul:space-y-3
           prose-li:marker:text-cyan-500 prose-li:pl-2
           prose-blockquote:border-l-4 prose-blockquote:border-cyan-500 prose-blockquote:bg-cyan-500/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-2xl prose-blockquote:italic
           prose-hr:border-white/10 prose-hr:my-12
-          prose-img:rounded-3xl prose-img:shadow-2xl prose-img:border prose-img:border-white/10">
+          prose-img:rounded-3xl prose-img:shadow-2xl prose-img:border prose-img:border-white/10
+          [&>*:first-child]:mt-8 [&_hr+*]:mt-12">
           <ReactMarkdown>{initialArticle.content}</ReactMarkdown>
         </div>
 

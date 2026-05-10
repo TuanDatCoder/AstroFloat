@@ -19,7 +19,7 @@ export const newsService = {
     const { data, error } = await supabase
       .from(TABLES.NEWS_ARTICLES)
       .select(`
-        id, title, slug, summary, thumbnail_url, published_at, view_count, status,
+        id, title, slug, summary, thumbnail_url, published_at, view_count, status, is_featured,
         news_article_categories (
           news_categories ( id, name, slug )
         ),
@@ -41,7 +41,7 @@ export const newsService = {
     const { data, error } = await supabase
       .from(TABLES.NEWS_ARTICLES)
       .select(`
-        id, title, slug, summary, thumbnail_url, published_at, created_at, view_count, status,
+        id, title, slug, summary, thumbnail_url, published_at, created_at, view_count, status, is_featured,
         news_article_categories (
           news_categories ( id, name, slug )
         ),
@@ -92,25 +92,62 @@ export const newsService = {
     return data;
   },
 
-  async createArticle(articleData) {
-    const { data, error } = await supabase
+  async createArticle(articleData, categoryId) {
+    // 1. Tạo bài viết
+    const { data: article, error: articleError } = await supabase
       .from(TABLES.NEWS_ARTICLES)
       .insert(articleData)
       .select()
       .single();
-    if (error) throw error;
-    return data;
+    
+    if (articleError) throw articleError;
+
+    // 2. Gán danh mục nếu có
+    if (categoryId && article) {
+      const { error: catError } = await supabase
+        .from(TABLES.NEWS_ARTICLE_CATEGORIES)
+        .insert({
+          article_id: article.id,
+          category_id: parseInt(categoryId)
+        });
+      if (catError) console.error("Lỗi gán danh mục:", catError);
+    }
+
+    return article;
   },
 
-  async updateArticle(id, articleData) {
-    const { data, error } = await supabase
+  async updateArticle(id, articleData, categoryId) {
+    // 1. Cập nhật thông tin bài viết
+    const { data: article, error: articleError } = await supabase
       .from(TABLES.NEWS_ARTICLES)
       .update(articleData)
       .eq('id', id)
       .select()
       .single();
-    if (error) throw error;
-    return data;
+    
+    if (articleError) throw articleError;
+
+    // 2. Cập nhật danh mục
+    if (id) {
+      // Luôn xóa các danh mục cũ để cập nhật mới (hoặc xóa trắng nếu categoryId trống)
+      await supabase
+        .from(TABLES.NEWS_ARTICLE_CATEGORIES)
+        .delete()
+        .eq('article_id', id);
+
+      if (categoryId) {
+        // Thêm danh mục mới
+        const { error: catError } = await supabase
+          .from(TABLES.NEWS_ARTICLE_CATEGORIES)
+          .insert({
+            article_id: id,
+            category_id: parseInt(categoryId)
+          });
+        if (catError) console.error("Lỗi cập nhật danh mục:", catError);
+      }
+    }
+
+    return article;
   },
   async deleteArticle(id) {
     const { error } = await supabase

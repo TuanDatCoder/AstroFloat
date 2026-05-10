@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
-import { Search, Newspaper, Star, Moon, ArrowRight, Clock, Tag, BookOpen } from 'lucide-react';
+import { Search, Newspaper, Star, Moon, ArrowRight, Clock, Tag, BookOpen, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
@@ -12,6 +12,8 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
   const searchParams = useSearchParams();
   const [activeCategory, setActiveCategory] = useState('Tất cả');
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
 
   useEffect(() => {
     const tag = searchParams.get('tag');
@@ -21,7 +23,13 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
     }
   }, [searchParams]);
 
-  const filteredNews = initialArticles.filter(news => {
+  // Reset về trang 1 khi đổi category hoặc tìm kiếm
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory, searchQuery]);
+
+  // 1. FILTER
+  const filtered = initialArticles.filter(news => {
     const matchCategory = activeCategory === 'Tất cả' || news.category === activeCategory;
     const query = searchQuery.toLowerCase().trim();
     if (!query) return matchCategory;
@@ -31,6 +39,32 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
                         news.tags.some(tag => tag.toLowerCase().includes(cleanQuery));
     return matchCategory && matchSearch;
   });
+
+  // 2. SORT
+  const sortedNews = [...filtered].sort((a, b) => {
+    const dateA = new Date(a.rawDate);
+    const dateB = new Date(b.rawDate);
+    const today = new Date();
+    
+    const isToday = (d) => 
+      d.getDate() === today.getDate() && 
+      d.getMonth() === today.getMonth() && 
+      d.getFullYear() === today.getFullYear();
+
+    // Priority score: Today = 2, Featured = 1, Normal = 0
+    const scoreA = isToday(dateA) ? 2 : (a.is_featured ? 1 : 0);
+    const scoreB = isToday(dateB) ? 2 : (b.is_featured ? 1 : 0);
+
+    if (scoreA !== scoreB) {
+      return scoreB - scoreA;
+    }
+    // Nếu cùng priority thì xếp theo ngày mới nhất
+    return dateB - dateA;
+  });
+
+  // 3. PAGINATION
+  const totalPages = Math.ceil(sortedNews.length / itemsPerPage);
+  const displayedNews = sortedNews.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div className="min-h-screen pt-32 pb-20 relative overflow-hidden">
@@ -104,10 +138,10 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 transform-gpu">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 transform-gpu mb-16">
           <AnimatePresence mode="popLayout">
-            {filteredNews.length > 0 ? (
-              filteredNews.map((news, index) => (
+            {displayedNews.length > 0 ? (
+              displayedNews.map((news, index) => (
                 <Link 
                   key={news.id} 
                   href={ROUTES.NEWS_DETAIL(news.slug)} 
@@ -122,7 +156,11 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
                       duration: 0.4,
                       delay: index * 0.03
                     }}
-                    className="h-full bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500 flex flex-col will-change-transform translate-z-0"
+                    className={`h-full bg-white/[0.02] border rounded-3xl overflow-hidden transition-all duration-500 flex flex-col will-change-transform translate-z-0 ${
+                      news.is_featured 
+                        ? 'border-amber-500/30 hover:border-amber-500/50 shadow-[0_0_30px_rgba(245,158,11,0.05)]' 
+                        : 'border-white/5 hover:border-white/20'
+                    }`}
                   >
                     <div className="relative h-64 overflow-hidden transform-gpu">
                       <Image 
@@ -132,10 +170,15 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-80 group-hover:opacity-100 will-change-transform" 
                       />
-                      <div className="absolute top-6 left-6 z-20">
+                      <div className="absolute top-6 left-6 z-20 flex gap-2">
                         <span className="px-4 py-1.5 rounded-full text-[9px] font-black uppercase bg-black/60 text-white border border-white/10 backdrop-blur-md tracking-widest">
                           {news.category}
                         </span>
+                        {news.is_featured && (
+                          <span className="px-4 py-1.5 rounded-full text-[9px] font-black uppercase bg-amber-500/20 text-amber-400 border border-amber-500/30 backdrop-blur-md tracking-widest flex items-center gap-1">
+                            <Star className="w-2.5 h-2.5 fill-amber-400" /> NỔI BẬT
+                          </span>
+                        )}
                       </div>
                     </div>
                     
@@ -175,6 +218,44 @@ export default function NewsListClient({ initialArticles, initialCategories }) {
             )}
           </AnimatePresence>
         </div>
+
+        {/* PHÂN TRANG */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-4 mt-12">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="p-3 rounded-full border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            
+            <div className="flex items-center gap-2">
+              {[...Array(totalPages)].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`w-10 h-10 rounded-full text-xs font-bold transition-all ${
+                    currentPage === i + 1 
+                      ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20' 
+                      : 'bg-white/5 text-gray-500 hover:text-white border border-white/10'
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="p-3 rounded-full border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+
+          </div>
+        )}
       </div>
     </div>
   );
