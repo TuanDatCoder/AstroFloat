@@ -5,6 +5,9 @@ import { nameNumerologyService } from '@/services/nameNumerologyService';
 export const metadata = {
   title: 'Thần Số Học Theo Tên - Giải mã tần số tên gọi | Góc Vũ Trụ',
   description: 'Tên gọi của bạn mang tần số rung động riêng biệt. Khám phá sứ mệnh cuộc đời và những ẩn số đằng sau cái tên của mình ngay hôm nay.',
+  alternates: {
+    canonical: '/than-so-hoc-theo-ten',
+  },
 }
 
 export default async function NameNumerologyPage() {

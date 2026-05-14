@@ -8,6 +8,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `Thần Số Học Số ${number} - Ý nghĩa & Giải mã chi tiết | Góc Vũ Trụ`,
     description: `Khám phá ý nghĩa con số chủ đạo ${number} trong thần số học. Phân tích tính cách, sự nghiệp và lời khuyên dành cho người mang tần số rung động này.`,
+    alternates: {
+      canonical: `/than-so-hoc/${number}`,
+    },
   }
 }
 

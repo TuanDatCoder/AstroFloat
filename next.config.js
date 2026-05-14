@@ -64,6 +64,11 @@ const nextConfig = {
         destination: '/than-so-hoc/:number',
         permanent: true,
       },
+      {
+        source: '/pinnacle-analysis',
+        destination: '/phan-tich-4-dinh-cao',
+        permanent: true,
+      },
     ]
   },
 }

@@ -8,6 +8,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${article?.title || 'Tin Tức'} | Góc Vũ Trụ`,
     description: article?.summary || 'Đọc tin tức mới nhất về chiêm tinh và thần số học.',
+    alternates: {
+      canonical: `/tin-tuc/${slug}`,
+    },
   }
 }
 

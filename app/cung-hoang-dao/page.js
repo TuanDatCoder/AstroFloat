@@ -6,6 +6,9 @@ import { zodiacService } from '@/services/zodiacService';
 export const metadata = {
   title: '12 Cung Hoàng Đạo - Giải mã tính cách & Vận mệnh | Góc Vũ Trụ',
   description: 'Khám phá bí mật về 12 cung hoàng đạo: Bạch Dương, Kim Ngưu, Song Tử... Phân tích chi tiết tính cách, nguyên tố và những điều thú vị của các chòm sao.',
+  alternates: {
+    canonical: '/cung-hoang-dao',
+  },
 }
 
 export default async function ZodiacPage() {
