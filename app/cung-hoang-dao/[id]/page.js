@@ -16,6 +16,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${zodiac?.name || 'Cung Hoàng Đạo'} - Giải mã tính cách & Bí mật vận mệnh | Góc Vũ Trụ`,
     description: zodiac?.description || 'Khám phá chi tiết về cung hoàng đạo của bạn.',
+    alternates: {
+      canonical: `/cung-hoang-dao/${zodiac?.slug || id}`,
+    },
   }
 }
 

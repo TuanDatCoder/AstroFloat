@@ -5,6 +5,9 @@ import { numerologyService } from '@/services/numerologyService';
 export const metadata = {
   title: 'Thần Số Học - Giải mã vận mệnh qua ngày sinh | Góc Vũ Trụ',
   description: 'Tra cứu thần số học chuyên sâu, khám phá con số chủ đạo và sứ mệnh cuộc đời. Phân tích rung động linh hồn qua các con số từ 1 đến 33.',
+  alternates: {
+    canonical: '/than-so-hoc',
+  },
 }
 
 export default async function NumerologyPage() {

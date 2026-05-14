@@ -5,6 +5,9 @@ import { zodiacService } from '@/services/zodiacService';
 export const metadata = {
   title: 'Xem Độ Tương Hợp 12 Cung Hoàng Đạo - So Đôi Lứa Đôi | Góc Vũ Trụ',
   description: 'Khám phá mức độ thấu hiểu và gắn kết giữa bạn và người ấy thông qua cung hoàng đạo. Phân tích chi tiết tình yêu, tình bạn và các chỉ số hòa hợp.',
+  alternates: {
+    canonical: '/do-hop-cung-hoang-dao',
+  },
 }
 
 export default async function ZodiacMatchPage() {

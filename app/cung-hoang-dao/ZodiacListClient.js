@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Moon, Sun, ArrowRight, Database, X, Lock, Zap } from 'lucide-react';
+import { Sparkles, Moon, Sun, ArrowRight, Database, X, Lock, Zap, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/services/supabase';
@@ -157,6 +157,36 @@ export default function ZodiacListClient({ initialData }) {
           </Link>
         ))}
       </div>
+      
+      {/* Internal Linking for Birthday SEO Pages - Helps Google Crawl */}
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mt-24 w-full pt-16 border-t border-white/5"
+      >
+        <div className="flex flex-col items-center text-center mb-12">
+          <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+            <Calendar className="w-6 h-6 text-indigo-400" /> Xem Cung Hoàng Đạo Theo Ngày Sinh
+          </h2>
+          <p className="text-gray-400 text-sm max-w-2xl font-light">
+            Mỗi ngày sinh trong năm đều mang một bí mật riêng. Hãy chọn tháng sinh của bạn để khám phá chi tiết tử vi và tính cách.
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(m => (
+            <Link 
+              key={m} 
+              href={`/cung-hoang-dao/sinh-ngay-1-thang-${m}-la-cung-gi`}
+              className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-indigo-500/30 hover:bg-indigo-500/5 text-center transition-all group"
+            >
+              <span className="text-xs font-bold text-gray-500 group-hover:text-indigo-400 tracking-widest uppercase block mb-1">Tháng</span>
+              <span className="text-2xl font-black text-white">{m}</span>
+            </Link>
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 }

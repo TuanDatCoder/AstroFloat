@@ -1,86 +1,87 @@
 import { newsService } from '@/services/newsService';
-import { ROUTES } from '@/constants';
 
+/** @type {import('next').MetadataRoute.Sitemap} */
 export default async function sitemap() {
   const baseUrl = 'https://www.gocvutru.com';
+  
+  // Ngày cập nhật SEO hệ thống: 14/05/2026
+  const STATIC_LASTMOD = new Date('2026-05-14');
 
-
-  // 1. LẤY DỮ LIỆU TIN TỨC TRƯỚC ĐỂ LẤY NGÀY MỚI NHẤT
+  // 1. LẤY VÀ SẮP XẾP TIN TỨC
   let articles = [];
   try {
     articles = await newsService.getArticles();
   } catch (error) {
-    console.error('Sitemap: Lỗi lấy bài viết tin tức:', error);
+    console.error('Sitemap error:', error);
   }
 
-  const latestNewsDate = articles.length > 0 
-    ? new Date(articles[0].published_at || articles[0].created_at) 
-    : new Date('2026-05-08T00:00:00Z');
+  // Sắp xếp bài viết theo ngày mới nhất (DESC)
+  const sortedArticles = [...articles].sort((a, b) => 
+    new Date(b.published_at || b.created_at).getTime() - 
+    new Date(a.published_at || a.created_at).getTime()
+  );
+
+  const latestNewsDate = sortedArticles.length > 0 
+    ? new Date(sortedArticles[0].published_at || sortedArticles[0].created_at) 
+    : STATIC_LASTMOD;
 
   // 2. TRANG TĨNH CHÍNH
   const staticRoutes = [
-    '',
-    '/kham-pha',
-    '/tin-tuc',
-    '/cung-hoang-dao',
-    '/do-hop-cung-hoang-dao',
-    '/cung-hoang-dao-tuong-hop-nhat',
-    '/tat-ca-cap-doi-cung-hoang-dao',
-    '/than-so-hoc',
-    '/than-so-hoc-theo-ten',
-    '/phan-tich-4-dinh-cao',
-    '/chinh-sach-bao-mat',
-    '/dieu-khoan-su-dung',
-  ].map((route) => {
-    // Ưu tiên ngày mới nhất cho trang chủ và trang tin tức
-    const isDynamicStatic = route === '' || route === '/tin-tuc';
-    return {
-      url: `${baseUrl}${route}`,
-      lastModified: isDynamicStatic ? latestNewsDate : new Date('2026-05-08T00:00:00Z'),
-      changeFrequency: route === '' ? 'daily' : 'weekly',
-      priority: route === '' ? 1.0 : (route === '/tin-tuc' ? 0.9 : 0.8),
-    };
-  });
+    { url: '', priority: 1.0, changeFrequency: 'daily', lastModified: latestNewsDate },
+    { url: '/kham-pha', priority: 0.8, changeFrequency: 'weekly', lastModified: STATIC_LASTMOD },
+    { url: '/tin-tuc', priority: 0.9, changeFrequency: 'daily', lastModified: latestNewsDate },
+    { url: '/cung-hoang-dao', priority: 0.8, changeFrequency: 'weekly', lastModified: STATIC_LASTMOD },
+    { url: '/do-hop-cung-hoang-dao', priority: 0.8, changeFrequency: 'weekly', lastModified: STATIC_LASTMOD },
+    { url: '/than-so-hoc', priority: 0.8, changeFrequency: 'weekly', lastModified: STATIC_LASTMOD },
+    { url: '/than-so-hoc-theo-ten', priority: 0.8, changeFrequency: 'weekly', lastModified: STATIC_LASTMOD },
+    { url: '/phan-tich-4-dinh-cao', priority: 0.8, changeFrequency: 'weekly', lastModified: STATIC_LASTMOD },
+    { url: '/chinh-sach-bao-mat', priority: 0.3, changeFrequency: 'monthly', lastModified: STATIC_LASTMOD },
+    { url: '/dieu-khoan-su-dung', priority: 0.3, changeFrequency: 'monthly', lastModified: STATIC_LASTMOD },
+  ].map(route => ({
+    url: `${baseUrl}${route.url}`,
+    lastModified: route.lastModified,
+    changeFrequency: route.changeFrequency,
+    priority: route.priority,
+  }));
 
-  // 3. BÀI VIẾT TIN TỨC CHI TIẾT
-  const newsRoutes = articles.map((article) => ({
+  // 3. BÀI VIẾT TIN TỨC (Clean logic lastModified & images)
+  const newsRoutes = sortedArticles.map((article) => ({
     url: `${baseUrl}/tin-tuc/${article.slug}`,
-    lastModified: new Date(article.published_at || article.created_at || new Date()),
-    changeFrequency: 'weekly', // Chuyển từ monthly sang weekly cho tin tức
+    lastModified: article.published_at || article.created_at 
+      ? new Date(article.published_at || article.created_at) 
+      : STATIC_LASTMOD,
+    changeFrequency: 'weekly',
+    priority: 0.6,
+    images: article.thumbnail_url ? [article.thumbnail_url] : [],
+  }));
+
+  // 4. CUNG HOÀNG ĐẠO & THẦN SỐ HỌC
+  const zodiacSlugs = ['bach-duong', 'kim-nguu', 'song-tu', 'cu-giai', 'su-tu', 'xu-nu', 'thien-binh', 'bo-cap', 'nhan-ma', 'ma-ket', 'bao-binh', 'song-ngu'];
+  const zodiacRoutes = zodiacSlugs.map((slug) => ({
+    url: `${baseUrl}/cung-hoang-dao/${slug}`,
+    lastModified: STATIC_LASTMOD,
+    changeFrequency: 'monthly',
     priority: 0.7,
   }));
 
-  // 3. 12 CUNG HOÀNG ĐẠO (SLUG ĐÃ TỐI ƯU)
-  const zodiacSlugs = [
-    'bach-duong', 'kim-nguu', 'song-tu', 'cu-giai', 'su-tu', 'xu-nu',
-    'thien-binh', 'bo-cap', 'nhan-ma', 'ma-ket', 'bao-binh', 'song-ngu'
-  ];
-  const zodiacRoutes = zodiacSlugs.map((slug) => ({
-    url: `${baseUrl}/cung-hoang-dao/${slug}`,
-    lastModified: new Date('2026-05-08T00:00:00Z'),
-    changeFrequency: 'monthly',
-    priority: 0.8,
-  }));
-
-  // 4. THẦN SỐ HỌC (CÁC CON SỐ CHỦ ĐẠO)
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33];
   const numerologyRoutes = numbers.map((num) => ({
     url: `${baseUrl}/than-so-hoc/${num}`,
-    lastModified: new Date('2026-05-08T00:00:00Z'),
+    lastModified: STATIC_LASTMOD,
     changeFrequency: 'monthly',
     priority: 0.7,
   }));
 
-  // 5. TRANG SEO NGÀY SINH (366 NGÀY)
+  // 5. TRANG SEO NGÀY SINH (Priority 0.4)
   const dailyRoutes = [];
   const daysInMonth = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   for (let month = 1; month <= 12; month++) {
     for (let day = 1; day <= daysInMonth[month]; day++) {
       dailyRoutes.push({
         url: `${baseUrl}/cung-hoang-dao/sinh-ngay-${day}-thang-${month}-la-cung-gi`,
-        lastModified: new Date('2026-05-03'),
+        lastModified: STATIC_LASTMOD,
         changeFrequency: 'monthly',
-        priority: 0.6,
+        priority: 0.4, 
       });
     }
   }
