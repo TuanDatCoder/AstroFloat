@@ -22,7 +22,6 @@ const navLinks = [
   { to: ROUTES.NUMEROLOGY, label: 'THẦN SỐ HỌC', activeColor: 'text-purple-300', glowColor: 'rgba(168,85,247,0.8)', hoverClass: 'hover:text-purple-300', excludes: 'theo-ten' },
   { to: ROUTES.NAME_NUMEROLOGY, label: 'THẦN SỐ TÊN', activeColor: 'text-indigo-300', glowColor: 'rgba(129,140,248,0.8)', hoverClass: 'hover:text-indigo-300' },
   { to: ROUTES.NEWS, label: 'TIN TỨC', activeColor: 'text-yellow-300', glowColor: 'rgba(253,224,71,0.8)', hoverClass: 'hover:text-yellow-300' },
-  { to: 'https://tinhyeu.gocvutru.com/', label: 'ĐẾM NGÀY YÊU', activeColor: 'text-rose-300', glowColor: 'rgba(251,113,133,0.8)', hoverClass: 'hover:text-rose-300', external: true },
 ];
 
 export default function Header() {
