@@ -250,8 +250,8 @@ export default function HomeClient() {
                 {/* Background glow */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-rose-500/5 blur-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                 
-                <div className="relative z-10 w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-400/20 to-pink-600/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 border border-rose-500/20">
-                  <Heart className="w-8 h-8 text-rose-400" />
+                <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 overflow-hidden shadow-[0_0_20px_rgba(244,114,182,0.3)] bg-slate-800">
+                  <Image src="/dem-ngay-yeu-icon.png" alt="Đếm Ngày Yêu Logo" fill sizes="64px" className="object-cover" />
                 </div>
                 <h3 className="relative z-10 text-xl md:text-2xl font-black text-white mb-3 uppercase tracking-tight group-hover:text-rose-400 transition-colors">
                   Đếm Ngày Yêu
