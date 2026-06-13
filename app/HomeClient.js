@@ -222,6 +222,52 @@ export default function HomeClient() {
         </div>
       </section>
 
+      {/* Ecosystem Section */}
+      <section className="relative z-10 w-full py-20 md:py-24 max-w-7xl px-4 md:px-6">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 py-2 px-6 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-[10px] font-black tracking-[0.4em] mb-6 uppercase">
+            <Heart className="w-3 h-3" /> 
+            Hệ Sinh Thái 
+            <Heart className="w-3 h-3" />
+          </div>
+          <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight mb-4">
+            Sản Phẩm Của <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-pink-400">Góc Vũ Trụ</span>
+          </h2>
+          <p className="text-gray-400 font-light text-sm md:text-base max-w-2xl mx-auto">
+            Trải nghiệm thêm các công cụ và ứng dụng đa dạng từ hệ sinh thái của chúng tôi để làm phong phú thêm hành trình của bạn.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-6 md:gap-8">
+          <m.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="w-full max-w-md"
+          >
+            <Link href="https://tinhyeu.gocvutru.com/" target="_blank" rel="noopener noreferrer" className="h-full block group">
+              <div className="relative h-full p-8 md:p-10 bg-slate-900 border border-white/5 rounded-[2rem] md:rounded-[2.5rem] hover:border-rose-500/50 transition-all flex flex-col items-center text-center overflow-hidden hover:-translate-y-2 shadow-xl hover:shadow-[0_0_40px_rgba(244,114,182,0.15)]">
+                {/* Background glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-rose-500/5 blur-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                
+                <div className="relative z-10 w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-400/20 to-pink-600/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 border border-rose-500/20">
+                  <Heart className="w-8 h-8 text-rose-400" />
+                </div>
+                <h3 className="relative z-10 text-xl md:text-2xl font-black text-white mb-3 uppercase tracking-tight group-hover:text-rose-400 transition-colors">
+                  Đếm Ngày Yêu
+                </h3>
+                <p className="relative z-10 text-slate-400 text-sm leading-relaxed mb-8 font-light flex-1">
+                  Ứng dụng theo dõi và lưu giữ những khoảnh khắc kỷ niệm đẹp nhất trong hành trình tình yêu của bạn cùng người ấy.
+                </p>
+                <div className="relative z-10 mt-auto px-6 py-3 rounded-full bg-white/5 border border-white/10 text-xs font-black text-white group-hover:bg-rose-500 group-hover:border-rose-500 transition-all uppercase tracking-widest flex items-center gap-2">
+                  Trải nghiệm ngay <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </Link>
+          </m.div>
+        </div>
+      </section>
+
       {/* Latest News */}
       <section className="relative z-10 w-full py-20 md:py-24 max-w-7xl px-4 md:px-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">

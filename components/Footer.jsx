@@ -24,7 +24,7 @@ export default function Footer() {
       <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-[radial-gradient(circle_at_center,_rgba(147,51,234,0.12)_0%,_transparent_70%)] pointer-events-none" />
       <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.08)_0%,_transparent_70%)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16 relative z-10">
         <div className="flex flex-col items-start space-y-6">
           <div className="flex items-center gap-3 text-2xl font-black tracking-tighter">
             <m.div whileHover={{ rotate: 360 }} transition={{ duration: 0.8 }}>
@@ -58,12 +58,27 @@ export default function Footer() {
               { href: ROUTES.ZODIAC, label: '12 Chòm Sao' },
               { href: ROUTES.ZODIAC_MATCH, label: 'Tương Hợp Cung' },
               { href: ROUTES.NUMEROLOGY, label: 'Thần Số Học' },
-              { href: ROUTES.NAME_NUMEROLOGY, label: 'Thần Số Tên' },
-              { href: 'https://tinhyeu.gocvutru.com/', label: 'Đếm Ngày Yêu', external: true }
+              { href: ROUTES.NAME_NUMEROLOGY, label: 'Thần Số Tên' }
             ].map((link) => (
               <li key={link.href}>
                 <Link href={link.href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} className="group flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors text-sm font-medium">
                   <ChevronRight className="w-3 h-3 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all text-cyan-400" />
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="flex flex-col items-start">
+          <h2 className="text-white font-black text-xs tracking-[0.3em] uppercase mb-8 opacity-70">Sản Phẩm</h2>
+          <ul className="space-y-4 w-full flex flex-col items-start">
+            {[
+              { href: 'https://tinhyeu.gocvutru.com/', label: 'Đếm Ngày Yêu', external: true }
+            ].map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} className="group flex items-center gap-2 text-gray-400 hover:text-rose-400 transition-colors text-sm font-medium">
+                  <ChevronRight className="w-3 h-3 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all text-rose-400" />
                   {link.label}
                 </Link>
               </li>
