@@ -22,6 +22,7 @@ const navLinks = [
   { to: ROUTES.NUMEROLOGY, label: 'THẦN SỐ HỌC', activeColor: 'text-purple-300', glowColor: 'rgba(168,85,247,0.8)', hoverClass: 'hover:text-purple-300', excludes: 'theo-ten' },
   { to: ROUTES.NAME_NUMEROLOGY, label: 'THẦN SỐ TÊN', activeColor: 'text-indigo-300', glowColor: 'rgba(129,140,248,0.8)', hoverClass: 'hover:text-indigo-300' },
   { to: ROUTES.NEWS, label: 'TIN TỨC', activeColor: 'text-yellow-300', glowColor: 'rgba(253,224,71,0.8)', hoverClass: 'hover:text-yellow-300' },
+  { to: 'https://tinhyeu.gocvutru.com/', label: 'ĐẾM NGÀY YÊU', activeColor: 'text-rose-300', glowColor: 'rgba(251,113,133,0.8)', hoverClass: 'hover:text-rose-300', external: true },
 ];
 
 export default function Header() {
@@ -99,7 +100,7 @@ export default function Header() {
           {navLinks.map((link) => {
             const active = isActive(link);
             return (
-              <Link key={link.to} href={link.to} className="relative px-4 py-2 group">
+              <Link key={link.to} href={link.to} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} className="relative px-4 py-2 group">
                 {active && (
                   <m.span
                     layoutId="nav-highlight"
@@ -219,7 +220,7 @@ export default function Header() {
                   const active = isActive(link);
                   return (
                     <m.div key={link.to} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }}>
-                      <Link href={link.to} className={`flex items-center justify-between px-6 py-5 rounded-3xl border transition-all ${active ? `bg-white/5 border-white/10 ${link.activeColor}` : 'bg-transparent border-transparent text-gray-400 hover:text-white'}`}>
+                      <Link href={link.to} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} className={`flex items-center justify-between px-6 py-5 rounded-3xl border transition-all ${active ? `bg-white/5 border-white/10 ${link.activeColor}` : 'bg-transparent border-transparent text-gray-400 hover:text-white'}`}>
                         <span className="text-sm font-black tracking-widest">{link.label}</span>
                         <ChevronRight className={`w-4 h-4 ${active ? 'opacity-100' : 'opacity-30'}`} />
                       </Link>

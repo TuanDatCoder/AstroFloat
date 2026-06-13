@@ -58,10 +58,11 @@ export default function Footer() {
               { href: ROUTES.ZODIAC, label: '12 Chòm Sao' },
               { href: ROUTES.ZODIAC_MATCH, label: 'Tương Hợp Cung' },
               { href: ROUTES.NUMEROLOGY, label: 'Thần Số Học' },
-              { href: ROUTES.NAME_NUMEROLOGY, label: 'Thần Số Tên' }
+              { href: ROUTES.NAME_NUMEROLOGY, label: 'Thần Số Tên' },
+              { href: 'https://tinhyeu.gocvutru.com/', label: 'Đếm Ngày Yêu', external: true }
             ].map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="group flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors text-sm font-medium">
+                <Link href={link.href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} className="group flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors text-sm font-medium">
                   <ChevronRight className="w-3 h-3 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all text-cyan-400" />
                   {link.label}
                 </Link>
