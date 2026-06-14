@@ -30,6 +30,7 @@ export default function ZodiacListClient({ initialData }) {
   const [data] = useState(initialData || []);
   const [dob, setDob] = useState('');
   const [session, setSession] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -176,16 +177,56 @@ export default function ZodiacListClient({ initialData }) {
         
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(m => (
-            <Link 
-              key={m} 
-              href={`/cung-hoang-dao/sinh-ngay-1-thang-${m}-la-cung-gi`}
-              className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-indigo-500/30 hover:bg-indigo-500/5 text-center transition-all group"
-            >
-              <span className="text-xs font-bold text-gray-500 group-hover:text-indigo-400 tracking-widest uppercase block mb-1">Tháng</span>
-              <span className="text-2xl font-black text-white">{m}</span>
-            </Link>
+            <div key={m} className="flex flex-col gap-2">
+              <button 
+                onClick={() => setSelectedMonth(selectedMonth === m ? null : m)}
+                className={`p-4 rounded-2xl border transition-all group ${
+                  selectedMonth === m 
+                    ? 'bg-indigo-500/20 border-indigo-400' 
+                    : 'bg-white/5 border-white/5 hover:border-indigo-500/30 hover:bg-indigo-500/5'
+                }`}
+              >
+                <span className={`text-xs font-bold tracking-widest uppercase block mb-1 ${
+                  selectedMonth === m ? 'text-indigo-300' : 'text-gray-500 group-hover:text-indigo-400'
+                }`}>
+                  Tháng
+                </span>
+                <span className="text-2xl font-black text-white">{m}</span>
+              </button>
+            </div>
           ))}
         </div>
+
+        <AnimatePresence>
+          {selectedMonth && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mt-6 overflow-hidden"
+            >
+              <div className="p-6 bg-slate-900/50 rounded-[2rem] border border-indigo-500/20">
+                <h3 className="text-center text-indigo-300 font-bold mb-4">
+                  Chọn ngày sinh trong Tháng {selectedMonth}
+                </h3>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {Array.from(
+                    { length: new Date(2024, selectedMonth, 0).getDate() },
+                    (_, i) => i + 1
+                  ).map((day) => (
+                    <Link
+                      key={day}
+                      href={`/cung-hoang-dao/sinh-ngay-${day}-thang-${selectedMonth}-la-cung-gi`}
+                      className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:bg-indigo-500 hover:text-white hover:border-indigo-400 transition-all text-sm font-bold shadow-sm"
+                    >
+                      {day}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </div>
   );
