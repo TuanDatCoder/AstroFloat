@@ -7,6 +7,8 @@ export const metadata = {
   description: 'Cập nhật tin tức mới nhất về các hiện tượng thiên văn, vận mệnh 12 cung hoàng đạo và kiến thức thần số học chuyên sâu.',
 }
 
+export const revalidate = 0;
+
 export default async function NewsPage() {
   let categories = ['Tất cả'];
   let articles = [];
