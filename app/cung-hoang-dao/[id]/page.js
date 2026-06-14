@@ -2,9 +2,19 @@ import React from 'react';
 import ZodiacDetailClient from './ZodiacDetailClient';
 import { zodiacService } from '@/services/zodiacService';
 import { zodiacDetailService } from '@/services/zodiacDetailService';
+import ZodiacDateSEOClient from '../sinh-ngay-[slug]/ZodiacDateSEOClient';
+import { generateMetadata as seoGenerateMetadata } from '../sinh-ngay-[slug]/page';
 
-export async function generateMetadata({ params }) {
-  const { id } = await params;
+export async function generateMetadata(props) {
+  const params = await props.params;
+  const id = params?.id;
+  
+  if (id && id.startsWith('sinh-ngay-')) {
+    const slug = id.replace('sinh-ngay-', '');
+    // Wrap params in a Promise-like object as Next.js 15+ expects params to be awaited
+    return seoGenerateMetadata({ params: Promise.resolve({ slug }) });
+  }
+
   let zodiac = null;
   
   if (!isNaN(id)) {
@@ -22,8 +32,15 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default async function ZodiacDetailPage({ params }) {
-  const { id } = await params;
+export default async function ZodiacDetailPage(props) {
+  const params = await props.params;
+  const id = params?.id;
+
+  if (id && id.startsWith('sinh-ngay-')) {
+    const slug = id.replace('sinh-ngay-', '');
+    return <ZodiacDateSEOClient slug={slug} />;
+  }
+
   let zodiac = null;
   let details = [];
 
