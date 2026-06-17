@@ -9,6 +9,10 @@ import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
 import MenuIcon from 'lucide-react/dist/esm/icons/menu';
 import X from 'lucide-react/dist/esm/icons/x';
 import ShieldCheck from 'lucide-react/dist/esm/icons/shield-check';
+import LayoutGrid from 'lucide-react/dist/esm/icons/layout-grid';
+import Heart from 'lucide-react/dist/esm/icons/heart';
+import Dices from 'lucide-react/dist/esm/icons/dices';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -68,6 +72,7 @@ export default function Header() {
   }, [isMenuOpen]);
 
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [isAppsDropdownOpen, setIsAppsDropdownOpen] = useState(false);
 
   const isActive = (link) => {
     if (link.excludes) return path.startsWith(link.to) && !path.includes(link.excludes);
@@ -115,9 +120,62 @@ export default function Header() {
               </Link>
             );
           })}
+
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-4">
+          {/* TIỆN ÍCH DROPDOWN (GÓC PHẢI) */}
+          <div 
+            className="hidden lg:block relative group/apps"
+            onMouseEnter={() => setIsAppsDropdownOpen(true)}
+            onMouseLeave={() => setIsAppsDropdownOpen(false)}
+          >
+            <button className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors shadow-inner">
+              <LayoutGrid className="w-4 h-4 text-cyan-400" />
+            </button>
+
+            <AnimatePresence>
+              {isAppsDropdownOpen && (
+                <m.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  className="absolute right-0 top-full pt-3 w-56 z-50"
+                >
+                  <div className="bg-[#0B0F19]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden py-2">
+                    <Link 
+                      href={ROUTES.PREDICTIONS} 
+                      onClick={() => setIsAppsDropdownOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-all group"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-rose-500/10 flex items-center justify-center border border-rose-500/20 group-hover:scale-110 transition-transform">
+                        <Dices className="w-4 h-4 text-rose-400" />
+                      </div>
+                      <div>
+                        <div className="text-[11px] font-black text-white uppercase tracking-widest mb-0.5">Vòng Quay</div>
+                        <div className="text-[9px] text-gray-400 uppercase tracking-wider">Dự đoán tương lai</div>
+                      </div>
+                    </Link>
+                    
+                    <Link 
+                      href={ROUTES.FAMILY_LOVE_STUDIO} 
+                      onClick={() => setIsAppsDropdownOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-all group border-t border-white/5"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-pink-500/10 flex items-center justify-center border border-pink-500/20 group-hover:scale-110 transition-transform">
+                        <Heart className="w-4 h-4 text-pink-400" />
+                      </div>
+                      <div>
+                        <div className="text-[11px] font-black text-white uppercase tracking-widest mb-0.5">Đếm Ngày Yêu</div>
+                        <div className="text-[9px] text-gray-400 uppercase tracking-wider">Lưu giữ kỷ niệm</div>
+                      </div>
+                    </Link>
+                  </div>
+                </m.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           {profile?.role === 'ADMIN' && (
             <m.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}>
               <Link href="/admin" className="hidden sm:flex items-center gap-2 px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-full text-amber-400 transition-all group shadow-[0_0_15px_rgba(245,158,11,0.1)]">
@@ -226,6 +284,33 @@ export default function Header() {
                     </m.div>
                   );
                 })}
+
+                {/* TIỆN ÍCH MOBILE */}
+                <m.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: navLinks.length * 0.05 }}>
+                  <div className="mt-4 pt-4 border-t border-white/5">
+                    <div className="text-[10px] font-black tracking-[0.4em] text-cyan-400/50 uppercase mb-4 pl-2">TIỆN ÍCH THÊM</div>
+                    
+                    <Link href={ROUTES.PREDICTIONS} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-white/5 transition-all">
+                      <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center border border-rose-500/20">
+                        <Dices className="w-5 h-5 text-rose-400" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-black text-white uppercase tracking-widest mb-1">Vòng Quay</div>
+                        <div className="text-[10px] text-gray-400 uppercase tracking-wider">Dự đoán tương lai</div>
+                      </div>
+                    </Link>
+
+                    <Link href={ROUTES.FAMILY_LOVE_STUDIO} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-white/5 transition-all mt-2">
+                      <div className="w-10 h-10 rounded-full bg-pink-500/10 flex items-center justify-center border border-pink-500/20">
+                        <Heart className="w-5 h-5 text-pink-400" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-black text-white uppercase tracking-widest mb-1">Đếm Ngày Yêu</div>
+                        <div className="text-[10px] text-gray-400 uppercase tracking-wider">Lưu giữ kỷ niệm</div>
+                      </div>
+                    </Link>
+                  </div>
+                </m.div>
               </div>
             </m.div>
           </>
