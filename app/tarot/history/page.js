@@ -102,18 +102,19 @@ export default function TarotHistory() {
       ) : (
         <div className="flex flex-col gap-4">
           {history.map((record, index) => {
-            const isExpanded = expandedId === (record.reading_id || index);
-            const key = record.reading_id || index;
+            const uniqueKey = record.reading_id ? `${record.reading_id}-${index}` : index;
+            const isExpanded = expandedId === uniqueKey;
+            
             return (
               <div 
-                key={key}
+                key={uniqueKey}
                 className={`tarot-glass border-amber-950/20 rounded-2xl overflow-hidden transition-all duration-300 ${
                   isExpanded ? 'ring-1 ring-amber-500/30 bg-[#0f0b1e]/60' : 'bg-[#0f0b1a]/30'
                 }`}
               >
                 {/* Header summary panel */}
                 <div 
-                  onClick={() => toggleExpand(key)}
+                  onClick={() => toggleExpand(uniqueKey)}
                   className="p-5 flex items-center justify-between cursor-pointer hover:bg-white/[0.01] transition-colors"
                 >
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
