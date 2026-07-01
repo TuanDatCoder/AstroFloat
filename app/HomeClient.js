@@ -56,6 +56,7 @@ const faqItems = [
 
 export default function HomeClient() {
   const [latestNews, setLatestNews] = useState([]);
+  const [showBadge, setShowBadge] = useState(true);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -67,6 +68,16 @@ export default function HomeClient() {
       }
     };
     fetchNews();
+
+    const handleScroll = () => {
+      const isNearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 300;
+      setShowBadge(!isNearBottom);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -265,6 +276,34 @@ export default function HomeClient() {
               </div>
             </Link>
           </m.div>
+
+          <m.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="w-full max-w-md"
+          >
+            <Link href={ROUTES.TAROT} className="h-full block group">
+              <div className="relative h-full p-8 md:p-10 bg-slate-900 border border-white/5 rounded-[2rem] md:rounded-[2.5rem] hover:border-purple-500/50 transition-all flex flex-col items-center text-center overflow-hidden hover:-translate-y-2 shadow-xl hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]">
+                {/* Background glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-purple-500/5 blur-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                
+                <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 overflow-hidden shadow-[0_0_20px_rgba(168,85,247,0.3)] bg-slate-800">
+                  <Moon className="w-8 h-8 text-purple-400" />
+                </div>
+                <h3 className="relative z-10 text-xl md:text-2xl font-black text-white mb-3 uppercase tracking-tight group-hover:text-purple-400 transition-colors">
+                  Tarot Vũ Trụ
+                </h3>
+                <p className="relative z-10 text-slate-400 text-sm leading-relaxed mb-8 font-light flex-1">
+                  Khám phá thông điệp từ vũ trụ thông qua những trải bài Tarot kỳ diệu, giải mã quá khứ, hiện tại và tương lai của bạn.
+                </p>
+                <div className="relative z-10 mt-auto px-6 py-3 rounded-full bg-white/5 border border-white/10 text-xs font-black text-white group-hover:bg-purple-500 group-hover:border-purple-500 transition-all uppercase tracking-widest flex items-center gap-2">
+                  Trải nghiệm ngay <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </Link>
+          </m.div>
         </div>
       </section>
 
@@ -375,6 +414,34 @@ export default function HomeClient() {
           </Link>
         </m.div>
       </section>
+
+      {/* Floating Badge to /goc-vu-tru */}
+      <AnimatePresence>
+        {showBadge && (
+          <div className="fixed bottom-6 right-6 z-[99]">
+            <Link href={ROUTES.GOC_VU_TRU}>
+              <m.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ 
+                  y: 0, 
+                  opacity: 1,
+                  transition: { duration: 0.3 }
+                }}
+                exit={{ y: 50, opacity: 0, transition: { duration: 0.3 } }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2.5 px-5 py-3.5 rounded-full bg-slate-950/90 border border-purple-500/30 text-white text-xs font-black tracking-widest uppercase shadow-[0_0_20px_rgba(168,85,247,0.25)] hover:shadow-[0_0_25px_rgba(168,85,247,0.4)] hover:border-purple-400/50 backdrop-blur-md cursor-pointer transition-all duration-300 group"
+              >
+                <div className="relative">
+                  <Sparkles className="w-4 h-4 text-purple-400 drop-shadow-[0_0_5px_rgba(168,85,247,0.8)] group-hover:rotate-45 transition-transform" />
+                  <div className="absolute inset-0 bg-purple-400/20 blur-sm rounded-full animate-ping" />
+                </div>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-200 to-cyan-200 group-hover:from-purple-100 group-hover:to-cyan-100">Góc Vũ Trụ là gì? ✨</span>
+              </m.div>
+            </Link>
+          </div>
+        )}
+      </AnimatePresence>
       
     </div>
   );

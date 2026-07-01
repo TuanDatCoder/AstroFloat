@@ -1,0 +1,289 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { 
+  Heart, 
+  Briefcase, 
+  Coins, 
+  Compass, 
+  Sparkles, 
+  History, 
+  Smile, 
+  Flame, 
+  Eye, 
+  Compass as HealingIcon 
+} from 'lucide-react';
+
+const topics = [
+  {
+    id: 2,
+    slug: 'tinh-yeu',
+    name: 'Trải Bài Tình Yêu',
+    description: 'Bản đồ kết nối trái tim: quá khứ, hiện tại và tương lai của mối quan hệ.',
+    spreadText: 'Trải bài 3 Lá',
+    icon: Heart,
+    color: 'from-pink-500/20 to-red-500/20',
+    borderColor: 'border-pink-500/30',
+    iconColor: 'text-pink-400',
+    shadowGlow: 'shadow-[0_0_20px_rgba(244,114,182,0.15)]'
+  },
+  {
+    id: 3,
+    slug: 'su-nghiep',
+    name: 'Trải Bài Sự Nghiệp',
+    description: 'Chỉ hướng công danh: soi tỏ hiện trạng, cơ hội bứt phá và rào cản sự nghiệp.',
+    spreadText: 'Trải bài 3 Lá',
+    icon: Briefcase,
+    color: 'from-blue-500/20 to-indigo-500/20',
+    borderColor: 'border-blue-500/30',
+    iconColor: 'text-blue-400',
+    shadowGlow: 'shadow-[0_0_20px_rgba(59,130,246,0.15)]'
+  },
+  {
+    id: 4,
+    slug: 'tai-chinh',
+    name: 'Trải Bài Tài Chính',
+    description: 'Khai mở tài lộc: khơi thông dòng chảy tiền bạc và cách thức đón nhận may mắn.',
+    spreadText: 'Trải bài 3 Lá',
+    icon: Coins,
+    color: 'from-emerald-500/20 to-teal-500/20',
+    borderColor: 'border-emerald-500/30',
+    iconColor: 'text-emerald-400',
+    shadowGlow: 'shadow-[0_0_20px_rgba(16,185,129,0.15)]'
+  },
+  {
+    id: 1,
+    slug: 'hang-ngay',
+    name: 'Thông Điệp Ngày Mới',
+    description: 'Năng lượng dẫn lối: Nhận lời khuyên nhanh và thông điệp cho 24 giờ tiếp theo.',
+    spreadText: 'Trải bài 1 Lá',
+    icon: Compass,
+    color: 'from-amber-500/20 to-orange-500/20',
+    borderColor: 'border-amber-500/30',
+    iconColor: 'text-amber-400',
+    shadowGlow: 'shadow-[0_0_20px_rgba(245,158,11,0.15)]'
+  }
+];
+
+const styles = [
+  {
+    id: 1,
+    name: 'genz',
+    label: 'Gen Z hài hước',
+    description: 'Mặn mòi, lầy lội, tràn ngập teencode và bắt trend cực mạnh.',
+    icon: Smile,
+    badgeColor: 'bg-[#9333ea]/20 text-[#c084fc] border-[#a855f7]/30',
+    glowColor: 'group-hover:border-purple-500'
+  },
+  {
+    id: 2,
+    name: 'healing',
+    label: 'Chữa Lành ấm áp',
+    description: 'Dịu dàng, xoa dịu tổn thương, mang năng lượng tích cực nuôi dưỡng tâm hồn.',
+    icon: HealingIcon,
+    badgeColor: 'bg-[#0d9488]/20 text-[#2dd4bf] border-[#14b8a6]/30',
+    glowColor: 'group-hover:border-teal-500'
+  },
+  {
+    id: 3,
+    name: 'deep',
+    label: 'Sâu Sắc triết lý',
+    description: 'Nghiêm túc, phân tích tâm lý sâu sắc dưới góc nhìn nhân quả và vũ trụ học.',
+    icon: Eye,
+    badgeColor: 'bg-[#2563eb]/20 text-[#60a5fa] border-[#3b82f6]/30',
+    glowColor: 'group-hover:border-blue-500'
+  },
+  {
+    id: 4,
+    name: 'toxic',
+    label: 'Toxic vả thật',
+    description: 'Thẳng thắn, phũ phàng, vạch trần ảo tưởng và vả thẳng sự thật vào mặt.',
+    icon: Flame,
+    badgeColor: 'bg-[#dc2626]/20 text-[#f87171] border-[#ef4444]/30',
+    glowColor: 'group-hover:border-red-500'
+  }
+];
+
+export default function TarotHomeClient() {
+  const [selectedStyle, setSelectedStyle] = useState(2); // Mặc định là healing
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+      {/* Title Header */}
+      <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="inline-flex items-center gap-2 border border-amber-950/40 rounded-full px-4.5 py-1.5 bg-amber-950/15 mb-6 text-[#ebdcb9]/80 text-xs sm:text-sm tracking-widest font-serif"
+        >
+          <Sparkles className="w-4 h-4 text-amber-500" />
+          KẾT NỐI KHÔNG GIAN TÂM LINH
+        </motion.div>
+        
+        <motion.h1
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="font-serif text-4xl sm:text-5xl md:text-6xl font-black tracking-widest leading-tight text-white mb-6"
+        >
+          TAROT <span className="bg-gradient-to-r from-amber-200 via-amber-100 to-amber-500 bg-clip-text text-transparent">VŨ TRỤ</span>
+        </motion.h1>
+        
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-[#ebdcb9]/75 text-sm sm:text-base leading-relaxed"
+        >
+          Lắng nghe lời thì thầm của số phận qua những lá bài cổ xưa. Chọn một chủ đề trải bài và văn phong trò chuyện để nhận thông điệp phù hợp nhất với tần số của bạn.
+        </motion.p>
+      </div>
+
+      {/* Style selector */}
+      <div className="mb-16">
+        <div className="flex items-center justify-between mb-8 border-b border-amber-950/20 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-1.5 h-6 bg-amber-500 rounded-full" />
+            <h2 className="font-serif text-xl sm:text-2xl font-bold tracking-widest text-white">1. CHỌN GIỌNG ĐIỆU GIẢI NGHĨA</h2>
+          </div>
+          <span className="text-xs tracking-wider text-[#ebdcb9]/50 font-serif hidden sm:inline">VĂN PHONG DIỄN ĐẠT CỦA BÀI ĐỌC</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {styles.map((style) => {
+            const StyleIcon = style.icon;
+            const isSelected = selectedStyle === style.id;
+            return (
+              <div
+                key={style.id}
+                onClick={() => setSelectedStyle(style.id)}
+                className={`group cursor-pointer rounded-2xl p-5 border text-left transition-all duration-300 relative overflow-hidden ${
+                  isSelected 
+                    ? 'bg-amber-950/20 border-amber-500/50 shadow-[0_0_25px_rgba(245,158,11,0.08)]' 
+                    : 'bg-[#0f0b1a]/40 border-amber-950/20 hover:border-amber-500/30'
+                }`}
+              >
+                {/* Background Selection Aura */}
+                {isSelected && (
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent pointer-events-none" />
+                )}
+                
+                <div className="flex items-center justify-between mb-4 relative z-10">
+                  <div className={`p-2.5 rounded-xl ${isSelected ? 'bg-amber-500/20 text-amber-300' : 'bg-amber-950/20 text-[#ebdcb9]/60 group-hover:text-amber-300'} transition-colors`}>
+                    <StyleIcon className="w-5 h-5" />
+                  </div>
+                  
+                  {/* Selected Radio Indicator */}
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${isSelected ? 'border-amber-400 bg-amber-500/20' : 'border-amber-950/60'}`}>
+                    {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />}
+                  </div>
+                </div>
+
+                <h3 className="font-serif font-bold text-base text-white tracking-wider mb-2 relative z-10">
+                  {style.label}
+                </h3>
+                
+                <p className="text-xs text-[#ebdcb9]/60 leading-relaxed relative z-10">
+                  {style.description}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Topics selector */}
+      <div className="mb-16">
+        <div className="flex items-center justify-between mb-8 border-b border-amber-950/20 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-1.5 h-6 bg-amber-500 rounded-full" />
+            <h2 className="font-serif text-xl sm:text-2xl font-bold tracking-widest text-white">2. CHỌN CHỦ ĐỀ TRẢI BÀI</h2>
+          </div>
+          <span className="text-xs tracking-wider text-[#ebdcb9]/50 font-serif hidden sm:inline">BẮT ĐẦU KẾT NỐI VŨ TRỤ</span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {topics.map((topic) => {
+            const TopicIcon = topic.icon;
+            return (
+              <Link 
+                href={`/tarot/spread/${topic.slug}?style=${selectedStyle}`} 
+                key={topic.id}
+                className="group block"
+              >
+                <div className={`tarot-glass tarot-glass-hover rounded-3xl p-6 md:p-8 flex items-start gap-6 border-amber-950/20 h-full relative overflow-hidden bg-gradient-to-br ${topic.color} ${topic.shadowGlow}`}>
+                  
+                  {/* Decorative Symbol backdrop */}
+                  <div className="absolute -right-6 -bottom-6 opacity-[0.03] group-hover:scale-110 transition-transform duration-700 pointer-events-none">
+                    <TopicIcon className="w-40 h-40" />
+                  </div>
+                  
+                  {/* Glowing border outline */}
+                  <div className={`absolute inset-0 border border-transparent group-hover:${topic.borderColor} rounded-3xl pointer-events-none transition-all duration-300`} />
+
+                  <div className={`p-4 rounded-2xl bg-amber-950/20 border border-amber-900/10 ${topic.iconColor} group-hover:scale-110 transition-transform`}>
+                    <TopicIcon className="w-7 h-7 sm:w-8 sm:h-8" />
+                  </div>
+
+                  <div className="flex-grow text-left">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-serif text-[10px] tracking-widest uppercase text-amber-500/80 font-bold">
+                        {topic.spreadText}
+                      </span>
+                      <span className="text-[10px] tracking-wider text-[#ebdcb9]/40 group-hover:text-amber-300 transition-colors uppercase font-medium">
+                        Bắt đầu đọc &rarr;
+                      </span>
+                    </div>
+
+                    <h3 className="font-serif font-black text-lg sm:text-xl text-white tracking-widest mb-3">
+                      {topic.name}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-[#ebdcb9]/70 leading-relaxed max-w-md">
+                      {topic.description}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Daily Quick Widget & History Button */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 border-t border-amber-950/20 pt-12">
+        <div className="tarot-glass rounded-3xl p-6 text-left flex items-center justify-between border-amber-950/20">
+          <div>
+            <h3 className="font-serif font-bold text-lg text-white mb-1">
+              Bạn Muốn Trải Nghiệm Nhanh?
+            </h3>
+            <p className="text-xs text-[#ebdcb9]/60 leading-relaxed max-w-sm">
+              Xem lá bài may mắn và năng lượng cốt lõi đại diện cho ngày hôm nay của bạn chỉ với một lần rút.
+            </p>
+          </div>
+          <Link href="/tarot/daily" className="shrink-0 bg-amber-600 hover:bg-amber-500 text-black text-xs font-serif font-bold uppercase tracking-widest px-5 py-3 rounded-full transition-all active:scale-95 shadow-lg shadow-amber-600/15">
+            BỐC HẰNG NGÀY
+          </Link>
+        </div>
+
+        <div className="tarot-glass rounded-3xl p-6 text-left flex items-center justify-between border-amber-950/20">
+          <div>
+            <h3 className="font-serif font-bold text-lg text-white mb-1">
+              Lịch Sử Trải Bài Của Bạn
+            </h3>
+            <p className="text-xs text-[#ebdcb9]/60 leading-relaxed max-w-sm">
+              Tìm lại lời chỉ dẫn đã nhận từ vũ trụ và so sánh sự thay đổi năng lượng của bạn qua từng ngày.
+            </p>
+          </div>
+          <Link href="/tarot/history" className="shrink-0 border border-amber-500/30 hover:bg-amber-500/10 text-amber-300 text-xs font-serif font-bold uppercase tracking-widest px-5 py-3 rounded-full transition-all active:scale-95 flex items-center gap-2">
+            <History className="w-3.5 h-3.5" />
+            LỊCH SỬ
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

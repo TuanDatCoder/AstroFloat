@@ -37,6 +37,9 @@ export default async function sitemap() {
     { url: '/phan-tich-4-dinh-cao', priority: 0.8, changeFrequency: 'weekly', lastModified: STATIC_LASTMOD },
     { url: '/chinh-sach-bao-mat', priority: 0.3, changeFrequency: 'monthly', lastModified: STATIC_LASTMOD },
     { url: '/dieu-khoan-su-dung', priority: 0.3, changeFrequency: 'monthly', lastModified: STATIC_LASTMOD },
+    { url: '/tarot', priority: 0.8, changeFrequency: 'weekly', lastModified: STATIC_LASTMOD },
+    { url: '/tarot/daily', priority: 0.8, changeFrequency: 'daily', lastModified: latestNewsDate },
+    { url: '/goc-vu-tru', priority: 0.8, changeFrequency: 'monthly', lastModified: STATIC_LASTMOD },
   ].map(route => ({
     url: `${baseUrl}${route.url}`,
     lastModified: route.lastModified,
@@ -86,5 +89,14 @@ export default async function sitemap() {
     }
   }
 
-  return [...staticRoutes, ...newsRoutes, ...zodiacRoutes, ...numerologyRoutes, ...dailyRoutes];
+  // 6. TRẢI BÀI TAROT
+  const spreadSlugs = ['hang-ngay', 'tinh-yeu', 'su-nghiep', 'tai-chinh', 'tong-quan'];
+  const spreadRoutes = spreadSlugs.map((slug) => ({
+    url: `${baseUrl}/tarot/trai-bai/${slug}`,
+    lastModified: STATIC_LASTMOD,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...newsRoutes, ...zodiacRoutes, ...numerologyRoutes, ...dailyRoutes, ...spreadRoutes];
 }

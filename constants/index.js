@@ -221,7 +221,12 @@ export const ROUTES = {
   ZODIAC_DATE_SEO: (day, month) => `/cung-hoang-dao/sinh-ngay-${day}-thang-${month}-la-cung-gi`,
   FAMILY_LOVE_STUDIO: '/family-love-studio',
   PREDICTIONS: '/vong-quay-tuong-lai',
-  PREDICTION_DETAIL: (slug) => `/vong-quay-tuong-lai/${slug}`
+  PREDICTION_DETAIL: (slug) => `/vong-quay-tuong-lai/${slug}`,
+  TAROT: '/tarot',
+  TAROT_SPREAD: (slug) => `/tarot/trai-bai/${slug}`,
+  TAROT_DAILY: '/tarot/daily',
+  TAROT_HISTORY: '/tarot/history',
+  GOC_VU_TRU: '/goc-vu-tru'
 };
 
 export const ZODIAC_CATEGORIES = [
