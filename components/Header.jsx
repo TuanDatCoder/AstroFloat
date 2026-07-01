@@ -25,6 +25,7 @@ const navLinks = [
   { to: ROUTES.DISCOVER, label: 'GIẢI MÃ', activeColor: 'text-emerald-300', glowColor: 'rgba(16,185,129,0.8)', hoverClass: 'hover:text-emerald-300' },
   { to: ROUTES.NUMEROLOGY, label: 'THẦN SỐ HỌC', activeColor: 'text-purple-300', glowColor: 'rgba(168,85,247,0.8)', hoverClass: 'hover:text-purple-300', excludes: 'theo-ten' },
   { to: ROUTES.NAME_NUMEROLOGY, label: 'THẦN SỐ TÊN', activeColor: 'text-indigo-300', glowColor: 'rgba(129,140,248,0.8)', hoverClass: 'hover:text-indigo-300' },
+  { to: ROUTES.TAROT, label: 'TAROT', activeColor: 'text-fuchsia-300', glowColor: 'rgba(240,79,255,0.8)', hoverClass: 'hover:text-fuchsia-300' },
   { to: ROUTES.NEWS, label: 'TIN TỨC', activeColor: 'text-yellow-300', glowColor: 'rgba(253,224,71,0.8)', hoverClass: 'hover:text-yellow-300' },
 ];
 
@@ -170,6 +171,20 @@ export default function Header() {
                         <div className="text-[9px] text-gray-400 uppercase tracking-wider">Lưu giữ kỷ niệm</div>
                       </div>
                     </Link>
+                    
+                    <Link 
+                      href={ROUTES.TAROT} 
+                      onClick={() => setIsAppsDropdownOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-all group border-t border-white/5"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-fuchsia-500/10 flex items-center justify-center border border-fuchsia-500/20 group-hover:scale-110 transition-transform">
+                        <Sparkles className="w-4 h-4 text-fuchsia-400" />
+                      </div>
+                      <div>
+                        <div className="text-[11px] font-black text-white uppercase tracking-widest mb-0.5">Tarot Vũ Trụ</div>
+                        <div className="text-[9px] text-gray-400 uppercase tracking-wider">Khám phá thông điệp</div>
+                      </div>
+                    </Link>
                   </div>
                 </m.div>
               )}
@@ -307,6 +322,16 @@ export default function Header() {
                       <div>
                         <div className="text-sm font-black text-white uppercase tracking-widest mb-1">Đếm Ngày Yêu</div>
                         <div className="text-[10px] text-gray-400 uppercase tracking-wider">Lưu giữ kỷ niệm</div>
+                      </div>
+                    </Link>
+
+                    <Link href={ROUTES.TAROT} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-white/5 transition-all mt-2">
+                      <div className="w-10 h-10 rounded-full bg-fuchsia-500/10 flex items-center justify-center border border-fuchsia-500/20">
+                        <Sparkles className="w-5 h-5 text-fuchsia-400" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-black text-white uppercase tracking-widest mb-1">Tarot Vũ Trụ</div>
+                        <div className="text-[10px] text-gray-400 uppercase tracking-wider">Khám phá thông điệp</div>
                       </div>
                     </Link>
                   </div>

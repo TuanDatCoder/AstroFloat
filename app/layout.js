@@ -17,11 +17,34 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="vi" className={inter.className}>
+    <html lang="vi" className={inter.className} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://dhfdllzdnemmrxubnldu.supabase.co" crossOrigin="anonymous" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const origError = console.error;
+                console.error = function(...args) {
+                  const msg = args[0] ? String(args[0]) : '';
+                  if (
+                    msg.includes('hydration') || 
+                    msg.includes('Hydration') || 
+                    msg.includes('bis_skin_checked') ||
+                    msg.includes('Mismatched') ||
+                    msg.includes('did not match') ||
+                    msg.includes('Hydrated')
+                  ) {
+                    return;
+                  }
+                  origError.apply(console, args);
+                };
+              })();
+            `
+          }}
+        />
       </head>
-      <body className="min-h-screen bg-[#0B0F19] text-white overflow-x-hidden relative flex flex-col">
+      <body className="min-h-screen bg-[#0B0F19] text-white overflow-x-hidden relative flex flex-col" suppressHydrationWarning>
         <PublicElements>
           {children}
         </PublicElements>
