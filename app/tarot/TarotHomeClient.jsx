@@ -129,7 +129,7 @@ export default function TarotHomeClient() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="font-serif text-4xl sm:text-5xl md:text-6xl font-black tracking-widest leading-tight text-white mb-6"
         >
-          ĐỀN THỜ <span className="bg-gradient-to-r from-amber-200 via-amber-100 to-amber-500 bg-clip-text text-transparent">TAROT</span>
+          TAROT <span className="bg-gradient-to-r from-amber-200 via-amber-100 to-amber-500 bg-clip-text text-transparent">VŨ TRỤ</span>
         </motion.h1>
         
         <motion.p

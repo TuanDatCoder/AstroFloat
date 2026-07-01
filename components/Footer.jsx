@@ -74,11 +74,13 @@ export default function Footer() {
           <h2 className="text-white font-black text-xs tracking-[0.3em] uppercase mb-8 opacity-70">Sản Phẩm</h2>
           <ul className="space-y-4 w-full flex flex-col items-start">
             {[
-              { href: 'https://tinhyeu.gocvutru.com/', label: 'Đếm Ngày Yêu', external: true }
+              { href: 'https://tinhyeu.gocvutru.com/', label: 'Đếm Ngày Yêu', hoverColor: 'hover:text-rose-400', iconColor: 'text-rose-400', external: true },
+              { href: ROUTES.TAROT, label: 'Tarot Vũ Trụ', hoverColor: 'hover:text-fuchsia-400', iconColor: 'text-fuchsia-400' },
+              { href: ROUTES.GOC_VU_TRU, label: 'Về Góc Vũ Trụ', hoverColor: 'hover:text-cyan-400', iconColor: 'text-cyan-400' }
             ].map((link) => (
               <li key={link.href}>
-                <Link href={link.href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} className="group flex items-center gap-2 text-gray-400 hover:text-rose-400 transition-colors text-sm font-medium">
-                  <ChevronRight className="w-3 h-3 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all text-rose-400" />
+                <Link href={link.href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} className={`group flex items-center gap-2 text-gray-400 ${link.hoverColor} transition-colors text-sm font-medium`}>
+                  <ChevronRight className={`w-3 h-3 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all ${link.iconColor}`} />
                   {link.label}
                 </Link>
               </li>
