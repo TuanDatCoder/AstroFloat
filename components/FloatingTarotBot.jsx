@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ROUTES } from '@/constants';
 import TarotIcon from '@/components/TarotIcon';
+import CosmicAIIcon from '@/components/CosmicAIIcon';
 
 export default function FloatingTarotBot() {
   const pathname = usePathname();
@@ -168,23 +169,21 @@ export default function FloatingTarotBot() {
         </AnimatePresence>
 
         {/* Floating Avatar Bot */}
-        <motion.div
-          animate={isOpen ? { scale: 1.05 } : { y: [0, -8, 0] }}
-          transition={isOpen ? { duration: 0.2 } : { duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          onClick={handleToggle}
-          className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border-2 ${isOpen ? 'border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]'} hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-400 hover:scale-110 flex items-center justify-center cursor-pointer relative overflow-hidden group transition-all duration-300 z-50`}
-        >
-          {/* Inner Mystical Glow */}
-          <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full group-hover:bg-purple-500/35 transition-colors" />
+          <button 
+            onClick={handleToggle}
+            className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border-2 ${isOpen ? 'border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]'} hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-400 hover:scale-110 flex items-center justify-center cursor-pointer relative overflow-hidden group transition-all duration-300 z-50`}
+          >
+            {/* Inner Mystical Glow */}
+            <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full group-hover:bg-purple-500/35 transition-colors" />
 
-          {/* Glowing Ring */}
-          <span className="absolute inset-0 rounded-full border border-cyan-400/20 animate-ping group-hover:animate-none opacity-50" />
+            {/* Glowing Ring */}
+            <span className="absolute inset-0 rounded-full border border-cyan-400/20 animate-ping group-hover:animate-none opacity-50" />
 
-          {/* Avatar Icon */}
-          <div className="relative z-10 flex flex-col items-center justify-center">
-            <TarotIcon className="w-8 h-8 text-fuchsia-300 drop-shadow-[0_0_6px_rgba(217,70,239,0.7)] group-hover:rotate-6 transition-transform" />
-          </div>
-        </motion.div>
+            {/* Avatar Icon */}
+            <div className="relative z-10 flex flex-col items-center justify-center">
+              <CosmicAIIcon className="w-8 h-8 text-fuchsia-300 drop-shadow-[0_0_6px_rgba(217,70,239,0.7)] group-hover:rotate-6 transition-transform" />
+            </div>
+          </button>
       </div>
     </div>
   );
