@@ -65,6 +65,23 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
           }
+          @keyframes rocketVibrate {
+            0%, 100% { transform: translate(0px, 0px); }
+            20% { transform: translate(-0.4px, 0.4px); }
+            40% { transform: translate(0.4px, -0.4px); }
+            60% { transform: translate(-0.4px, -0.4px); }
+            80% { transform: translate(0.4px, 0.4px); }
+          }
+          @keyframes dancingMove {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-1.5px) rotate(-5deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-1.5px) rotate(5deg); }
+          }
+          @keyframes coffeeBob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(0.4px) rotate(1deg); }
+          }
 
           .cosmic-ring-anim {
             animation: floatRing 3s ease-in-out infinite;
@@ -105,30 +122,72 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             animation: haloSpin 2.5s linear infinite;
             transform-origin: 12px 4px;
           }
+          .rocket-head-anim {
+            animation: rocketVibrate 0.12s linear infinite;
+            transform-origin: 12px 13px;
+          }
+          .dancing-head-anim {
+            animation: dancingMove 0.5s ease-in-out infinite;
+            transform-origin: 12px 17px;
+          }
+          .coffee-head-anim {
+            animation: coffeeBob 3s ease-in-out infinite;
+            transform-origin: 12px 13px;
+          }
         `}</style>
       </defs>
 
-      {/* Orbit Ring (Cosmic Aspect) - Back Side */}
-      <path 
-        d="M3 13.5c1.5-1.5 5.5-3.2 9-3.2s7.5 1.7 9 3.2" 
-        stroke="url(#cosmicAIGrad)" 
-        strokeWidth="1.2" 
-        strokeLinecap="round" 
-        strokeDasharray="2 2"
-        opacity="0.6"
-        className="cosmic-ring-anim"
-      />
+      {/* Orbit Ring (Cosmic Aspect) - Back Side (Not showing when launching rocket for clean lines) */}
+      {expression !== 'rocket' && (
+        <path 
+          d="M3 13.5c1.5-1.5 5.5-3.2 9-3.2s7.5 1.7 9 3.2" 
+          stroke="url(#cosmicAIGrad)" 
+          strokeWidth="1.2" 
+          strokeLinecap="round" 
+          strokeDasharray="2 2"
+          opacity="0.6"
+          className="cosmic-ring-anim"
+        />
+      )}
 
       {/* Ears / Side Bolt Receivers */}
-      <rect x="3.5" y="11.5" width="2" height="3" rx="0.8" fill="url(#cosmicAIGrad)" opacity="0.8" />
-      <rect x="18.5" y="11.5" width="2" height="3" rx="0.8" fill="url(#cosmicAIGrad)" opacity="0.8" />
+      {expression !== 'rocket' && (
+        <>
+          <rect x="3.5" y="11.5" width="2" height="3" rx="0.8" fill="url(#cosmicAIGrad)" opacity="0.8" />
+          <rect x="18.5" y="11.5" width="2" height="3" rx="0.8" fill="url(#cosmicAIGrad)" opacity="0.8" />
+        </>
+      )}
 
       {/* Main animated group representing the bot head */}
       <g className={
         expression === 'driving' ? 'driving-head-anim' :
         expression === 'reading' ? 'reading-head-anim' :
-        expression === 'dizzy' ? 'dizzy-head-anim' : ''
+        expression === 'dizzy' ? 'dizzy-head-anim' :
+        expression === 'rocket' ? 'rocket-head-anim' :
+        expression === 'dancing' ? 'dancing-head-anim' :
+        expression === 'coffee' ? 'coffee-head-anim' : ''
       }>
+        
+        {/* Rocket Side Wings (Only when launching) */}
+        {expression === 'rocket' && (
+          <>
+            <path d="M4.5 12l-2.5 3.5h2.5z" fill="url(#cosmicAIGrad)" stroke="url(#cosmicAIGrad)" strokeWidth="0.8" />
+            <path d="M19.5 12l2.5 3.5h-2.5z" fill="url(#cosmicAIGrad)" stroke="url(#cosmicAIGrad)" strokeWidth="0.8" />
+            
+            {/* Rocket Thruster Flame */}
+            <path d="M9.5 17.5l2.5 4.5 2.5-4.5z" fill="#f97316" />
+            <path d="M11 17.5l1 2.5 1-2.5z" fill="#ef4444" />
+          </>
+        )}
+
+        {/* Dancing Waving Arms */}
+        {expression === 'dancing' && (
+          <>
+            <path d="M5.5 14.5c-1-1.5-1.5-2.8-1-3.2" stroke="url(#cosmicAIGrad)" strokeWidth="1.2" strokeLinecap="round" />
+            <path d="M18.5 14.5c1-1.5 1.5-2.8 1-3.2" stroke="url(#cosmicAIGrad)" strokeWidth="1.2" strokeLinecap="round" />
+          </>
+        )}
+
         {/* Robot Head Body */}
         <rect 
           x="5" 
@@ -304,7 +363,6 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
         {/* Reading expression (đọc sách) */}
         {expression === 'reading' && (
           <>
-            {/* Eyes looking down */}
             <ellipse cx="9" cy="13.4" rx="1.3" ry="0.8" fill="#22d3ee" className="blink-left-anim" />
             <ellipse cx="15" cy="13.4" rx="1.3" ry="0.8" fill="#22d3ee" className="blink-right-anim" />
             
@@ -325,14 +383,9 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
         {/* Dizzy expression (chóng mặt) */}
         {expression === 'dizzy' && (
           <>
-            {/* Spiral / Crossed-out eyes */}
-            <path d="M7.8 11.8l2.4 2.4M10.2 11.8l-2.4 2.4" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M13.8 11.8l2.4 2.4M16.2 11.8l-2.4 2.4" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
-            
-            {/* Dizzy wavy mouth */}
+            <path d="M8 11.8l2 2M10 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M14 11.8l2 2M16 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
             <path d="M10 15c.5-.5 1 .5 1.5 0s1-.5 1.5 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-            
-            {/* Dizzy swirling halo above head */}
             <ellipse 
               cx="12" 
               cy="4.5" 
@@ -344,6 +397,56 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
               strokeDasharray="2 1" 
               className="dizzy-halo-anim" 
             />
+          </>
+        )}
+
+        {/* Rocket expression (Scroll to top launch) */}
+        {expression === 'rocket' && (
+          <>
+            {/* Determined / Flying eyes */}
+            <path d="M7.8 13.2c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.8" strokeLinecap="round" fill="none" />
+            <path d="M15 13.2c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.8" strokeLinecap="round" fill="none" />
+            <ellipse cx="7.2" cy="14.5" rx="1" ry="0.5" fill="#d946ef" fillOpacity="0.7" />
+            <ellipse cx="16.8" cy="14.5" rx="1" ry="0.5" fill="#d946ef" fillOpacity="0.7" />
+            <path d="M11.5 15.2h1" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+          </>
+        )}
+
+        {/* Dancing / Waving hands expression */}
+        {expression === 'dancing' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
+            <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.2.5 1.4.5 1.6 0" fill="#22d3ee" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
+            
+            {/* Music Notes */}
+            <path d="M3 6.5v2.5M3 7.2c-.4 0-.6.2-.6.4s.2.4.6.4c.4 0 .6-.2.6-.4v-2.5z" fill="#d946ef" />
+            <path d="M21 5.5v2.5M21 6.2c-.4 0-.6.2-.6.4s.2.4.6.4c.4 0 .6-.2.6-.4v-2.5z" fill="#22d3ee" />
+          </>
+        )}
+
+        {/* Coffee / Drinking coffee expression */}
+        {expression === 'coffee' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
+            <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
+            
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.2.9.2 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+
+            {/* Coffee cup */}
+            <path d="M10.8 15.2h2.4v1.8c0 .5-.4.8-.8.8h-.8c-.4 0-.8-.3-.8-.8z" fill="#d946ef" />
+            <path d="M13.2 15.6c.4 0 .6.2.6.4s-.2.4-.6.4" stroke="#d946ef" strokeWidth="0.8" fill="none" />
+            {/* Steam rising */}
+            <path d="M11.4 14.2c0-.5.4-.5.4-1" stroke="#22d3ee" strokeWidth="0.6" strokeLinecap="round" />
+            <path d="M12.6 14.2c0-.5.4-.5.4-1" stroke="#22d3ee" strokeWidth="0.6" strokeLinecap="round" />
           </>
         )}
 
@@ -377,18 +480,24 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
         fill="#22d3ee" 
       />
 
-      {/* Orbit Ring (Cosmic Aspect) - Front Side */}
-      <path 
-        d="M3 13.5c1.5 1.5 5.5 3.2 9 3.2s7.5-1.7 9-3.2" 
-        stroke="url(#cosmicAIGrad)" 
-        strokeWidth="1.5" 
-        strokeLinecap="round" 
-        className="cosmic-ring-anim"
-      />
+      {/* Orbit Ring (Cosmic Aspect) - Front Side (Not showing when launching rocket for clean lines) */}
+      {expression !== 'rocket' && (
+        <path 
+          d="M3 13.5c1.5 1.5 5.5 3.2 9 3.2s7.5-1.7 9-3.2" 
+          stroke="url(#cosmicAIGrad)" 
+          strokeWidth="1.5" 
+          strokeLinecap="round" 
+          className="cosmic-ring-anim"
+        />
+      )}
 
       {/* Background Magic Sparkles */}
-      <path d="M19.5 6l.3.7.7.3-.7.3-.3.7-.3-.7-.7-.3.7-.3z" fill="#d946ef" opacity="0.7" />
-      <path d="M4.5 17.5l.2.5.5.2-.5.2-.2.5-.2-.5-.5-.2.5-.2z" fill="#a855f7" opacity="0.7" />
+      {expression !== 'rocket' && (
+        <>
+          <path d="M19.5 6l.3.7.7.3-.7.3-.3.7-.3-.7-.7-.3.7-.3z" fill="#d946ef" opacity="0.7" />
+          <path d="M4.5 17.5l.2.5.5.2-.5.2-.2.5-.2-.5-.5-.2.5-.2z" fill="#a855f7" opacity="0.7" />
+        </>
+      )}
     </svg>
   );
 }

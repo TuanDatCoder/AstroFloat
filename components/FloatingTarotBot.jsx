@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Compass, Heart, BookOpen, Star, ChevronRight, History } from 'lucide-react';
+import { Sparkles, Compass, Heart, BookOpen, Star, ChevronRight, History, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ROUTES } from '@/constants';
@@ -25,6 +25,10 @@ export default function FloatingTarotBot() {
   const [secondsClosed, setSecondsClosed] = useState(0);
   const [lastRouteTime, setLastRouteTime] = useState(0);
 
+  // Scroll to Top Rocket states
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isLaunching, setIsLaunching] = useState(false);
+
   // Get default expression depending on pathname
   const getPageExpression = () => {
     if (pathname?.startsWith('/tarot')) return 'tarot';
@@ -36,6 +40,19 @@ export default function FloatingTarotBot() {
     ) return 'love';
     return 'happy';
   };
+
+  // Scroll listener to activate scroll to top arrow
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // 1. Fetch user session and details from Supabase to greet them
   useEffect(() => {
@@ -85,7 +102,7 @@ export default function FloatingTarotBot() {
           
           setTimeout(() => {
             setIsTooltipOpen(false);
-          }, 8000);
+          }, 6000);
         }, 3000);
         
         return () => clearTimeout(timer);
@@ -220,18 +237,18 @@ export default function FloatingTarotBot() {
       setIsTooltipOpen(true);
       setExpression('happy');
 
-      // Auto close welcome tooltip after 8s
+      // Auto close welcome tooltip after 6s
       setTimeout(() => {
         setIsTooltipOpen(false);
         setExpression(getPageExpression());
-      }, 8000);
+      }, 6000);
 
     }, 2000);
     
     return () => clearTimeout(timer);
   }, [pathname]);
 
-  // 5. Sleepy idle check, periodic mood swings, and proactive Type 2 Tooltips (every 22s for 8s)
+  // 5. Sleepy idle check, periodic mood swings, and proactive Type 2 Tooltips (at 30s and 70s)
   useEffect(() => {
     if (isHovered) {
       setExpression('happy');
@@ -246,7 +263,6 @@ export default function FloatingTarotBot() {
     }
 
     setExpression('idle');
-    let seconds = 0;
 
     const getRandomTip = () => {
       const loveTips = [
@@ -287,34 +303,34 @@ export default function FloatingTarotBot() {
       setSecondsClosed((prev) => {
         const nextSec = prev + 1;
 
-        // Sleeps after 60 seconds (1 minute)
-        if (nextSec >= 60) {
+        // Sleeps after 90 seconds (1.5 minutes)
+        if (nextSec >= 90) {
           setExpression('sleepy');
           setIsTooltipOpen(false);
           clearInterval(interval);
-          return 60;
+          return 90;
         }
 
-        // Trigger proactive hints every 22 seconds (at 22s and 44s)
-        if (nextSec === 22 || nextSec === 44) {
+        // Trigger proactive hints far apart (at 30s and 70s)
+        if (nextSec === 30 || nextSec === 70) {
           const tip = getRandomTip();
           setTooltipText(tip.text);
           setTooltipHref(tip.href);
           setIsTooltipOpen(true);
 
-          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading'];
+          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee'];
           setExpression(moods[Math.floor(Math.random() * moods.length)]);
 
-          // Tooltip stays open for 8 seconds
+          // Tooltip stays open for 8 seconds (from user's recent change back to 8s)
           setTimeout(() => {
             setIsTooltipOpen(false);
             setExpression((curr) => curr === 'sleepy' ? 'sleepy' : 'idle');
           }, 8000);
         }
 
-        // Mood shifts at 15s and 35s and 52s (adds driving & reading)
-        else if (nextSec === 15 || nextSec === 35 || nextSec === 52) {
-          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading'];
+        // Mood shifts at 20s and 50s and 80s (adds driving, reading, dancing & coffee)
+        else if (nextSec === 20 || nextSec === 50 || nextSec === 80) {
+          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee'];
           const chosen = moods[Math.floor(Math.random() * moods.length)];
           setExpression(chosen);
           
@@ -331,6 +347,23 @@ export default function FloatingTarotBot() {
   }, [isOpen, pathname, isHovered]);
 
   const handleToggle = () => {
+    // If scrolled down and scroll-to-top option is ready, trigger rocket!
+    if (showScrollTop) {
+      setIsLaunching(true);
+      setExpression('rocket');
+      setIsTooltipOpen(false);
+      setIsOpen(false);
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      setTimeout(() => {
+        setIsLaunching(false);
+        setExpression(getPageExpression());
+        setSecondsClosed(0);
+      }, 1200); // Wait for scroll to finish
+      return;
+    }
+
     if (isOpen) {
       setIsOpen(false);
       setExpression('idle');
@@ -427,24 +460,24 @@ export default function FloatingTarotBot() {
 
         {/* Type 2: Proactive Short Tooltip Chat Bubble (Highly Visible Neon Style, no emojis) */}
         <AnimatePresence>
-          {isTooltipOpen && !isOpen && (
+          {isTooltipOpen && !isOpen && !showScrollTop && (
             <Link href={tooltipHref} className="pointer-events-auto block absolute bottom-[115%] right-0 mb-4 z-[1000]">
               <motion.div
                 initial={{ opacity: 0, y: 15, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                className="w-[240px] sm:w-[280px] bg-slate-900 border-2 border-cyan-400 rounded-2xl p-4 shadow-[0_0_25px_rgba(34,211,238,0.4)] backdrop-blur-xl cursor-pointer hover:border-purple-400 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all duration-300 relative"
+                className="w-[210px] sm:w-[245px] bg-slate-900 border-2 border-cyan-400 rounded-2xl p-3 shadow-[0_0_20px_rgba(34,211,238,0.35)] backdrop-blur-xl cursor-pointer hover:border-purple-400 hover:shadow-[0_0_25px_rgba(168,85,247,0.45)] transition-all duration-300 relative"
               >
                 {/* Speech bubble pointer */}
                 <div className="absolute -bottom-2 right-8 w-4 h-4 bg-slate-900 border-b-2 border-r-2 border-cyan-400 transform rotate-45 pointer-events-none" />
                 
-                <div className="flex gap-3 items-start">
+                <div className="flex gap-2.5 items-start">
                   <div className="bg-cyan-500/20 p-1.5 rounded-lg shrink-0 mt-0.5 border border-cyan-400/30 animate-pulse">
-                    <Sparkles className="w-4 h-4 text-cyan-400" />
+                    <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
                   </div>
                   <div className="flex-grow">
                     <div className="text-[9px] font-black text-cyan-400 uppercase tracking-widest mb-0.5">Góc Vũ Trụ hỏi bạn</div>
-                    <p className="text-white text-[13px] leading-relaxed font-bold tracking-wide">
+                    <p className="text-white text-[12px] leading-relaxed font-bold tracking-wide">
                       {tooltipText}
                     </p>
                   </div>
@@ -454,19 +487,39 @@ export default function FloatingTarotBot() {
           )}
         </AnimatePresence>
 
-        {/* Floating Avatar Bot */}
-        <button 
+        {/* Scroll-to-top glowing up arrow indicator overlay */}
+        {showScrollTop && !isLaunching && (
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-cyan-500 text-white rounded-full p-1 border border-white/20 shadow-[0_0_12px_rgba(34,211,238,0.85)] animate-bounce z-50 pointer-events-none">
+            <ChevronUp className="w-3.5 h-3.5" />
+          </div>
+        )}
+
+        {/* Floating Avatar Bot (Framer motion animated button for rocket launch shooting offscreen) */}
+        <motion.button 
           onClick={handleToggle}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border-2 ${isOpen ? 'border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]'} hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-400 hover:scale-110 flex items-center justify-center cursor-pointer relative overflow-hidden group transition-all duration-300 z-50`}
+          animate={
+            isLaunching 
+              ? { y: -800, scale: 0.5, opacity: 0 } 
+              : { y: 0, scale: 1, opacity: 1 }
+          }
+          transition={
+            isLaunching 
+              ? { duration: 1.2, ease: "easeIn" } 
+              : { type: "spring", damping: 15, stiffness: 200 }
+          }
+          className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border-2 ${isOpen || showScrollTop ? 'border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]'} hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-400 hover:scale-110 flex items-center justify-center cursor-pointer relative overflow-hidden group transition-all duration-300 z-50`}
         >
           <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full group-hover:bg-purple-500/35 transition-colors" />
           <span className="absolute inset-0 rounded-full border border-cyan-400/20 animate-ping group-hover:animate-none opacity-50" />
           <div className="relative z-10 flex flex-col items-center justify-center">
-            <CosmicAIIcon className="w-11 h-11 text-fuchsia-300 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] group-hover:rotate-6 transition-transform" expression={expression} />
+            <CosmicAIIcon 
+              className="w-11 h-11 text-fuchsia-300 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] group-hover:rotate-6 transition-transform" 
+              expression={isLaunching ? 'rocket' : expression} 
+            />
           </div>
-        </button>
+        </motion.button>
       </div>
     </div>
   );
