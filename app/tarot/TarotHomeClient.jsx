@@ -148,7 +148,7 @@ export default function TarotHomeClient() {
           transition={{ duration: 0.6 }}
           className="inline-flex items-center gap-2 border border-indigo-950/40 rounded-full px-4.5 py-1.5 bg-indigo-950/25 mb-6 text-slate-300 text-xs sm:text-sm tracking-widest font-serif"
         >
-          <TarotIcon className="w-4 h-4" />
+          <TarotIcon className="w-5 h-5 text-purple-400" />
           KẾT NỐI KHÔNG GIAN TÂM LINH
         </motion.div>
         

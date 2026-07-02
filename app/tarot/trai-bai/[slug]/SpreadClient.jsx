@@ -8,6 +8,7 @@ import { ArrowLeft, RefreshCw, Eye, Share2, HelpCircle, Loader2, Heart, Briefcas
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import GalaxyAIIcon from '@/components/GalaxyAIIcon';
+import TarotIcon from '@/components/TarotIcon';
 import { tarotService } from '@/services/tarotService';
 
 const topicDetails = {
@@ -325,8 +326,8 @@ export default function SpreadClient({ topicSlug }) {
                 <div className="absolute inset-0 bg-[#0a0f29] border border-purple-500/20 rounded-2xl shadow-xl transform rotate-[-4deg] translate-x-[-8px] opacity-50" />
                 <div className="absolute inset-0 bg-[#131a40] border-2 border-purple-500/30 rounded-2xl shadow-2xl flex flex-col items-center justify-center" />
                 <div className="absolute inset-3 border border-purple-500/10 rounded-xl flex items-center justify-center">
-                  <div className="w-12 h-12 rounded-full border border-purple-500/20 flex items-center justify-center animate-spin-slow">
-                    <Sparkles className="w-5 h-5 text-purple-400/40" />
+                  <div className="w-12 h-12 rounded-full border border-purple-500/20 flex items-center justify-center">
+                    <TarotIcon className="w-8 h-8 text-purple-400/60 drop-shadow-[0_0_8px_rgba(168,85,247,0.4)] animate-pulse" />
                   </div>
                 </div>
               </div>
@@ -408,7 +409,7 @@ export default function SpreadClient({ topicSlug }) {
                           className="w-24 h-40 bg-gradient-to-b from-[#1c245c] to-[#050714] border border-purple-400/50 rounded-xl shadow-lg relative flex flex-col items-center justify-center"
                         >
                           <div className="absolute inset-1.5 border border-purple-500/10 rounded-lg flex items-center justify-center">
-                            <Sparkles className="w-5 h-5 text-purple-400/20" />
+                            <TarotIcon className="w-6 h-6 text-purple-400/40" />
                           </div>
                         </motion.div>
                       ) : (
@@ -460,7 +461,7 @@ export default function SpreadClient({ topicSlug }) {
                         }`}
                       >
                         <div className="w-12 h-24 border border-indigo-950/40 rounded-md flex items-center justify-center">
-                          <Sparkles className="w-3.5 h-3.5 text-purple-500/20" />
+                          <TarotIcon className="w-5 h-5 text-purple-500/40" />
                         </div>
                       </motion.div>
                     );
@@ -552,7 +553,7 @@ export default function SpreadClient({ topicSlug }) {
                             <>
                               <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-transparent to-cyan-500/10" />
                               <div className="w-12 h-12 rounded-full border border-purple-500/20 flex items-center justify-center relative">
-                                <Sparkles className="w-5 h-5 text-cyan-300 animate-pulse" />
+                                <TarotIcon className="w-7 h-7 text-cyan-300 animate-pulse" />
                               </div>
                               <div className={`mt-3 text-[8px] font-mono tracking-wider text-purple-400/60 transition-transform ${c.orientation === 'reversed' ? 'rotate-180' : ''}`}>
                                 ▲
