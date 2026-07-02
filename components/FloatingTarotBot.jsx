@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Compass, Heart, BookOpen, Star, ChevronRight, History, ChevronUp } from 'lucide-react';
+import { Sparkles, Compass, Heart, BookOpen, Star, ChevronRight, History, ChevronUp, Briefcase } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ROUTES } from '@/constants';
@@ -28,6 +28,32 @@ export default function FloatingTarotBot() {
 
   const [wakeTimeout, setWakeTimeout] = useState(null);
   const [clickTimeout, setClickTimeout] = useState(null);
+
+  const [newsInfo, setNewsInfo] = useState(null);
+
+  // Reset news info on route change
+  useEffect(() => {
+    setNewsInfo(null);
+  }, [pathname]);
+
+  // Listen for news details loaded from NewsDetailClient
+  useEffect(() => {
+    const handleNewsInfo = (e) => {
+      if (e.detail) {
+        setNewsInfo(e.detail);
+      }
+    };
+    window.addEventListener('astro-bot-news-info', handleNewsInfo);
+    return () => window.removeEventListener('astro-bot-news-info', handleNewsInfo);
+  }, []);
+
+  // Update tooltip text if newsInfo loads while on a news article page
+  useEffect(() => {
+    if (pathname?.startsWith('/tin-tuc/') && pathname !== '/tin-tuc' && newsInfo) {
+      setTooltipText(`Đăng ngày ${newsInfo.publishedDate} với ${newsInfo.viewCount} lượt xem`);
+      setTooltipHref(pathname);
+    }
+  }, [newsInfo, pathname]);
 
   // Scroll to Top Rocket states
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -348,7 +374,7 @@ export default function FloatingTarotBot() {
             }, 6000);
           }
 
-          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee', 'shy', 'blushing'];
+          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee', 'shy', 'blushing', 'reading_news', 'searching', 'singing', 'phone', 'guitar'];
           const chosen = moods[Math.floor(Math.random() * moods.length)];
           setExpression(chosen);
 
@@ -460,6 +486,25 @@ export default function FloatingTarotBot() {
     }
   };
 
+  const getTopicIcon = () => {
+    const text = tooltipText?.toLowerCase() || "";
+    const path = pathname?.toLowerCase() || "";
+    
+    if (text.includes("yêu") || text.includes("tình") || text.includes("cặp đôi") || path.includes("yeu") || path.includes("studio")) {
+      return <Heart className="w-4 h-4 text-rose-500 fill-rose-500/20 shrink-0" />;
+    }
+    if (text.includes("sự nghiệp") || text.includes("công việc") || text.includes("tài chính") || text.includes("học tập") || text.includes("bài viết") || text.includes("đăng ngày") || path.includes("tin-tuc")) {
+      return <Briefcase className="w-4 h-4 text-amber-500 fill-amber-500/20 shrink-0" />;
+    }
+    if (text.includes("thần số") || text.includes("số") || path.includes("than-so-hoc") || path.includes("numerology")) {
+      return <Sparkles className="w-4 h-4 text-fuchsia-400 shrink-0" />;
+    }
+    if (text.includes("cung") || text.includes("chòm sao") || text.includes("hoàng đạo") || path.includes("cung-hoang-dao") || path.includes("zodiac")) {
+      return <Compass className="w-4 h-4 text-cyan-400 shrink-0" />;
+    }
+    return null;
+  };
+
   if (!suggestion) return null;
 
   return (
@@ -541,9 +586,12 @@ export default function FloatingTarotBot() {
                 {/* Speech bubble pointer */}
                 <div className={`absolute -bottom-2 ${isOnLeft ? 'left-8 border-b-2 border-l-2' : 'right-8 border-b-2 border-r-2'} w-4 h-4 bg-slate-900 border-cyan-400 transform ${isOnLeft ? '-rotate-45' : 'rotate-45'} pointer-events-none`} />
                 
-                <p className="text-cyan-50 text-[14px] leading-snug font-bold tracking-wide">
-                  {tooltipText}
-                </p>
+                <div className="flex items-center justify-center gap-1.5 flex-wrap">
+                  {getTopicIcon()}
+                  <p className="text-cyan-50 text-[13px] sm:text-[14px] leading-snug font-bold tracking-wide">
+                    {tooltipText}
+                  </p>
+                </div>
               </motion.div>
             </Link>
           )}

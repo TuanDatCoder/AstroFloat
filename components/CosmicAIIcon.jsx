@@ -494,7 +494,6 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             <line x1="10.5" y1="15" x2="13.5" y2="15" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
           </>
         )}
-
         {expression === 'groggy' && (
           <>
             <path d="M7.5 13c.5-.3 1.5-.3 2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
@@ -502,6 +501,76 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.5" />
             <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.5" />
             <path d="M10.8 15c.3-.1.8.1 1.1 0" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" fill="none" />
+          </>
+        )}
+
+        {expression === 'reading_news' && (
+          <>
+            <ellipse cx="9" cy="13.4" rx="1.3" ry="0.8" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="13.4" rx="1.3" ry="0.8" fill="#22d3ee" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.2.9.2 1.6 0" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
+            <rect x="8.5" y="15.2" width="7" height="4.5" rx="0.5" fill="#f8fafc" stroke="#64748b" strokeWidth="0.6" />
+            <line x1="9.5" y1="16.5" x2="14.5" y2="16.5" stroke="#94a3b8" strokeWidth="0.5" />
+            <line x1="9.5" y1="18" x2="12.5" y2="18" stroke="#94a3b8" strokeWidth="0.5" />
+          </>
+        )}
+
+        {expression === 'searching' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            <g className="animate-pulse">
+              <circle cx="9" cy="12.8" r="2.2" stroke="#eab308" strokeWidth="0.8" fill="none" />
+              <line x1="10.5" y1="14.3" x2="12.5" y2="16.3" stroke="#eab308" strokeWidth="0.8" strokeLinecap="round" />
+            </g>
+          </>
+        )}
+
+        {expression === 'singing' && (
+          <>
+            <ellipse cx="9" cy="12.5" rx="1.2" ry="1.4" fill="#22d3ee" />
+            <ellipse cx="15" cy="12.5" rx="1.2" ry="1.4" fill="#22d3ee" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <circle cx="12" cy="15.2" r="1.2" fill="#ef4444" stroke="#22d3ee" strokeWidth="0.8" />
+            <g className="animate-bounce" style={{ transformOrigin: '12px 12px' }}>
+              <path d="M18 4.5v2.5M18 5.2c-.4 0-.6.2-.6.4s.2.4.6.4c.4 0 .6-.2.6-.4v-2.5z" fill="#d946ef" />
+              <path d="M5 5.5v2.5M5 6.2c-.4 0-.6.2-.6.4s.2.4.6.4c.4 0 .6-.2.6-.4v-2.5z" fill="#22d3ee" />
+            </g>
+          </>
+        )}
+
+        {expression === 'phone' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            <g className="animate-pulse" style={{ transform: 'rotate(5deg)' }}>
+              <rect x="15" y="13" width="3.5" height="5.5" rx="0.5" fill="#1e293b" stroke="#22d3ee" strokeWidth="0.6" />
+              <rect x="15.5" y="13.5" width="2.5" height="4.5" fill="#22d3ee" fillOpacity="0.8" />
+            </g>
+          </>
+        )}
+
+        {expression === 'guitar' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            <g style={{ transform: 'rotate(-20deg)', transformOrigin: '12px 16px' }}>
+              <rect x="5" y="15.2" width="8" height="0.8" fill="#eab308" />
+              <ellipse cx="13.5" cy="15.6" rx="2" ry="1.3" fill="#ea580c" />
+              <circle cx="13" cy="15.6" r="0.4" fill="#000" />
+            </g>
           </>
         )}
 

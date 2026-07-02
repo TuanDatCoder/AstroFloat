@@ -38,6 +38,20 @@ export default function NewsDetailClient({ initialArticle, slug }) {
     syncViewCount();
   }, [initialArticle?.id, slug]);
 
+  useEffect(() => {
+    if (initialArticle) {
+      const published = new Date(initialArticle.published_at || initialArticle.created_at).toLocaleDateString('vi-VN', {
+        day: '2-digit', month: 'long', year: 'numeric'
+      });
+      window.dispatchEvent(new CustomEvent('astro-bot-news-info', {
+        detail: {
+          publishedDate: published,
+          viewCount: viewCount
+        }
+      }));
+    }
+  }, [initialArticle, viewCount]);
+
   if (!initialArticle) {
     return (
       <div className="min-h-screen pt-32 flex flex-col items-center justify-center text-white px-6">
