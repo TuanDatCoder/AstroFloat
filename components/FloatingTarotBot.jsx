@@ -134,22 +134,17 @@ export default function FloatingTarotBot() {
     let seconds = 0;
 
     const interval = setInterval(() => {
-      seconds += 5;
+      seconds += 15;
       
       if (seconds >= 60) {
         setExpression('sleepy');
         clearInterval(interval);
-      } else if (seconds === 30) {
-        const moods = ['happy', 'wink', 'excited'];
+      } else {
+        const moods = ['happy', 'wink', 'excited', 'shocked'];
         const chosen = moods[Math.floor(Math.random() * moods.length)];
         setExpression(chosen);
-        
-        // Return to idle after 4 seconds to create a transient mood swing
-        setTimeout(() => {
-          setExpression((curr) => (curr === 'sleepy' || (curr === 'happy' && isOpen)) ? curr : 'idle');
-        }, 4000);
       }
-    }, 5000); // Check every 5 seconds for precise timing
+    }, 15000); // Shift state every 15 seconds
 
     return () => clearInterval(interval);
   }, [isOpen, pathname, isHovered]);

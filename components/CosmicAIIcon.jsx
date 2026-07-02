@@ -22,6 +22,54 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.15" />
           <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
         </radialGradient>
+
+        {/* Embedded Keyframe animations to act like a GIF */}
+        <style>{`
+          @keyframes floatRing {
+            0%, 100% { transform: translateY(0px) rotate(-15deg); }
+            50% { transform: translateY(-0.8px) rotate(-13deg); }
+          }
+          @keyframes naturalBlink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+          }
+          @keyframes heartFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-1.5px) scale(1.1); }
+          }
+          @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px) rotate(15deg); }
+            50% { transform: translateY(-1.2px) rotate(18deg); }
+          }
+          @keyframes eyeScan {
+            0%, 100% { transform: translateX(0px); }
+            25% { transform: translateX(-0.6px); }
+            75% { transform: translateX(0.6px); }
+          }
+          .cosmic-ring-anim {
+            animation: floatRing 3s ease-in-out infinite;
+            transform-origin: 12px 12px;
+          }
+          .blink-left-anim {
+            animation: naturalBlink 4s ease-in-out infinite;
+            transform-origin: 9px 12.8px;
+          }
+          .blink-right-anim {
+            animation: naturalBlink 4s ease-in-out infinite;
+            transform-origin: 15px 12.8px;
+          }
+          .heart-float-anim {
+            animation: heartFloat 2s ease-in-out infinite;
+            transform-origin: 12px 12px;
+          }
+          .card-float-anim {
+            animation: cardFloat 2.5s ease-in-out infinite;
+            transform-origin: 19px 5px;
+          }
+          .eye-scan-anim {
+            animation: eyeScan 1s ease-in-out infinite;
+          }
+        `}</style>
       </defs>
 
       {/* Orbit Ring (Cosmic Aspect) - Back Side */}
@@ -32,7 +80,7 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
         strokeLinecap="round" 
         strokeDasharray="2 2"
         opacity="0.6"
-        transform="rotate(-15 12 12)"
+        className="cosmic-ring-anim"
       />
 
       {/* Ears / Side Bolt Receivers */}
@@ -125,11 +173,11 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
 
       {expression === 'love' && (
         <>
-          {/* Big happy sparkly eyes */}
-          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
-          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
-          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" />
-          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" />
+          {/* Big happy sparkly eyes with natural blinking */}
+          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
+          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
           
           {/* Deep Blush */}
           <ellipse cx="7.2" cy="14.3" rx="1.3" ry="0.8" fill="#f43f5e" fillOpacity="0.85" />
@@ -139,7 +187,7 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
 
           {/* Floating glowing pink hearts */}
-          <g className="animate-bounce" style={{ transformOrigin: '19px 3px' }}>
+          <g className="heart-float-anim">
             <path d="M19 2.5c-.5-.5-1.2 0-1.2 0s-.7-.5-1.2 0c-.5.5-.5 1.2 0 1.8l1.2 1.2 1.2-1.2c.5-.6.5-1.3 0-1.8z" fill="#f43f5e" />
             <path d="M5.2 6c-.3-.3-.8 0-.8 0s-.4-.3-.8 0c-.3.3-.3.8 0 1.1l.8.8.8-.8c.3-.3.3-.8 0-1.1z" fill="#f43f5e" opacity="0.8" />
           </g>
@@ -148,11 +196,11 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
 
       {expression === 'tarot' && (
         <>
-          {/* Focused magical eyes */}
-          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
-          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
-          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" />
-          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" />
+          {/* Focused magical eyes with blinking */}
+          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
+          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
           
           {/* Subtle blush */}
           <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
@@ -161,10 +209,10 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           {/* Cute mouth */}
           <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
 
-          {/* Tiny floating neon tarot card */}
-          <g className="animate-bounce" style={{ transformOrigin: '19px 4px', animationDuration: '2.5s' }}>
-            <rect x="17.2" y="2" width="4.5" height="7" rx="0.5" fill="#060919" stroke="#d946ef" strokeWidth="0.8" transform="rotate(15 19 5)" />
-            <path d="M19.5 4.5l.5.8-.5.8-.5-.8z" fill="#22d3ee" transform="rotate(15 19 5)" opacity="0.8" />
+          {/* Tiny floating neon tarot card with floating animation */}
+          <g className="card-float-anim">
+            <rect x="17.2" y="2" width="4.5" height="7" rx="0.5" fill="#060919" stroke="#d946ef" strokeWidth="0.8" />
+            <path d="M19.5 4.5l.5.8-.5.8-.5-.8z" fill="#22d3ee" opacity="0.8" />
           </g>
         </>
       )}
@@ -175,9 +223,11 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" opacity="0.6" />
           <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" opacity="0.6" />
           
-          {/* Pupils moving left and right */}
-          <circle cx="9" cy="12.8" r="0.6" fill="#22d3ee" className="animate-pulse" />
-          <circle cx="15" cy="12.8" r="0.6" fill="#22d3ee" className="animate-pulse" />
+          {/* Pupils moving left and right rapidly (scanning) */}
+          <g className="eye-scan-anim">
+            <circle cx="9" cy="12.8" r="0.6" fill="#22d3ee" />
+            <circle cx="15" cy="12.8" r="0.6" fill="#22d3ee" />
+          </g>
 
           {/* Concentrated mouth */}
           <circle cx="12" cy="14.8" r="0.6" fill="#22d3ee" />
@@ -242,11 +292,11 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
 
       {expression === 'idle' && (
         <>
-          {/* Glowing AI Digital Eyes */}
-          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
-          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
-          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" />
-          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" />
+          {/* Glowing AI Digital Eyes with natural blinking */}
+          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
+          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
           
           {/* Blush Cheeks */}
           <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
@@ -280,7 +330,7 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
         stroke="url(#cosmicAIGrad)" 
         strokeWidth="1.5" 
         strokeLinecap="round" 
-        transform="rotate(-15 12 12)"
+        className="cosmic-ring-anim"
       />
 
       {/* Background Magic Sparkles */}
