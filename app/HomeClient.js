@@ -21,6 +21,7 @@ import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
 
 import { ROUTES } from '@/constants';
 import TarotIcon from '@/components/TarotIcon';
+import FloatingTarotBot from '@/components/FloatingTarotBot';
 import { newsService } from '@/services/newsService';
 
 const containerVariants = {
@@ -444,6 +445,8 @@ export default function HomeClient() {
         )}
       </AnimatePresence>
       
+      {/* CUTE FLOATING TAROT BOT */}
+      <FloatingTarotBot />
     </div>
   );
 }
