@@ -4,7 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ArrowLeft, RefreshCw, Eye, Share2, HelpCircle, Heart, Briefcase, Coins, Compass } from 'lucide-react';
+import { ArrowLeft, RefreshCw, Eye, Share2, HelpCircle, Loader2, Heart, Briefcase, Coins, Compass, Sparkles } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import GalaxyAIIcon from '@/components/GalaxyAIIcon';
 import { tarotService } from '@/services/tarotService';
 
 const topicDetails = {
@@ -70,6 +73,11 @@ export default function SpreadClient({ topicSlug }) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
 
+  // AI Summary States
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiResult, setAiResult] = useState(null);
+  const [aiError, setAiError] = useState(null);
+
   // Mảng tượng trưng cho bộ bài (78 lá, ta mô tả 22 lá để vẽ quạt bài)
   const deckSize = 22;
   const dummyDeck = Array.from({ length: deckSize }, (_, i) => i);
@@ -110,6 +118,13 @@ export default function SpreadClient({ topicSlug }) {
         setResult(reading);
         setGameState('done');
         setLoading(false);
+        // Lưu kết quả hiện tại
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(`astrofloat_tarot_current_${topicSlug}`, JSON.stringify({
+            result: reading,
+            styleId: styleId
+          }));
+        }
       }, 1500);
     } catch (e) {
       console.error('Lỗi khi bốc bài:', e.message || e);
@@ -161,12 +176,19 @@ export default function SpreadClient({ topicSlug }) {
           cards: mockCards
         };
 
-        // Lưu local
+        // Lưu local history
         tarotService.saveReadingToLocal(mockReading);
 
         setResult(mockReading);
         setGameState('done');
         setLoading(false);
+        // Lưu kết quả hiện tại
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(`astrofloat_tarot_current_${topicSlug}`, JSON.stringify({
+            result: mockReading,
+            styleId: styleId
+          }));
+        }
       }, 1500);
     }
   };
@@ -185,9 +207,79 @@ export default function SpreadClient({ topicSlug }) {
   };
 
   const resetSpread = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(`astrofloat_tarot_current_${topicSlug}`);
+    }
     setSelectedCardsIndices([]);
     setResult(null);
+    setAiResult(null);
+    setAiError(null);
+    setAiLoading(false);
     setGameState('idle');
+  };
+
+  // Restore state on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(`astrofloat_tarot_current_${topicSlug}`);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.result) {
+            setResult(parsed.result);
+            if (parsed.aiResult) {
+              setAiResult(parsed.aiResult);
+            }
+            setGameState('done');
+          }
+        } catch (e) {
+          console.error('Failed to parse saved tarot reading', e);
+        }
+      }
+    }
+  }, [topicSlug]);
+
+  const askAi = async () => {
+    if (!result) return;
+    setAiLoading(true);
+    setAiError(null);
+
+    const stylesMap = { 1: 'genz', 2: 'healing', 3: 'deep', 4: 'toxic' };
+    const styleName = stylesMap[styleId] || 'healing';
+
+    try {
+      const response = await fetch('/api/tarot/ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          topicName: topicInfo.name,
+          cards: result.cards,
+          fullText: result.full_text,
+          styleName,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setAiResult(data.analysis);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(`astrofloat_tarot_current_${topicSlug}`, JSON.stringify({
+            result,
+            styleId,
+            aiResult: data.analysis
+          }));
+        }
+      } else {
+        setAiError(data.error || 'Có lỗi xảy ra khi kết nối với AI.');
+      }
+    } catch (e) {
+      console.error('Lỗi khi gọi AI:', e);
+      setAiError(e.message || 'Lỗi mạng khi kết nối với AI.');
+    } finally {
+      setAiLoading(false);
+    }
   };
 
   const TopicIcon = topicInfo.icon;
@@ -411,7 +503,7 @@ export default function SpreadClient({ topicSlug }) {
               className="w-full text-left"
             >
               {/* Quote text from template */}
-              <div className="tarot-glass border-indigo-950/20 rounded-3xl p-6 md:p-8 mb-10 text-center relative overflow-hidden bg-purple-950/10">
+              <div className="tarot-glass border-indigo-950/20 rounded-3xl p-6 md:p-8 mb-6 text-center relative overflow-hidden bg-purple-950/10">
                 <div className="absolute -left-12 -top-12 opacity-5 text-purple-400 pointer-events-none">
                   <Sparkles className="w-40 h-40" />
                 </div>
@@ -420,6 +512,13 @@ export default function SpreadClient({ topicSlug }) {
                 </h3>
                 <p className="font-serif italic text-lg md:text-xl text-slate-200 leading-relaxed max-w-3xl mx-auto">
                   &ldquo;{result.full_text}&rdquo;
+                </p>
+              </div>
+
+              {/* Note about Upright/Reversed */}
+              <div className="max-w-3xl mx-auto mb-10 text-center">
+                <p className="text-xs text-slate-400 leading-relaxed bg-indigo-950/20 border border-indigo-900/30 rounded-xl p-3 inline-block">
+                  <strong className="text-purple-300">Ghi chú:</strong> Khi rút bài, các lá bài có thể xuất hiện <strong>Xuôi (Upright)</strong> mang ý nghĩa trực diện tích cực, hoặc <strong>Ngược (Reversed)</strong> biểu thị năng lượng bị trì hoãn, ngược lại hoặc đang hướng vào bên trong.
                 </p>
               </div>
 
@@ -515,7 +614,49 @@ export default function SpreadClient({ topicSlug }) {
                 ))}
               </div>
 
-              {/* Bottom Actions */}
+              {/* AI Analysis Container */}
+              <div className="mt-16 mb-16 text-left max-w-4xl mx-auto">
+                {!aiResult && !aiLoading && (
+                  <div className="tarot-glass border-dashed border-2 border-purple-500/30 rounded-3xl p-8 text-center relative overflow-hidden bg-gradient-to-br from-indigo-950/10 to-purple-950/5">
+                    <GalaxyAIIcon className="w-14 h-14 text-purple-400 mx-auto mb-4 animate-pulse" />
+                    <h3 className="font-serif text-xl font-bold text-white mb-2">Trí Tuệ Nhân Tạo Góc Vũ Trụ</h3>
+                    <p className="text-xs sm:text-sm text-slate-400 max-w-lg mx-auto mb-6">
+                      Để AI tổng hợp các lá bài bạn vừa rút và đưa ra những hướng đi/lời khuyên cụ thể.
+                    </p>
+                    <button
+                      onClick={askAi}
+                      className="inline-flex items-center gap-2 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white font-serif font-black tracking-widest uppercase text-xs px-8 py-4 rounded-xl transition-all shadow-lg shadow-purple-600/30 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                    >
+                      <GalaxyAIIcon className="w-5 h-5" /> Hỏi AI Góc Vũ Trụ
+                    </button>
+                    {aiError && <p className="text-rose-400 text-xs mt-4">Lỗi: {aiError}</p>}
+                  </div>
+                )}
+
+                {aiLoading && (
+                  <div className="tarot-glass border border-purple-500/20 rounded-3xl p-12 text-center flex flex-col items-center justify-center min-h-[250px]">
+                    <GalaxyAIIcon className="w-12 h-12 text-purple-400 animate-pulse mb-4 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]" />
+                    <p className="font-serif text-sm text-purple-300 tracking-widest uppercase font-bold animate-pulse">
+                      AI đang phân tích sâu quẻ bài của bạn...
+                    </p>
+                  </div>
+                )}
+
+                {aiResult && (
+                  <div className="tarot-glass border border-purple-500/30 rounded-3xl p-8 relative overflow-hidden bg-gradient-to-br from-indigo-950/40 via-purple-950/30 to-fuchsia-950/20">
+                    <div className="flex items-center gap-3 border-b border-indigo-950/20 pb-4 mb-6">
+                      <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400">
+                        <GalaxyAIIcon className="w-6 h-6 animate-pulse" />
+                      </div>
+                      <h3 className="font-serif text-base font-bold text-white tracking-widest uppercase">AI GIẢI MÃ SÂU SẮC</h3>
+                    </div>
+                    <div className="prose prose-invert prose-purple max-w-none text-slate-300 text-sm md:text-base leading-relaxed">
+                      <ReactMarkdown>{aiResult}</ReactMarkdown>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <div className="flex flex-wrap gap-4 items-center justify-center border-t border-indigo-950/20 pt-8 mt-4">
                 <button
                   onClick={resetSpread}
