@@ -731,30 +731,35 @@ export default function FloatingTarotBot() {
 
         {/* Type 2: Proactive Short Tooltip Chat Bubble (Highly Visible Neon Style, no emojis) */}
         <AnimatePresence>
-          {isTooltipOpen && !isOpen && !showScrollTop && (
-            <Link href={tooltipHref} className={`pointer-events-auto block absolute bottom-[115%] ${isOnLeft ? 'left-0' : 'right-0'} mb-4 z-[1000] group`}>
-              <motion.div
-                initial={{ opacity: 0, y: 15, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                className="w-[210px] sm:w-[245px] bg-slate-900 border-2 border-cyan-400 rounded-2xl pt-6 pb-4 px-4 shadow-[0_0_20px_rgba(34,211,238,0.35)] backdrop-blur-xl cursor-pointer hover:border-purple-400 hover:shadow-[0_0_25px_rgba(168,85,247,0.45)] transition-all duration-300 relative text-center"
-              >
-                {/* Cute Badge centered on the top border */}
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-slate-900 border-2 border-cyan-400 rounded-full p-1.5 shadow-[0_0_12px_rgba(34,211,238,0.4)] z-[1001] flex items-center justify-center transition-all duration-300 group-hover:border-purple-400 group-hover:shadow-[0_0_15px_rgba(168,85,247,0.5)]">
-                  <CuteTopicIcon topic={getTopic()} />
-                </div>
+          {isTooltipOpen && !isOpen && !showScrollTop && (() => {
+            const currentTopic = getTopic();
+            return (
+              <Link href={tooltipHref} className={`pointer-events-auto block absolute bottom-[115%] ${isOnLeft ? 'left-0' : 'right-0'} mb-4 z-[1000] group`}>
+                <motion.div
+                  initial={{ opacity: 0, y: 15, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                  className={`w-[210px] sm:w-[245px] bg-slate-900 border-2 border-cyan-400 rounded-2xl ${currentTopic ? 'pt-6 pb-4 px-4' : 'p-4'} shadow-[0_0_20px_rgba(34,211,238,0.35)] backdrop-blur-xl cursor-pointer hover:border-purple-400 hover:shadow-[0_0_25px_rgba(168,85,247,0.45)] transition-all duration-300 relative text-center`}
+                >
+                  {/* Cute Badge centered on the top border - only show if we have a topic */}
+                  {currentTopic && (
+                    <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-slate-900 border-2 border-cyan-400 rounded-full p-1.5 shadow-[0_0_12px_rgba(34,211,238,0.4)] z-[1001] flex items-center justify-center transition-all duration-300 group-hover:border-purple-400 group-hover:shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+                      <CuteTopicIcon topic={currentTopic} />
+                    </div>
+                  )}
 
-                {/* Speech bubble pointer */}
-                <div className={`absolute -bottom-2 ${isOnLeft ? 'left-8 border-b-2 border-l-2' : 'right-8 border-b-2 border-r-2'} w-4 h-4 bg-slate-900 border-cyan-400 transform ${isOnLeft ? '-rotate-45' : 'rotate-45'} pointer-events-none transition-all duration-300 group-hover:border-purple-400`} />
-                
-                <div className="text-center">
-                  <p className="text-cyan-50 text-[13px] sm:text-[14px] leading-snug font-bold tracking-wide">
-                    {tooltipText}
-                  </p>
-                </div>
-              </motion.div>
-            </Link>
-          )}
+                  {/* Speech bubble pointer */}
+                  <div className={`absolute -bottom-2 ${isOnLeft ? 'left-8 border-b-2 border-l-2' : 'right-8 border-b-2 border-r-2'} w-4 h-4 bg-slate-900 border-cyan-400 transform ${isOnLeft ? '-rotate-45' : 'rotate-45'} pointer-events-none transition-all duration-300 group-hover:border-purple-400`} />
+                  
+                  <div className="text-center">
+                    <p className="text-cyan-50 text-[13px] sm:text-[14px] leading-snug font-bold tracking-wide">
+                      {tooltipText}
+                    </p>
+                  </div>
+                </motion.div>
+              </Link>
+            );
+          })()}
         </AnimatePresence>
 
         {/* Scroll-to-top glowing up arrow indicator overlay */}
