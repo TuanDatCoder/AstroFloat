@@ -123,6 +123,75 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
         </>
       )}
 
+      {expression === 'love' && (
+        <>
+          {/* Big happy sparkly eyes */}
+          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
+          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
+          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" />
+          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" />
+          
+          {/* Deep Blush */}
+          <ellipse cx="7.2" cy="14.3" rx="1.3" ry="0.8" fill="#f43f5e" fillOpacity="0.85" />
+          <ellipse cx="16.8" cy="14.3" rx="1.3" ry="0.8" fill="#f43f5e" fillOpacity="0.85" />
+
+          {/* Happy smile */}
+          <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+
+          {/* Floating glowing pink hearts */}
+          <g className="animate-bounce" style={{ transformOrigin: '19px 3px' }}>
+            <path d="M19 2.5c-.5-.5-1.2 0-1.2 0s-.7-.5-1.2 0c-.5.5-.5 1.2 0 1.8l1.2 1.2 1.2-1.2c.5-.6.5-1.3 0-1.8z" fill="#f43f5e" />
+            <path d="M5.2 6c-.3-.3-.8 0-.8 0s-.4-.3-.8 0c-.3.3-.3.8 0 1.1l.8.8.8-.8c.3-.3.3-.8 0-1.1z" fill="#f43f5e" opacity="0.8" />
+          </g>
+        </>
+      )}
+
+      {expression === 'tarot' && (
+        <>
+          {/* Focused magical eyes */}
+          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
+          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
+          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" />
+          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" />
+          
+          {/* Subtle blush */}
+          <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+          <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+
+          {/* Cute mouth */}
+          <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+
+          {/* Tiny floating neon tarot card */}
+          <g className="animate-bounce" style={{ transformOrigin: '19px 4px', animationDuration: '2.5s' }}>
+            <rect x="17.2" y="2" width="4.5" height="7" rx="0.5" fill="#060919" stroke="#d946ef" strokeWidth="0.8" transform="rotate(15 19 5)" />
+            <path d="M19.5 4.5l.5.8-.5.8-.5-.8z" fill="#22d3ee" transform="rotate(15 19 5)" opacity="0.8" />
+          </g>
+        </>
+      )}
+
+      {expression === 'calculating' && (
+        <>
+          {/* Animated scanning pupil eyes */}
+          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" opacity="0.6" />
+          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" opacity="0.6" />
+          
+          {/* Pupils moving left and right */}
+          <circle cx="9" cy="12.8" r="0.6" fill="#22d3ee" className="animate-pulse" />
+          <circle cx="15" cy="12.8" r="0.6" fill="#22d3ee" className="animate-pulse" />
+
+          {/* Concentrated mouth */}
+          <circle cx="12" cy="14.8" r="0.6" fill="#22d3ee" />
+
+          {/* Outer rotating/spinning computing dots */}
+          <g className="animate-spin" style={{ transformOrigin: '12px 12px', animationDuration: '3s' }}>
+            <circle cx="12" cy="2" r="0.6" fill="#22d3ee" />
+            <circle cx="22" cy="12" r="0.6" fill="#d946ef" />
+            <circle cx="12" cy="22" r="0.6" fill="#22d3ee" />
+            <circle cx="2" cy="12" r="0.6" fill="#d946ef" />
+          </g>
+        </>
+      )}
+
       {expression === 'idle' && (
         <>
           {/* Glowing AI Digital Eyes */}

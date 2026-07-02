@@ -9,10 +9,28 @@ import CosmicAIIcon from '@/components/CosmicAIIcon';
 
 export default function FloatingTarotBot() {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
-  const [suggestion, setSuggestion] = useState(null);
-  const [expression, setExpression] = useState('idle');
+  // Get default expression depending on pathname
+  const getPageExpression = () => {
+    if (pathname?.startsWith('/tarot')) return 'tarot';
+    if (
+      pathname?.startsWith('/do-hop-cung-hoang-dao') || 
+      pathname?.startsWith('/cung-hoang-dao-tuong-hop-nhat') ||
+      pathname?.startsWith('/tat-ca-cap-doi-cung-hoang-dao') ||
+      pathname?.startsWith('/dem-ngay-yeu')
+    ) return 'love';
+    return 'happy';
+  };
+
+  // Listen for dynamic calculations/magic events from other pages
+  useEffect(() => {
+    const handleCustomExpression = (e) => {
+      if (e.detail) {
+        setExpression(e.detail);
+      }
+    };
+    window.addEventListener('astro-bot-expression', handleCustomExpression);
+    return () => window.removeEventListener('astro-bot-expression', handleCustomExpression);
+  }, []);
 
   // Define suggestion rules based on pathname
   useEffect(() => {
@@ -85,7 +103,7 @@ export default function FloatingTarotBot() {
     const timer = setTimeout(() => {
       if (!isDismissed || hasInteracted) {
         setIsOpen(true);
-        setExpression('happy');
+        setExpression(getPageExpression());
       } else {
         setExpression('idle');
       }
@@ -97,7 +115,7 @@ export default function FloatingTarotBot() {
   // Sleepy idle check
   useEffect(() => {
     if (isOpen) {
-      setExpression('happy');
+      setExpression(getPageExpression());
       return;
     }
 
@@ -109,7 +127,7 @@ export default function FloatingTarotBot() {
     }, 12000);
 
     return () => clearTimeout(sleepyTimer);
-  }, [isOpen]);
+  }, [isOpen, pathname]);
 
   const handleToggle = () => {
     if (isOpen) {
@@ -117,7 +135,7 @@ export default function FloatingTarotBot() {
       setExpression('idle');
     } else {
       setIsOpen(true);
-      setExpression('happy');
+      setExpression(getPageExpression());
     }
     setHasInteracted(true);
   };
