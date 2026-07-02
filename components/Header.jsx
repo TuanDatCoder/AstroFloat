@@ -101,11 +101,11 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-2">
+        <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
           {navLinks.map((link) => {
             const active = isActive(link);
             return (
-              <Link key={link.to} href={link.to} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} className="relative px-4 py-2 group">
+              <Link key={link.to} href={link.to} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} className="relative px-2 xl:px-4 py-2 group">
                 {active && (
                   <m.span
                     layoutId="nav-highlight"
@@ -113,7 +113,7 @@ export default function Header() {
                     transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                   />
                 )}
-                <span className={`relative z-10 text-xs font-bold tracking-[0.12em] transition-all duration-200 ${
+                <span className={`whitespace-nowrap relative z-10 text-[10px] xl:text-xs font-bold tracking-wider xl:tracking-[0.12em] transition-all duration-200 ${
                   active ? `${link.activeColor} drop-shadow-[0_0_8px_${link.glowColor}]` : `text-gray-400 ${link.hoverClass}`
                 }`}>
                   {link.label}
