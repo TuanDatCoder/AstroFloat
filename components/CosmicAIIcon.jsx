@@ -36,16 +36,16 @@ export default function CosmicAIIcon({ className = "w-6 h-6", ...props }) {
       />
 
       {/* Ears / Side Bolt Receivers */}
-      <rect x="4.5" y="11.5" width="2" height="3" rx="0.8" fill="url(#cosmicAIGrad)" opacity="0.8" />
-      <rect x="17.5" y="11.5" width="2" height="3" rx="0.8" fill="url(#cosmicAIGrad)" opacity="0.8" />
+      <rect x="3.5" y="11.5" width="2" height="3" rx="0.8" fill="url(#cosmicAIGrad)" opacity="0.8" />
+      <rect x="18.5" y="11.5" width="2" height="3" rx="0.8" fill="url(#cosmicAIGrad)" opacity="0.8" />
 
-      {/* Robot Head Body (AI Aspect) */}
+      {/* Robot Head Body (AI Aspect - Chubbier shape) */}
       <rect 
-        x="6" 
-        y="8.5" 
-        width="12" 
-        height="9" 
-        rx="3.5" 
+        x="5" 
+        y="8" 
+        width="14" 
+        height="9.5" 
+        rx="4" 
         fill="#060919" 
         fillOpacity="0.85" 
         stroke="url(#cosmicAIGrad)" 
@@ -54,40 +54,48 @@ export default function CosmicAIIcon({ className = "w-6 h-6", ...props }) {
       
       {/* Inner Glow Face overlay */}
       <rect 
-        x="6" 
-        y="8.5" 
-        width="12" 
-        height="9" 
-        rx="3.5" 
+        x="5" 
+        y="8" 
+        width="14" 
+        height="9.5" 
+        rx="4" 
         fill="url(#innerFaceGlow)" 
         pointerEvents="none"
       />
 
       {/* Crescent Moon on Forehead (Góc Vũ Trụ Spiritual Aspect) */}
       <path 
-        d="M12.2 10.4c0-.6.3-1.1.8-1.3-.1-.1-.3-.1-.4-.1-.8 0-1.4.6-1.4 1.4s.6 1.4 1.4 1.4c.1 0 .3 0 .4-.1-.5-.2-.8-.7-.8-1.3z" 
+        d="M12.2 9.8c0-.5.2-.9.7-1.1-.1-.1-.2-.1-.3-.1-.7 0-1.2.5-1.2 1.2s.5 1.2 1.2 1.2c.1 0 .2 0 .3-.1-.4-.1-.7-.6-.7-1.1z" 
         fill="#22d3ee" 
         opacity="0.9"
       />
 
-      {/* Glowing AI Digital Eyes */}
-      <ellipse cx="9.5" cy="13.2" rx="0.8" ry="1.1" fill="#22d3ee" />
-      <ellipse cx="14.5" cy="13.2" rx="0.8" ry="1.1" fill="#22d3ee" />
+      {/* Glowing AI Digital Eyes (Bigger, cuter, closer together) */}
+      <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
+      <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
+      
+      {/* Anime Eye Highlights (Sparkle shine) */}
+      <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" />
+      <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" />
+
+      {/* Glowing Blush Cheeks (Cuteness overload) */}
+      <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+      <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
 
       {/* Happy Smile Mouth */}
       <path 
-        d="M11 15.2c.5.5 1.5.5 2 0" 
-        stroke="#d946ef" 
-        strokeWidth="1" 
+        d="M11.2 14.8c.3.4.9.4 1.6 0" 
+        stroke="#22d3ee" 
+        strokeWidth="1.2" 
         strokeLinecap="round" 
       />
 
       {/* Antenna (AI Receiver) */}
       <line 
         x1="12" 
-        y1="8.5" 
+        y1="8" 
         x2="12" 
-        y2="5.5" 
+        y2="5" 
         stroke="url(#cosmicAIGrad)" 
         strokeWidth="1.2" 
         strokeLinecap="round" 
@@ -95,7 +103,7 @@ export default function CosmicAIIcon({ className = "w-6 h-6", ...props }) {
 
       {/* Sparking Star/Sparkle atop Antenna (Spiritual/Magic Aspect) */}
       <path 
-        d="M12 2.5l.5 1.2 1.2.5-1.2.5-.5 1.2-.5-1.2-1.2-.5 1.2-.5z" 
+        d="M12 2l.5 1.2 1.2.5-1.2.5-.5 1.2-.5-1.2-1.2-.5 1.2-.5z" 
         fill="#22d3ee" 
       />
 
