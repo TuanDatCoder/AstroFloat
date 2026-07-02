@@ -64,26 +64,20 @@ export default function FloatingTarotBot() {
     }
   }, [newsInfo, pathname]);
 
-  // Effect for random subtle floating/drifting inside the circular frame (runs occasionally)
+  // Effect to drift only during dynamic/action expressions, staying still at center by default (and during sleep)
   useEffect(() => {
-    const driftInterval = setInterval(() => {
-      if (!isLaunching && !isHovered) {
-        // Subtle drift movement between -6px and 6px
-        const rx = (Math.random() * 12) - 6;
-        const ry = (Math.random() * 12) - 6;
-        setDriftPosition({ x: rx, y: ry });
-
-        // Float back to center after 2 seconds
-        setTimeout(() => {
-          setDriftPosition({ x: 0, y: 0 });
-        }, 2000);
-      } else {
-        setDriftPosition({ x: 0, y: 0 });
-      }
-    }, 12000); // Triggers occasionally every 12 seconds
-
-    return () => clearInterval(driftInterval);
-  }, [isLaunching, isHovered]);
+    const dynamicMoods = ['dancing', 'guitar', 'coffee', 'driving', 'singing', 'reading_news', 'searching', 'phone', 'reading', 'basketball', 'soccer', 'rocket'];
+    
+    if (dynamicMoods.includes(expression) && !isLaunching && !isHovered && !isOpen) {
+      // Subtle drift offset while active
+      const rx = (Math.random() * 12) - 6;
+      const ry = (Math.random() * 12) - 6;
+      setDriftPosition({ x: rx, y: ry });
+    } else {
+      // Revert back to center immediately for static expressions (idle, sleepy, happy, shy, hurt, annoyed, etc.)
+      setDriftPosition({ x: 0, y: 0 });
+    }
+  }, [expression, isLaunching, isHovered, isOpen]);
 
   // Get default expression depending on pathname
   const getPageExpression = () => {
@@ -396,10 +390,10 @@ export default function FloatingTarotBot() {
           return 90;
         }
 
-        // Mood shifts every 10 seconds (10s, 20s, 30s, etc.)
-        if (nextSec % 10 === 0) {
-          // Trigger proactive tooltip at 40 seconds
-          if (nextSec === 40) {
+        // Mood shifts every 15 seconds (15s, 30s, 45s, etc.)
+        if (nextSec % 15 === 0) {
+          // Trigger proactive tooltip at 30 seconds
+          if (nextSec === 30) {
             const tip = getRandomTip();
             setTooltipText(tip.text);
             setTooltipHref(tip.href);
@@ -410,7 +404,7 @@ export default function FloatingTarotBot() {
             }, 6000);
           }
 
-          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee', 'shy', 'blushing', 'reading_news', 'searching', 'singing', 'phone', 'guitar'];
+          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee', 'shy', 'blushing', 'reading_news', 'searching', 'singing', 'phone', 'guitar', 'basketball', 'soccer'];
           const chosen = moods[Math.floor(Math.random() * moods.length)];
           setExpression(chosen);
 
