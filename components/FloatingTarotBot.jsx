@@ -64,7 +64,7 @@ export default function FloatingTarotBot() {
     }
   }, [newsInfo, pathname]);
 
-  // Effect for random subtle floating/drifting inside the circular frame
+  // Effect for random subtle floating/drifting inside the circular frame (runs occasionally)
   useEffect(() => {
     const driftInterval = setInterval(() => {
       if (!isLaunching && !isHovered) {
@@ -72,10 +72,15 @@ export default function FloatingTarotBot() {
         const rx = (Math.random() * 12) - 6;
         const ry = (Math.random() * 12) - 6;
         setDriftPosition({ x: rx, y: ry });
+
+        // Float back to center after 2 seconds
+        setTimeout(() => {
+          setDriftPosition({ x: 0, y: 0 });
+        }, 2000);
       } else {
         setDriftPosition({ x: 0, y: 0 });
       }
-    }, 3000);
+    }, 12000); // Triggers occasionally every 12 seconds
 
     return () => clearInterval(driftInterval);
   }, [isLaunching, isHovered]);
