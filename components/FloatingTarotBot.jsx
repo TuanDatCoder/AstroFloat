@@ -10,6 +10,7 @@ import { supabase } from '@/services/supabase';
 
 export default function FloatingTarotBot() {
   const pathname = usePathname();
+  const isOnLeft = pathname?.startsWith('/tarot') || pathname?.startsWith('/dem-ngay-yeu');
   const [isOpen, setIsOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [suggestion, setSuggestion] = useState(null);
@@ -50,8 +51,8 @@ export default function FloatingTarotBot() {
       const scrollTop = window.scrollY;
       const scrollableHeight = docHeight - winHeight;
 
-      // 1. Hide the entire bot at the absolute bottom (within 25px) to clear the footer
-      if (scrollableHeight > 60 && scrollTop >= scrollableHeight - 25) {
+      // 1. Hide the entire bot at the absolute bottom (within 50px) to clear the footer
+      if (scrollableHeight > 60 && scrollTop >= scrollableHeight - 50) {
         setHideAll(true);
       } else {
         setHideAll(false);
@@ -303,23 +304,7 @@ export default function FloatingTarotBot() {
       if (
         pathname?.startsWith('/do-hop-cung-hoang-dao') || 
         pathname?.startsWith('/cung-hoang-dao-tuong-hop-nhat') ||
-        pathname?.startsWith('/tat-ca-cap-doi-cung-hoang-dao') ||
-        pathname?.startsWith('/dem-ngay-yeu')
-      ) {
-        return loveTips[Math.floor(Math.random() * loveTips.length)];
-      }
-      if (pathname?.startsWith('/tarot')) {
-        return tarotTips[Math.floor(Math.random() * tarotTips.length)];
-      }
-      return generalTips[Math.floor(Math.random() * generalTips.length)];
-    };
-
-    // Heartbeat clock counting every 1 second
-    const interval = setInterval(() => {
-      setSecondsClosed((prev) => {
-        const nextSec = prev + 1;
-
-        // Sleeps after 90 seconds (1.5 minutes)
+        pathname?.startsWith('/tat-ca-cap-doi-cung-hoang-da        // Sleeps after 90 seconds (1.5 minutes)
         if (nextSec >= 90) {
           setExpression('sleepy');
           setIsTooltipOpen(false);
@@ -327,8 +312,8 @@ export default function FloatingTarotBot() {
           return 90;
         }
 
-        // Trigger proactive hints far apart (at 30s and 70s)
-        if (nextSec === 30 || nextSec === 70) {
+        // Trigger proactive hints far apart (at 45s)
+        if (nextSec === 45) {
           const tip = getRandomTip();
           setTooltipText(tip.text);
           setTooltipHref(tip.href);
@@ -337,15 +322,30 @@ export default function FloatingTarotBot() {
           const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee'];
           setExpression(moods[Math.floor(Math.random() * moods.length)]);
 
-          // Tooltip stays open for 8 seconds (from user's recent change back to 8s)
+          // Tooltip stays open for 6 seconds
           setTimeout(() => {
             setIsTooltipOpen(false);
             setExpression((curr) => curr === 'sleepy' ? 'sleepy' : 'idle');
-          }, 8000);
+          }, 6000);
         }
 
-        // Mood shifts at 20s and 50s and 80s (adds driving, reading, dancing & coffee)
-        else if (nextSec === 20 || nextSec === 50 || nextSec === 80) {
+        // Mood shifts at 25s, 65s (adds driving, reading, dancing & coffee)
+        else if (nextSec === 25 || nextSec === 65) {
+          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee'];
+          const chosen = moods[Math.floor(Math.random() * moods.length)]);
+          setExpression(chosen);
+          
+          setTimeout(() => {
+            setExpression((curr) => curr === 'sleepy' ? 'sleepy' : 'idle');
+          }, 4000);
+        }
+
+        return nextSec;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isOpen, pathname, isHovered]);xtSec === 80) {
           const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee'];
           const chosen = moods[Math.floor(Math.random() * moods.length)];
           setExpression(chosen);
@@ -409,8 +409,8 @@ export default function FloatingTarotBot() {
   if (!suggestion) return null;
 
   return (
-    <div className={`fixed bottom-6 right-6 z-[999] sm:bottom-8 sm:right-8 select-none transition-all duration-300 ${hideAll ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'}`}>
-      <div className="relative flex flex-col items-end">
+    <div className={`fixed bottom-6 ${isOnLeft ? 'left-6 sm:left-8' : 'right-6 sm:right-8'} z-[999] select-none transition-all duration-300 ${hideAll ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'}`}>
+      <div className={`relative flex flex-col ${isOnLeft ? 'items-start' : 'items-end'}`}>
         
         {/* Type 1: Dialogue Bubble Menu (Opens manually on click) */}
         <AnimatePresence>
@@ -420,10 +420,10 @@ export default function FloatingTarotBot() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.9 }}
               transition={{ type: "spring", damping: 25, stiffness: 350 }}
-              className="absolute bottom-[115%] right-0 mb-4 w-[280px] sm:w-[320px] bg-slate-950/90 border border-purple-500/30 rounded-3xl p-5 shadow-[0_15px_50px_rgba(168,85,247,0.25)] backdrop-blur-xl pointer-events-auto"
+              className={`absolute bottom-[115%] ${isOnLeft ? 'left-0' : 'right-0'} mb-4 w-[280px] sm:w-[320px] bg-slate-950/90 border border-purple-500/30 rounded-3xl p-5 shadow-[0_15px_50px_rgba(168,85,247,0.25)] backdrop-blur-xl pointer-events-auto`}
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/5 via-transparent to-cyan-500/5 rounded-3xl pointer-events-none" />
-              <div className="absolute -bottom-2 right-8 w-4 h-4 bg-slate-950/90 border-b border-r border-purple-500/30 transform rotate-45 pointer-events-none" />
+              <div className={`absolute -bottom-2 ${isOnLeft ? 'left-8 border-b border-l' : 'right-8 border-b border-r'} w-4 h-4 bg-slate-950/90 border-purple-500/30 transform ${isOnLeft ? '-rotate-45' : 'rotate-45'} pointer-events-none`} />
 
               <div className="relative z-10 flex flex-col gap-3">
                 <div>
@@ -477,27 +477,19 @@ export default function FloatingTarotBot() {
         {/* Type 2: Proactive Short Tooltip Chat Bubble (Highly Visible Neon Style, no emojis) */}
         <AnimatePresence>
           {isTooltipOpen && !isOpen && !showScrollTop && (
-            <Link href={tooltipHref} className="pointer-events-auto block absolute bottom-[115%] right-0 mb-4 z-[1000]">
+            <Link href={tooltipHref} className={`pointer-events-auto block absolute bottom-[115%] ${isOnLeft ? 'left-0' : 'right-0'} mb-4 z-[1000]`}>
               <motion.div
                 initial={{ opacity: 0, y: 15, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                className="w-[210px] sm:w-[245px] bg-slate-900 border-2 border-cyan-400 rounded-2xl p-3 shadow-[0_0_20px_rgba(34,211,238,0.35)] backdrop-blur-xl cursor-pointer hover:border-purple-400 hover:shadow-[0_0_25px_rgba(168,85,247,0.45)] transition-all duration-300 relative"
+                className="w-auto max-w-[200px] bg-slate-900 border-2 border-cyan-400 rounded-2xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.35)] backdrop-blur-xl cursor-pointer hover:border-purple-400 hover:shadow-[0_0_25px_rgba(168,85,247,0.45)] transition-all duration-300 relative text-center"
               >
                 {/* Speech bubble pointer */}
-                <div className="absolute -bottom-2 right-8 w-4 h-4 bg-slate-900 border-b-2 border-r-2 border-cyan-400 transform rotate-45 pointer-events-none" />
+                <div className={`absolute -bottom-2 ${isOnLeft ? 'left-8 border-b-2 border-l-2' : 'right-8 border-b-2 border-r-2'} w-4 h-4 bg-slate-900 border-cyan-400 transform ${isOnLeft ? '-rotate-45' : 'rotate-45'} pointer-events-none`} />
                 
-                <div className="flex gap-2.5 items-start">
-                  <div className="bg-cyan-500/20 p-1.5 rounded-lg shrink-0 mt-0.5 border border-cyan-400/30 animate-pulse">
-                    <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                  </div>
-                  <div className="flex-grow">
-                    <div className="text-[9px] font-black text-cyan-400 uppercase tracking-widest mb-0.5">Góc Vũ Trụ hỏi bạn</div>
-                    <p className="text-white text-[12px] leading-relaxed font-bold tracking-wide">
-                      {tooltipText}
-                    </p>
-                  </div>
-                </div>
+                <p className="text-cyan-50 text-[14px] leading-snug font-bold tracking-wide">
+                  {tooltipText}
+                </p>
               </motion.div>
             </Link>
           )}
