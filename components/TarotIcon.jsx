@@ -9,48 +9,96 @@ export default function TarotIcon({ className = "w-6 h-6", ...props }) {
       className={className} 
       {...props}
     >
-      {/* Card Border */}
-      <rect 
-        x="4.5" 
-        y="2.5" 
-        width="15" 
-        height="19" 
-        rx="2" 
-        className="stroke-purple-400" 
-        strokeWidth="1.5"
-      />
-      {/* Inner dotted border */}
-      <rect 
-        x="6.5" 
-        y="4.5" 
-        width="11" 
-        height="15" 
-        rx="1" 
-        className="stroke-purple-400/40" 
-        strokeWidth="1" 
-        strokeDasharray="2 1.5"
-      />
+      {/* Left Card */}
+      <g transform="rotate(-20 12 17)">
+        {/* Background & Shadow Card */}
+        <rect 
+          x="9" 
+          y="4.5" 
+          width="6" 
+          height="11" 
+          rx="1" 
+          fill="#060814" 
+          className="stroke-purple-500/70" 
+          strokeWidth="1.2" 
+        />
+        {/* Inner dotted border */}
+        <rect 
+          x="9.8" 
+          y="5.3" 
+          width="4.4" 
+          height="9.4" 
+          rx="0.5" 
+          className="stroke-purple-500/30" 
+          strokeWidth="0.8" 
+          strokeDasharray="1.5 1" 
+        />
+        {/* Small symbol */}
+        <circle cx="12" cy="10" r="1" className="fill-purple-400/40" />
+      </g>
       
-      {/* Mystical Moon and Stars Design */}
-      {/* Crescent Moon */}
-      <path 
-        d="M12.5 8C10.29 8 8.5 9.79 8.5 12C8.5 14.21 10.29 16 12.5 16C13.25 16 13.95 15.79 14.55 15.44C13 14.9 12 13.57 12 12C12 10.43 13 9.1 14.55 8.56C13.95 8.21 13.25 8 12.5 8Z" 
-        className="fill-cyan-300 stroke-cyan-300"
-        strokeWidth="0.5"
-        strokeLinejoin="round"
-      />
-      
-      {/* Top Right Star */}
-      <path 
-        d="M15.5 10L15.7 10.7L16.4 10.9L15.7 11.1L15.5 11.8L15.3 11.1L14.6 10.9L15.3 10.7L15.5 10Z" 
-        className="fill-purple-300" 
-      />
-      
-      {/* Bottom Left Star */}
-      <path 
-        d="M9.5 13L9.7 13.7L10.4 13.9L9.7 14.1L9.5 14.8L9.3 14.1L8.6 13.9L9.3 13.7L9.5 13Z" 
-        className="fill-purple-300" 
-      />
+      {/* Right Card */}
+      <g transform="rotate(20 12 17)">
+        {/* Background & Shadow Card */}
+        <rect 
+          x="9" 
+          y="4.5" 
+          width="6" 
+          height="11" 
+          rx="1" 
+          fill="#060814" 
+          className="stroke-purple-500/70" 
+          strokeWidth="1.2" 
+        />
+        {/* Inner dotted border */}
+        <rect 
+          x="9.8" 
+          y="5.3" 
+          width="4.4" 
+          height="9.4" 
+          rx="0.5" 
+          className="stroke-purple-500/30" 
+          strokeWidth="0.8" 
+          strokeDasharray="1.5 1" 
+        />
+        {/* Small symbol */}
+        <circle cx="12" cy="10" r="1" className="fill-purple-400/40" />
+      </g>
+
+      {/* Center Card (On top, slightly higher) */}
+      <g transform="translate(0, -1)">
+        {/* Main Card Body */}
+        <rect 
+          x="9" 
+          y="4.5" 
+          width="6" 
+          height="11" 
+          rx="1" 
+          fill="#080c21" 
+          className="stroke-purple-400" 
+          strokeWidth="1.3" 
+        />
+        {/* Inner dotted border */}
+        <rect 
+          x="9.8" 
+          y="5.3" 
+          width="4.4" 
+          height="9.4" 
+          rx="0.5" 
+          className="stroke-purple-400/40" 
+          strokeWidth="0.8" 
+          strokeDasharray="1.5 1" 
+        />
+        {/* Mystical Star Cross symbol in the center */}
+        <line x1="12" y1="8" x2="12" y2="12" className="stroke-cyan-300" strokeWidth="0.8" />
+        <line x1="10" y1="10" x2="14" y2="10" className="stroke-cyan-300" strokeWidth="0.8" />
+        <circle cx="12" cy="10" r="0.6" className="fill-white" />
+      </g>
+
+      {/* Magical sparkles below the cards fan */}
+      <circle cx="6" cy="18" r="0.6" className="fill-cyan-300" />
+      <circle cx="18" cy="18" r="0.6" className="fill-cyan-300" />
+      <circle cx="12" cy="18.5" r="0.8" className="fill-purple-300" />
     </svg>
   );
 }
