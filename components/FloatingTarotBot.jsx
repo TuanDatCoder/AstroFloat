@@ -26,6 +26,9 @@ export default function FloatingTarotBot() {
   const [secondsClosed, setSecondsClosed] = useState(0);
   const [lastRouteTime, setLastRouteTime] = useState(0);
 
+  const [wakeTimeout, setWakeTimeout] = useState(null);
+  const [clickTimeout, setClickTimeout] = useState(null);
+
   // Scroll to Top Rocket states
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isLaunching, setIsLaunching] = useState(false);
@@ -217,37 +220,36 @@ export default function FloatingTarotBot() {
     const timer = setTimeout(() => {
       setExpression(getPageExpression());
 
-      let welcomeMsg = "";
-      let welcomeHref = "";
+      let pageName = "Góc Vũ Trụ";
+      let welcomeHref = pathname || "/";
 
-      if (pathname?.startsWith('/than-so-hoc')) {
-        welcomeMsg = "Cùng nhau tìm hiểu Thần số học nhé";
-        welcomeHref = ROUTES.NUMEROLOGY;
-      } else if (pathname?.startsWith('/cung-hoang-dao')) {
-        welcomeMsg = "Cùng nhau xem Cung hoàng đạo nhé";
-        welcomeHref = ROUTES.ZODIAC;
-      } else if (
-        pathname?.startsWith('/do-hop-cung-hoang-dao') || 
-        pathname?.startsWith('/cung-hoang-dao-tuong-hop-nhat') ||
-        pathname?.startsWith('/tat-ca-cap-doi-cung-hoang-dao') ||
-        pathname?.startsWith('/dem-ngay-yeu')
-      ) {
-        welcomeMsg = "Xem cung hoàng đạo hợp với bạn nhé";
-        welcomeHref = ROUTES.ZODIAC_MATCH;
-      } else if (pathname?.startsWith('/tarot')) {
-        welcomeMsg = "Bốc một quẻ Tarot thôi nào";
+      if (pathname === '/') pageName = "Trang Chủ";
+      else if (pathname?.startsWith('/tarot')) {
+        pageName = "Tarot";
         welcomeHref = ROUTES.TAROT;
-      } else {
-        const cues = [
-          { text: "Cùng nhau tìm hiểu Thần số học nhé", href: ROUTES.NUMEROLOGY },
-          { text: "Cùng nhau xem Cung hoàng đạo nhé", href: ROUTES.ZODIAC },
-          { text: "Xem cung hoàng đạo hợp với bạn nhé", href: ROUTES.ZODIAC_MATCH },
-          { text: "Bốc một quẻ Tarot thôi nào", href: ROUTES.TAROT }
-        ];
-        const chosen = cues[Math.floor(Math.random() * cues.length)];
-        welcomeMsg = chosen.text;
-        welcomeHref = chosen.href;
       }
+      else if (pathname?.startsWith('/than-so-hoc')) {
+        pageName = "Thần Số Học";
+        welcomeHref = ROUTES.NUMEROLOGY;
+      }
+      else if (pathname?.startsWith('/cung-hoang-dao')) {
+        pageName = "Cung Hoàng Đạo";
+        welcomeHref = ROUTES.ZODIAC;
+      }
+      else if (pathname?.startsWith('/dem-ngay-yeu')) {
+        pageName = "Đếm Ngày Yêu";
+        welcomeHref = ROUTES.ZODIAC_MATCH;
+      }
+      else if (pathname?.startsWith('/do-hop-cung-hoang-dao')) {
+        pageName = "Độ Hợp Cung Hoàng Đạo";
+        welcomeHref = ROUTES.ZODIAC_MATCH;
+      }
+      else if (pathname?.startsWith('/tin-tuc')) pageName = "Tin Tức";
+      else if (pathname?.startsWith('/kham-pha')) pageName = "Khám Phá";
+      else if (pathname?.startsWith('/vong-quay-tuong-lai')) pageName = "Vòng Quay Tương Lai";
+      else if (pathname?.startsWith('/family-love-studio')) pageName = "Family Love Studio";
+
+      const welcomeMsg = `Bạn đang ở trang ${pageName} đó!`;
 
       setTooltipText(welcomeMsg);
       setTooltipHref(welcomeHref);
@@ -262,7 +264,11 @@ export default function FloatingTarotBot() {
 
     }, 2000);
     
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      if (wakeTimeout) clearTimeout(wakeTimeout);
+      if (clickTimeout) clearTimeout(clickTimeout);
+    };
   }, [pathname]);
 
   // 5. Sleepy idle check, periodic mood swings, and proactive Type 2 Tooltips (at 30s and 70s)
@@ -381,15 +387,50 @@ export default function FloatingTarotBot() {
       return;
     }
 
-    if (isOpen) {
-      setIsOpen(false);
-      setExpression('idle');
-      setSecondsClosed(0); // Restart idle timer
-    } else {
-      setIsOpen(true);
-      setIsTooltipOpen(false);
-      setExpression(getPageExpression());
+    // Clear any active click or wake timeouts when manually toggling
+    if (clickTimeout) clearTimeout(clickTimeout);
+    if (wakeTimeout) clearTimeout(wakeTimeout);
+
+    // If sleeping or groggy, get annoyed (bực mình)
+    if (expression === 'sleepy' || expression === 'groggy') {
+      setExpression('annoyed');
+      setTooltipText("Bực mình ghê ta... Đang ngủ ngon lành mà!");
+      setIsTooltipOpen(true);
+      
+      const t = setTimeout(() => {
+        setExpression(isOpen ? 'idle' : getPageExpression());
+        setIsTooltipOpen(false);
+        setSecondsClosed(0);
+      }, 2000);
+      setClickTimeout(t);
+      return;
     }
+
+    // Normal click: Random between 'shy' (ngại ngái) or 'hurt' (u đầu)
+    const randomClickMood = Math.random() > 0.5 ? 'shy' : 'hurt';
+    setExpression(randomClickMood);
+
+    // Check special pages (Home or Tarot) for specific text bubbles
+    if (pathname === '/') {
+      setTooltipText("Xin chào! Chào mừng bạn ghé thăm Trang Chủ Góc Vũ Trụ!");
+      setIsTooltipOpen(true);
+    } else if (pathname?.startsWith('/tarot')) {
+      setTooltipText("Chào mừng bạn đến với Tarot Góc Vũ Trụ!");
+      setIsTooltipOpen(true);
+    }
+
+    const t = setTimeout(() => {
+      if (isOpen) {
+        setIsOpen(false);
+        setExpression('idle');
+        setSecondsClosed(0);
+      } else {
+        setIsOpen(true);
+        setExpression(getPageExpression());
+      }
+      setIsTooltipOpen(false);
+    }, 1500);
+    setClickTimeout(t);
     setHasInteracted(true);
   };
 
@@ -401,10 +442,26 @@ export default function FloatingTarotBot() {
 
   const handleMouseEnter = () => {
     setIsHovered(true);
+    if (expression === 'sleepy') {
+      setExpression('groggy');
+      const t = setTimeout(() => {
+        setExpression('happy');
+      }, 1500);
+      setWakeTimeout(t);
+    } else if (expression !== 'annoyed' && expression !== 'hurt' && expression !== 'shy') {
+      setExpression('blushing');
+    }
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+    if (wakeTimeout) {
+      clearTimeout(wakeTimeout);
+      setWakeTimeout(null);
+    }
+    if (expression !== 'annoyed' && expression !== 'hurt' && expression !== 'shy') {
+      setExpression(isOpen ? getPageExpression() : 'idle');
+    }
   };
 
   if (!suggestion) return null;

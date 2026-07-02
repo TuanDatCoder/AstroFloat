@@ -450,6 +450,61 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           </>
         )}
 
+        {expression === 'blushing' && (
+          <>
+            <path d="M7.8 13c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+            <path d="M15 13c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+            <ellipse cx="7.2" cy="14.3" rx="1.8" ry="1.2" fill="#f43f5e" fillOpacity="0.95" />
+            <ellipse cx="16.8" cy="14.3" rx="1.8" ry="1.2" fill="#f43f5e" fillOpacity="0.95" />
+            <path d="M11 14.8c.2.5 1.8.5 2 0" fill="#22d3ee" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
+          </>
+        )}
+
+        {expression === 'shy' && (
+          <>
+            <path d="M7.8 13.5c0-.4.4-.7.8-.7s.8.3.8.7" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <path d="M14.8 13.5c0-.4.4-.7.8-.7s.8.3.8.7" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <ellipse cx="7.2" cy="14.5" rx="1.4" ry="0.9" fill="#d946ef" fillOpacity="0.85" />
+            <ellipse cx="16.8" cy="14.5" rx="1.4" ry="0.9" fill="#d946ef" fillOpacity="0.85" />
+            <path d="M10.8 15.5c.3-.2.8.2 1.1 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+          </>
+        )}
+
+        {expression === 'hurt' && (
+          <>
+            <path d="M7.5 12l2 2M9.5 12l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M14.5 12l2 2M16.5 12l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M10.5 15.5c1 .5 2 .5 3 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <path d="M11 6.8c0-1.8 2-1.8 2 0z" fill="#facc15" stroke="#eab308" strokeWidth="1" />
+            <g className="animate-spin" style={{ transformOrigin: '12px 6px', animationDuration: '2s' }}>
+              <circle cx="9" cy="5" r="0.4" fill="#facc15" />
+              <circle cx="15" cy="5" r="0.4" fill="#facc15" />
+            </g>
+          </>
+        )}
+
+        {expression === 'annoyed' && (
+          <>
+            <path d="M7 11.2l2 .5" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M17 11.2l-2 .5" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            <ellipse cx="9" cy="12.8" rx="1.1" ry="1.4" fill="#22d3ee" />
+            <ellipse cx="15" cy="12.8" rx="1.1" ry="1.4" fill="#22d3ee" />
+            <ellipse cx="7.2" cy="14.3" rx="1.3" ry="0.8" fill="#ef4444" fillOpacity="0.85" />
+            <ellipse cx="16.8" cy="14.3" rx="1.3" ry="0.8" fill="#ef4444" fillOpacity="0.85" />
+            <line x1="10.5" y1="15" x2="13.5" y2="15" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+          </>
+        )}
+
+        {expression === 'groggy' && (
+          <>
+            <path d="M7.5 13c.5-.3 1.5-.3 2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+            <path d="M14.5 13c.5-.3 1.5-.3 2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.5" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.5" />
+            <path d="M10.8 15c.3-.1.8.1 1.1 0" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" fill="none" />
+          </>
+        )}
+
         {expression === 'idle' && (
           <>
             <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
