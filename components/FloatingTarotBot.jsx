@@ -10,7 +10,7 @@ import { supabase } from '@/services/supabase';
 
 export default function FloatingTarotBot() {
   const pathname = usePathname();
-  const isOnLeft = pathname?.startsWith('/tarot') || pathname?.startsWith('/dem-ngay-yeu');
+  const isOnLeft = false;
   const [isOpen, setIsOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [suggestion, setSuggestion] = useState(null);

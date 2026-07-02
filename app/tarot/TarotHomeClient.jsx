@@ -330,7 +330,7 @@ export default function TarotHomeClient() {
 
       {/* Floating Button for Tarot Goc Vu Tru */}
       <div 
-        className={`fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 flex pointer-events-none transition-all duration-500 ${
+        className={`fixed bottom-6 left-6 md:bottom-10 md:left-10 z-50 flex pointer-events-none transition-all duration-500 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
