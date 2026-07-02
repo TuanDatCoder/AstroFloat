@@ -23,7 +23,7 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
         </radialGradient>
 
-        {/* Embedded Keyframe animations to act like a GIF */}
+        {/* Embedded Keyframe animations for GIF like movement */}
         <style>{`
           @keyframes floatRing {
             0%, 100% { transform: translateY(0px) rotate(-15deg); }
@@ -46,6 +46,26 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             25% { transform: translateX(-0.6px); }
             75% { transform: translateX(0.6px); }
           }
+          @keyframes drivingShake {
+            0%, 100% { transform: rotate(0deg) translateY(0); }
+            25% { transform: rotate(-2deg) translateY(-0.4px); }
+            75% { transform: rotate(2deg) translateY(0.4px); }
+          }
+          @keyframes readingBob {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(0.6px) rotate(1deg); }
+          }
+          @keyframes dizzyWobble {
+            0%, 100% { transform: rotate(0deg) translate(0px, 0px); }
+            25% { transform: rotate(-4deg) translate(-0.8px, -0.4px); }
+            50% { transform: rotate(4deg) translate(0.8px, 0.4px); }
+            75% { transform: rotate(-2deg) translate(-0.4px, 0.8px); }
+          }
+          @keyframes haloSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+
           .cosmic-ring-anim {
             animation: floatRing 3s ease-in-out infinite;
             transform-origin: 12px 12px;
@@ -69,6 +89,22 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           .eye-scan-anim {
             animation: eyeScan 1s ease-in-out infinite;
           }
+          .driving-head-anim {
+            animation: drivingShake 0.25s linear infinite;
+            transform-origin: 12px 13px;
+          }
+          .reading-head-anim {
+            animation: readingBob 2.5s ease-in-out infinite;
+            transform-origin: 12px 13px;
+          }
+          .dizzy-head-anim {
+            animation: dizzyWobble 0.4s ease-in-out infinite;
+            transform-origin: 12px 13px;
+          }
+          .dizzy-halo-anim {
+            animation: haloSpin 2.5s linear infinite;
+            transform-origin: 12px 4px;
+          }
         `}</style>
       </defs>
 
@@ -87,225 +123,242 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
       <rect x="3.5" y="11.5" width="2" height="3" rx="0.8" fill="url(#cosmicAIGrad)" opacity="0.8" />
       <rect x="18.5" y="11.5" width="2" height="3" rx="0.8" fill="url(#cosmicAIGrad)" opacity="0.8" />
 
-      {/* Robot Head Body (AI Aspect - Chubbier shape) */}
-      <rect 
-        x="5" 
-        y="8" 
-        width="14" 
-        height="9.5" 
-        rx="4" 
-        fill="#060919" 
-        fillOpacity="0.85" 
-        stroke="url(#cosmicAIGrad)" 
-        strokeWidth="1.5" 
-      />
-      
-      {/* Inner Glow Face overlay */}
-      <rect 
-        x="5" 
-        y="8" 
-        width="14" 
-        height="9.5" 
-        rx="4" 
-        fill="url(#innerFaceGlow)" 
-        pointerEvents="none"
-      />
+      {/* Main animated group representing the bot head */}
+      <g className={
+        expression === 'driving' ? 'driving-head-anim' :
+        expression === 'reading' ? 'reading-head-anim' :
+        expression === 'dizzy' ? 'dizzy-head-anim' : ''
+      }>
+        {/* Robot Head Body */}
+        <rect 
+          x="5" 
+          y="8" 
+          width="14" 
+          height="9.5" 
+          rx="4" 
+          fill="#060919" 
+          fillOpacity="0.85" 
+          stroke="url(#cosmicAIGrad)" 
+          strokeWidth="1.5" 
+        />
+        
+        {/* Inner Glow Face overlay */}
+        <rect 
+          x="5" 
+          y="8" 
+          width="14" 
+          height="9.5" 
+          rx="4" 
+          fill="url(#innerFaceGlow)" 
+          pointerEvents="none"
+        />
 
-      {/* Crescent Moon on Forehead (Góc Vũ Trụ Spiritual Aspect) */}
-      <path 
-        d="M12.2 9.8c0-.5.2-.9.7-1.1-.1-.1-.2-.1-.3-.1-.7 0-1.2.5-1.2 1.2s.5 1.2 1.2 1.2c.1 0 .2 0 .3-.1-.4-.1-.7-.6-.7-1.1z" 
-        fill="#22d3ee" 
-        opacity="0.9"
-      />
+        {/* Crescent Moon on Forehead */}
+        <path 
+          d="M12.2 9.8c0-.5.2-.9.7-1.1-.1-.1-.2-.1-.3-.1-.7 0-1.2.5-1.2 1.2s.5 1.2 1.2 1.2c.1 0 .2 0 .3-.1-.4-.1-.7-.6-.7-1.1z" 
+          fill="#22d3ee" 
+          opacity="0.9"
+        />
 
-      {/* Dynamic Expressions: Eyes, Mouth, Cheeks & Floating elements */}
-      {expression === 'happy' && (
-        <>
-          {/* Curved Happy Eyes (^^) */}
-          <path d="M7.8 13c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-          <path d="M15 13c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-          
-          {/* Cheerful Cheeks */}
-          <ellipse cx="7.2" cy="14.3" rx="1.2" ry="0.7" fill="#d946ef" fillOpacity="0.8" />
-          <ellipse cx="16.8" cy="14.3" rx="1.2" ry="0.7" fill="#d946ef" fillOpacity="0.8" />
-          
-          {/* Happy Open Mouth */}
-          <path d="M11.2 14.8c.2.5 1.4.5 1.6 0" fill="#22d3ee" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
-        </>
-      )}
+        {/* Expressions Logic */}
+        {expression === 'happy' && (
+          <>
+            <path d="M7.8 13c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+            <path d="M15 13c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+            <ellipse cx="7.2" cy="14.3" rx="1.2" ry="0.7" fill="#d946ef" fillOpacity="0.8" />
+            <ellipse cx="16.8" cy="14.3" rx="1.2" ry="0.7" fill="#d946ef" fillOpacity="0.8" />
+            <path d="M11.2 14.8c.2.5 1.4.5 1.6 0" fill="#22d3ee" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
+          </>
+        )}
 
-      {expression === 'sleepy' && (
-        <>
-          {/* Sleeping Closed Eyes (u u) */}
-          <path d="M8 12.8c.2.4.8.4 1 0" stroke="#22d3ee" strokeWidth="1.3" strokeLinecap="round" fill="none" />
-          <path d="M15 12.8c.2.4.8.4 1 0" stroke="#22d3ee" strokeWidth="1.3" strokeLinecap="round" fill="none" />
-          
-          {/* Sleepy zZz animations */}
-          <g className="animate-pulse" style={{ transformOrigin: '19px 4px' }}>
-            <path d="M18 4.5h1.5L18 6h1.5" stroke="#22d3ee" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-            <path d="M19.5 2h1L19.5 3h1" stroke="#d946ef" strokeWidth="0.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-          </g>
+        {expression === 'sleepy' && (
+          <>
+            <path d="M8 12.8c.2.4.8.4 1 0" stroke="#22d3ee" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+            <path d="M15 12.8c.2.4.8.4 1 0" stroke="#22d3ee" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+            <line x1="11.5" y1="14.8" x2="12.5" y2="14.8" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            <g className="animate-pulse" style={{ transformOrigin: '19px 4px' }}>
+              <path d="M18 4.5h1.5L18 6h1.5" stroke="#22d3ee" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+              <path d="M19.5 2h1L19.5 3h1" stroke="#d946ef" strokeWidth="0.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            </g>
+          </>
+        )}
 
-          {/* Neutral Sleepy Mouth */}
-          <line x1="11.5" y1="14.8" x2="12.5" y2="14.8" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
-        </>
-      )}
+        {expression === 'thinking' && (
+          <>
+            <ellipse cx="9" cy="12.2" rx="1.1" ry="1.4" fill="#22d3ee" />
+            <ellipse cx="15" cy="12.2" rx="1.3" ry="1.6" fill="#22d3ee" />
+            <circle cx="9.2" cy="11.7" r="0.35" fill="#ffffff" />
+            <circle cx="15.2" cy="11.7" r="0.4" fill="#ffffff" />
+            <path d="M11 14.8c.3-.2.7.2 1 0s.7-.2 1 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <g className="animate-bounce" style={{ transformOrigin: '19px 3px' }}>
+              <circle cx="18" cy="4" r="0.6" fill="#22d3ee" />
+              <circle cx="19.5" cy="3" r="0.6" fill="#d946ef" />
+              <circle cx="21" cy="4" r="0.6" fill="#22d3ee" />
+            </g>
+          </>
+        )}
 
-      {expression === 'thinking' && (
-        <>
-          {/* Squinted thinking eyes looking up */}
-          <ellipse cx="9" cy="12.2" rx="1.1" ry="1.4" fill="#22d3ee" />
-          <ellipse cx="15" cy="12.2" rx="1.3" ry="1.6" fill="#22d3ee" />
-          <circle cx="9.2" cy="11.7" r="0.35" fill="#ffffff" />
-          <circle cx="15.2" cy="11.7" r="0.4" fill="#ffffff" />
-          
-          {/* Little floating thinking dots */}
-          <g className="animate-bounce" style={{ transformOrigin: '19px 3px' }}>
-            <circle cx="18" cy="4" r="0.6" fill="#22d3ee" />
-            <circle cx="19.5" cy="3" r="0.6" fill="#d946ef" />
-            <circle cx="21" cy="4" r="0.6" fill="#22d3ee" />
-          </g>
+        {expression === 'love' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
+            <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.3" ry="0.8" fill="#f43f5e" fillOpacity="0.85" />
+            <ellipse cx="16.8" cy="14.3" rx="1.3" ry="0.8" fill="#f43f5e" fillOpacity="0.85" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            <g className="heart-float-anim">
+              <path d="M19 2.5c-.5-.5-1.2 0-1.2 0s-.7-.5-1.2 0c-.5.5-.5 1.2 0 1.8l1.2 1.2 1.2-1.2c.5-.6.5-1.3 0-1.8z" fill="#f43f5e" />
+              <path d="M5.2 6c-.3-.3-.8 0-.8 0s-.4-.3-.8 0c-.3.3-.3.8 0 1.1l.8.8.8-.8c.3-.3.3-.8 0-1.1z" fill="#f43f5e" opacity="0.8" />
+            </g>
+          </>
+        )}
 
-          {/* Puzzled Wavy Mouth */}
-          <path d="M11 14.8c.3-.2.7.2 1 0s.7-.2 1 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        </>
-      )}
+        {expression === 'tarot' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
+            <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            <g className="card-float-anim">
+              <rect x="17.2" y="2" width="4.5" height="7" rx="0.5" fill="#060919" stroke="#d946ef" strokeWidth="0.8" />
+              <path d="M19.5 4.5l.5.8-.5.8-.5-.8z" fill="#22d3ee" opacity="0.8" />
+            </g>
+          </>
+        )}
 
-      {expression === 'love' && (
-        <>
-          {/* Big happy sparkly eyes with natural blinking */}
-          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
-          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
-          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
-          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
-          
-          {/* Deep Blush */}
-          <ellipse cx="7.2" cy="14.3" rx="1.3" ry="0.8" fill="#f43f5e" fillOpacity="0.85" />
-          <ellipse cx="16.8" cy="14.3" rx="1.3" ry="0.8" fill="#f43f5e" fillOpacity="0.85" />
+        {expression === 'calculating' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" opacity="0.6" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" opacity="0.6" />
+            <g className="eye-scan-anim">
+              <circle cx="9" cy="12.8" r="0.6" fill="#22d3ee" />
+              <circle cx="15" cy="12.8" r="0.6" fill="#22d3ee" />
+            </g>
+            <circle cx="12" cy="14.8" r="0.6" fill="#22d3ee" />
+            <g className="animate-spin" style={{ transformOrigin: '12px 12px', animationDuration: '3s' }}>
+              <circle cx="12" cy="2" r="0.6" fill="#22d3ee" />
+              <circle cx="22" cy="12" r="0.6" fill="#d946ef" />
+              <circle cx="12" cy="22" r="0.6" fill="#22d3ee" />
+              <circle cx="2" cy="12" r="0.6" fill="#d946ef" />
+            </g>
+          </>
+        )}
 
-          {/* Happy smile */}
-          <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+        {expression === 'wink' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
+            <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" />
+            <path d="M14 13c.2.4.8.4 1 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+          </>
+        )}
 
-          {/* Floating glowing pink hearts */}
-          <g className="heart-float-anim">
-            <path d="M19 2.5c-.5-.5-1.2 0-1.2 0s-.7-.5-1.2 0c-.5.5-.5 1.2 0 1.8l1.2 1.2 1.2-1.2c.5-.6.5-1.3 0-1.8z" fill="#f43f5e" />
-            <path d="M5.2 6c-.3-.3-.8 0-.8 0s-.4-.3-.8 0c-.3.3-.3.8 0 1.1l.8.8.8-.8c.3-.3.3-.8 0-1.1z" fill="#f43f5e" opacity="0.8" />
-          </g>
-        </>
-      )}
+        {expression === 'excited' && (
+          <>
+            <path d="M9 11.3l.4.9.9.4-.9.4-.4.9-.4-.9-.9-.4.9-.4Z" fill="#22d3ee" />
+            <path d="M15 11.3l.4.9.9.4-.9.4-.4.9-.4-.9-.9-.4.9-.4Z" fill="#22d3ee" />
+            <ellipse cx="7.2" cy="14.3" rx="1.3" ry="0.8" fill="#d946ef" fillOpacity="0.8" />
+            <ellipse cx="16.8" cy="14.3" rx="1.3" ry="0.8" fill="#d946ef" fillOpacity="0.8" />
+            <path d="M11 14.8c.2.6 1.8.6 2 0" fill="#22d3ee" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
+            <g className="animate-bounce" style={{ transformOrigin: '19px 3px' }}>
+              <circle cx="18" cy="4" r="0.6" fill="#22d3ee" />
+              <circle cx="5" cy="5" r="0.6" fill="#d946ef" />
+            </g>
+          </>
+        )}
 
-      {expression === 'tarot' && (
-        <>
-          {/* Focused magical eyes with blinking */}
-          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
-          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
-          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
-          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
-          
-          {/* Subtle blush */}
-          <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
-          <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+        {expression === 'shocked' && (
+          <>
+            <path d="M8 11.8l2 2M10 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M14 11.8l2 2M16 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="12" cy="14.8" r="0.8" stroke="#22d3ee" strokeWidth="1.2" fill="none" />
+          </>
+        )}
 
-          {/* Cute mouth */}
-          <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+        {/* Driving expression (chạy xe) */}
+        {expression === 'driving' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
+            <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            
+            {/* Steering wheel */}
+            <g className="animate-bounce" style={{ transformOrigin: '12px 16px', animationDuration: '0.8s' }}>
+              <circle cx="12" cy="16.5" r="2.2" stroke="#22d3ee" strokeWidth="0.8" fill="none" />
+              <line x1="12" y1="16.5" x2="12" y2="18.7" stroke="#22d3ee" strokeWidth="0.8" />
+              <line x1="9.8" y1="16.5" x2="14.2" y2="16.5" stroke="#22d3ee" strokeWidth="0.8" />
+            </g>
+          </>
+        )}
 
-          {/* Tiny floating neon tarot card with floating animation */}
-          <g className="card-float-anim">
-            <rect x="17.2" y="2" width="4.5" height="7" rx="0.5" fill="#060919" stroke="#d946ef" strokeWidth="0.8" />
-            <path d="M19.5 4.5l.5.8-.5.8-.5-.8z" fill="#22d3ee" opacity="0.8" />
-          </g>
-        </>
-      )}
+        {/* Reading expression (đọc sách) */}
+        {expression === 'reading' && (
+          <>
+            {/* Eyes looking down */}
+            <ellipse cx="9" cy="13.4" rx="1.3" ry="0.8" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="13.4" rx="1.3" ry="0.8" fill="#22d3ee" className="blink-right-anim" />
+            
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.2.9.2 1.6 0" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
+            
+            {/* Mini open book */}
+            <path 
+              d="M9 17.5c.8-.4 2-.2 2.5.2c.5-.4 1.7-.6 2.5-.2v-2c-.8-.4-2-.2-2.5.2c-.5-.4-1.7-.6-2.5-.2z" 
+              fill="#060919" 
+              stroke="#d946ef" 
+              strokeWidth="0.8" 
+            />
+          </>
+        )}
 
-      {expression === 'calculating' && (
-        <>
-          {/* Animated scanning pupil eyes */}
-          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" opacity="0.6" />
-          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" opacity="0.6" />
-          
-          {/* Pupils moving left and right rapidly (scanning) */}
-          <g className="eye-scan-anim">
-            <circle cx="9" cy="12.8" r="0.6" fill="#22d3ee" />
-            <circle cx="15" cy="12.8" r="0.6" fill="#22d3ee" />
-          </g>
+        {/* Dizzy expression (chóng mặt) */}
+        {expression === 'dizzy' && (
+          <>
+            {/* Spiral / Crossed-out eyes */}
+            <path d="M7.8 11.8l2.4 2.4M10.2 11.8l-2.4 2.4" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M13.8 11.8l2.4 2.4M16.2 11.8l-2.4 2.4" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+            
+            {/* Dizzy wavy mouth */}
+            <path d="M10 15c.5-.5 1 .5 1.5 0s1-.5 1.5 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            
+            {/* Dizzy swirling halo above head */}
+            <ellipse 
+              cx="12" 
+              cy="4.5" 
+              rx="3.5" 
+              ry="1.2" 
+              stroke="#d946ef" 
+              strokeWidth="0.8" 
+              fill="none" 
+              strokeDasharray="2 1" 
+              className="dizzy-halo-anim" 
+            />
+          </>
+        )}
 
-          {/* Concentrated mouth */}
-          <circle cx="12" cy="14.8" r="0.6" fill="#22d3ee" />
-
-          {/* Outer rotating/spinning computing dots */}
-          <g className="animate-spin" style={{ transformOrigin: '12px 12px', animationDuration: '3s' }}>
-            <circle cx="12" cy="2" r="0.6" fill="#22d3ee" />
-            <circle cx="22" cy="12" r="0.6" fill="#d946ef" />
-            <circle cx="12" cy="22" r="0.6" fill="#22d3ee" />
-            <circle cx="2" cy="12" r="0.6" fill="#d946ef" />
-          </g>
-        </>
-      )}
-
-      {expression === 'wink' && (
-        <>
-          {/* Left eye open, Right eye winking curve */}
-          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
-          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" />
-          <path d="M14 13c.2.4.8.4 1 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-          
-          {/* Cute blush cheeks */}
-          <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
-          <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
-
-          {/* Winking Smile */}
-          <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
-        </>
-      )}
-
-      {expression === 'excited' && (
-        <>
-          {/* Shiny Star Eyes */}
-          <path d="M9 11.3l.4.9.9.4-.9.4-.4.9-.4-.9-.9-.4.9-.4Z" fill="#22d3ee" />
-          <path d="M15 11.3l.4.9.9.4-.9.4-.4.9-.4-.9-.9-.4.9-.4Z" fill="#22d3ee" />
-          
-          {/* Deep Excited Blush */}
-          <ellipse cx="7.2" cy="14.3" rx="1.3" ry="0.8" fill="#d946ef" fillOpacity="0.8" />
-          <ellipse cx="16.8" cy="14.3" rx="1.3" ry="0.8" fill="#d946ef" fillOpacity="0.8" />
-
-          {/* Wide Happy Mouth */}
-          <path d="M11 14.8c.2.6 1.8.6 2 0" fill="#22d3ee" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
-
-          {/* Sparkles floating around */}
-          <g className="animate-bounce" style={{ transformOrigin: '19px 3px' }}>
-            <circle cx="18" cy="4" r="0.6" fill="#22d3ee" />
-            <circle cx="5" cy="5" r="0.6" fill="#d946ef" />
-          </g>
-        </>
-      )}
-
-      {expression === 'shocked' && (
-        <>
-          {/* Cross Eyes (X X) */}
-          <path d="M8 11.8l2 2M10 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M14 11.8l2 2M16 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
-          
-          {/* Gasp Mouth (O) */}
-          <circle cx="12" cy="14.8" r="0.8" stroke="#22d3ee" strokeWidth="1.2" fill="none" />
-        </>
-      )}
-
-      {expression === 'idle' && (
-        <>
-          {/* Glowing AI Digital Eyes with natural blinking */}
-          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
-          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
-          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
-          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
-          
-          {/* Blush Cheeks */}
-          <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
-          <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
-
-          {/* Cute Smile */}
-          <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
-        </>
-      )}
+        {expression === 'idle' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
+            <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+          </>
+        )}
+      </g>
 
       {/* Antenna (AI Receiver) */}
       <line 

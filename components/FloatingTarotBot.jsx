@@ -23,6 +23,7 @@ export default function FloatingTarotBot() {
   const [username, setUsername] = useState("");
 
   const [secondsClosed, setSecondsClosed] = useState(0);
+  const [lastRouteTime, setLastRouteTime] = useState(0);
 
   // Get default expression depending on pathname
   const getPageExpression = () => {
@@ -77,7 +78,7 @@ export default function FloatingTarotBot() {
         sessionStorage.setItem('botWelcomedUser', 'true');
         
         const timer = setTimeout(() => {
-          setTooltipText(`Chào ${username}! Chúc bạn một ngày mới tràn ngập cát tường từ các vì sao nhé! ✨`);
+          setTooltipText(`Chào ${username}! Chúc bạn một ngày mới tràn ngập cát tường!`);
           setTooltipHref(ROUTES.HOME);
           setIsTooltipOpen(true);
           setExpression('happy');
@@ -105,13 +106,22 @@ export default function FloatingTarotBot() {
 
   // 4. Update menu suggestions and trigger page entry welcome tooltip (Type 2)
   useEffect(() => {
-    // Enter thinking expression immediately on path transitions
-    setExpression('thinking');
+    // Determine transition speed (if page transition is fast, trigger dizzy easter egg)
+    const now = Date.now();
+    const isFastTransition = lastRouteTime > 0 && now - lastRouteTime < 4500;
+    setLastRouteTime(now);
+
+    if (isFastTransition) {
+      setExpression('dizzy');
+    } else {
+      setExpression('thinking');
+    }
+
     setIsTooltipOpen(false);
     setSecondsClosed(0);
 
     let activeSuggestion = {
-      greeting: "Chào bạn! Mình là Trợ Lý Vũ Trụ 🌌",
+      greeting: "Chào bạn! Mình là Trợ Lý Vũ Trụ",
       question: "Hôm nay bạn muốn khám phá điều gì về vận mệnh nè?",
       options: [
         { label: "Giải mã cung hoàng đạo", href: ROUTES.ZODIAC, icon: Compass, color: "text-cyan-400 bg-cyan-500/10" },
@@ -122,7 +132,7 @@ export default function FloatingTarotBot() {
 
     if (pathname === '/') {
       activeSuggestion = {
-        greeting: "Chào mừng bạn đến với Góc Vũ Trụ! 🌌",
+        greeting: "Chào mừng bạn đến với Góc Vũ Trụ!",
         question: "Bắt đầu hành trình giải mã bản thân ngay nhé:",
         options: [
           { label: "Xem thần số học ngày sinh", href: ROUTES.NUMEROLOGY, icon: Star, color: "text-amber-400 bg-amber-500/10" },
@@ -132,7 +142,7 @@ export default function FloatingTarotBot() {
       };
     } else if (pathname?.startsWith('/tin-tuc')) {
       activeSuggestion = {
-        greeting: "Bạn đang đọc tin tức tử vi và tâm linh đúng không? 🗞️",
+        greeting: "Bạn đang đọc tin tức tử vi và tâm linh đúng không?",
         question: "Khám phá thêm các góc thú vị khác của vũ trụ:",
         options: [
           { label: "Độ hợp nhau các cung hoàng đạo", href: ROUTES.ZODIAC_MATCH, icon: Heart, color: "text-rose-400 bg-rose-500/10" },
@@ -147,7 +157,7 @@ export default function FloatingTarotBot() {
       pathname?.startsWith('/dem-ngay-yeu')
     ) {
       activeSuggestion = {
-        greeting: "Tình duyên chòm sao luôn đầy bí ẩn kỳ diệu! 💖",
+        greeting: "Tình duyên chòm sao luôn đầy bí ẩn kỳ diệu!",
         question: "Tìm lời giải mã chi tiết hơn cho tình cảm của bạn:",
         options: [
           { label: "Trải bài Tarot Tình Yêu", href: ROUTES.TAROT_SPREAD('tinh-yeu'), icon: TarotIcon, color: "text-purple-400 bg-purple-500/10" },
@@ -157,7 +167,7 @@ export default function FloatingTarotBot() {
       };
     } else if (pathname?.startsWith('/tarot')) {
       activeSuggestion = {
-        greeting: "Hãy thả lỏng và đón nhận thông điệp Tarot... ✨",
+        greeting: "Hãy thả lỏng và đón nhận thông điệp Tarot...",
         question: "Kết hợp thêm các phương pháp dự đoán khác nhé:",
         options: [
           { label: "Xem bói độ hợp nhau chòm sao", href: ROUTES.ZODIAC_MATCH, icon: Heart, color: "text-rose-400 bg-rose-500/10" },
@@ -169,7 +179,7 @@ export default function FloatingTarotBot() {
 
     setSuggestion(activeSuggestion);
 
-    // After 2 seconds of scanning, display appropriate welcome cue
+    // After 2 seconds of thinking/dizzy transition, display welcome cue
     const timer = setTimeout(() => {
       setExpression(getPageExpression());
 
@@ -177,10 +187,10 @@ export default function FloatingTarotBot() {
       let welcomeHref = "";
 
       if (pathname?.startsWith('/than-so-hoc')) {
-        welcomeMsg = "Cùng nhau tìm hiểu Thần số học nhé!";
+        welcomeMsg = "Cùng nhau tìm hiểu Thần số học nhé";
         welcomeHref = ROUTES.NUMEROLOGY;
       } else if (pathname?.startsWith('/cung-hoang-dao')) {
-        welcomeMsg = "Cùng nhau xem Cung hoàng đạo nhé! 🌟";
+        welcomeMsg = "Cùng nhau xem Cung hoàng đạo nhé";
         welcomeHref = ROUTES.ZODIAC;
       } else if (
         pathname?.startsWith('/do-hop-cung-hoang-dao') || 
@@ -188,17 +198,17 @@ export default function FloatingTarotBot() {
         pathname?.startsWith('/tat-ca-cap-doi-cung-hoang-dao') ||
         pathname?.startsWith('/dem-ngay-yeu')
       ) {
-        welcomeMsg = "Xem cung hoàng đạo hợp với bạn nhé! 💖";
+        welcomeMsg = "Xem cung hoàng đạo hợp với bạn nhé";
         welcomeHref = ROUTES.ZODIAC_MATCH;
       } else if (pathname?.startsWith('/tarot')) {
-        welcomeMsg = "Bốc một quẻ Tarot thôi nào!";
+        welcomeMsg = "Bốc một quẻ Tarot thôi nào";
         welcomeHref = ROUTES.TAROT;
       } else {
         const cues = [
-          { text: "Cùng nhau tìm hiểu Thần số học nhé!", href: ROUTES.NUMEROLOGY },
-          { text: "Cùng nhau xem Cung hoàng đạo nhé! 🌟", href: ROUTES.ZODIAC },
-          { text: "Xem cung hoàng đạo hợp với bạn nhé! 💖", href: ROUTES.ZODIAC_MATCH },
-          { text: "Bốc một quẻ Tarot thôi nào! 🔮", href: ROUTES.TAROT }
+          { text: "Cùng nhau tìm hiểu Thần số học nhé", href: ROUTES.NUMEROLOGY },
+          { text: "Cùng nhau xem Cung hoàng đạo nhé", href: ROUTES.ZODIAC },
+          { text: "Xem cung hoàng đạo hợp với bạn nhé", href: ROUTES.ZODIAC_MATCH },
+          { text: "Bốc một quẻ Tarot thôi nào", href: ROUTES.TAROT }
         ];
         const chosen = cues[Math.floor(Math.random() * cues.length)];
         welcomeMsg = chosen.text;
@@ -235,24 +245,27 @@ export default function FloatingTarotBot() {
       return;
     }
 
+    setExpression('idle');
+    let seconds = 0;
+
     const getRandomTip = () => {
       const loveTips = [
-        { text: "Liệu hai bạn có phải cặp đôi tương hợp nhất? 💖", href: ROUTES.ZODIAC_BEST_MATCHES },
-        { text: "Bốc một lá bài Tarot xem tình duyên nhé? 🔮", href: ROUTES.TAROT_SPREAD('tinh-yeu') },
-        { text: "Chòm sao của bạn hợp với cung nào nhất? 🌟", href: ROUTES.ZODIAC_MATCH },
-        { text: "Đếm Ngày Yêu cùng người ấy nhé! 💕", href: ROUTES.DEM_NGAY_YEU }
+        { text: "Liệu hai bạn có phải cặp đôi tương hợp nhất?", href: ROUTES.ZODIAC_BEST_MATCHES },
+        { text: "Bốc một lá bài Tarot xem tình duyên nhé?", href: ROUTES.TAROT_SPREAD('tinh-yeu') },
+        { text: "Chòm sao của bạn hợp với cung nào nhất?", href: ROUTES.ZODIAC_MATCH },
+        { text: "Đo độ hợp nhau giữa hai bạn nhé", href: ROUTES.ZODIAC_MATCH }
       ];
       const tarotTips = [
-        { text: "Vũ trụ đang gửi thông điệp cho bạn qua các lá bài đấy! 🔮", href: ROUTES.TAROT },
-        { text: "Hôm nay bạn muốn bốc bài Tình Yêu hay Sự Nghiệp? 🃏", href: ROUTES.TAROT },
-        { text: "Tập trung tinh thần và đón nhận thông điệp Tarot nhé! ✨", href: ROUTES.TAROT },
-        { text: "Xem lịch sử rút bài Tarot của bạn nhé! 📜", href: ROUTES.TAROT_HISTORY }
+        { text: "Vũ trụ đang gửi thông điệp cho bạn qua các lá bài đấy", href: ROUTES.TAROT },
+        { text: "Hôm nay bạn muốn bốc bài Tình Yêu hay Sự Nghiệp?", href: ROUTES.TAROT },
+        { text: "Tập trung tinh thần và đón nhận thông điệp Tarot nhé", href: ROUTES.TAROT },
+        { text: "Xem lịch sử rút bài Tarot của bạn nhé", href: ROUTES.TAROT_HISTORY }
       ];
       const generalTips = [
-        { text: "Bạn có biết con số chủ đạo của mình chưa? 🔢", href: ROUTES.NUMEROLOGY },
-        { text: "Cung hoàng đạo của bạn ẩn chứa bí mật gì? 🌟", href: ROUTES.ZODIAC },
-        { text: "Tra cứu thần số học theo tên thử nhé? 🌌", href: ROUTES.NAME_NUMEROLOGY },
-        { text: "Bạn muốn thử bốc một lá bài Tarot không? 🔮", href: ROUTES.TAROT }
+        { text: "Bạn có biết con số chủ đạo của mình chưa?", href: ROUTES.NUMEROLOGY },
+        { text: "Cung hoàng đạo của bạn ẩn chứa bí mật gì?", href: ROUTES.ZODIAC },
+        { text: "Tra cứu thần số học theo tên thử nhé?", href: ROUTES.NAME_NUMEROLOGY },
+        { text: "Bạn muốn thử bốc một lá bài Tarot không?", href: ROUTES.TAROT }
       ];
 
       if (
@@ -289,7 +302,7 @@ export default function FloatingTarotBot() {
           setTooltipHref(tip.href);
           setIsTooltipOpen(true);
 
-          const moods = ['wink', 'excited', 'happy', 'shocked'];
+          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading'];
           setExpression(moods[Math.floor(Math.random() * moods.length)]);
 
           // Tooltip stays open for 8 seconds
@@ -299,9 +312,9 @@ export default function FloatingTarotBot() {
           }, 8000);
         }
 
-        // Mood shifts at 15s and 35s when not popping tooltips
+        // Mood shifts at 15s and 35s and 52s (adds driving & reading)
         else if (nextSec === 15 || nextSec === 35 || nextSec === 52) {
-          const moods = ['wink', 'excited', 'happy', 'shocked'];
+          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading'];
           const chosen = moods[Math.floor(Math.random() * moods.length)];
           setExpression(chosen);
           
@@ -412,26 +425,29 @@ export default function FloatingTarotBot() {
           )}
         </AnimatePresence>
 
-        {/* Type 2: Proactive Short Tooltip Chat Bubble (Clicks route directly to page) */}
+        {/* Type 2: Proactive Short Tooltip Chat Bubble (Highly Visible Neon Style, no emojis) */}
         <AnimatePresence>
           {isTooltipOpen && !isOpen && (
             <Link href={tooltipHref} className="pointer-events-auto block absolute bottom-[115%] right-0 mb-4 z-[1000]">
               <motion.div
-                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                initial={{ opacity: 0, y: 15, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                className="w-[220px] sm:w-[250px] bg-slate-950/95 border border-cyan-500/30 rounded-2xl p-3.5 shadow-[0_10px_30px_rgba(34,211,238,0.15)] backdrop-blur-xl cursor-pointer hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all duration-300"
-                onClick={() => {
-                  setIsTooltipOpen(false);
-                  setExpression(getPageExpression());
-                }}
+                exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                className="w-[240px] sm:w-[280px] bg-slate-900 border-2 border-cyan-400 rounded-2xl p-4 shadow-[0_0_25px_rgba(34,211,238,0.4)] backdrop-blur-xl cursor-pointer hover:border-purple-400 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all duration-300 relative"
               >
-                <div className="absolute -bottom-1.5 right-8 w-3 h-3 bg-slate-950/95 border-b border-r border-cyan-500/30 transform rotate-45 pointer-events-none" />
-                <div className="flex gap-2">
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5 animate-pulse" />
-                  <p className="text-white text-xs leading-relaxed font-semibold">
-                    {tooltipText}
-                  </p>
+                {/* Speech bubble pointer */}
+                <div className="absolute -bottom-2 right-8 w-4 h-4 bg-slate-900 border-b-2 border-r-2 border-cyan-400 transform rotate-45 pointer-events-none" />
+                
+                <div className="flex gap-3 items-start">
+                  <div className="bg-cyan-500/20 p-1.5 rounded-lg shrink-0 mt-0.5 border border-cyan-400/30 animate-pulse">
+                    <Sparkles className="w-4 h-4 text-cyan-400" />
+                  </div>
+                  <div className="flex-grow">
+                    <div className="text-[9px] font-black text-cyan-400 uppercase tracking-widest mb-0.5">Góc Vũ Trụ hỏi bạn</div>
+                    <p className="text-white text-[13px] leading-relaxed font-bold tracking-wide">
+                      {tooltipText}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             </Link>
