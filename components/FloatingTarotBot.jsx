@@ -334,29 +334,25 @@ export default function FloatingTarotBot() {
           return 90;
         }
 
-        // Trigger proactive hints far apart (at 45s)
-        if (nextSec === 45) {
-          const tip = getRandomTip();
-          setTooltipText(tip.text);
-          setTooltipHref(tip.href);
-          setIsTooltipOpen(true);
+        // Mood shifts every 10 seconds (10s, 20s, 30s, etc.)
+        if (nextSec % 10 === 0) {
+          // Trigger proactive tooltip at 40 seconds
+          if (nextSec === 40) {
+            const tip = getRandomTip();
+            setTooltipText(tip.text);
+            setTooltipHref(tip.href);
+            setIsTooltipOpen(true);
 
-          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee'];
-          setExpression(moods[Math.floor(Math.random() * moods.length)]);
+            setTimeout(() => {
+              setIsTooltipOpen(false);
+            }, 6000);
+          }
 
-          // Tooltip stays open for 6 seconds
-          setTimeout(() => {
-            setIsTooltipOpen(false);
-            setExpression((curr) => curr === 'sleepy' ? 'sleepy' : 'idle');
-          }, 6000);
-        }
-
-        // Mood shifts at 25s, 65s (adds driving, reading, dancing & coffee)
-        else if (nextSec === 25 || nextSec === 65) {
-          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee'];
+          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee', 'shy', 'blushing'];
           const chosen = moods[Math.floor(Math.random() * moods.length)];
           setExpression(chosen);
-          
+
+          // Hold expression for 4 seconds then revert to idle
           setTimeout(() => {
             setExpression((curr) => curr === 'sleepy' ? 'sleepy' : 'idle');
           }, 4000);
