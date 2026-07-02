@@ -8,6 +8,7 @@ import { ArrowLeft, RefreshCw, Eye, Share2, HelpCircle, Loader2, Heart, Briefcas
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import GalaxyAIIcon from '@/components/GalaxyAIIcon';
+import TarotIcon from '@/components/TarotIcon';
 import { tarotService } from '@/services/tarotService';
 
 const topicDetails = {
@@ -325,8 +326,8 @@ export default function SpreadClient({ topicSlug }) {
                 <div className="absolute inset-0 bg-[#0a0f29] border border-purple-500/20 rounded-2xl shadow-xl transform rotate-[-4deg] translate-x-[-8px] opacity-50" />
                 <div className="absolute inset-0 bg-[#131a40] border-2 border-purple-500/30 rounded-2xl shadow-2xl flex flex-col items-center justify-center" />
                 <div className="absolute inset-3 border border-purple-500/10 rounded-xl flex items-center justify-center">
-                  <div className="w-12 h-12 rounded-full border border-purple-500/20 flex items-center justify-center animate-spin-slow">
-                    <Sparkles className="w-5 h-5 text-purple-400/40" />
+                  <div className="w-12 h-12 rounded-full border border-purple-500/20 flex items-center justify-center">
+                    <TarotIcon className="w-8 h-8 text-purple-400/60 drop-shadow-[0_0_8px_rgba(168,85,247,0.4)] animate-pulse" />
                   </div>
                 </div>
               </div>
@@ -408,7 +409,7 @@ export default function SpreadClient({ topicSlug }) {
                           className="w-24 h-40 bg-gradient-to-b from-[#1c245c] to-[#050714] border border-purple-400/50 rounded-xl shadow-lg relative flex flex-col items-center justify-center"
                         >
                           <div className="absolute inset-1.5 border border-purple-500/10 rounded-lg flex items-center justify-center">
-                            <Sparkles className="w-5 h-5 text-purple-400/20" />
+                            <TarotIcon className="w-6 h-6 text-purple-400/40" />
                           </div>
                         </motion.div>
                       ) : (
@@ -460,7 +461,7 @@ export default function SpreadClient({ topicSlug }) {
                         }`}
                       >
                         <div className="w-12 h-24 border border-indigo-950/40 rounded-md flex items-center justify-center">
-                          <Sparkles className="w-3.5 h-3.5 text-purple-500/20" />
+                          <TarotIcon className="w-5 h-5 text-purple-500/40" />
                         </div>
                       </motion.div>
                     );
@@ -552,7 +553,7 @@ export default function SpreadClient({ topicSlug }) {
                             <>
                               <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-transparent to-cyan-500/10" />
                               <div className="w-12 h-12 rounded-full border border-purple-500/20 flex items-center justify-center relative">
-                                <Sparkles className="w-5 h-5 text-cyan-300 animate-pulse" />
+                                <TarotIcon className="w-7 h-7 text-cyan-300 animate-pulse" />
                               </div>
                               <div className={`mt-3 text-[8px] font-mono tracking-wider text-purple-400/60 transition-transform ${c.orientation === 'reversed' ? 'rotate-180' : ''}`}>
                                 ▲
@@ -575,23 +576,29 @@ export default function SpreadClient({ topicSlug }) {
 
                     {/* Explanations Details */}
                     <div className={`${result.cards.length === 1 ? 'w-full max-w-2xl text-center' : 'md:col-span-9 text-left'}`}>
-                      <div className="tarot-glass border-indigo-950/20 rounded-2xl p-6">
-                        <div className={`flex flex-wrap items-center ${result.cards.length === 1 ? 'justify-center' : 'justify-between'} gap-4 mb-3 border-b border-indigo-950/10 pb-2`}>
-                          <span className="font-serif text-[10px] tracking-widest uppercase text-purple-400 font-black">
-                            VỊ TRÍ {c.position || (i + 1)}: {c.position_name}
-                          </span>
+                      <div className="tarot-glass border-indigo-950/20 rounded-2xl p-6 relative overflow-hidden group">
+                        {/* Background Watermark Icon */}
+                        <TarotIcon className="absolute -bottom-6 -right-6 w-40 h-40 opacity-15 transform rotate-12 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-20 pointer-events-none" />
+                        
+                        <div className={`relative z-10 flex flex-wrap items-center ${result.cards.length === 1 ? 'justify-center' : 'justify-between'} gap-4 mb-3 border-b border-indigo-950/10 pb-2`}>
+                          <div className="flex items-center gap-2">
+                            <TarotIcon className="w-4 h-4 text-purple-400" />
+                            <span className="font-serif text-[10px] tracking-widest uppercase text-purple-400 font-black">
+                              VỊ TRÍ {c.position || (i + 1)}: {c.position_name}
+                            </span>
+                          </div>
                           <span className="text-xs uppercase font-serif tracking-widest text-cyan-300 font-bold bg-purple-950/30 px-2 py-0.5 rounded border border-indigo-900/30">
                             {c.orientation === 'reversed' ? 'Ngược (Reversed)' : 'Xuôi (Upright)'}
                           </span>
                         </div>
 
-                        <h4 className="font-serif text-lg font-black text-white tracking-widest mb-3 uppercase">
+                        <h4 className="relative z-10 font-serif text-lg font-black text-white tracking-widest mb-3 uppercase">
                           {c.card_name}
                         </h4>
 
                         {/* Keywords */}
                         {c.keywords && Array.isArray(c.keywords) && (
-                          <div className="flex flex-wrap gap-1.5 mb-4">
+                          <div className="relative z-10 flex flex-wrap gap-1.5 mb-4">
                             {c.keywords.map((kw, kIdx) => (
                               <span key={kIdx} className="text-[9px] uppercase font-bold tracking-widest text-cyan-300/80 bg-purple-950/30 border border-[#0b0f24]/30 px-2 py-0.5 rounded">
                                 {kw}
@@ -600,11 +607,11 @@ export default function SpreadClient({ topicSlug }) {
                           </div>
                         )}
 
-                        <p className="text-xs sm:text-sm text-slate-300 font-medium leading-relaxed italic border-l border-purple-500/30 pl-3 mb-4 bg-purple-500/[0.02] py-0.5">
+                        <p className="relative z-10 text-xs sm:text-sm text-slate-300 font-medium leading-relaxed italic border-l border-purple-500/30 pl-3 mb-4 bg-purple-500/[0.02] py-0.5">
                           Thông điệp: {c.short_meaning}
                         </p>
 
-                        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        <p className="relative z-10 text-xs sm:text-sm text-slate-300 leading-relaxed">
                           {c.long_meaning}
                         </p>
                       </div>

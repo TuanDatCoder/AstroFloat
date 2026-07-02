@@ -18,6 +18,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { supabase } from '@/services/supabase';
 import { ROUTES } from '@/constants';
+import TarotIcon from '@/components/TarotIcon';
 
 const navLinks = [
   { to: ROUTES.ZODIAC, label: 'CHÒM SAO', activeColor: 'text-cyan-300', glowColor: 'rgba(34,211,238,0.8)', hoverClass: 'hover:text-cyan-300', excludes: 'match' },
@@ -101,11 +102,11 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-2">
+        <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
           {navLinks.map((link) => {
             const active = isActive(link);
             return (
-              <Link key={link.to} href={link.to} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} className="relative px-4 py-2 group">
+              <Link key={link.to} href={link.to} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} className="relative px-2 xl:px-4 py-2 group">
                 {active && (
                   <m.span
                     layoutId="nav-highlight"
@@ -113,7 +114,7 @@ export default function Header() {
                     transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                   />
                 )}
-                <span className={`relative z-10 text-xs font-bold tracking-[0.12em] transition-all duration-200 ${
+                <span className={`whitespace-nowrap relative z-10 text-[10px] xl:text-xs font-bold tracking-wider xl:tracking-[0.12em] transition-all duration-200 ${
                   active ? `${link.activeColor} drop-shadow-[0_0_8px_${link.glowColor}]` : `text-gray-400 ${link.hoverClass}`
                 }`}>
                   {link.label}
@@ -178,7 +179,7 @@ export default function Header() {
                       className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-all group border-t border-white/5"
                     >
                       <div className="w-8 h-8 rounded-full bg-fuchsia-500/10 flex items-center justify-center border border-fuchsia-500/20 group-hover:scale-110 transition-transform">
-                        <Sparkles className="w-4 h-4 text-fuchsia-400" />
+                        <TarotIcon className="w-6 h-6 text-fuchsia-400" />
                       </div>
                       <div>
                         <div className="text-[11px] font-black text-white uppercase tracking-widest mb-0.5">Tarot Góc Vũ Trụ</div>
@@ -327,7 +328,7 @@ export default function Header() {
 
                     <Link href={ROUTES.TAROT} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-white/5 transition-all mt-2">
                       <div className="w-10 h-10 rounded-full bg-fuchsia-500/10 flex items-center justify-center border border-fuchsia-500/20">
-                        <Sparkles className="w-5 h-5 text-fuchsia-400" />
+                        <TarotIcon className="w-7 h-7 text-fuchsia-400" />
                       </div>
                       <div>
                         <div className="text-sm font-black text-white uppercase tracking-widest mb-1">Tarot Góc Vũ Trụ</div>
