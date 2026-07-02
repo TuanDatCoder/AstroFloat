@@ -3,6 +3,7 @@
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from 'next/font/google';
 import Link from 'next/link';
 import { Sparkles, History, Calendar, LayoutGrid, ArrowLeft } from 'lucide-react';
+import TarotIcon from '@/components/TarotIcon';
 
 const cormorant = Cormorant_Garamond({ 
   subsets: ['latin', 'vietnamese'],
@@ -42,8 +43,8 @@ export default function TarotLayout({ children }) {
             
             <Link href="/tarot" className="flex items-center gap-3 group">
               <div className="relative">
-                <Sparkles className="w-6 h-6 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)] animate-spin-slow" />
-                <div className="absolute inset-0 bg-purple-400/20 blur-md rounded-full" />
+                <TarotIcon className="w-7 h-7 drop-shadow-[0_0_8px_rgba(168,85,247,0.6)] group-hover:scale-110 transition-transform duration-300" />
+                <div className="absolute inset-0 bg-purple-400/10 blur-md rounded-full -z-10" />
               </div>
               <span className="font-serif text-xl sm:text-2xl font-bold tracking-widest bg-gradient-to-r from-indigo-200 via-purple-200 to-cyan-200 bg-clip-text text-transparent group-hover:brightness-110 transition-all">
                 TAROT GÓC VŨ TRỤ
@@ -95,7 +96,7 @@ export default function TarotLayout({ children }) {
             {/* Brand & Vision */}
             <div className="flex flex-col items-center md:items-start text-center md:text-left">
               <Link href="/tarot" className="flex items-center gap-3 group mb-4">
-                <Sparkles className="w-5 h-5 text-purple-400" />
+                <TarotIcon className="w-6 h-6 drop-shadow-[0_0_6px_rgba(168,85,247,0.5)]" />
                 <span className="font-serif text-lg font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-cyan-200">
                   TAROT GÓC VŨ TRỤ
                 </span>
