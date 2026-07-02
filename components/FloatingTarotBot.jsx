@@ -12,9 +12,13 @@ export default function FloatingTarotBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [suggestion, setSuggestion] = useState(null);
+  const [expression, setExpression] = useState('idle');
 
   // Define suggestion rules based on pathname
   useEffect(() => {
+    // 1. Enter thinking expression immediately on path transition
+    setExpression('thinking');
+
     let activeSuggestion = {
       greeting: "Chào bạn! Mình là Trợ Lý Vũ Trụ 🌌",
       question: "Hôm nay bạn muốn khám phá điều gì về vận mệnh nè?",
@@ -76,23 +80,64 @@ export default function FloatingTarotBot() {
 
     // Auto-open suggestion box when path changes (except on first mount if dismissed)
     const isDismissed = sessionStorage.getItem('assistantDismissed');
-    if (!isDismissed || hasInteracted) {
-      const timer = setTimeout(() => {
+    
+    // Set 2 seconds of thinking/analyzing time for dramatic cute effect
+    const timer = setTimeout(() => {
+      if (!isDismissed || hasInteracted) {
         setIsOpen(true);
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
+        setExpression('happy');
+      } else {
+        setExpression('idle');
+      }
+    }, 2000);
+    
+    return () => clearTimeout(timer);
   }, [pathname, hasInteracted]);
 
+  // Sleepy idle check
+  useEffect(() => {
+    if (isOpen) {
+      setExpression('happy');
+      return;
+    }
+
+    setExpression('idle');
+
+    // After 12 seconds of being closed and idle, the bot falls asleep
+    const sleepyTimer = setTimeout(() => {
+      setExpression('sleepy');
+    }, 12000);
+
+    return () => clearTimeout(sleepyTimer);
+  }, [isOpen]);
+
   const handleToggle = () => {
-    setIsOpen(!isOpen);
+    if (isOpen) {
+      setIsOpen(false);
+      setExpression('idle');
+    } else {
+      setIsOpen(true);
+      setExpression('happy');
+    }
     setHasInteracted(true);
   };
 
   const handleOptionClick = () => {
-    // Keep it open or close depending on path change, but we close it to look responsive
     setIsOpen(false);
+    setExpression('idle');
     setHasInteracted(true);
+  };
+
+  const handleMouseEnter = () => {
+    if (!isOpen) {
+      setExpression('happy'); // Wakes up with a smile
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isOpen) {
+      setExpression('idle'); // Back to normal
+    }
   };
 
   if (!suggestion) return null;
@@ -171,6 +216,8 @@ export default function FloatingTarotBot() {
         {/* Floating Avatar Bot */}
           <button 
             onClick={handleToggle}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border-2 ${isOpen ? 'border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]'} hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-400 hover:scale-110 flex items-center justify-center cursor-pointer relative overflow-hidden group transition-all duration-300 z-50`}
           >
             {/* Inner Mystical Glow */}
@@ -181,7 +228,7 @@ export default function FloatingTarotBot() {
 
             {/* Avatar Icon */}
             <div className="relative z-10 flex flex-col items-center justify-center">
-              <CosmicAIIcon className="w-11 h-11 text-fuchsia-300 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] group-hover:rotate-6 transition-transform" />
+              <CosmicAIIcon className="w-11 h-11 text-fuchsia-300 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] group-hover:rotate-6 transition-transform" expression={expression} />
             </div>
           </button>
       </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CosmicAIIcon({ className = "w-6 h-6", ...props }) {
+export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle", ...props }) {
   return (
     <svg 
       viewBox="0 0 24 24" 
@@ -70,25 +70,75 @@ export default function CosmicAIIcon({ className = "w-6 h-6", ...props }) {
         opacity="0.9"
       />
 
-      {/* Glowing AI Digital Eyes (Bigger, cuter, closer together) */}
-      <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
-      <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
-      
-      {/* Anime Eye Highlights (Sparkle shine) */}
-      <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" />
-      <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" />
+      {/* Dynamic Expressions: Eyes, Mouth, Cheeks & Floating elements */}
+      {expression === 'happy' && (
+        <>
+          {/* Curved Happy Eyes (^^) */}
+          <path d="M7.8 13c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+          <path d="M15 13c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+          
+          {/* Cheerful Cheeks */}
+          <ellipse cx="7.2" cy="14.3" rx="1.2" ry="0.7" fill="#d946ef" fillOpacity="0.8" />
+          <ellipse cx="16.8" cy="14.3" rx="1.2" ry="0.7" fill="#d946ef" fillOpacity="0.8" />
+          
+          {/* Happy Open Mouth */}
+          <path d="M11.2 14.8c.2.5 1.4.5 1.6 0" fill="#22d3ee" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
+        </>
+      )}
 
-      {/* Glowing Blush Cheeks (Cuteness overload) */}
-      <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
-      <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+      {expression === 'sleepy' && (
+        <>
+          {/* Sleeping Closed Eyes (u u) */}
+          <path d="M8 12.8c.2.4.8.4 1 0" stroke="#22d3ee" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+          <path d="M15 12.8c.2.4.8.4 1 0" stroke="#22d3ee" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+          
+          {/* Sleepy zZz animations */}
+          <g className="animate-pulse" style={{ transformOrigin: '19px 4px' }}>
+            <path d="M18 4.5h1.5L18 6h1.5" stroke="#22d3ee" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            <path d="M19.5 2h1L19.5 3h1" stroke="#d946ef" strokeWidth="0.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          </g>
 
-      {/* Happy Smile Mouth */}
-      <path 
-        d="M11.2 14.8c.3.4.9.4 1.6 0" 
-        stroke="#22d3ee" 
-        strokeWidth="1.2" 
-        strokeLinecap="round" 
-      />
+          {/* Neutral Sleepy Mouth */}
+          <line x1="11.5" y1="14.8" x2="12.5" y2="14.8" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+        </>
+      )}
+
+      {expression === 'thinking' && (
+        <>
+          {/* Squinted thinking eyes looking up */}
+          <ellipse cx="9" cy="12.2" rx="1.1" ry="1.4" fill="#22d3ee" />
+          <ellipse cx="15" cy="12.2" rx="1.3" ry="1.6" fill="#22d3ee" />
+          <circle cx="9.2" cy="11.7" r="0.35" fill="#ffffff" />
+          <circle cx="15.2" cy="11.7" r="0.4" fill="#ffffff" />
+          
+          {/* Little floating thinking dots */}
+          <g className="animate-bounce" style={{ transformOrigin: '19px 3px' }}>
+            <circle cx="18" cy="4" r="0.6" fill="#22d3ee" />
+            <circle cx="19.5" cy="3" r="0.6" fill="#d946ef" />
+            <circle cx="21" cy="4" r="0.6" fill="#22d3ee" />
+          </g>
+
+          {/* Puzzled Wavy Mouth */}
+          <path d="M11 14.8c.3-.2.7.2 1 0s.7-.2 1 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+        </>
+      )}
+
+      {expression === 'idle' && (
+        <>
+          {/* Glowing AI Digital Eyes */}
+          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
+          <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
+          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" />
+          <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" />
+          
+          {/* Blush Cheeks */}
+          <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+          <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+
+          {/* Cute Smile */}
+          <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+        </>
+      )}
 
       {/* Antenna (AI Receiver) */}
       <line 
