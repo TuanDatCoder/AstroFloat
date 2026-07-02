@@ -46,7 +46,7 @@ export default function FloatingTarotBot() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
           transition={{ type: "spring", damping: 20, stiffness: 300 }}
-          className="fixed bottom-6 right-6 z-[100] sm:bottom-8 sm:right-8"
+          className="fixed bottom-6 left-6 z-[100] sm:bottom-8 sm:left-8"
         >
           <div 
             className="relative"
@@ -58,10 +58,10 @@ export default function FloatingTarotBot() {
               initial={{ opacity: 0, y: 10, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.5, type: "spring" }}
-              className="absolute bottom-[110%] right-0 mb-3 w-[240px] sm:w-[260px]"
+              className="absolute bottom-[110%] left-0 mb-3 w-[240px] sm:w-[260px]"
             >
               <Link href={ROUTES.TAROT} className="block group">
-                <div className="bg-slate-900 border border-fuchsia-500/30 rounded-2xl p-4 shadow-[0_10px_40px_rgba(217,70,239,0.2)] relative before:content-[''] before:absolute before:-bottom-2 before:right-8 before:w-4 before:h-4 before:bg-slate-900 before:border-b before:border-r before:border-fuchsia-500/30 before:transform before:rotate-45 group-hover:border-fuchsia-400/50 transition-colors duration-300">
+                <div className="bg-slate-900 border border-fuchsia-500/30 rounded-2xl p-4 shadow-[0_10px_40px_rgba(217,70,239,0.2)] relative before:content-[''] before:absolute before:-bottom-2 before:left-8 before:w-4 before:h-4 before:bg-slate-900 before:border-b before:border-r before:border-fuchsia-500/30 before:transform before:rotate-45 group-hover:border-fuchsia-400/50 transition-colors duration-300">
                   <div className="flex items-start gap-3">
                     <div className="w-8 h-8 rounded-full bg-fuchsia-500/20 flex flex-shrink-0 items-center justify-center border border-fuchsia-500/30">
                       <Sparkles className="w-4 h-4 text-fuchsia-400 animate-pulse" />
