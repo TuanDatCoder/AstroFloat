@@ -27,14 +27,24 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StarsBackground from '@/components/StarsBackground';
 import FramerProvider from '@/components/FramerProvider';
+import FloatingTarotBot from '@/components/FloatingTarotBot';
 
 export default function PublicElements({ children }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith('/admin');
   const isTarot = pathname?.startsWith('/tarot');
 
-  if (isAdmin || isTarot) {
+  if (isAdmin) {
     return <>{children}</>;
+  }
+
+  if (isTarot) {
+    return (
+      <>
+        {children}
+        <FloatingTarotBot />
+      </>
+    );
   }
 
   return (
@@ -52,6 +62,9 @@ export default function PublicElements({ children }) {
 
       {/* Footer */}
       <Footer />
+
+      {/* Cầu nối ảo Trợ Lý Vũ Trụ */}
+      <FloatingTarotBot />
     </FramerProvider>
   );
 }

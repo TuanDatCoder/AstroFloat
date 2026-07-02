@@ -1,108 +1,191 @@
 import React, { useState, useEffect } from 'react';
-import { m, AnimatePresence } from 'framer-motion';
-import { X, Sparkles, MessageCircleHeart } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, Compass, Heart, BookOpen, Star, HelpCircle, ChevronRight, MessageSquare, History, Newspaper } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ROUTES } from '@/constants';
 import TarotIcon from '@/components/TarotIcon';
 
 export default function FloatingTarotBot() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [suggestion, setSuggestion] = useState(null);
 
+  // Define suggestion rules based on pathname
   useEffect(() => {
-    // Check if the user has dismissed it in this session
-    const isDismissed = sessionStorage.getItem('tarotBotDismissed');
-    
-    if (!isDismissed) {
-      // Show the bot after a short delay so it feels organic
+    let activeSuggestion = {
+      greeting: "Chào bạn! Mình là Trợ Lý Vũ Trụ 🌌",
+      question: "Hôm nay bạn muốn khám phá điều gì về vận mệnh nè?",
+      options: [
+        { label: "Giải mã cung hoàng đạo", href: ROUTES.ZODIAC, icon: Compass, color: "text-cyan-400 bg-cyan-500/10" },
+        { label: "Xem Thần số học ngày sinh", href: ROUTES.NUMEROLOGY, icon: Star, color: "text-purple-400 bg-purple-500/10" },
+        { label: "Tra cứu Thần số học theo tên", href: ROUTES.NAME_NUMEROLOGY, icon: BookOpen, color: "text-fuchsia-400 bg-fuchsia-500/10" }
+      ]
+    };
+
+    if (pathname === '/') {
+      activeSuggestion = {
+        greeting: "Chào mừng bạn đến với Góc Vũ Trụ! 🌌",
+        question: "Bắt đầu hành trình giải mã bản thân ngay nhé:",
+        options: [
+          { label: "Xem thần số học ngày sinh", href: ROUTES.NUMEROLOGY, icon: Star, color: "text-amber-400 bg-amber-500/10" },
+          { label: "Tra cứu thần số học theo tên", href: ROUTES.NAME_NUMEROLOGY, icon: BookOpen, color: "text-fuchsia-400 bg-fuchsia-500/10" },
+          { label: "Giải mã cung hoàng đạo", href: ROUTES.ZODIAC, icon: Compass, color: "text-cyan-400 bg-cyan-500/10" }
+        ]
+      };
+    } else if (pathname?.startsWith('/tin-tuc')) {
+      activeSuggestion = {
+        greeting: "Bạn đang đọc tin tức tử vi và tâm linh đúng không? 🗞️",
+        question: "Khám phá thêm các góc thú vị khác của vũ trụ:",
+        options: [
+          { label: "Độ hợp nhau các cung hoàng đạo", href: ROUTES.ZODIAC_MATCH, icon: Heart, color: "text-rose-400 bg-rose-500/10" },
+          { label: "Trải bài Tarot Tình Yêu", href: ROUTES.TAROT_SPREAD('tinh-yeu'), icon: TarotIcon, color: "text-purple-400 bg-purple-500/10" },
+          { label: "Xem thần số học cá nhân", href: ROUTES.NUMEROLOGY, icon: Star, color: "text-amber-400 bg-amber-500/10" }
+        ]
+      };
+    } else if (
+      pathname?.startsWith('/do-hop-cung-hoang-dao') || 
+      pathname?.startsWith('/cung-hoang-dao-tuong-hop-nhat') ||
+      pathname?.startsWith('/tat-ca-cap-doi-cung-hoang-dao') ||
+      pathname?.startsWith('/dem-ngay-yeu')
+    ) {
+      activeSuggestion = {
+        greeting: "Tình duyên chòm sao luôn đầy bí ẩn kỳ diệu! 💖",
+        question: "Tìm lời giải mã chi tiết hơn cho tình cảm của bạn:",
+        options: [
+          { label: "Trải bài Tarot Tình Yêu", href: ROUTES.TAROT_SPREAD('tinh-yeu'), icon: TarotIcon, color: "text-purple-400 bg-purple-500/10" },
+          { label: "Cung hoàng đạo tương hợp nhất", href: ROUTES.ZODIAC_BEST_MATCHES, icon: Heart, color: "text-fuchsia-400 bg-fuchsia-500/10" },
+          { label: "Đo độ hợp nhau 2 chòm sao", href: ROUTES.ZODIAC_MATCH, icon: Compass, color: "text-cyan-400 bg-cyan-500/10" }
+        ]
+      };
+    } else if (pathname?.startsWith('/tarot')) {
+      activeSuggestion = {
+        greeting: "Hãy thả lỏng và đón nhận thông điệp Tarot... ✨",
+        question: "Kết hợp thêm các phương pháp dự đoán khác nhé:",
+        options: [
+          { label: "Xem bói độ hợp nhau chòm sao", href: ROUTES.ZODIAC_MATCH, icon: Heart, color: "text-rose-400 bg-rose-500/10" },
+          { label: "Khám phá Vòng Quay Tương Lai", href: ROUTES.PREDICTIONS, icon: Compass, color: "text-cyan-400 bg-cyan-500/10" },
+          { label: "Xem lịch sử rút bài Tarot", href: ROUTES.TAROT_HISTORY, icon: History, color: "text-indigo-400 bg-indigo-500/10" }
+        ]
+      };
+    }
+
+    setSuggestion(activeSuggestion);
+
+    // Auto-open suggestion box when path changes (except on first mount if dismissed)
+    const isDismissed = sessionStorage.getItem('assistantDismissed');
+    if (!isDismissed || hasInteracted) {
       const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 3000);
+        setIsOpen(true);
+      }, 1500);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [pathname, hasInteracted]);
 
-  const handleDismiss = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsVisible(false);
-    sessionStorage.setItem('tarotBotDismissed', 'true');
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+    setHasInteracted(true);
   };
 
-  const messages = [
-    "Hôm nay bạn muốn trải bài ra sao?",
-    "Tình duyên của bạn dạo này thế nào?",
-    "Vũ trụ đang có thông điệp dành cho bạn đấy!"
-  ];
-  
-  // Pick a random message for variety
-  const [message] = useState(() => messages[Math.floor(Math.random() * messages.length)]);
+  const handleOptionClick = () => {
+    // Keep it open or close depending on path change, but we close it to look responsive
+    setIsOpen(false);
+    setHasInteracted(true);
+  };
+
+  if (!suggestion) return null;
 
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <m.div
-          initial={{ opacity: 0, y: 50, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
-          transition={{ type: "spring", damping: 20, stiffness: 300 }}
-          className="fixed bottom-6 right-6 z-[100] sm:bottom-8 sm:right-8"
-        >
-          <div 
-            className="relative"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            {/* The Chat Bubble */}
-            <m.div
-              initial={{ opacity: 0, y: 10, scale: 0.9 }}
+    <div className="fixed bottom-6 right-6 z-[999] sm:bottom-8 sm:right-8 select-none">
+      <div className="relative flex flex-col items-end">
+        {/* Dialogue Bubble */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 15, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 0.5, type: "spring" }}
-              className="absolute bottom-[110%] right-0 mb-3 w-[240px] sm:w-[260px]"
+              exit={{ opacity: 0, y: 10, scale: 0.9 }}
+              transition={{ type: "spring", damping: 25, stiffness: 350 }}
+              className="absolute bottom-[115%] right-0 mb-4 w-[280px] sm:w-[320px] bg-slate-950/90 border border-purple-500/30 rounded-3xl p-5 shadow-[0_15px_50px_rgba(168,85,247,0.25)] backdrop-blur-xl pointer-events-auto"
             >
-              <Link href={ROUTES.TAROT} className="block group">
-                <div className="bg-slate-900 border border-fuchsia-500/30 rounded-2xl p-4 shadow-[0_10px_40px_rgba(217,70,239,0.2)] relative before:content-[''] before:absolute before:-bottom-2 before:right-8 before:w-4 before:h-4 before:bg-slate-900 before:border-b before:border-r before:border-fuchsia-500/30 before:transform before:rotate-45 group-hover:border-fuchsia-400/50 transition-colors duration-300">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-fuchsia-500/20 flex flex-shrink-0 items-center justify-center border border-fuchsia-500/30">
-                      <Sparkles className="w-4 h-4 text-fuchsia-400 animate-pulse" />
-                    </div>
-                    <div>
-                      <p className="text-white text-xs sm:text-sm font-medium leading-relaxed">
-                        {message}
-                      </p>
-                      <span className="text-[10px] font-black tracking-widest text-fuchsia-400 uppercase mt-2 block group-hover:text-fuchsia-300 transition-colors">
-                        Rút bài ngay →
-                      </span>
-                    </div>
+              {/* Mystical Background Glow */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/5 via-transparent to-cyan-500/5 rounded-3xl pointer-events-none" />
+
+              {/* Speech bubble tail */}
+              <div className="absolute -bottom-2 right-8 w-4 h-4 bg-slate-950/90 border-b border-r border-purple-500/30 transform rotate-45 pointer-events-none" />
+
+              <div className="relative z-10 flex flex-col gap-3">
+                {/* Greeting & Header */}
+                <div>
+                  <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-1 flex items-center gap-1.5">
+                    <Sparkles className="w-3 h-3 text-cyan-400 animate-spin-slow" />
+                    Trợ lý ảo
                   </div>
+                  <h4 className="text-white text-xs font-bold leading-relaxed">
+                    {suggestion.greeting}
+                  </h4>
+                  <p className="text-slate-400 text-[11px] leading-relaxed mt-1">
+                    {suggestion.question}
+                  </p>
                 </div>
-              </Link>
-            </m.div>
 
-            {/* The Bot Avatar */}
-            <Link href={ROUTES.TAROT}>
-              <m.div
-                animate={isHovered ? { y: -5 } : { y: [0, -8, 0] }}
-                transition={isHovered ? { duration: 0.2 } : { duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-900 to-purple-900 border-2 border-fuchsia-500/40 shadow-[0_0_20px_rgba(217,70,239,0.3)] flex items-center justify-center cursor-pointer relative overflow-hidden group hover:shadow-[0_0_30px_rgba(217,70,239,0.5)] hover:border-fuchsia-400 transition-all duration-300"
-              >
-                {/* Glow effect inside */}
-                <div className="absolute inset-0 bg-fuchsia-500/20 blur-md rounded-full group-hover:bg-fuchsia-500/30 transition-colors" />
-                <TarotIcon className="w-8 h-8 text-fuchsia-300 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] relative z-10" />
-              </m.div>
-            </Link>
+                {/* Option Buttons */}
+                <div className="flex flex-col gap-2 mt-1">
+                  {suggestion.options.map((option, idx) => {
+                    const IconComponent = option.icon;
+                    return (
+                      <Link 
+                        key={idx} 
+                        href={option.href}
+                        onClick={handleOptionClick}
+                        className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/5 hover:bg-purple-500/10 hover:border-purple-500/30 transition-all duration-300 group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-7 h-7 rounded-xl flex items-center justify-center border border-white/10 ${option.color} group-hover:scale-110 transition-transform`}>
+                            <IconComponent className="w-4 h-4" />
+                          </div>
+                          <span className="text-white text-xs font-semibold tracking-wide text-left">
+                            {option.label}
+                          </span>
+                        </div>
+                        <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
+                      </Link>
+                    );
+                  })}
+                </div>
 
-            {/* Dismiss Button */}
-            <button
-              onClick={handleDismiss}
-              className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-800 border border-slate-600 text-slate-400 flex items-center justify-center hover:bg-slate-700 hover:text-white transition-colors shadow-lg z-20"
-              aria-label="Đóng gợi ý"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
+                {/* Toggle/Collapse Text Button */}
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  className="text-slate-500 hover:text-slate-300 text-[10px] uppercase tracking-widest font-bold mt-1 text-center w-full transition-colors"
+                >
+                  Thu gọn trợ lý ✕
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Floating Avatar Bot */}
+        <motion.div
+          animate={isOpen ? { scale: 1.05 } : { y: [0, -8, 0] }}
+          transition={isOpen ? { duration: 0.2 } : { duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          onClick={handleToggle}
+          className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border-2 ${isOpen ? 'border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]'} hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-400 hover:scale-110 flex items-center justify-center cursor-pointer relative overflow-hidden group transition-all duration-300 z-50`}
+        >
+          {/* Inner Mystical Glow */}
+          <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full group-hover:bg-purple-500/35 transition-colors" />
+
+          {/* Glowing Ring */}
+          <span className="absolute inset-0 rounded-full border border-cyan-400/20 animate-ping group-hover:animate-none opacity-50" />
+
+          {/* Avatar Icon */}
+          <div className="relative z-10 flex flex-col items-center justify-center">
+            <TarotIcon className="w-8 h-8 text-fuchsia-300 drop-shadow-[0_0_6px_rgba(217,70,239,0.7)] group-hover:rotate-6 transition-transform" />
           </div>
-        </m.div>
-      )}
-    </AnimatePresence>
+        </motion.div>
+      </div>
+    </div>
   );
 }
