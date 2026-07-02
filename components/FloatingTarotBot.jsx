@@ -556,23 +556,109 @@ export default function FloatingTarotBot() {
     }
   };
 
-  const getTopicIcon = () => {
+  const getTopic = () => {
     const text = tooltipText?.toLowerCase() || "";
     const path = pathname?.toLowerCase() || "";
     
+    // Check loading first (dizzy/thinking/loading state)
+    if (expression === 'thinking' || expression === 'dizzy') return 'loading';
+    
     if (text.includes("yêu") || text.includes("tình") || text.includes("cặp đôi") || path.includes("yeu") || path.includes("studio")) {
-      return <Heart className="w-4 h-4 text-rose-500 fill-rose-500/20 shrink-0" />;
+      return 'love';
     }
-    if (text.includes("sự nghiệp") || text.includes("công việc") || text.includes("tài chính") || text.includes("học tập") || text.includes("bài viết") || text.includes("đăng ngày") || path.includes("tin-tuc")) {
-      return <Briefcase className="w-4 h-4 text-amber-500 fill-amber-500/20 shrink-0" />;
+    if (text.includes("đăng ngày") || text.includes("lượt xem") || text.includes("bài viết")) {
+      return 'news';
+    }
+    if (text.includes("sự nghiệp") || text.includes("công việc") || text.includes("tài chính") || text.includes("học tập") || path.includes("tin-tuc")) {
+      return 'career';
     }
     if (text.includes("thần số") || text.includes("số") || path.includes("than-so-hoc") || path.includes("numerology")) {
-      return <Sparkles className="w-4 h-4 text-fuchsia-400 shrink-0" />;
+      return 'numerology';
     }
     if (text.includes("cung") || text.includes("chòm sao") || text.includes("hoàng đạo") || path.includes("cung-hoang-dao") || path.includes("zodiac")) {
-      return <Compass className="w-4 h-4 text-cyan-400 shrink-0" />;
+      return 'zodiac';
     }
     return null;
+  };
+
+  const CuteTopicIcon = ({ topic }) => {
+    if (!topic) return null;
+    
+    const iconProps = {
+      className: "w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      xmlns: "http://www.w3.org/2000/svg"
+    };
+
+    switch (topic) {
+      case 'love':
+        return (
+          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(244,63,94,0.6)]">
+            <path d="M12 21s-6.5-4.5-8.5-7.5s-1-6.5 1.5-8.5s6 0 7 2.5c1-2.5 4.5-4.5 7-2.5s3.5 5.5 1.5 8.5s-8.5 7.5-8.5 7.5z" fill="#f43f5e" />
+            <path d="M3 10c-1-1-2 0-2 1s1.5 2 3 2.5M21 10c1-1 2 0 2 1s-1.5 2-3 2.5" stroke="#ffe4e6" strokeWidth="1.2" strokeLinecap="round" />
+            <circle cx="9.5" cy="9.5" r="0.6" fill="#fff" />
+            <circle cx="14.5" cy="9.5" r="0.6" fill="#fff" />
+            <ellipse cx="8" cy="11" rx="1" ry="0.6" fill="#f472b6" />
+            <ellipse cx="16" cy="11" rx="1" ry="0.6" fill="#f472b6" />
+          </svg>
+        );
+      case 'zodiac':
+        return (
+          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]">
+            <ellipse cx="12" cy="12" rx="5.5" ry="5.5" fill="#22d3ee" />
+            <path d="M2.5 13.5c4-2 15-2 19 0" stroke="#facc15" strokeWidth="1.8" strokeLinecap="round" />
+            <circle cx="10" cy="11.5" r="0.6" fill="#0f172a" />
+            <circle cx="14" cy="11.5" r="0.6" fill="#0f172a" />
+            <path d="M11.5 13.5c.3.4.7.4 1 0" stroke="#0f172a" strokeWidth="0.8" strokeLinecap="round" />
+            <path d="M19 6l0.8 1.2 1.2 0.8-1.2 0.8-0.8 1.2-0.8-1.2-1.2-0.8 1.2-0.8z" fill="#facc15" />
+          </svg>
+        );
+      case 'career':
+        return (
+          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(249,115,22,0.6)]">
+            <rect x="5" y="8" width="14" height="11" rx="2.5" fill="#f97316" />
+            <path d="M9 8V5.5c0-.8.7-1.5 1.5-1.5h3c.8 0 1.5.7 1.5 1.5V8" stroke="#ffedd5" strokeWidth="1.5" />
+            <circle cx="9" cy="12.5" r="0.6" fill="#fff" />
+            <circle cx="15" cy="12.5" r="0.6" fill="#fff" />
+            <path d="M11 14.5h2" stroke="#fff" strokeWidth="1" strokeLinecap="round" />
+            <circle cx="12" cy="8" r="1.2" fill="#facc15" />
+          </svg>
+        );
+      case 'numerology':
+        return (
+          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(217,70,239,0.6)]">
+            <circle cx="12" cy="11" r="6" fill="#d946ef" />
+            <rect x="8" y="17" width="8" height="3" rx="1" fill="#475569" />
+            <path d="M9.5 9.5c.5-.7 1.5-.7 2 0" stroke="#fff" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <text x="12" y="13.5" fill="#fff" fontSize="7" fontWeight="bold" textAnchor="middle">7</text>
+            <path d="M4 6.5l0.4 0.6 0.6 0.4-0.6 0.4-0.4 0.6-0.4-0.6-0.6-0.4 0.6-0.4z" fill="#facc15" />
+            <path d="M20 15.5l0.4 0.6 0.6 0.4-0.6 0.4-0.4 0.6-0.4-0.6-0.6-0.4 0.6-0.4z" fill="#facc15" />
+          </svg>
+        );
+      case 'news':
+        return (
+          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]">
+            <rect x="3" y="6" width="18" height="12" rx="2" fill="#10b981" />
+            <path d="M3 7l9 6 9-6" stroke="#ecfdf5" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="9" cy="14" r="0.6" fill="#fff" />
+            <circle cx="15" cy="14" r="0.6" fill="#fff" />
+            <path d="M11.5 15.5c.3.3.7.3 1 0" stroke="#fff" strokeWidth="0.8" strokeLinecap="round" />
+          </svg>
+        );
+      case 'loading':
+        return (
+          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto animate-spin drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]">
+            <circle cx="12" cy="12" r="4" fill="#a855f7" />
+            <circle cx="12" cy="5" r="1.5" fill="#facc15" />
+            <circle cx="12" cy="19" r="1.5" fill="#22d3ee" />
+            <circle cx="5" cy="12" r="1.5" fill="#d946ef" />
+            <circle cx="19" cy="12" r="1.5" fill="#10b981" />
+          </svg>
+        );
+      default:
+        return null;
+    }
   };
 
   if (!suggestion) return null;
@@ -656,8 +742,8 @@ export default function FloatingTarotBot() {
                 {/* Speech bubble pointer */}
                 <div className={`absolute -bottom-2 ${isOnLeft ? 'left-8 border-b-2 border-l-2' : 'right-8 border-b-2 border-r-2'} w-4 h-4 bg-slate-900 border-cyan-400 transform ${isOnLeft ? '-rotate-45' : 'rotate-45'} pointer-events-none`} />
                 
-                <div className="flex items-center justify-center gap-1.5 flex-wrap">
-                  {getTopicIcon()}
+                <div className="text-center">
+                  <CuteTopicIcon topic={getTopic()} />
                   <p className="text-cyan-50 text-[13px] sm:text-[14px] leading-snug font-bold tracking-wide">
                     {tooltipText}
                   </p>
