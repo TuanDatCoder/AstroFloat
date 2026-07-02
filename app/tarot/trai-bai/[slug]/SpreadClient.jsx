@@ -578,7 +578,7 @@ export default function SpreadClient({ topicSlug }) {
                     <div className={`${result.cards.length === 1 ? 'w-full max-w-2xl text-center' : 'md:col-span-9 text-left'}`}>
                       <div className="tarot-glass border-indigo-950/20 rounded-2xl p-6 relative overflow-hidden group">
                         {/* Background Watermark Icon */}
-                        <TarotIcon className="absolute -bottom-6 -right-6 w-40 h-40 text-purple-900/10 transform rotate-12 transition-transform duration-700 group-hover:scale-110 group-hover:text-purple-900/20 pointer-events-none" />
+                        <TarotIcon className="absolute -bottom-6 -right-6 w-40 h-40 opacity-5 transform rotate-12 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-10 pointer-events-none" />
                         
                         <div className={`relative z-10 flex flex-wrap items-center ${result.cards.length === 1 ? 'justify-center' : 'justify-between'} gap-4 mb-3 border-b border-indigo-950/10 pb-2`}>
                           <div className="flex items-center gap-2">
