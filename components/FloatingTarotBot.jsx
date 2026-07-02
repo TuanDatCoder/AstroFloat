@@ -28,6 +28,7 @@ export default function FloatingTarotBot() {
   // Scroll to Top Rocket states
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isLaunching, setIsLaunching] = useState(false);
+  const [hideAll, setHideAll] = useState(false);
 
   // Get default expression depending on pathname
   const getPageExpression = () => {
@@ -44,13 +45,28 @@ export default function FloatingTarotBot() {
   // Scroll listener to activate scroll to top arrow
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      const scrollTop = window.scrollY;
+      const scrollableHeight = docHeight - winHeight;
+
+      // 1. Hide the entire bot at the absolute bottom (within 25px) to clear the footer
+      if (scrollableHeight > 60 && scrollTop >= scrollableHeight - 25) {
+        setHideAll(true);
+      } else {
+        setHideAll(false);
+      }
+
+      // 2. Show the rocket/scroll to top arrow if scrolled past 2/3 of scrollable height
+      const twoThirdsHeight = scrollableHeight * (2 / 3);
+      if (scrollableHeight > 100 && scrollTop > twoThirdsHeight) {
         setShowScrollTop(true);
       } else {
         setShowScrollTop(false);
       }
     };
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Trigger once initially
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -393,7 +409,7 @@ export default function FloatingTarotBot() {
   if (!suggestion) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-[999] sm:bottom-8 sm:right-8 select-none">
+    <div className={`fixed bottom-6 right-6 z-[999] sm:bottom-8 sm:right-8 select-none transition-all duration-300 ${hideAll ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'}`}>
       <div className="relative flex flex-col items-end">
         
         {/* Type 1: Dialogue Bubble Menu (Opens manually on click) */}
