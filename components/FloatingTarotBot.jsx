@@ -585,7 +585,7 @@ export default function FloatingTarotBot() {
     if (!topic) return null;
     
     const iconProps = {
-      className: "w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]",
+      className: "w-6 h-6",
       viewBox: "0 0 24 24",
       fill: "none",
       xmlns: "http://www.w3.org/2000/svg"
@@ -594,7 +594,7 @@ export default function FloatingTarotBot() {
     switch (topic) {
       case 'love':
         return (
-          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(244,63,94,0.6)]">
+          <svg {...iconProps}>
             <path d="M12 21s-6.5-4.5-8.5-7.5s-1-6.5 1.5-8.5s6 0 7 2.5c1-2.5 4.5-4.5 7-2.5s3.5 5.5 1.5 8.5s-8.5 7.5-8.5 7.5z" fill="#f43f5e" />
             <path d="M3 10c-1-1-2 0-2 1s1.5 2 3 2.5M21 10c1-1 2 0 2 1s-1.5 2-3 2.5" stroke="#ffe4e6" strokeWidth="1.2" strokeLinecap="round" />
             <circle cx="9.5" cy="9.5" r="0.6" fill="#fff" />
@@ -605,7 +605,7 @@ export default function FloatingTarotBot() {
         );
       case 'zodiac':
         return (
-          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]">
+          <svg {...iconProps}>
             <ellipse cx="12" cy="12" rx="5.5" ry="5.5" fill="#22d3ee" />
             <path d="M2.5 13.5c4-2 15-2 19 0" stroke="#facc15" strokeWidth="1.8" strokeLinecap="round" />
             <circle cx="10" cy="11.5" r="0.6" fill="#0f172a" />
@@ -616,7 +616,7 @@ export default function FloatingTarotBot() {
         );
       case 'career':
         return (
-          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(249,115,22,0.6)]">
+          <svg {...iconProps}>
             <rect x="5" y="8" width="14" height="11" rx="2.5" fill="#f97316" />
             <path d="M9 8V5.5c0-.8.7-1.5 1.5-1.5h3c.8 0 1.5.7 1.5 1.5V8" stroke="#ffedd5" strokeWidth="1.5" />
             <circle cx="9" cy="12.5" r="0.6" fill="#fff" />
@@ -627,7 +627,7 @@ export default function FloatingTarotBot() {
         );
       case 'numerology':
         return (
-          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(217,70,239,0.6)]">
+          <svg {...iconProps}>
             <circle cx="12" cy="11" r="6" fill="#d946ef" />
             <rect x="8" y="17" width="8" height="3" rx="1" fill="#475569" />
             <path d="M9.5 9.5c.5-.7 1.5-.7 2 0" stroke="#fff" strokeWidth="1.2" strokeLinecap="round" fill="none" />
@@ -638,7 +638,7 @@ export default function FloatingTarotBot() {
         );
       case 'news':
         return (
-          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]">
+          <svg {...iconProps}>
             <rect x="3" y="6" width="18" height="12" rx="2" fill="#10b981" />
             <path d="M3 7l9 6 9-6" stroke="#ecfdf5" strokeWidth="1.5" strokeLinecap="round" />
             <circle cx="9" cy="14" r="0.6" fill="#fff" />
@@ -648,7 +648,7 @@ export default function FloatingTarotBot() {
         );
       case 'loading':
         return (
-          <svg {...iconProps} className="w-8 h-8 mb-2 mx-auto animate-spin drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]">
+          <svg {...iconProps}>
             <circle cx="12" cy="12" r="4" fill="#a855f7" />
             <circle cx="12" cy="5" r="1.5" fill="#facc15" />
             <circle cx="12" cy="19" r="1.5" fill="#22d3ee" />
@@ -732,18 +732,22 @@ export default function FloatingTarotBot() {
         {/* Type 2: Proactive Short Tooltip Chat Bubble (Highly Visible Neon Style, no emojis) */}
         <AnimatePresence>
           {isTooltipOpen && !isOpen && !showScrollTop && (
-            <Link href={tooltipHref} className={`pointer-events-auto block absolute bottom-[115%] ${isOnLeft ? 'left-0' : 'right-0'} mb-4 z-[1000]`}>
+            <Link href={tooltipHref} className={`pointer-events-auto block absolute bottom-[115%] ${isOnLeft ? 'left-0' : 'right-0'} mb-4 z-[1000] group`}>
               <motion.div
                 initial={{ opacity: 0, y: 15, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                className="w-[210px] sm:w-[245px] bg-slate-900 border-2 border-cyan-400 rounded-2xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.35)] backdrop-blur-xl cursor-pointer hover:border-purple-400 hover:shadow-[0_0_25px_rgba(168,85,247,0.45)] transition-all duration-300 relative text-center"
+                className="w-[210px] sm:w-[245px] bg-slate-900 border-2 border-cyan-400 rounded-2xl pt-6 pb-4 px-4 shadow-[0_0_20px_rgba(34,211,238,0.35)] backdrop-blur-xl cursor-pointer hover:border-purple-400 hover:shadow-[0_0_25px_rgba(168,85,247,0.45)] transition-all duration-300 relative text-center"
               >
+                {/* Cute Badge centered on the top border */}
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-slate-900 border-2 border-cyan-400 rounded-full p-1.5 shadow-[0_0_12px_rgba(34,211,238,0.4)] z-[1001] flex items-center justify-center transition-all duration-300 group-hover:border-purple-400 group-hover:shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+                  <CuteTopicIcon topic={getTopic()} />
+                </div>
+
                 {/* Speech bubble pointer */}
-                <div className={`absolute -bottom-2 ${isOnLeft ? 'left-8 border-b-2 border-l-2' : 'right-8 border-b-2 border-r-2'} w-4 h-4 bg-slate-900 border-cyan-400 transform ${isOnLeft ? '-rotate-45' : 'rotate-45'} pointer-events-none`} />
+                <div className={`absolute -bottom-2 ${isOnLeft ? 'left-8 border-b-2 border-l-2' : 'right-8 border-b-2 border-r-2'} w-4 h-4 bg-slate-900 border-cyan-400 transform ${isOnLeft ? '-rotate-45' : 'rotate-45'} pointer-events-none transition-all duration-300 group-hover:border-purple-400`} />
                 
                 <div className="text-center">
-                  <CuteTopicIcon topic={getTopic()} />
                   <p className="text-cyan-50 text-[13px] sm:text-[14px] leading-snug font-bold tracking-wide">
                     {tooltipText}
                   </p>
