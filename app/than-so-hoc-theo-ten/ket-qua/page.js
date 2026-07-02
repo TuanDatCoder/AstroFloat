@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
 import { nameNumerologyService } from '@/services/nameNumerologyService';
 import { ROUTES } from '@/constants';
 
