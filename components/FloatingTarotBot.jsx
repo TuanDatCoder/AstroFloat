@@ -390,8 +390,8 @@ export default function FloatingTarotBot() {
           return 90;
         }
 
-        // Mood shifts every 15 seconds (15s, 30s, 45s, etc.)
-        if (nextSec % 15 === 0) {
+        // Mood shifts every 10 seconds (10s, 20s, 30s, etc.)
+        if (nextSec % 10 === 0) {
           // Trigger proactive tooltip at 30 seconds
           if (nextSec === 30) {
             const tip = getRandomTip();
