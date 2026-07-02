@@ -74,8 +74,8 @@ export default function Footer() {
           <h2 className="text-white font-black text-xs tracking-[0.3em] uppercase mb-8 opacity-70">Sản Phẩm</h2>
           <ul className="space-y-4 w-full flex flex-col items-start">
             {[
-              { href: 'https://tinhyeu.gocvutru.com/', label: 'Đếm Ngày Yêu', hoverColor: 'hover:text-rose-400', iconColor: 'text-rose-400', external: true },
-              { href: ROUTES.TAROT, label: 'Tarot Vũ Trụ', hoverColor: 'hover:text-fuchsia-400', iconColor: 'text-fuchsia-400' },
+              { href: ROUTES.DEM_NGAY_YEU, label: 'Đếm Ngày Yêu', hoverColor: 'hover:text-rose-400', iconColor: 'text-rose-400' },
+              { href: ROUTES.TAROT, label: 'Tarot Góc Vũ Trụ', hoverColor: 'hover:text-fuchsia-400', iconColor: 'text-fuchsia-400' },
               { href: ROUTES.GOC_VU_TRU, label: 'Về Góc Vũ Trụ', hoverColor: 'hover:text-cyan-400', iconColor: 'text-cyan-400' }
             ].map((link) => (
               <li key={link.href}>
@@ -95,7 +95,7 @@ export default function Footer() {
               <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
                 <Mail className="w-4 h-4" />
               </div>
-              <span className="hover:text-cyan-300 transition-colors cursor-pointer">devprojectlabvn@gmail.com</span>
+              <span className="hover:text-cyan-300 transition-colors cursor-pointer break-all">devprojectlabvn@gmail.com</span>
             </div>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function Footer() {
           </p>
           <div className="flex flex-col items-start gap-2">
             <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">Hợp tác & Feedback</span>
-            <a href="mailto:devprojectlabvn@gmail.com" className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors font-medium">
+            <a href="mailto:devprojectlabvn@gmail.com" className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors font-medium break-all">
               devprojectlabvn@gmail.com
             </a>
           </div>
