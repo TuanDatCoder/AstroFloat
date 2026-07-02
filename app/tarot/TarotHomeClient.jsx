@@ -176,8 +176,9 @@ export default function TarotHomeClient() {
         <div className="flex items-center justify-between mb-8 border-b border-indigo-950/20 pb-4">
           <div className="flex items-center gap-3">
             <div className="w-1.5 h-6 bg-purple-500 rounded-full" />
-            <h2 className="font-serif text-xl sm:text-2xl font-bold tracking-widest text-white">
-              <span className="text-purple-400 mr-1.5 font-black">1.</span>CHỌN GIỌNG ĐIỆU GIẢI NGHĨA
+            <h2 className="font-serif text-xl sm:text-2xl font-bold tracking-widest text-white flex items-center">
+              <span className="font-sans text-purple-400 mr-2 font-black text-2xl sm:text-3xl">1.</span>
+              <span className="pt-1">CHỌN GIỌNG ĐIỆU GIẢI NGHĨA</span>
             </h2>
           </div>
           <span className="text-xs tracking-wider text-slate-400 font-serif hidden sm:inline">VĂN PHONG DIỄN ĐẠT CỦA BÀI ĐỌC</span>
@@ -231,8 +232,9 @@ export default function TarotHomeClient() {
         <div className="flex items-center justify-between mb-8 border-b border-indigo-950/20 pb-4">
           <div className="flex items-center gap-3">
             <div className="w-1.5 h-6 bg-purple-500 rounded-full" />
-            <h2 className="font-serif text-xl sm:text-2xl font-bold tracking-widest text-white">
-              <span className="text-purple-400 mr-1.5 font-black">2.</span>CHỌN CHỦ ĐỀ TRẢI BÀI
+            <h2 className="font-serif text-xl sm:text-2xl font-bold tracking-widest text-white flex items-center">
+              <span className="font-sans text-purple-400 mr-2 font-black text-2xl sm:text-3xl">2.</span>
+              <span className="pt-1">CHỌN CHỦ ĐỀ TRẢI BÀI</span>
             </h2>
           </div>
           <div className="flex items-center gap-4">

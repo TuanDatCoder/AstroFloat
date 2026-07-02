@@ -290,7 +290,7 @@ export default function HomeClient() {
                 {/* Background glow */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-purple-500/5 blur-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                 
-                <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 overflow-hidden shadow-[0_0_20px_rgba(168,85,247,0.3)] bg-slate-800">
+                <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 overflow-hidden shadow-[0_0_20px_rgba(168,85,247,0.3)] bg-purple-500/10 border border-purple-500/20">
                   <TarotIcon className="w-12 h-12 text-purple-400" />
                 </div>
                 <h3 className="relative z-10 text-2xl md:text-3xl lg:text-4xl font-black text-white mb-3 uppercase tracking-tight group-hover:text-purple-400 transition-colors">
