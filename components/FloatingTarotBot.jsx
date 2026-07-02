@@ -348,21 +348,6 @@ export default function FloatingTarotBot() {
         // Mood shifts at 25s, 65s (adds driving, reading, dancing & coffee)
         else if (nextSec === 25 || nextSec === 65) {
           const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee'];
-          const chosen = moods[Math.floor(Math.random() * moods.length)]);
-          setExpression(chosen);
-          
-          setTimeout(() => {
-            setExpression((curr) => curr === 'sleepy' ? 'sleepy' : 'idle');
-          }, 4000);
-        }
-
-        return nextSec;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [isOpen, pathname, isHovered]);xtSec === 80) {
-          const moods = ['wink', 'excited', 'happy', 'shocked', 'driving', 'reading', 'dancing', 'coffee'];
           const chosen = moods[Math.floor(Math.random() * moods.length)];
           setExpression(chosen);
           
