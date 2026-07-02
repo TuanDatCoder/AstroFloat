@@ -13,6 +13,7 @@ export default function FloatingTarotBot() {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [suggestion, setSuggestion] = useState(null);
   const [expression, setExpression] = useState('idle');
+  const [isHovered, setIsHovered] = useState(false);
 
   // Get default expression depending on pathname
   const getPageExpression = () => {
@@ -117,22 +118,41 @@ export default function FloatingTarotBot() {
     return () => clearTimeout(timer);
   }, [pathname, hasInteracted]);
 
-  // Sleepy idle check
+  // Sleepy idle check & periodic changes
   useEffect(() => {
+    if (isHovered) {
+      setExpression('happy');
+      return;
+    }
+
     if (isOpen) {
       setExpression(getPageExpression());
       return;
     }
 
     setExpression('idle');
+    let seconds = 0;
 
-    // After 12 seconds of being closed and idle, the bot falls asleep
-    const sleepyTimer = setTimeout(() => {
-      setExpression('sleepy');
-    }, 12000);
+    const interval = setInterval(() => {
+      seconds += 5;
+      
+      if (seconds >= 60) {
+        setExpression('sleepy');
+        clearInterval(interval);
+      } else if (seconds === 30) {
+        const moods = ['happy', 'wink', 'excited'];
+        const chosen = moods[Math.floor(Math.random() * moods.length)];
+        setExpression(chosen);
+        
+        // Return to idle after 4 seconds to create a transient mood swing
+        setTimeout(() => {
+          setExpression((curr) => (curr === 'sleepy' || (curr === 'happy' && isOpen)) ? curr : 'idle');
+        }, 4000);
+      }
+    }, 5000); // Check every 5 seconds for precise timing
 
-    return () => clearTimeout(sleepyTimer);
-  }, [isOpen, pathname]);
+    return () => clearInterval(interval);
+  }, [isOpen, pathname, isHovered]);
 
   const handleToggle = () => {
     if (isOpen) {
@@ -152,15 +172,11 @@ export default function FloatingTarotBot() {
   };
 
   const handleMouseEnter = () => {
-    if (!isOpen) {
-      setExpression('happy'); // Wakes up with a smile
-    }
+    setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    if (!isOpen) {
-      setExpression('idle'); // Back to normal
-    }
+    setIsHovered(false);
   };
 
   if (!suggestion) return null;

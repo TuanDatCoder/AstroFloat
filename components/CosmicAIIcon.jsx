@@ -192,6 +192,54 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
         </>
       )}
 
+      {expression === 'wink' && (
+        <>
+          {/* Left eye open, Right eye winking curve */}
+          <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" />
+          <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" />
+          <path d="M14 13c.2.4.8.4 1 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+          
+          {/* Cute blush cheeks */}
+          <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+          <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+
+          {/* Winking Smile */}
+          <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+        </>
+      )}
+
+      {expression === 'excited' && (
+        <>
+          {/* Shiny Star Eyes */}
+          <path d="M9 11.3l.4.9.9.4-.9.4-.4.9-.4-.9-.9-.4.9-.4Z" fill="#22d3ee" />
+          <path d="M15 11.3l.4.9.9.4-.9.4-.4.9-.4-.9-.9-.4.9-.4Z" fill="#22d3ee" />
+          
+          {/* Deep Excited Blush */}
+          <ellipse cx="7.2" cy="14.3" rx="1.3" ry="0.8" fill="#d946ef" fillOpacity="0.8" />
+          <ellipse cx="16.8" cy="14.3" rx="1.3" ry="0.8" fill="#d946ef" fillOpacity="0.8" />
+
+          {/* Wide Happy Mouth */}
+          <path d="M11 14.8c.2.6 1.8.6 2 0" fill="#22d3ee" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
+
+          {/* Sparkles floating around */}
+          <g className="animate-bounce" style={{ transformOrigin: '19px 3px' }}>
+            <circle cx="18" cy="4" r="0.6" fill="#22d3ee" />
+            <circle cx="5" cy="5" r="0.6" fill="#d946ef" />
+          </g>
+        </>
+      )}
+
+      {expression === 'shocked' && (
+        <>
+          {/* Cross Eyes (X X) */}
+          <path d="M8 11.8l2 2M10 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M14 11.8l2 2M16 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
+          
+          {/* Gasp Mouth (O) */}
+          <circle cx="12" cy="14.8" r="0.8" stroke="#22d3ee" strokeWidth="1.2" fill="none" />
+        </>
+      )}
+
       {expression === 'idle' && (
         <>
           {/* Glowing AI Digital Eyes */}
