@@ -576,23 +576,29 @@ export default function SpreadClient({ topicSlug }) {
 
                     {/* Explanations Details */}
                     <div className={`${result.cards.length === 1 ? 'w-full max-w-2xl text-center' : 'md:col-span-9 text-left'}`}>
-                      <div className="tarot-glass border-indigo-950/20 rounded-2xl p-6">
-                        <div className={`flex flex-wrap items-center ${result.cards.length === 1 ? 'justify-center' : 'justify-between'} gap-4 mb-3 border-b border-indigo-950/10 pb-2`}>
-                          <span className="font-serif text-[10px] tracking-widest uppercase text-purple-400 font-black">
-                            VỊ TRÍ {c.position || (i + 1)}: {c.position_name}
-                          </span>
+                      <div className="tarot-glass border-indigo-950/20 rounded-2xl p-6 relative overflow-hidden group">
+                        {/* Background Watermark Icon */}
+                        <TarotIcon className="absolute -bottom-6 -right-6 w-40 h-40 text-purple-900/10 transform rotate-12 transition-transform duration-700 group-hover:scale-110 group-hover:text-purple-900/20 pointer-events-none" />
+                        
+                        <div className={`relative z-10 flex flex-wrap items-center ${result.cards.length === 1 ? 'justify-center' : 'justify-between'} gap-4 mb-3 border-b border-indigo-950/10 pb-2`}>
+                          <div className="flex items-center gap-2">
+                            <TarotIcon className="w-4 h-4 text-purple-400" />
+                            <span className="font-serif text-[10px] tracking-widest uppercase text-purple-400 font-black">
+                              VỊ TRÍ {c.position || (i + 1)}: {c.position_name}
+                            </span>
+                          </div>
                           <span className="text-xs uppercase font-serif tracking-widest text-cyan-300 font-bold bg-purple-950/30 px-2 py-0.5 rounded border border-indigo-900/30">
                             {c.orientation === 'reversed' ? 'Ngược (Reversed)' : 'Xuôi (Upright)'}
                           </span>
                         </div>
 
-                        <h4 className="font-serif text-lg font-black text-white tracking-widest mb-3 uppercase">
+                        <h4 className="relative z-10 font-serif text-lg font-black text-white tracking-widest mb-3 uppercase">
                           {c.card_name}
                         </h4>
 
                         {/* Keywords */}
                         {c.keywords && Array.isArray(c.keywords) && (
-                          <div className="flex flex-wrap gap-1.5 mb-4">
+                          <div className="relative z-10 flex flex-wrap gap-1.5 mb-4">
                             {c.keywords.map((kw, kIdx) => (
                               <span key={kIdx} className="text-[9px] uppercase font-bold tracking-widest text-cyan-300/80 bg-purple-950/30 border border-[#0b0f24]/30 px-2 py-0.5 rounded">
                                 {kw}
@@ -601,11 +607,11 @@ export default function SpreadClient({ topicSlug }) {
                           </div>
                         )}
 
-                        <p className="text-xs sm:text-sm text-slate-300 font-medium leading-relaxed italic border-l border-purple-500/30 pl-3 mb-4 bg-purple-500/[0.02] py-0.5">
+                        <p className="relative z-10 text-xs sm:text-sm text-slate-300 font-medium leading-relaxed italic border-l border-purple-500/30 pl-3 mb-4 bg-purple-500/[0.02] py-0.5">
                           Thông điệp: {c.short_meaning}
                         </p>
 
-                        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        <p className="relative z-10 text-xs sm:text-sm text-slate-300 leading-relaxed">
                           {c.long_meaning}
                         </p>
                       </div>

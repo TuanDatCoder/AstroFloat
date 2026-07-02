@@ -148,7 +148,7 @@ export default function TarotHomeClient() {
           transition={{ duration: 0.6 }}
           className="inline-flex items-center gap-2 border border-indigo-950/40 rounded-full px-4.5 py-1.5 bg-indigo-950/25 mb-6 text-slate-300 text-xs sm:text-sm tracking-widest font-serif"
         >
-          <TarotIcon className="w-5 h-5 text-purple-400" />
+          <TarotIcon className="w-7 h-7 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.4)]" />
           KẾT NỐI KHÔNG GIAN TÂM LINH
         </motion.div>
         
@@ -177,7 +177,7 @@ export default function TarotHomeClient() {
           <div className="flex items-center gap-3">
             <div className="w-1.5 h-6 bg-purple-500 rounded-full" />
             <h2 className="font-serif text-xl sm:text-2xl font-bold tracking-widest text-white">
-              <span className="font-sans text-purple-400 mr-1.5">1.</span>CHỌN GIỌNG ĐIỆU GIẢI NGHĨA
+              <span className="text-purple-400 mr-1.5 font-black">1.</span>CHỌN GIỌNG ĐIỆU GIẢI NGHĨA
             </h2>
           </div>
           <span className="text-xs tracking-wider text-slate-400 font-serif hidden sm:inline">VĂN PHONG DIỄN ĐẠT CỦA BÀI ĐỌC</span>
@@ -232,7 +232,7 @@ export default function TarotHomeClient() {
           <div className="flex items-center gap-3">
             <div className="w-1.5 h-6 bg-purple-500 rounded-full" />
             <h2 className="font-serif text-xl sm:text-2xl font-bold tracking-widest text-white">
-              <span className="font-sans text-purple-400 mr-1.5">2.</span>CHỌN CHỦ ĐỀ TRẢI BÀI
+              <span className="text-purple-400 mr-1.5 font-black">2.</span>CHỌN CHỦ ĐỀ TRẢI BÀI
             </h2>
           </div>
           <div className="flex items-center gap-4">
