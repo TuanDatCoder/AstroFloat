@@ -109,6 +109,9 @@ export default function SpreadClient({ topicSlug }) {
   const handleRevealReading = async () => {
     setLoading(true);
     setGameState('revealing');
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: 'calculating' }));
+    }
 
     try {
       // Gọi API bốc bài qua DB function
@@ -119,6 +122,9 @@ export default function SpreadClient({ topicSlug }) {
         setResult(reading);
         setGameState('done');
         setLoading(false);
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: 'tarot' }));
+        }
         // Lưu kết quả hiện tại
         if (typeof window !== 'undefined') {
           localStorage.setItem(`astrofloat_tarot_current_${topicSlug}`, JSON.stringify({
@@ -244,6 +250,9 @@ export default function SpreadClient({ topicSlug }) {
     if (!result) return;
     setAiLoading(true);
     setAiError(null);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: 'calculating' }));
+    }
 
     const stylesMap = { 1: 'genz', 2: 'healing', 3: 'deep', 4: 'toxic' };
     const styleName = stylesMap[styleId] || 'healing';
@@ -280,6 +289,9 @@ export default function SpreadClient({ topicSlug }) {
       setAiError(e.message || 'Lỗi mạng khi kết nối với AI.');
     } finally {
       setAiLoading(false);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: 'tarot' }));
+      }
     }
   };
 
