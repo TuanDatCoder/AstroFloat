@@ -420,7 +420,7 @@ export default function HomeClient() {
       {/* Floating Badge to /goc-vu-tru */}
       <AnimatePresence>
         {showBadge && (
-          <div className="fixed bottom-6 right-6 z-[99]">
+          <div className="fixed bottom-6 left-6 sm:bottom-8 sm:left-8 z-[99]">
             <Link href={ROUTES.GOC_VU_TRU}>
               <m.div
                 initial={{ y: 50, opacity: 0 }}
