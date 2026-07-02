@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Heart, Sparkles, ArrowRight, ShieldCheck, Code, User, Compass, Star, Infinity, Eye } from 'lucide-react';
-
+import TarotIcon from '@/components/TarotIcon';
 export const metadata = {
   title: 'Family Love Studio - Sáng tạo công cụ tâm linh và tình yêu | Góc Vũ Trụ',
   description: 'Khám phá hệ sinh thái sản phẩm được sáng tạo bởi Family Love Studio và nhà phát triển TuanDatCoder. Trải nghiệm Đếm Ngày Yêu, Thần số học, Cung hoàng đạo và Tarot Góc Vũ Trụ.',
@@ -94,7 +94,7 @@ export default function FamilyLoveStudioPage() {
             <div className="relative z-10 p-8 flex flex-col h-full justify-between">
               <div>
                 <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center border border-purple-500/20 mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Sparkles className="w-6 h-6 text-purple-400" />
+                  <TarotIcon className="w-6 h-6 text-purple-400" />
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-3">Tarot Góc Vũ Trụ</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6 font-light">
