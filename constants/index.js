@@ -220,6 +220,7 @@ export const ROUTES = {
   NEWS_DETAIL: (slug) => `/tin-tuc/${slug}`,
   ZODIAC_DATE_SEO: (day, month) => `/cung-hoang-dao/sinh-ngay-${day}-thang-${month}-la-cung-gi`,
   FAMILY_LOVE_STUDIO: '/family-love-studio',
+  DEM_NGAY_YEU: '/dem-ngay-yeu',
   PREDICTIONS: '/vong-quay-tuong-lai',
   PREDICTION_DETAIL: (slug) => `/vong-quay-tuong-lai/${slug}`,
   TAROT: '/tarot',

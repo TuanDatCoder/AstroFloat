@@ -5,8 +5,8 @@ import { ROUTES } from '@/constants';
 
 export const metadata = {
   title: 'Góc Vũ Trụ (gocvutru) - Câu chuyện thương hiệu & Hệ sinh thái giải mã vận mệnh',
-  description: 'Tìm hiểu câu chuyện về Góc Vũ Trụ (goc vu tru, gocvutru). Khám phá các công cụ tâm linh huyền bí: Tarot Vũ Trụ, Thần số học, 12 Chòm sao và hệ sinh thái Đếm ngày yêu.',
-  keywords: ['gocvutru', 'goc vu tru', 'góc vũ trụ', 'tarot vũ trụ', 'tinhyeu.gocvutru', 'thần số học', 'cung hoàng đạo'],
+  description: 'Tìm hiểu câu chuyện về Góc Vũ Trụ (goc vu tru, gocvutru). Khám phá các công cụ tâm linh huyền bí: Tarot góc Vũ Trụ, Thần số học, 12 Chòm sao và hệ sinh thái Đếm ngày yêu.',
+  keywords: ['gocvutru', 'goc vu tru', 'góc vũ trụ', 'tarot góc vũ trụ', 'tinhyeu.gocvutru', 'thần số học', 'cung hoàng đạo'],
 };
 
 export default function GocVuTruPage() {
@@ -100,7 +100,7 @@ export default function GocVuTruPage() {
             <div className="w-12 h-12 rounded-2xl bg-fuchsia-500/10 flex items-center justify-center mb-6">
               <Sparkles className="w-6 h-6 text-fuchsia-400" />
             </div>
-            <h3 className="text-lg font-black text-white mb-3 uppercase tracking-tight group-hover:text-fuchsia-400 transition-colors">Tarot Vũ Trụ</h3>
+            <h3 className="text-lg font-black text-white mb-3 uppercase tracking-tight group-hover:text-fuchsia-400 transition-colors">Tarot Góc Vũ Trụ</h3>
             <p className="text-slate-400 text-xs leading-relaxed font-light mb-6 flex-grow">
               Bốc bài Tarot hàng ngày hoặc theo chủ đề tình yêu, sự nghiệp, tài chính để đón nhận thông điệp, lời khuyên dẫn đường từ năng lượng vũ trụ.
             </p>
@@ -143,7 +143,7 @@ export default function GocVuTruPage() {
               <div className="w-10 h-10 rounded-full bg-fuchsia-500/10 flex items-center justify-center border border-fuchsia-500/20">
                 <Sparkles className="w-5 h-5 text-fuchsia-400" />
               </div>
-              <h3 className="text-base font-black text-white uppercase tracking-wider">Tarot Vũ Trụ</h3>
+              <h3 className="text-base font-black text-white uppercase tracking-wider">Tarot Góc Vũ Trụ</h3>
             </div>
             <p className="text-slate-400 text-xs leading-relaxed font-light mb-6">
               Phân hệ <strong>gocvutru tarot</strong> cung cấp các trải bài trực tuyến ứng dụng công nghệ kết nối cơ sở dữ liệu để đưa ra phân tích chính xác, mượt mà và cá nhân hóa.

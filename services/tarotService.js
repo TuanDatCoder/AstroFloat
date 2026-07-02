@@ -77,7 +77,11 @@ export const tarotService = {
     });
 
     if (error) {
-      console.error('Lỗi khi gọi RPC generate_tarot_reading:', error);
+      console.error('Lỗi khi gọi RPC generate_tarot_reading:', error.message || error, {
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
       throw error;
     }
 

@@ -293,7 +293,7 @@ export default function HomeClient() {
                   <Moon className="w-8 h-8 text-purple-400" />
                 </div>
                 <h3 className="relative z-10 text-xl md:text-2xl font-black text-white mb-3 uppercase tracking-tight group-hover:text-purple-400 transition-colors">
-                  Tarot Vũ Trụ
+                  Tarot Góc Vũ Trụ
                 </h3>
                 <p className="relative z-10 text-slate-400 text-sm leading-relaxed mb-8 font-light flex-1">
                   Khám phá thông điệp từ vũ trụ thông qua những trải bài Tarot kỳ diệu, giải mã quá khứ, hiện tại và tương lai của bạn.

@@ -1,3 +1,8 @@
+-- Xóa dữ liệu cũ
+DELETE FROM tarot_templates;
+DELETE FROM tarot_topic_positions;
+DELETE FROM tarot_meanings;
+
 -- ====================================================================
 -- SYSTEM: TAROT PRODUCTION DATABASE SYSTEM FOR GOCVUTRU.COM
 -- PLATFORM: SUPABASE / POSTGRESQL (PRODUCTION READY - 10/10)
@@ -151,7 +156,7 @@ BEGIN
   DO UPDATE SET total_views = tarot_analytics.total_views + 1,
                 updated_at = NOW();
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql;
 
 
 -- ====================================================================
@@ -265,7 +270,7 @@ BEGIN
         'cards', v_cards_json
     );
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql;
 
 
 -- ====================================================================

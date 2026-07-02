@@ -159,7 +159,7 @@ export default function Header() {
                     </Link>
                     
                     <Link 
-                      href={ROUTES.FAMILY_LOVE_STUDIO} 
+                      href={ROUTES.DEM_NGAY_YEU} 
                       onClick={() => setIsAppsDropdownOpen(false)}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-all group border-t border-white/5"
                     >
@@ -181,7 +181,7 @@ export default function Header() {
                         <Sparkles className="w-4 h-4 text-fuchsia-400" />
                       </div>
                       <div>
-                        <div className="text-[11px] font-black text-white uppercase tracking-widest mb-0.5">Tarot Vũ Trụ</div>
+                        <div className="text-[11px] font-black text-white uppercase tracking-widest mb-0.5">Tarot Góc Vũ Trụ</div>
                         <div className="text-[9px] text-gray-400 uppercase tracking-wider">Khám phá thông điệp</div>
                       </div>
                     </Link>
@@ -315,7 +315,7 @@ export default function Header() {
                       </div>
                     </Link>
 
-                    <Link href={ROUTES.FAMILY_LOVE_STUDIO} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-white/5 transition-all mt-2">
+                    <Link href={ROUTES.DEM_NGAY_YEU} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-white/5 transition-all mt-2">
                       <div className="w-10 h-10 rounded-full bg-pink-500/10 flex items-center justify-center border border-pink-500/20">
                         <Heart className="w-5 h-5 text-pink-400" />
                       </div>
@@ -330,7 +330,7 @@ export default function Header() {
                         <Sparkles className="w-5 h-5 text-fuchsia-400" />
                       </div>
                       <div>
-                        <div className="text-sm font-black text-white uppercase tracking-widest mb-1">Tarot Vũ Trụ</div>
+                        <div className="text-sm font-black text-white uppercase tracking-widest mb-1">Tarot Góc Vũ Trụ</div>
                         <div className="text-[10px] text-gray-400 uppercase tracking-wider">Khám phá thông điệp</div>
                       </div>
                     </Link>
