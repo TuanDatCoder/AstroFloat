@@ -29,7 +29,16 @@ export default function FloatingTarotBot() {
   const [wakeTimeout, setWakeTimeout] = useState(null);
   const [clickTimeout, setClickTimeout] = useState(null);
 
+  const [driftPosition, setDriftPosition] = useState({ x: 0, y: 0 });
+  const [rapidClicks, setRapidClicks] = useState(0);
+  const [lastClickTime, setLastClickTime] = useState(0);
+
   const [newsInfo, setNewsInfo] = useState(null);
+
+  // Scroll to Top Rocket states
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isLaunching, setIsLaunching] = useState(false);
+  const [hideAll, setHideAll] = useState(false);
 
   // Reset news info on route change
   useEffect(() => {
@@ -55,10 +64,21 @@ export default function FloatingTarotBot() {
     }
   }, [newsInfo, pathname]);
 
-  // Scroll to Top Rocket states
-  const [showScrollTop, setShowScrollTop] = useState(false);
-  const [isLaunching, setIsLaunching] = useState(false);
-  const [hideAll, setHideAll] = useState(false);
+  // Effect for random subtle floating/drifting inside the circular frame
+  useEffect(() => {
+    const driftInterval = setInterval(() => {
+      if (!isLaunching && !isHovered) {
+        // Subtle drift movement between -6px and 6px
+        const rx = (Math.random() * 12) - 6;
+        const ry = (Math.random() * 12) - 6;
+        setDriftPosition({ x: rx, y: ry });
+      } else {
+        setDriftPosition({ x: 0, y: 0 });
+      }
+    }, 3000);
+
+    return () => clearInterval(driftInterval);
+  }, [isLaunching, isHovered]);
 
   // Get default expression depending on pathname
   const getPageExpression = () => {
@@ -141,10 +161,10 @@ export default function FloatingTarotBot() {
         sessionStorage.setItem('botWelcomedUser', 'true');
         
         const timer = setTimeout(() => {
-          setTooltipText(`Chào ${username}! Chúc bạn một ngày mới tràn ngập cát tường!`);
+          setTooltipText(`Chào mừng ${username} trở lại! Chúc bạn ngày mới ngập tràn cát tường!`);
           setTooltipHref(ROUTES.HOME);
           setIsTooltipOpen(true);
-          setExpression('happy');
+          setExpression('excited');
           
           setTimeout(() => {
             setIsTooltipOpen(false);
@@ -275,7 +295,18 @@ export default function FloatingTarotBot() {
       else if (pathname?.startsWith('/vong-quay-tuong-lai')) pageName = "Vòng Quay Tương Lai";
       else if (pathname?.startsWith('/family-love-studio')) pageName = "Family Love Studio";
 
-      const welcomeMsg = `Bạn đang ở trang ${pageName} đó!`;
+      const hour = new Date().getHours();
+      const day = new Date().getDay();
+      const isWeekend = day === 0 || day === 6;
+
+      let welcomeMsg = `Bạn đang ở trang ${pageName} đó!`;
+
+      // Situation 1 & 4: Night/Weekend customized welcome cues
+      if (hour >= 23 || hour < 4) {
+        welcomeMsg = "Cú đêm ơi, muộn thế này sao chưa ngủ nhỉ?";
+      } else if (isWeekend) {
+        welcomeMsg = "Cuối tuần rồi! Thư giãn và xem Tarot thôi nào";
+      }
 
       setTooltipText(welcomeMsg);
       setTooltipHref(welcomeHref);
@@ -384,6 +415,18 @@ export default function FloatingTarotBot() {
           }, 4000);
         }
 
+        // Situation 2: Coffee/Tea Break at 60s
+        if (nextSec === 60) {
+          setTooltipText("Làm ngụm trà sữa/cà phê cho tỉnh táo rồi khám phá tiếp nha!");
+          setIsTooltipOpen(true);
+          setExpression('coffee');
+
+          setTimeout(() => {
+            setIsTooltipOpen(false);
+            setExpression((curr) => curr === 'sleepy' ? 'sleepy' : 'idle');
+          }, 6000);
+        }
+
         return nextSec;
       });
     }, 1000);
@@ -412,6 +455,34 @@ export default function FloatingTarotBot() {
     // Clear any active click or wake timeouts when manually toggling
     if (clickTimeout) clearTimeout(clickTimeout);
     if (wakeTimeout) clearTimeout(wakeTimeout);
+
+    // Situation 3: Rapid multi-clicks check (Dizzy state)
+    const now = Date.now();
+    const diff = now - lastClickTime;
+    setLastClickTime(now);
+
+    let currentClicks = rapidClicks;
+    if (diff < 2000) {
+      currentClicks += 1;
+    } else {
+      currentClicks = 1;
+    }
+    setRapidClicks(currentClicks);
+
+    if (currentClicks >= 3) {
+      setExpression('dizzy');
+      setTooltipText("Úi da! Bạn click nhiều quá làm mình chóng mặt ghê!");
+      setIsTooltipOpen(true);
+      setRapidClicks(0);
+
+      const t = setTimeout(() => {
+        setExpression(isOpen ? 'idle' : getPageExpression());
+        setIsTooltipOpen(false);
+        setSecondsClosed(0);
+      }, 2500);
+      setClickTimeout(t);
+      return;
+    }
 
     // If sleeping or groggy, get annoyed (bực mình)
     if (expression === 'sleepy' || expression === 'groggy') {
@@ -623,12 +694,16 @@ export default function FloatingTarotBot() {
         >
           <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full group-hover:bg-purple-500/35 transition-colors" />
           <span className="absolute inset-0 rounded-full border border-cyan-400/20 animate-ping group-hover:animate-none opacity-50" />
-          <div className="relative z-10 flex flex-col items-center justify-center">
+          <motion.div 
+            animate={{ x: driftPosition.x, y: driftPosition.y }}
+            transition={{ type: "spring", stiffness: 80, damping: 15 }}
+            className="relative z-10 flex flex-col items-center justify-center"
+          >
             <CosmicAIIcon 
               className="w-11 h-11 text-fuchsia-300 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] group-hover:rotate-6 transition-transform" 
               expression={isLaunching ? 'rocket' : expression} 
             />
-          </div>
+          </motion.div>
         </motion.button>
       </div>
     </div>
