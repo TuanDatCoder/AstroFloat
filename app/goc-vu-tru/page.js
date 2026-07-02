@@ -99,7 +99,7 @@ export default function GocVuTruPage() {
 
           <div className="p-8 bg-slate-900 border border-white/5 rounded-3xl hover:border-fuchsia-500/30 transition-all flex flex-col group">
             <div className="w-12 h-12 rounded-2xl bg-fuchsia-500/10 flex items-center justify-center mb-6">
-              <TarotIcon className="w-6 h-6 text-fuchsia-400" />
+              <TarotIcon className="w-9 h-9 text-fuchsia-400" />
             </div>
             <h3 className="text-lg font-black text-white mb-3 uppercase tracking-tight group-hover:text-fuchsia-400 transition-colors">Tarot Góc Vũ Trụ</h3>
             <p className="text-slate-400 text-xs leading-relaxed font-light mb-6 flex-grow">
@@ -142,7 +142,7 @@ export default function GocVuTruPage() {
             <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/5 blur-3xl pointer-events-none" />
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-full bg-fuchsia-500/10 flex items-center justify-center border border-fuchsia-500/20">
-                <TarotIcon className="w-5 h-5 text-fuchsia-400" />
+                <TarotIcon className="w-7 h-7 text-fuchsia-400" />
               </div>
               <h3 className="text-base font-black text-white uppercase tracking-wider">Tarot Góc Vũ Trụ</h3>
             </div>

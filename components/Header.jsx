@@ -179,7 +179,7 @@ export default function Header() {
                       className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-all group border-t border-white/5"
                     >
                       <div className="w-8 h-8 rounded-full bg-fuchsia-500/10 flex items-center justify-center border border-fuchsia-500/20 group-hover:scale-110 transition-transform">
-                        <TarotIcon className="w-4 h-4 text-fuchsia-400" />
+                        <TarotIcon className="w-6 h-6 text-fuchsia-400" />
                       </div>
                       <div>
                         <div className="text-[11px] font-black text-white uppercase tracking-widest mb-0.5">Tarot Góc Vũ Trụ</div>
@@ -328,7 +328,7 @@ export default function Header() {
 
                     <Link href={ROUTES.TAROT} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-white/5 transition-all mt-2">
                       <div className="w-10 h-10 rounded-full bg-fuchsia-500/10 flex items-center justify-center border border-fuchsia-500/20">
-                        <TarotIcon className="w-5 h-5 text-fuchsia-400" />
+                        <TarotIcon className="w-7 h-7 text-fuchsia-400" />
                       </div>
                       <div>
                         <div className="text-sm font-black text-white uppercase tracking-widest mb-1">Tarot Góc Vũ Trụ</div>
