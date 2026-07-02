@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Compass, Heart, BookOpen, Star, HelpCircle, ChevronRight, MessageSquare, History, Newspaper } from 'lucide-react';
+import { Sparkles, Compass, Heart, BookOpen, Star, ChevronRight, History } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ROUTES } from '@/constants';
 import TarotIcon from '@/components/TarotIcon';
 import CosmicAIIcon from '@/components/CosmicAIIcon';
+import { supabase } from '@/services/supabase';
 
 export default function FloatingTarotBot() {
   const pathname = usePathname();
@@ -14,6 +15,14 @@ export default function FloatingTarotBot() {
   const [suggestion, setSuggestion] = useState(null);
   const [expression, setExpression] = useState('idle');
   const [isHovered, setIsHovered] = useState(false);
+
+  // Proactive tooltips (Type 2) state
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+  const [tooltipText, setTooltipText] = useState("");
+  const [tooltipHref, setTooltipHref] = useState("");
+  const [username, setUsername] = useState("");
+
+  const [secondsClosed, setSecondsClosed] = useState(0);
 
   // Get default expression depending on pathname
   const getPageExpression = () => {
@@ -27,7 +36,63 @@ export default function FloatingTarotBot() {
     return 'happy';
   };
 
-  // Listen for dynamic calculations/magic events from other pages
+  // 1. Fetch user session and details from Supabase to greet them
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        supabase.from('profiles').select('nickname').eq('id', session.user.id).single()
+          .then(({ data }) => {
+            if (data?.nickname) {
+              setUsername(data.nickname);
+            } else if (session.user.email) {
+              setUsername(session.user.email.split('@')[0]);
+            }
+          });
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        supabase.from('profiles').select('nickname').eq('id', session.user.id).single()
+          .then(({ data }) => {
+            if (data?.nickname) {
+              setUsername(data.nickname);
+            } else if (session.user.email) {
+              setUsername(session.user.email.split('@')[0]);
+            }
+          });
+      } else {
+        setUsername("");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // 2. Welcome user tooltip once per session when their username loads
+  useEffect(() => {
+    if (username) {
+      const hasWelcomed = sessionStorage.getItem('botWelcomedUser');
+      if (!hasWelcomed) {
+        sessionStorage.setItem('botWelcomedUser', 'true');
+        
+        const timer = setTimeout(() => {
+          setTooltipText(`Chào ${username}! Chúc bạn một ngày mới tràn ngập cát tường từ các vì sao nhé! ✨`);
+          setTooltipHref(ROUTES.HOME);
+          setIsTooltipOpen(true);
+          setExpression('happy');
+          
+          setTimeout(() => {
+            setIsTooltipOpen(false);
+          }, 8000);
+        }, 3000);
+        
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [username]);
+
+  // 3. Listen for dynamic calculating/magic events from other pages (Tarot AI, etc.)
   useEffect(() => {
     const handleCustomExpression = (e) => {
       if (e.detail) {
@@ -38,10 +103,12 @@ export default function FloatingTarotBot() {
     return () => window.removeEventListener('astro-bot-expression', handleCustomExpression);
   }, []);
 
-  // Define suggestion rules based on pathname
+  // 4. Update menu suggestions and trigger page entry welcome tooltip (Type 2)
   useEffect(() => {
-    // 1. Enter thinking expression immediately on path transition
+    // Enter thinking expression immediately on path transitions
     setExpression('thinking');
+    setIsTooltipOpen(false);
+    setSecondsClosed(0);
 
     let activeSuggestion = {
       greeting: "Chào bạn! Mình là Trợ Lý Vũ Trụ 🌌",
@@ -102,49 +169,150 @@ export default function FloatingTarotBot() {
 
     setSuggestion(activeSuggestion);
 
-    // Auto-open suggestion box when path changes (except on first mount if dismissed)
-    const isDismissed = sessionStorage.getItem('assistantDismissed');
-    
-    // Set 2 seconds of thinking/analyzing time for dramatic cute effect
+    // After 2 seconds of scanning, display appropriate welcome cue
     const timer = setTimeout(() => {
-      if (!isDismissed || hasInteracted) {
-        setIsOpen(true);
-        setExpression(getPageExpression());
+      setExpression(getPageExpression());
+
+      let welcomeMsg = "";
+      let welcomeHref = "";
+
+      if (pathname?.startsWith('/than-so-hoc')) {
+        welcomeMsg = "Cùng nhau tìm hiểu Thần số học nhé!";
+        welcomeHref = ROUTES.NUMEROLOGY;
+      } else if (pathname?.startsWith('/cung-hoang-dao')) {
+        welcomeMsg = "Cùng nhau xem Cung hoàng đạo nhé! 🌟";
+        welcomeHref = ROUTES.ZODIAC;
+      } else if (
+        pathname?.startsWith('/do-hop-cung-hoang-dao') || 
+        pathname?.startsWith('/cung-hoang-dao-tuong-hop-nhat') ||
+        pathname?.startsWith('/tat-ca-cap-doi-cung-hoang-dao') ||
+        pathname?.startsWith('/dem-ngay-yeu')
+      ) {
+        welcomeMsg = "Xem cung hoàng đạo hợp với bạn nhé! 💖";
+        welcomeHref = ROUTES.ZODIAC_MATCH;
+      } else if (pathname?.startsWith('/tarot')) {
+        welcomeMsg = "Bốc một quẻ Tarot thôi nào!";
+        welcomeHref = ROUTES.TAROT;
       } else {
-        setExpression('idle');
+        const cues = [
+          { text: "Cùng nhau tìm hiểu Thần số học nhé!", href: ROUTES.NUMEROLOGY },
+          { text: "Cùng nhau xem Cung hoàng đạo nhé! 🌟", href: ROUTES.ZODIAC },
+          { text: "Xem cung hoàng đạo hợp với bạn nhé! 💖", href: ROUTES.ZODIAC_MATCH },
+          { text: "Bốc một quẻ Tarot thôi nào! 🔮", href: ROUTES.TAROT }
+        ];
+        const chosen = cues[Math.floor(Math.random() * cues.length)];
+        welcomeMsg = chosen.text;
+        welcomeHref = chosen.href;
       }
+
+      setTooltipText(welcomeMsg);
+      setTooltipHref(welcomeHref);
+      setIsTooltipOpen(true);
+      setExpression('happy');
+
+      // Auto close welcome tooltip after 8s
+      setTimeout(() => {
+        setIsTooltipOpen(false);
+        setExpression(getPageExpression());
+      }, 8000);
+
     }, 2000);
     
     return () => clearTimeout(timer);
-  }, [pathname, hasInteracted]);
+  }, [pathname]);
 
-  // Sleepy idle check & periodic changes
+  // 5. Sleepy idle check, periodic mood swings, and proactive Type 2 Tooltips (every 22s for 8s)
   useEffect(() => {
     if (isHovered) {
       setExpression('happy');
+      setSecondsClosed(0);
       return;
     }
 
     if (isOpen) {
       setExpression(getPageExpression());
+      setSecondsClosed(0);
       return;
     }
 
-    setExpression('idle');
-    let seconds = 0;
+    const getRandomTip = () => {
+      const loveTips = [
+        { text: "Liệu hai bạn có phải cặp đôi tương hợp nhất? 💖", href: ROUTES.ZODIAC_BEST_MATCHES },
+        { text: "Bốc một lá bài Tarot xem tình duyên nhé? 🔮", href: ROUTES.TAROT_SPREAD('tinh-yeu') },
+        { text: "Chòm sao của bạn hợp với cung nào nhất? 🌟", href: ROUTES.ZODIAC_MATCH },
+        { text: "Đếm Ngày Yêu cùng người ấy nhé! 💕", href: ROUTES.DEM_NGAY_YEU }
+      ];
+      const tarotTips = [
+        { text: "Vũ trụ đang gửi thông điệp cho bạn qua các lá bài đấy! 🔮", href: ROUTES.TAROT },
+        { text: "Hôm nay bạn muốn bốc bài Tình Yêu hay Sự Nghiệp? 🃏", href: ROUTES.TAROT },
+        { text: "Tập trung tinh thần và đón nhận thông điệp Tarot nhé! ✨", href: ROUTES.TAROT },
+        { text: "Xem lịch sử rút bài Tarot của bạn nhé! 📜", href: ROUTES.TAROT_HISTORY }
+      ];
+      const generalTips = [
+        { text: "Bạn có biết con số chủ đạo của mình chưa? 🔢", href: ROUTES.NUMEROLOGY },
+        { text: "Cung hoàng đạo của bạn ẩn chứa bí mật gì? 🌟", href: ROUTES.ZODIAC },
+        { text: "Tra cứu thần số học theo tên thử nhé? 🌌", href: ROUTES.NAME_NUMEROLOGY },
+        { text: "Bạn muốn thử bốc một lá bài Tarot không? 🔮", href: ROUTES.TAROT }
+      ];
 
-    const interval = setInterval(() => {
-      seconds += 15;
-      
-      if (seconds >= 60) {
-        setExpression('sleepy');
-        clearInterval(interval);
-      } else {
-        const moods = ['happy', 'wink', 'excited', 'shocked'];
-        const chosen = moods[Math.floor(Math.random() * moods.length)];
-        setExpression(chosen);
+      if (
+        pathname?.startsWith('/do-hop-cung-hoang-dao') || 
+        pathname?.startsWith('/cung-hoang-dao-tuong-hop-nhat') ||
+        pathname?.startsWith('/tat-ca-cap-doi-cung-hoang-dao') ||
+        pathname?.startsWith('/dem-ngay-yeu')
+      ) {
+        return loveTips[Math.floor(Math.random() * loveTips.length)];
       }
-    }, 15000); // Shift state every 15 seconds
+      if (pathname?.startsWith('/tarot')) {
+        return tarotTips[Math.floor(Math.random() * tarotTips.length)];
+      }
+      return generalTips[Math.floor(Math.random() * generalTips.length)];
+    };
+
+    // Heartbeat clock counting every 1 second
+    const interval = setInterval(() => {
+      setSecondsClosed((prev) => {
+        const nextSec = prev + 1;
+
+        // Sleeps after 60 seconds (1 minute)
+        if (nextSec >= 60) {
+          setExpression('sleepy');
+          setIsTooltipOpen(false);
+          clearInterval(interval);
+          return 60;
+        }
+
+        // Trigger proactive hints every 22 seconds (at 22s and 44s)
+        if (nextSec === 22 || nextSec === 44) {
+          const tip = getRandomTip();
+          setTooltipText(tip.text);
+          setTooltipHref(tip.href);
+          setIsTooltipOpen(true);
+
+          const moods = ['wink', 'excited', 'happy', 'shocked'];
+          setExpression(moods[Math.floor(Math.random() * moods.length)]);
+
+          // Tooltip stays open for 8 seconds
+          setTimeout(() => {
+            setIsTooltipOpen(false);
+            setExpression((curr) => curr === 'sleepy' ? 'sleepy' : 'idle');
+          }, 8000);
+        }
+
+        // Mood shifts at 15s and 35s when not popping tooltips
+        else if (nextSec === 15 || nextSec === 35 || nextSec === 52) {
+          const moods = ['wink', 'excited', 'happy', 'shocked'];
+          const chosen = moods[Math.floor(Math.random() * moods.length)];
+          setExpression(chosen);
+          
+          setTimeout(() => {
+            setExpression((curr) => curr === 'sleepy' ? 'sleepy' : 'idle');
+          }, 4000);
+        }
+
+        return nextSec;
+      });
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [isOpen, pathname, isHovered]);
@@ -153,8 +321,10 @@ export default function FloatingTarotBot() {
     if (isOpen) {
       setIsOpen(false);
       setExpression('idle');
+      setSecondsClosed(0); // Restart idle timer
     } else {
       setIsOpen(true);
+      setIsTooltipOpen(false);
       setExpression(getPageExpression());
     }
     setHasInteracted(true);
@@ -179,7 +349,8 @@ export default function FloatingTarotBot() {
   return (
     <div className="fixed bottom-6 right-6 z-[999] sm:bottom-8 sm:right-8 select-none">
       <div className="relative flex flex-col items-end">
-        {/* Dialogue Bubble */}
+        
+        {/* Type 1: Dialogue Bubble Menu (Opens manually on click) */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -189,14 +360,10 @@ export default function FloatingTarotBot() {
               transition={{ type: "spring", damping: 25, stiffness: 350 }}
               className="absolute bottom-[115%] right-0 mb-4 w-[280px] sm:w-[320px] bg-slate-950/90 border border-purple-500/30 rounded-3xl p-5 shadow-[0_15px_50px_rgba(168,85,247,0.25)] backdrop-blur-xl pointer-events-auto"
             >
-              {/* Mystical Background Glow */}
               <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/5 via-transparent to-cyan-500/5 rounded-3xl pointer-events-none" />
-
-              {/* Speech bubble tail */}
               <div className="absolute -bottom-2 right-8 w-4 h-4 bg-slate-950/90 border-b border-r border-purple-500/30 transform rotate-45 pointer-events-none" />
 
               <div className="relative z-10 flex flex-col gap-3">
-                {/* Greeting & Header */}
                 <div>
                   <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-1 flex items-center gap-1.5">
                     <Sparkles className="w-3 h-3 text-cyan-400 animate-spin-slow" />
@@ -210,7 +377,6 @@ export default function FloatingTarotBot() {
                   </p>
                 </div>
 
-                {/* Option Buttons */}
                 <div className="flex flex-col gap-2 mt-1">
                   {suggestion.options.map((option, idx) => {
                     const IconComponent = option.icon;
@@ -235,7 +401,6 @@ export default function FloatingTarotBot() {
                   })}
                 </div>
 
-                {/* Toggle/Collapse Text Button */}
                 <button 
                   onClick={() => setIsOpen(false)}
                   className="text-slate-500 hover:text-slate-300 text-[10px] uppercase tracking-widest font-bold mt-1 text-center w-full transition-colors"
@@ -247,24 +412,45 @@ export default function FloatingTarotBot() {
           )}
         </AnimatePresence>
 
+        {/* Type 2: Proactive Short Tooltip Chat Bubble (Clicks route directly to page) */}
+        <AnimatePresence>
+          {isTooltipOpen && !isOpen && (
+            <Link href={tooltipHref} className="pointer-events-auto block absolute bottom-[115%] right-0 mb-4 z-[1000]">
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 5, scale: 0.95 }}
+                className="w-[220px] sm:w-[250px] bg-slate-950/95 border border-cyan-500/30 rounded-2xl p-3.5 shadow-[0_10px_30px_rgba(34,211,238,0.15)] backdrop-blur-xl cursor-pointer hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all duration-300"
+                onClick={() => {
+                  setIsTooltipOpen(false);
+                  setExpression(getPageExpression());
+                }}
+              >
+                <div className="absolute -bottom-1.5 right-8 w-3 h-3 bg-slate-950/95 border-b border-r border-cyan-500/30 transform rotate-45 pointer-events-none" />
+                <div className="flex gap-2">
+                  <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5 animate-pulse" />
+                  <p className="text-white text-xs leading-relaxed font-semibold">
+                    {tooltipText}
+                  </p>
+                </div>
+              </motion.div>
+            </Link>
+          )}
+        </AnimatePresence>
+
         {/* Floating Avatar Bot */}
-          <button 
-            onClick={handleToggle}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border-2 ${isOpen ? 'border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]'} hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-400 hover:scale-110 flex items-center justify-center cursor-pointer relative overflow-hidden group transition-all duration-300 z-50`}
-          >
-            {/* Inner Mystical Glow */}
-            <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full group-hover:bg-purple-500/35 transition-colors" />
-
-            {/* Glowing Ring */}
-            <span className="absolute inset-0 rounded-full border border-cyan-400/20 animate-ping group-hover:animate-none opacity-50" />
-
-            {/* Avatar Icon */}
-            <div className="relative z-10 flex flex-col items-center justify-center">
-              <CosmicAIIcon className="w-11 h-11 text-fuchsia-300 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] group-hover:rotate-6 transition-transform" expression={expression} />
-            </div>
-          </button>
+        <button 
+          onClick={handleToggle}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border-2 ${isOpen ? 'border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]'} hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-400 hover:scale-110 flex items-center justify-center cursor-pointer relative overflow-hidden group transition-all duration-300 z-50`}
+        >
+          <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full group-hover:bg-purple-500/35 transition-colors" />
+          <span className="absolute inset-0 rounded-full border border-cyan-400/20 animate-ping group-hover:animate-none opacity-50" />
+          <div className="relative z-10 flex flex-col items-center justify-center">
+            <CosmicAIIcon className="w-11 h-11 text-fuchsia-300 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] group-hover:rotate-6 transition-transform" expression={expression} />
+          </div>
+        </button>
       </div>
     </div>
   );
