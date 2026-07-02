@@ -304,7 +304,23 @@ export default function FloatingTarotBot() {
       if (
         pathname?.startsWith('/do-hop-cung-hoang-dao') || 
         pathname?.startsWith('/cung-hoang-dao-tuong-hop-nhat') ||
-        pathname?.startsWith('/tat-ca-cap-doi-cung-hoang-da        // Sleeps after 90 seconds (1.5 minutes)
+        pathname?.startsWith('/tat-ca-cap-doi-cung-hoang-dao') ||
+        pathname?.startsWith('/dem-ngay-yeu')
+      ) {
+        return loveTips[Math.floor(Math.random() * loveTips.length)];
+      }
+      if (pathname?.startsWith('/tarot')) {
+        return tarotTips[Math.floor(Math.random() * tarotTips.length)];
+      }
+      return generalTips[Math.floor(Math.random() * generalTips.length)];
+    };
+
+    // Heartbeat clock counting every 1 second
+    const interval = setInterval(() => {
+      setSecondsClosed((prev) => {
+        const nextSec = prev + 1;
+
+        // Sleeps after 90 seconds (1.5 minutes)
         if (nextSec >= 90) {
           setExpression('sleepy');
           setIsTooltipOpen(false);
