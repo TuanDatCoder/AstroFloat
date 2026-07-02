@@ -9,6 +9,11 @@ import CosmicAIIcon from '@/components/CosmicAIIcon';
 
 export default function FloatingTarotBot() {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [suggestion, setSuggestion] = useState(null);
+  const [expression, setExpression] = useState('idle');
+
   // Get default expression depending on pathname
   const getPageExpression = () => {
     if (pathname?.startsWith('/tarot')) return 'tarot';

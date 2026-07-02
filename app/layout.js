@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import PublicElements from '@/components/PublicElements';
 
@@ -20,7 +21,9 @@ export default function RootLayout({ children }) {
     <html lang="vi" className={inter.className} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://dhfdllzdnemmrxubnldu.supabase.co" crossOrigin="anonymous" />
-        <script
+        <Script
+          id="suppress-console-hydration-warnings"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
