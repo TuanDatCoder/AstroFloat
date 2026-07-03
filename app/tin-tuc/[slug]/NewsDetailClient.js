@@ -43,10 +43,15 @@ export default function NewsDetailClient({ initialArticle, slug }) {
       const published = new Date(initialArticle.published_at || initialArticle.created_at).toLocaleDateString('vi-VN', {
         day: '2-digit', month: 'long', year: 'numeric'
       });
+      const categoryName = initialArticle.news_article_categories?.[0]?.news_categories?.name || 'Tin Tức';
+      const tags = initialArticle.news_article_tags?.map(t => t.news_tags?.name).filter(Boolean) || [];
       window.dispatchEvent(new CustomEvent('astro-bot-news-info', {
         detail: {
           publishedDate: published,
-          viewCount: viewCount
+          viewCount: viewCount,
+          categoryName: categoryName,
+          title: initialArticle.title,
+          tags: tags
         }
       }));
     }

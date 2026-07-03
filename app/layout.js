@@ -21,6 +21,8 @@ export default function RootLayout({ children }) {
     <html lang="vi" className={inter.className} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://dhfdllzdnemmrxubnldu.supabase.co" crossOrigin="anonymous" />
+      </head>
+      <body className="min-h-screen bg-[#0B0F19] text-white overflow-x-hidden relative flex flex-col" suppressHydrationWarning>
         <Script
           id="suppress-console-hydration-warnings"
           strategy="beforeInteractive"
@@ -46,8 +48,6 @@ export default function RootLayout({ children }) {
             `
           }}
         />
-      </head>
-      <body className="min-h-screen bg-[#0B0F19] text-white overflow-x-hidden relative flex flex-col" suppressHydrationWarning>
         <PublicElements>
           {children}
         </PublicElements>

@@ -1,11 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Home, ArrowLeft, Telescope } from 'lucide-react';
 
 export default function NotFound() {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('astro-bot-404-page'));
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#0B0F19] text-white px-6 text-center relative overflow-hidden pt-20">
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">

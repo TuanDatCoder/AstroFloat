@@ -85,6 +85,11 @@ function NameNumerologyResultContent() {
         setResult({ ...numerologyData, number, analysis, metrics: advancedMetrics });
         setDetails(numerologyDetails || []);
       }
+
+      // Thông báo cho bot AI biết kết quả
+      window.dispatchEvent(new CustomEvent('astro-bot-name-numerology-info', {
+        detail: { number }
+      }));
     } catch (err) {
       console.error(err);
       setError("Đã có lỗi xảy ra. Hãy thử lại sau.");

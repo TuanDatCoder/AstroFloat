@@ -92,6 +92,17 @@ export default function ZodiacDateSEOClient({ slug }) {
     fetchData();
   }, [zodiacSlug]);
 
+  useEffect(() => {
+    if (zodiacBasic?.english && zodiacBasic?.name) {
+      window.dispatchEvent(new CustomEvent('astro-bot-zodiac-info', {
+        detail: { 
+          zodiac: zodiacBasic.english.toLowerCase(),
+          vietnameseName: zodiacBasic.name
+        }
+      }));
+    }
+  }, [zodiacBasic]);
+
   const otherDaysInMonth = Array.from({ length: 28 }, (_, i) => i + 1)
     .filter(d => d !== day)
     .slice(0, 14);

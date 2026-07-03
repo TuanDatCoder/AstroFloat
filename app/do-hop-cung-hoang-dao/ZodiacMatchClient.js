@@ -159,8 +159,33 @@ export default function ZodiacMatchClient({ allZodiacs }) {
         if (catCount > 0) { sum += Math.round(catSum / catCount); countCats++; }
       });
       const calculatedScore = countCats > 0 ? Math.round(sum / countCats) : null;
-      if (!matchData && !calculatedScore) setError("Dữ liệu chưa được cập nhật.");
-      else setResult({ sign1, sign2, match: matchData, comparisons, calculatedScore });
+      if (!matchData && !calculatedScore) {
+        setError("Dữ liệu chưa được cập nhật.");
+      } else {
+        const score = calculatedScore || 50;
+        setResult({ sign1, sign2, match: matchData, comparisons, calculatedScore: score });
+
+        let message = "";
+        let botExpression = 'happy';
+        if (score < 65) {
+           message = "Độ hợp này chỉ mang tính tham khảo thôi nha! Quan trọng là 2 bạn cùng nhau khắc phục khuyết điểm để thấu hiểu nhau hơn nhé!";
+           botExpression = 'reading_news';
+        } else if (score <= 80) {
+           message = "Khá hợp nhau đó nha! Chỉ cần cố gắng nhường nhịn và thấu hiểu đối phương nhiều hơn là tuyệt vời!";
+           botExpression = 'happy';
+        } else {
+           message = "Wow, chúc mừng nha! Độ hợp nhau cực kỳ cao luôn! 2 bạn sinh ra là dành cho nhau đó!";
+           botExpression = 'party';
+        }
+
+        window.dispatchEvent(new CustomEvent('astro-bot-speak', {
+          detail: {
+            text: message,
+            expression: botExpression,
+            duration: 8000
+          }
+        }));
+      }
     } catch (err) { setError("Lỗi tính toán."); } finally { setLoading(false); }
   };
 
@@ -181,8 +206,26 @@ export default function ZodiacMatchClient({ allZodiacs }) {
           So Đôi Lứa Đôi
         </h1>
         <div className="mt-8 flex justify-center gap-4">
-          <button onClick={() => { setMatchMode('date'); setResult(null); }} className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all uppercase ${matchMode === 'date' ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white' : 'bg-black/60 text-gray-500 border border-white/5'}`}>Theo Ngày Sinh</button>
-          <button onClick={() => { setMatchMode('sign'); setResult(null); }} className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all uppercase ${matchMode === 'sign' ? 'bg-gradient-to-r from-indigo-500 to-cyan-500 text-white' : 'bg-black/60 text-gray-500 border border-white/5'}`}>Chọn Cung</button>
+          <button 
+            onClick={() => { 
+              setMatchMode('date'); 
+              setResult(null); 
+              window.dispatchEvent(new CustomEvent('astro-bot-speak', { detail: "Hãy nhập ngày sinh của 2 bạn nha!" }));
+            }} 
+            className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all uppercase ${matchMode === 'date' ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white' : 'bg-black/60 text-gray-500 border border-white/5'}`}
+          >
+            Theo Ngày Sinh
+          </button>
+          <button 
+            onClick={() => { 
+              setMatchMode('sign'); 
+              setResult(null); 
+              window.dispatchEvent(new CustomEvent('astro-bot-speak', { detail: "Hãy nhập 2 cung của 2 bạn nha!" }));
+            }} 
+            className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all uppercase ${matchMode === 'sign' ? 'bg-gradient-to-r from-indigo-500 to-cyan-500 text-white' : 'bg-black/60 text-gray-500 border border-white/5'}`}
+          >
+            Chọn Cung
+          </button>
         </div>
       </motion.div>
 
