@@ -20,6 +20,17 @@ const getTopicIcon = (topic, className) => {
 export default function ZodiacDetailClient({ id, initialZodiac, initialDetails }) {
   const router = useRouter();
 
+  React.useEffect(() => {
+    if (initialZodiac?.english_name && initialZodiac?.name) {
+      window.dispatchEvent(new CustomEvent('astro-bot-zodiac-info', {
+        detail: { 
+          zodiac: initialZodiac.english_name.toLowerCase(),
+          vietnameseName: initialZodiac.name
+        }
+      }));
+    }
+  }, [initialZodiac]);
+
   if (!initialZodiac) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center pt-32">

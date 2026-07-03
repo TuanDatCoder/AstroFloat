@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Compass, Heart, BookOpen, Star, ChevronRight, History, ChevronUp, Briefcase } from 'lucide-react';
+import { Sparkles, Compass, Heart, BookOpen, Star, ChevronRight, History, ChevronUp, Briefcase, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ROUTES } from '@/constants';
@@ -20,12 +20,11 @@ export default function FloatingTarotBot() {
   // Proactive tooltips (Type 2) state
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const [tooltipText, setTooltipText] = useState("");
-  const [tooltipHref, setTooltipHref] = useState("");
-  const [username, setUsername] = useState("");
-
+  const [tooltipHref, setTooltipHref] = useState("/");
   const [secondsClosed, setSecondsClosed] = useState(0);
   const [lastRouteTime, setLastRouteTime] = useState(0);
 
+  // Wake & Click timeouts
   const [wakeTimeout, setWakeTimeout] = useState(null);
   const [clickTimeout, setClickTimeout] = useState(null);
 
@@ -34,15 +33,47 @@ export default function FloatingTarotBot() {
   const [lastClickTime, setLastClickTime] = useState(0);
 
   const [newsInfo, setNewsInfo] = useState(null);
+  const [nameNumerologyInfo, setNameNumerologyInfo] = useState(null);
+  const [username, setUsername] = useState("");
 
   // Scroll to Top Rocket states
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isLaunching, setIsLaunching] = useState(false);
   const [hideAll, setHideAll] = useState(false);
 
-  // Reset news info on route change
+  const [activeZodiac, setActiveZodiac] = useState(null);
+  const [activeZodiacName, setActiveZodiacName] = useState("");
+  const [tarotTopic, setTarotTopic] = useState(null);
+  const [tarotState, setTarotState] = useState(null);
+
+  // 404 Playful Movement & Timers State/Refs
+  const [is404Page, setIs404Page] = useState(false);
+  const [is404PlayfulMoving, setIs404PlayfulMoving] = useState(false);
+  const welcomeTimerRef = useRef(null);
+  const timer404Ref1 = useRef(null);
+  const timer404Ref2 = useRef(null);
+  const timer404Ref3 = useRef(null);
+  const timer404MoveRef = useRef(null);
+
+  const clear404Timers = () => {
+    if (welcomeTimerRef.current) clearTimeout(welcomeTimerRef.current);
+    if (timer404Ref1.current) clearTimeout(timer404Ref1.current);
+    if (timer404Ref2.current) clearTimeout(timer404Ref2.current);
+    if (timer404Ref3.current) clearTimeout(timer404Ref3.current);
+    if (timer404MoveRef.current) clearTimeout(timer404MoveRef.current);
+  };
+
+  // Reset news info, name numerology info, active zodiac, and tarot info on route change
   useEffect(() => {
     setNewsInfo(null);
+    setNameNumerologyInfo(null);
+    setActiveZodiac(null);
+    setActiveZodiacName("");
+    setTarotTopic(null);
+    setTarotState(null);
+    setIs404Page(false);
+    clear404Timers();
+    setIs404PlayfulMoving(false);
   }, [pathname]);
 
   // Listen for news details loaded from NewsDetailClient
@@ -56,17 +87,267 @@ export default function FloatingTarotBot() {
     return () => window.removeEventListener('astro-bot-news-info', handleNewsInfo);
   }, []);
 
+  // Listen for active zodiac info
+  useEffect(() => {
+    const handleZodiacInfo = (e) => {
+      if (e.detail && e.detail.zodiac) {
+        setActiveZodiac(e.detail.zodiac);
+        if (e.detail.vietnameseName) {
+          setActiveZodiacName(e.detail.vietnameseName);
+        }
+      }
+    };
+    window.addEventListener('astro-bot-zodiac-info', handleZodiacInfo);
+    return () => window.removeEventListener('astro-bot-zodiac-info', handleZodiacInfo);
+  }, []);
+
+  // Listen for Tarot topic selections and drawing states
+  useEffect(() => {
+    const handleTarotTopicSelect = (e) => {
+      if (e.detail) {
+        setTarotTopic(e.detail);
+      }
+    };
+    const handleTarotState = (e) => {
+      if (e.detail) {
+        setTarotState(e.detail);
+      }
+    };
+    window.addEventListener('astro-bot-tarot-topic-select', handleTarotTopicSelect);
+    window.addEventListener('astro-bot-tarot-state', handleTarotState);
+    return () => {
+      window.removeEventListener('astro-bot-tarot-topic-select', handleTarotTopicSelect);
+      window.removeEventListener('astro-bot-tarot-state', handleTarotState);
+    };
+  }, []);
+
+  // Listen for name numerology info
+  useEffect(() => {
+    const handleNameNumerologyInfo = (e) => {
+      if (e.detail) {
+        setNameNumerologyInfo(e.detail);
+      }
+    };
+    window.addEventListener('astro-bot-name-numerology-info', handleNameNumerologyInfo);
+    return () => window.removeEventListener('astro-bot-name-numerology-info', handleNameNumerologyInfo);
+  }, []);
+
   // Update tooltip text if newsInfo loads while on a news article page
   useEffect(() => {
     if (pathname?.startsWith('/tin-tuc/') && pathname !== '/tin-tuc' && newsInfo) {
+      // 1. Change bot appearance/expression/outfit depending on category (keeps constant)
+      const category = newsInfo.categoryName?.trim().toLowerCase() || '';
+      let matchedZodiac = null;
+      let targetExpression = 'reading_news';
+
+      if (category.includes('thần số học')) {
+        targetExpression = 'numerology';
+      } else if (category.includes('cung hoàng đạo') || category.includes('tử vi')) {
+        targetExpression = 'happy';
+
+        // Detect specific zodiac from article title or tags
+        const detectZodiacFromText = (text) => {
+          if (!text) return null;
+          const lowerText = text.toLowerCase();
+          const zodiacMap = {
+            aries: ['bạch dương', 'bach duong', 'aries'],
+            taurus: ['kim ngưu', 'kim nguu', 'taurus'],
+            gemini: ['song tử', 'song tu', 'gemini'],
+            cancer: ['cự giải', 'cu gia', 'cancer'],
+            leo: ['sư tử', 'su tu', 'leo'],
+            virgo: ['xử nữ', 'xu nu', 'virgo'],
+            libra: ['thiên bình', 'thien binh', 'libra'],
+            scorpio: ['bọ cạp', 'bo cap', 'thiên yết', 'thien yet', 'scorpio'],
+            sagittarius: ['nhân mã', 'nhan ma', 'sagittarius'],
+            capricorn: ['ma kết', 'ma ket', 'capricorn'],
+            aquarius: ['bảo bình', 'bao binh', 'aquarius'],
+            pisces: ['song ngư', 'song ngu', 'pisces']
+          };
+          for (const [key, keywords] of Object.entries(zodiacMap)) {
+            if (keywords.some(keyword => lowerText.includes(keyword))) return key;
+          }
+          return null;
+        };
+
+        const titleZodiac = detectZodiacFromText(newsInfo.title);
+        const tagsText = newsInfo.tags && Array.isArray(newsInfo.tags) ? newsInfo.tags.join(' ') : '';
+        const tagsZodiac = detectZodiacFromText(tagsText);
+
+        matchedZodiac = titleZodiac || tagsZodiac;
+        const fallback = category.includes('tử vi') ? 'aries' : 'cancer';
+        matchedZodiac = matchedZodiac || fallback;
+      } else if (category.includes('tình yêu')) {
+        targetExpression = 'love';
+      } else if (category.includes('sự nghiệp') || category.includes('sự nghiêp')) {
+        targetExpression = 'tarot_career';
+      }
+
+      setExpression(targetExpression);
+      setActiveZodiac(matchedZodiac);
+
+      // 2. Play news tooltip sequence (Published date/views -> Author -> Category)
+      clear404Timers(); 
+
+      // Tooltip 1: Published Date and Views
       setTooltipText(`Đăng ngày ${newsInfo.publishedDate} với ${newsInfo.viewCount} lượt xem`);
       setTooltipHref(pathname);
+      setIsTooltipOpen(true);
+
+      // Tooltip 2: Author (after 3.5 seconds)
+      timer404Ref1.current = setTimeout(() => {
+        setIsTooltipOpen(false); // flash off
+
+        timer404Ref2.current = setTimeout(() => {
+          setTooltipText("Tác giả: Góc Vũ Trụ");
+          setIsTooltipOpen(true);
+
+          // Tooltip 3: Category (after 3.5 seconds)
+          timer404Ref3.current = setTimeout(() => {
+            setIsTooltipOpen(false); // flash off
+
+            timer404MoveRef.current = setTimeout(() => {
+              setTooltipText(`Chủ đề: ${newsInfo.categoryName}`);
+              setIsTooltipOpen(true);
+
+              // Close after 4 seconds
+              setTimeout(() => {
+                setIsTooltipOpen(false);
+              }, 4000);
+
+            }, 300);
+          }, 3500);
+
+        }, 300);
+      }, 3500);
     }
   }, [newsInfo, pathname]);
 
+  // Update tooltip text if nameNumerologyInfo loads
+  useEffect(() => {
+    if (nameNumerologyInfo) {
+      const isNameNumerology = pathname?.startsWith('/than-so-hoc-theo-ten/ket-qua');
+      const isBirthdayNumerology = pathname?.startsWith('/than-so-hoc/') && pathname !== '/than-so-hoc/tin-tuc';
+
+      if (isNameNumerology || isBirthdayNumerology) {
+        // Delay slightly to override the default pathname tooltip
+        const timer = setTimeout(() => {
+          const label = isNameNumerology ? 'Con số sứ mệnh' : 'Con số chủ đạo';
+          setTooltipText(`${label} của bạn là số ${nameNumerologyInfo.number} đó! Hãy cùng tìm hiểu nha!`);
+          setTooltipHref(pathname);
+          setIsTooltipOpen(true);
+          setExpression('numerology');
+        }, 2500); // 2.5s is after the 2s default tooltip logic
+        
+        const hideTimer = setTimeout(() => {
+          setIsTooltipOpen(false);
+          setExpression(getPageExpression());
+        }, 8500); // Hide after 6 seconds of showing
+
+        return () => {
+          clearTimeout(timer);
+          clearTimeout(hideTimer);
+        };
+      }
+    }
+  }, [nameNumerologyInfo, pathname]);
+
+  // Update tooltip text if activeZodiacName loads on a zodiac subpage
+  useEffect(() => {
+    if (activeZodiacName) {
+      const isZodiacSubPage = pathname?.includes('/cung-hoang-dao/');
+      if (isZodiacSubPage) {
+        // Delay slightly to override the default welcome tooltip
+        const timer = setTimeout(() => {
+          setTooltipText(`Cung của bạn là ${activeZodiacName} nè! Cùng tìm hiểu nha!`);
+          setTooltipHref(pathname);
+          setIsTooltipOpen(true);
+          setExpression('happy');
+        }, 2500); // 2.5s is after the 2s default tooltip logic
+        
+        const hideTimer = setTimeout(() => {
+          setIsTooltipOpen(false);
+          setExpression(getPageExpression());
+        }, 8500); // Hide after 6 seconds of showing
+
+        return () => {
+          clearTimeout(timer);
+          clearTimeout(hideTimer);
+        };
+      }
+    }
+  }, [activeZodiacName, pathname]);
+
+  // Listen for custom speech event
+  useEffect(() => {
+    const handleAstroSpeak = (e) => {
+      if (e.detail) {
+        const textPayload = typeof e.detail === 'string' ? e.detail : e.detail.text;
+        setTooltipText(textPayload || "");
+        setIsTooltipOpen(true);
+        setExpression(e.detail.expression || 'happy');
+        
+        if (window.botTooltipTimer) clearTimeout(window.botTooltipTimer);
+        window.botTooltipTimer = setTimeout(() => {
+          setIsTooltipOpen(false);
+          setExpression(getPageExpression());
+        }, e.detail.duration || 6000);
+      }
+    };
+    window.addEventListener('astro-bot-speak', handleAstroSpeak);
+    return () => window.removeEventListener('astro-bot-speak', handleAstroSpeak);
+  }, []);
+
+  // Listen for custom expression event
+  useEffect(() => {
+    const handleAstroExpression = (e) => {
+      if (e.detail) {
+        setExpression(e.detail);
+      }
+    };
+    window.addEventListener('astro-bot-expression', handleAstroExpression);
+    return () => window.removeEventListener('astro-bot-expression', handleAstroExpression);
+  }, []);
+
+  // Update tooltip text if tarotTopic loads on a tarot spread page
+  useEffect(() => {
+    if (tarotTopic) {
+      // Delay slightly to override the default welcome tooltip
+      const timer = setTimeout(() => {
+        setTooltipText(`Bạn đang trải bài ${tarotTopic.topicName} nha! Hãy nhấn Xào Bài để bắt đầu nhé.`);
+        setTooltipHref(pathname);
+        setIsTooltipOpen(true);
+        setExpression(tarotTopic.expression);
+      }, 2500); // 2.5s is after the 2s default tooltip logic
+      
+      const hideTimer = setTimeout(() => {
+        setIsTooltipOpen(false);
+      }, 8500); // Hide after 6 seconds of showing
+
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(hideTimer);
+      };
+    }
+  }, [tarotTopic, pathname]);
+
+  // Update tooltip text on Tarot drawing state changes
+  useEffect(() => {
+    if (tarotState && tarotState.state === 'drawing') {
+      const cardText = tarotState.numCards === 1 ? '1 lá bài' : '3 lá bài';
+      setTooltipText(`Bạn hãy chọn ${cardText} nha!`);
+      setTooltipHref(pathname);
+      setIsTooltipOpen(true);
+      
+      const timer = setTimeout(() => {
+        setIsTooltipOpen(false);
+      }, 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [tarotState, pathname]);
+
   // Effect to drift only during dynamic/action expressions, staying still at center by default (and during sleep)
   useEffect(() => {
-    const dynamicMoods = ['dancing', 'guitar', 'coffee', 'driving', 'singing', 'reading_news', 'searching', 'phone', 'reading', 'basketball', 'soccer', 'rocket'];
+    const dynamicMoods = ['dancing', 'guitar', 'coffee', 'driving', 'singing', 'reading_news', 'searching', 'phone', 'reading', 'basketball', 'soccer', 'rocket', 'numerology', 'tarot_shuffling'];
     
     if (dynamicMoods.includes(expression) && !isLaunching && !isHovered && !isOpen) {
       // Subtle drift offset while active
@@ -81,6 +362,16 @@ export default function FloatingTarotBot() {
 
   // Get default expression depending on pathname
   const getPageExpression = () => {
+    if (pathname?.includes('/tarot/trai-bai/') && tarotTopic) return tarotTopic.expression;
+    if (pathname?.startsWith('/tin-tuc/') && pathname !== '/tin-tuc' && newsInfo) {
+      const category = newsInfo.categoryName?.trim().toLowerCase() || '';
+      if (category.includes('thần số học')) return 'numerology';
+      if (category.includes('tình yêu')) return 'love';
+      if (category.includes('sự nghiệp') || category.includes('sự nghiêp')) return 'tarot_career';
+    }
+    const isNameNumerology = pathname?.startsWith('/than-so-hoc-theo-ten/ket-qua');
+    const isBirthdayNumerology = pathname?.startsWith('/than-so-hoc/') && pathname !== '/than-so-hoc/tin-tuc';
+    if ((isNameNumerology || isBirthdayNumerology) && nameNumerologyInfo) return 'numerology';
     if (pathname?.startsWith('/tarot')) return 'tarot';
     if (
       pathname?.startsWith('/do-hop-cung-hoang-dao') || 
@@ -257,12 +548,24 @@ export default function FloatingTarotBot() {
           { label: "Xem lịch sử rút bài Tarot", href: ROUTES.TAROT_HISTORY, icon: History, color: "text-indigo-400 bg-indigo-500/10" }
         ]
       };
+    } else if (pathname?.includes('/cung-hoang-dao/') && activeZodiacName) {
+      activeSuggestion = {
+        greeting: `Giải mã chòm sao ${activeZodiacName}`,
+        question: `Bạn có muốn tìm hiểu thêm về sự tương hợp của chòm sao này?`,
+        options: [
+          { label: "Bạn hợp với cung nào nhất?", href: ROUTES.ZODIAC_BEST_MATCHES, icon: Heart, color: "text-rose-400 bg-rose-500/10" },
+          { label: "Bói tình duyên 2 chòm sao", href: ROUTES.ZODIAC_MATCH, icon: Compass, color: "text-cyan-400 bg-cyan-500/10" },
+          { label: "Trải bài Tarot Tình Yêu", href: ROUTES.TAROT_SPREAD('tinh-yeu'), icon: TarotIcon, color: "text-purple-400 bg-purple-500/10" }
+        ]
+      };
     }
 
     setSuggestion(activeSuggestion);
 
     // After 2 seconds of thinking/dizzy transition, display welcome cue
-    const timer = setTimeout(() => {
+    welcomeTimerRef.current = setTimeout(() => {
+      if (is404Page || (pathname?.startsWith('/tin-tuc/') && pathname !== '/tin-tuc')) return; // Không hiện lời chào mặc định nếu đang ở trang 404 hoặc trang chi tiết tin tức
+
       setExpression(getPageExpression());
 
       let pageName = "Góc Vũ Trụ";
@@ -316,16 +619,29 @@ export default function FloatingTarotBot() {
       setTimeout(() => {
         setIsTooltipOpen(false);
         setExpression(getPageExpression());
+        
+        // Show specific instruction after welcome message closes for Zodiac Match page
+        if (pathname?.startsWith('/do-hop-cung-hoang-dao')) {
+          setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('astro-bot-speak', { 
+              detail: {
+                text: "Hãy nhập theo ngày sinh hay cung nha!",
+                expression: 'happy',
+                duration: 6000
+              }
+            }));
+          }, 800);
+        }
       }, 6000);
 
     }, 2000);
     
     return () => {
-      clearTimeout(timer);
+      if (welcomeTimerRef.current) clearTimeout(welcomeTimerRef.current);
       if (wakeTimeout) clearTimeout(wakeTimeout);
       if (clickTimeout) clearTimeout(clickTimeout);
     };
-  }, [pathname]);
+  }, [pathname, activeZodiacName]);
 
   // 5. Sleepy idle check, periodic mood swings, and proactive Type 2 Tooltips (at 30s and 70s)
   useEffect(() => {
@@ -434,6 +750,10 @@ export default function FloatingTarotBot() {
   }, [isOpen, pathname, isHovered]);
 
   const handleToggle = () => {
+    // Clear 404 timers on manual action
+    clear404Timers();
+    setIs404PlayfulMoving(false);
+
     // If scrolled down and scroll-to-top option is ready, trigger rocket!
     if (showScrollTop) {
       setIsLaunching(true);
@@ -527,12 +847,16 @@ export default function FloatingTarotBot() {
   };
 
   const handleOptionClick = () => {
+    clear404Timers();
+    setIs404PlayfulMoving(false);
     setIsOpen(false);
     setExpression('idle');
     setHasInteracted(true);
   };
 
   const handleMouseEnter = () => {
+    clear404Timers();
+    setIs404PlayfulMoving(false);
     setIsHovered(true);
     if (expression === 'sleepy') {
       setExpression('groggy');
@@ -557,7 +881,7 @@ export default function FloatingTarotBot() {
   };
 
   const getTopic = () => {
-    const text = tooltipText?.toLowerCase() || "";
+    const text = typeof tooltipText === 'string' ? tooltipText.toLowerCase() : String(tooltipText || "").toLowerCase();
     const path = pathname?.toLowerCase() || "";
     
     // Check loading first (dizzy/thinking/loading state)
@@ -661,10 +985,82 @@ export default function FloatingTarotBot() {
     }
   };
 
+  // Listen for 404 page error event
+  useEffect(() => {
+    const handle404Page = () => {
+      setIs404Page(true);
+      clear404Timers();
+      setIs404PlayfulMoving(false);
+
+      // 1. Show first tooltip: "Bạn vào nhầm trang rồi!"
+      setTooltipText("Bạn vào nhầm trang rồi!");
+      setTooltipHref(pathname);
+      setIsTooltipOpen(true);
+      setExpression('annoyed');
+
+      // 2. After 3 seconds, show: "Bạn có cần mình hỗ trợ không?"
+      timer404Ref1.current = setTimeout(() => {
+        setTooltipText("Bạn có cần mình hỗ trợ không?");
+        setExpression('groggy');
+
+        // 3. After 3 more seconds (total 6s), open popup suggestions (large box)
+        timer404Ref2.current = setTimeout(() => {
+          setIsTooltipOpen(false);
+          setIsOpen(true);
+          setExpression('happy');
+
+          // 4. Close popup after 10 seconds of inactivity
+          timer404Ref3.current = setTimeout(() => {
+            setIsOpen(false);
+            
+            // 5. Playful movement of the whole bot for 8 seconds (wild moves and dancing expression)
+            setIs404PlayfulMoving(true);
+            setExpression('dancing');
+            timer404MoveRef.current = setTimeout(() => {
+              setIs404PlayfulMoving(false);
+              setExpression('idle');
+            }, 8000);
+
+          }, 10000);
+
+        }, 3000);
+
+      }, 3000);
+    };
+
+    window.addEventListener('astro-bot-404-page', handle404Page);
+    return () => {
+      window.removeEventListener('astro-bot-404-page', handle404Page);
+      clear404Timers();
+    };
+  }, [pathname]);
+
   if (!suggestion) return null;
 
   return (
-    <div className={`fixed bottom-6 ${isOnLeft ? 'left-6 sm:left-8' : 'right-6 sm:right-8'} z-[999] select-none transition-all duration-300 ${hideAll ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'}`}>
+    <motion.div 
+      animate={
+        is404PlayfulMoving 
+          ? {
+              x: [0, -250, 150, -350, 200, -100, 0],
+              y: [0, -400, -150, -500, -300, -450, 0],
+              rotate: [0, 180, -90, 360, -180, 720, 0],
+              scale: [1, 1.4, 0.8, 1.5, 0.7, 1.3, 1],
+            }
+          : { x: 0, y: 0, rotate: 0, scale: 1 }
+      }
+      transition={
+        is404PlayfulMoving 
+          ? {
+              duration: 8,
+              ease: "easeInOut",
+              times: [0, 0.15, 0.3, 0.5, 0.7, 0.85, 1],
+              repeat: 0,
+            }
+          : { duration: 0.3 }
+      }
+      className={`fixed bottom-6 ${isOnLeft ? 'left-6 sm:left-8' : 'right-6 sm:right-8'} z-[999] select-none transition-all duration-300 ${hideAll ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'}`}
+    >
       <div className={`relative flex flex-col ${isOnLeft ? 'items-start' : 'items-end'}`}>
         
         {/* Type 1: Dialogue Bubble Menu (Opens manually on click) */}
@@ -684,7 +1080,7 @@ export default function FloatingTarotBot() {
                 <div>
                   <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-1 flex items-center gap-1.5">
                     <Sparkles className="w-3 h-3 text-cyan-400 animate-spin-slow" />
-                    Trợ lý ảo
+                    Trợ lý ảo Astro
                   </div>
                   <h4 className="text-white text-xs font-bold leading-relaxed">
                     {suggestion.greeting}
@@ -720,9 +1116,9 @@ export default function FloatingTarotBot() {
 
                 <button 
                   onClick={() => setIsOpen(false)}
-                  className="text-slate-500 hover:text-slate-300 text-[10px] uppercase tracking-widest font-bold mt-1 text-center w-full transition-colors"
+                  className="flex items-center justify-center gap-1 text-slate-500 hover:text-slate-300 text-[10px] uppercase tracking-widest font-bold mt-1 text-center w-full transition-colors group"
                 >
-                  Thu gọn trợ lý ✕
+                  Thu gọn <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
                 </button>
               </div>
             </motion.div>
@@ -731,7 +1127,7 @@ export default function FloatingTarotBot() {
 
         {/* Type 2: Proactive Short Tooltip Chat Bubble (Highly Visible Neon Style, no emojis) */}
         <AnimatePresence>
-          {isTooltipOpen && !isOpen && !showScrollTop && (() => {
+          {isTooltipOpen && !isOpen && (() => {
             const currentTopic = getTopic();
             return (
               <Link href={tooltipHref} className={`pointer-events-auto block absolute bottom-[115%] ${isOnLeft ? 'left-0' : 'right-0'} mb-4 z-[1000] group`}>
@@ -784,7 +1180,7 @@ export default function FloatingTarotBot() {
               ? { duration: 1.2, ease: "easeIn" } 
               : { type: "spring", damping: 15, stiffness: 200 }
           }
-          className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border-2 ${isOpen || showScrollTop ? 'border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]'} hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-400 hover:scale-110 flex items-center justify-center cursor-pointer relative overflow-hidden group transition-all duration-300 z-50`}
+          className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border-2 ${isOpen || showScrollTop ? 'border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]'} hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-400 hover:scale-110 flex items-center justify-center cursor-pointer relative overflow-hidden group transition-all duration-300 z-50 ${expression === 'party' ? 'animate-bounce' : ''}`}
         >
           <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full group-hover:bg-purple-500/35 transition-colors" />
           <span className="absolute inset-0 rounded-full border border-cyan-400/20 animate-ping group-hover:animate-none opacity-50" />
@@ -796,10 +1192,12 @@ export default function FloatingTarotBot() {
             <CosmicAIIcon 
               className="w-11 h-11 text-fuchsia-300 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] group-hover:rotate-6 transition-transform" 
               expression={isLaunching ? 'rocket' : expression} 
+              numerologyNumber={nameNumerologyInfo?.number}
+              zodiac={activeZodiac}
             />
           </motion.div>
         </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 }

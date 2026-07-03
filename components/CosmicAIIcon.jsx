@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle", ...props }) {
+export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle", numerologyNumber = null, zodiac = null, ...props }) {
   return (
     <svg 
       viewBox="0 0 24 24" 
@@ -82,6 +82,11 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(0.4px) rotate(1deg); }
           }
+          @keyframes numberPlay {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-1.5px, -2px) scale(1.1); }
+            66% { transform: translate(1px, -1px) scale(0.95); }
+          }
 
           .cosmic-ring-anim {
             animation: floatRing 3s ease-in-out infinite;
@@ -134,6 +139,10 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             animation: coffeeBob 3s ease-in-out infinite;
             transform-origin: 12px 13px;
           }
+          .number-play-anim {
+            animation: numberPlay 3s ease-in-out infinite;
+            transform-origin: 19px 12px;
+          }
         `}</style>
       </defs>
 
@@ -162,10 +171,10 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
       <g className={
         expression === 'driving' ? 'driving-head-anim' :
         expression === 'reading' ? 'reading-head-anim' :
-        expression === 'dizzy' ? 'dizzy-head-anim' :
+        expression === 'dizzy' || expression === 'thinking' || expression === 'calculating' ? 'dizzy-head-anim' :
         expression === 'rocket' ? 'rocket-head-anim' :
-        expression === 'dancing' ? 'dancing-head-anim' :
-        expression === 'coffee' ? 'coffee-head-anim' : ''
+        expression === 'dancing' || expression === 'party' ? 'dancing-head-anim' :
+        expression === 'coffee' || expression === 'numerology' || expression === 'love' || expression?.startsWith('tarot_') ? 'coffee-head-anim' : ''
       }>
         
         {/* Rocket Side Wings (Only when launching) */}
@@ -185,6 +194,23 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           <>
             <path d="M5.5 14.5c-1-1.5-1.5-2.8-1-3.2" stroke="url(#cosmicAIGrad)" strokeWidth="1.2" strokeLinecap="round" />
             <path d="M18.5 14.5c1-1.5 1.5-2.8 1-3.2" stroke="url(#cosmicAIGrad)" strokeWidth="1.2" strokeLinecap="round" />
+          </>
+        )}
+
+        {/* Leo Mane */}
+        {zodiac === 'leo' && (
+          <>
+            <path 
+              d="M3 10c-1.5-2.5 1.5-5.5 4.5-5.5s4 1.5 4.5 1.5s1.5-1.5 4.5-1.5s6 3 4.5 5.5s-1 5-4.5 5s-2.5-.5-4.5-.5s-2.5.5-4.5.5s-3-2.5-4.5-5z" 
+              fill="#f59e0b" 
+              fillOpacity="0.25" 
+              stroke="#f59e0b" 
+              strokeWidth="0.8" 
+              strokeOpacity="0.3" 
+            />
+            {/* Two cute lion ears on top */}
+            <path d="M6.5 8l-2-2.5l-.5 2.5z" fill="#f59e0b" />
+            <path d="M17.5 8l2-2.5l.5 2.5z" fill="#f59e0b" />
           </>
         )}
 
@@ -212,12 +238,39 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           pointerEvents="none"
         />
 
-        {/* Crescent Moon on Forehead */}
-        <path 
-          d="M12.2 9.8c0-.5.2-.9.7-1.1-.1-.1-.2-.1-.3-.1-.7 0-1.2.5-1.2 1.2s.5 1.2 1.2 1.2c.1 0 .2 0 .3-.1-.4-.1-.7-.6-.7-1.1z" 
-          fill="#22d3ee" 
-          opacity="0.9"
-        />
+        {/* Forehead Symbol (Zodiac or Moon) */}
+        {zodiac ? (
+          <text 
+            x="12" 
+            y="11.2" 
+            fill="#22d3ee" 
+            fontSize="3.2" 
+            fontWeight="bold" 
+            textAnchor="middle" 
+            style={{ fontStyle: 'normal', fontFamily: 'Arial, sans-serif' }}
+            opacity="0.95"
+            className="drop-shadow-[0_0_2px_rgba(34,211,238,0.8)]"
+          >
+            {zodiac === 'aries' ? '♈' :
+             zodiac === 'taurus' ? '♉' :
+             zodiac === 'gemini' ? '♊' :
+             zodiac === 'cancer' ? '♋' :
+             zodiac === 'leo' ? '♌' :
+             zodiac === 'virgo' ? '♍' :
+             zodiac === 'libra' ? '♎' :
+             zodiac === 'scorpio' ? '♏' :
+             zodiac === 'sagittarius' ? '♐' :
+             zodiac === 'capricorn' ? '♑' :
+             zodiac === 'aquarius' ? '♒' :
+             zodiac === 'pisces' ? '♓' : ''}
+          </text>
+        ) : (
+          <path 
+            d="M12.2 9.8c0-.5.2-.9.7-1.1-.1-.1-.2-.1-.3-.1-.7 0-1.2.5-1.2 1.2s.5 1.2 1.2 1.2c.1 0 .2 0 .3-.1-.4-.1-.7-.6-.7-1.1z" 
+            fill="#22d3ee" 
+            opacity="0.9"
+          />
+        )}
 
         {/* Expressions Logic */}
         {expression === 'happy' && (
@@ -381,7 +434,7 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
         )}
 
         {/* Dizzy expression (chóng mặt) */}
-        {expression === 'dizzy' && (
+        {(expression === 'dizzy' || expression === 'thinking' || expression === 'calculating') && (
           <>
             <path d="M8 11.8l2 2M10 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
             <path d="M14 11.8l2 2M16 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
@@ -544,6 +597,21 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             </g>
           </>
         )}
+        {expression === 'party' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.4" ry="1.4" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.4" ry="1.4" fill="#22d3ee" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.3" ry="0.8" fill="#f43f5e" fillOpacity="0.85" />
+            <ellipse cx="16.8" cy="14.3" rx="1.3" ry="0.8" fill="#f43f5e" fillOpacity="0.85" />
+            <path d="M10 14.5c.5 1.5 3.5 1.5 4 0" fill="#f43f5e" stroke="#22d3ee" strokeWidth="0.8" />
+            <g className="animate-bounce" style={{ transformOrigin: '12px 12px' }}>
+              <path d="M12 1.5l-2.5 6.5h5z" fill="#ec4899" />
+              <circle cx="12" cy="1.5" r="1.2" fill="#fcd34d" />
+              <path d="M10.5 8l1.5-6.5 1.5 6.5" fill="none" stroke="#22d3ee" strokeWidth="0.5" opacity="0.5" />
+            </g>
+          </>
+        )}
+
 
         {expression === 'phone' && (
           <>
@@ -573,6 +641,99 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             </g>
           </>
         )}
+        {expression === 'love' && (
+          <>
+            <path d="M7 11.5c.2-.5.8-.8 1.3-.5l.7.5.7-.5c.5-.3 1.1 0 1.3.5.2.5-.2 1.2-1.3 2l-.7.5-.7-.5c-1.1-.8-1.5-1.5-1.3-2z" fill="#f43f5e" />
+            <path d="M13 11.5c.2-.5.8-.8 1.3-.5l.7.5.7-.5c.5-.3 1.1 0 1.3.5.2.5-.2 1.2-1.3 2l-.7.5-.7-.5c-1.1-.8-1.5-1.5-1.3-2z" fill="#f43f5e" />
+            <ellipse cx="7.2" cy="14.5" rx="1.5" ry="0.9" fill="#f43f5e" fillOpacity="0.8" />
+            <ellipse cx="16.8" cy="14.5" rx="1.5" ry="0.9" fill="#f43f5e" fillOpacity="0.8" />
+            <path d="M10.8 14.8c.3.5.9.5 1.4 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <g className="card-float-anim">
+              <path d="M2.5 4.5c.1-.3.4-.4.6-.2l.4.3.4-.3c.2-.2.5-.1.6.2c.1.3-.1.6-.6 1l-.4.3-.4-.3c-.5-.4-.7-.7-.6-1z" fill="#f43f5e" />
+              <path d="M21.5 5.5c.1-.3.4-.4.6-.2l.4.3.4-.3c.2-.2.5-.1.6.2c.1.3-.1.6-.6 1l-.4.3-.4-.3c-.5-.4-.7-.7-.6-1z" fill="#f43f5e" />
+            </g>
+          </>
+        )}
+        {expression === 'tarot_love' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#f43f5e" fillOpacity="0.75" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#f43f5e" fillOpacity="0.75" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            <g className="card-float-anim">
+              <rect x="17.2" y="2" width="4.5" height="7" rx="0.5" fill="#060919" stroke="#f43f5e" strokeWidth="0.8" />
+              <path d="M19.5 4.5c-.2-.2-.5 0-.5 0s-.3-.2-.5 0c-.2.2-.2.5 0 .7l.5.5.5-.5c.2-.2.2-.5 0-.7z" fill="#f43f5e" />
+            </g>
+          </>
+        )}
+
+        {expression === 'tarot_career' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#0ea5e9" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#0ea5e9" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            <g className="card-float-anim">
+              <rect x="17.2" y="2" width="4.5" height="7" rx="0.5" fill="#060919" stroke="#0ea5e9" strokeWidth="0.8" />
+              <circle cx="19.5" cy="5.5" r="1" fill="#eab308" />
+            </g>
+          </>
+        )}
+
+        {expression === 'tarot_finance' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#22c55e" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#22c55e" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            <g className="card-float-anim">
+              <rect x="17.2" y="2" width="4.5" height="7" rx="0.5" fill="#060919" stroke="#22c55e" strokeWidth="0.8" />
+              <circle cx="19.5" cy="5.5" r="0.8" fill="#eab308" />
+            </g>
+          </>
+        )}
+
+        {expression === 'tarot_daily' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#eab308" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#eab308" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            <g className="card-float-anim">
+              <rect x="17.2" y="2" width="4.5" height="7" rx="0.5" fill="#060919" stroke="#eab308" strokeWidth="0.8" />
+              <circle cx="19.5" cy="5.5" r="0.6" fill="#eab308" />
+              <line x1="19.5" y1="4.3" x2="19.5" y2="4.7" stroke="#eab308" strokeWidth="0.4" />
+              <line x1="19.5" y1="6.3" x2="19.5" y2="6.7" stroke="#eab308" strokeWidth="0.4" />
+              <line x1="18.3" y1="5.5" x2="18.7" y2="5.5" stroke="#eab308" strokeWidth="0.4" />
+              <line x1="20.3" y1="5.5" x2="20.7" y2="5.5" stroke="#eab308" strokeWidth="0.4" />
+            </g>
+          </>
+        )}
+
+        {expression === 'tarot_shuffling' && (
+          <>
+            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" opacity="0.6" />
+            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" opacity="0.6" />
+            <circle cx="12" cy="14.8" r="0.6" fill="#22d3ee" />
+            
+            {/* Shuffling Cards Orbit */}
+            <g className="animate-spin" style={{ transformOrigin: '12px 12.5px', animationDuration: '2s' }}>
+              <g transform="translate(12, 1) rotate(15)">
+                <rect x="-1.5" y="-2.5" width="3" height="5" rx="0.3" fill="#060919" stroke="#22d3ee" strokeWidth="0.6" />
+              </g>
+              <g transform="translate(22, 12) rotate(45)">
+                <rect x="-1.5" y="-2.5" width="3" height="5" rx="0.3" fill="#060919" stroke="#d946ef" strokeWidth="0.6" />
+              </g>
+              <g transform="translate(2, 12) rotate(-45)">
+                <rect x="-1.5" y="-2.5" width="3" height="5" rx="0.3" fill="#060919" stroke="#eab308" strokeWidth="0.6" />
+              </g>
+            </g>
+          </>
+        )}
 
         {expression === 'idle' && (
           <>
@@ -584,6 +745,114 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
             <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
           </>
+        )}
+
+        {expression === 'numerology' && (
+          <>
+            {/* Happy/wink excited eyes looking at the number */}
+            <path d="M7.8 13c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+            <path d="M15 13c.3-.4.9-.4 1.2 0" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            
+            {/* Glowing Orb containing the Numerology Number */}
+            <g className="number-play-anim" style={{ transformOrigin: '19px 12px' }}>
+              <circle cx="19" cy="12" r="3.2" fill="#060919" stroke="url(#cosmicAIGrad)" strokeWidth="0.8" />
+              <circle cx="19" cy="12" r="3.2" fill="url(#innerFaceGlow)" opacity="0.85" />
+              <text x="19" y="13.2" fill="#22d3ee" fontSize="4.2" fontWeight="black" textAnchor="middle" style={{ fontStyle: 'normal' }}>
+                {numerologyNumber || '8'}
+              </text>
+            </g>
+            
+            {/* Magic sparkles around the orb */}
+            <path d="M19 6.5l.2.4.4.2-.4.2-.2.4-.2-.4-.4-.2.4-.2z" fill="#d946ef" opacity="0.8" />
+            <path d="M22.5 15.5l.2.4.4.2-.4.2-.2.4-.2-.4-.4-.2.4-.2z" fill="#22d3ee" opacity="0.8" />
+          </>
+        )}
+
+        {/* Zodiac additions inside the head group so they move with the head */}
+        {zodiac === 'aries' && (
+          <g>
+            <path d="M5.5 10c-2.5-1-4.5-.5-5 1.5s1.5 3 3 2.5c1.5-.5 2-2 2-4" stroke="url(#cosmicAIGrad)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            <path d="M18.5 10c2.5-1 4.5-.5 5 1.5s-1.5 3-3 2.5c-1.5-.5-2-2-2-4" stroke="url(#cosmicAIGrad)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            <path d="M4 17.5c2 1 4 .5 6 1s4-1 6-.5c2-.5 4-1 4-1" stroke="url(#cosmicAIGrad)" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.8" />
+          </g>
+        )}
+        {zodiac === 'taurus' && (
+          <g>
+            <path d="M6.5 8.5c-1.2-2.5-3-2.5-3.5-.5s1 2.5 3 1" stroke="url(#cosmicAIGrad)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            <path d="M17.5 8.5c1.2-2.5 3-2.5 3.5-.5s-1 2.5-3 1" stroke="url(#cosmicAIGrad)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            <circle cx="12" cy="15.8" r="1.2" stroke="#facc15" strokeWidth="0.8" fill="none" />
+          </g>
+        )}
+        {zodiac === 'gemini' && (
+          <g className="heart-float-anim" style={{ transformOrigin: '19px 12px' }}>
+            <rect x="18.5" y="7" width="5" height="4" rx="1.5" fill="#060919" stroke="#d946ef" strokeWidth="0.6" />
+            <circle cx="20" cy="8.5" r="0.4" fill="#d946ef" />
+            <circle cx="22" cy="8.5" r="0.4" fill="#d946ef" />
+            <path d="M20.5 9.8c.2.2.8.2 1 0" stroke="#d946ef" strokeWidth="0.4" strokeLinecap="round" />
+          </g>
+        )}
+        {zodiac === 'cancer' && (
+          <g>
+            <circle cx="12" cy="12.5" r="9" stroke="#22d3ee" strokeWidth="0.5" strokeDasharray="3 2" opacity="0.4" className="animate-spin" style={{ animationDuration: '8s', transformOrigin: '12px 12.5px' }} />
+            <path d="M4 14c-1.5.5-2-1-1.5-2s1.5-1.2 2 0c.3.8-.2 1.5-.5 2" fill="url(#cosmicAIGrad)" />
+            <path d="M20 14c1.5.5 2-1 1.5-2s-1.5-1.2-2 0c-.3.8.2 1.5.5 2" fill="url(#cosmicAIGrad)" />
+          </g>
+        )}
+        {zodiac === 'virgo' && (
+          <g>
+            <path d="M7 8c2-2.5 8-2.5 10 0" stroke="#10b981" strokeWidth="0.8" fill="none" />
+            <circle cx="9" cy="6.5" r="0.8" fill="#d946ef" />
+            <circle cx="12" cy="5.5" r="1" fill="#facc15" />
+            <circle cx="15" cy="6.5" r="0.8" fill="#22d3ee" />
+            <path d="M3 7l.2.4.4.2-.4.2-.2.4-.2-.4-.4-.2.4-.2z" fill="#facc15" />
+            <path d="M21 7l.2.4.4.2-.4.2-.2.4-.2-.4-.4-.2.4-.2z" fill="#facc15" />
+          </g>
+        )}
+        {zodiac === 'libra' && (
+          <g>
+            <path d="M3.5 13H1.5M2.5 13v3" stroke="url(#cosmicAIGrad)" strokeWidth="0.8" />
+            <path d="M1 16h3l-1.5 1.5z" fill="#22d3ee" />
+            <path d="M20.5 13h-2M19.5 13v3" stroke="url(#cosmicAIGrad)" strokeWidth="0.8" />
+            <path d="M18 16h3l-1.5 1.5z" fill="#22d3ee" />
+          </g>
+        )}
+        {zodiac === 'scorpio' && (
+          <g>
+            <path d="M19 16c2 1 3.5 0 3-2s-1.5-2.5-3-1.5l-1 1" stroke="url(#cosmicAIGrad)" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <path d="M18.5 13.5l-.8-1.5l1.5.5z" fill="#ef4444" />
+          </g>
+        )}
+        {zodiac === 'sagittarius' && (
+          <g>
+            <g transform="rotate(-15 6 16)">
+              <path d="M4 14c-1.5 1-1.5 3 0 4" stroke="#eab308" strokeWidth="0.8" fill="none" />
+              <line x1="2.5" y1="16" x2="6" y2="16" stroke="#22d3ee" strokeWidth="0.8" />
+              <path d="M6 16l-1-.5v1z" fill="#22d3ee" />
+            </g>
+            <path d="M7 8c-1-2-1-4 1-5c0 2 0 4-1 5z" fill="#ec4899" />
+          </g>
+        )}
+        {zodiac === 'capricorn' && (
+          <g>
+            <path d="M8 8c-1-3-3-3-4-2c1 1.5 2 2.5 4 2" stroke="url(#cosmicAIGrad)" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <path d="M16 8c1-3 3-3 4-2c-1 1.5-2 2.5-4 2" stroke="url(#cosmicAIGrad)" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <path d="M5 16.5c-1.5 1-3 1-3.5 2.5s.5 2.5 1.5 2" stroke="url(#cosmicAIGrad)" strokeWidth="1.2" fill="none" />
+          </g>
+        )}
+        {zodiac === 'aquarius' && (
+          <g>
+            <path d="M2.5 10c-.5-1-1.5-1-2 0s.5 2 2 1.5z" fill="#060919" stroke="#22d3ee" strokeWidth="0.8" />
+            <path d="M1 11.5c-.8 1.5.5 3 0 4" stroke="#22d3ee" strokeWidth="0.6" strokeLinecap="round" strokeDasharray="1 1" />
+          </g>
+        )}
+        {zodiac === 'pisces' && (
+          <g className="heart-float-anim" style={{ transformOrigin: '12px 12px' }}>
+            <path d="M2 9.5c1 .5 1-.5 2 0c-1 .5-1-.5-2 0" fill="#22d3ee" />
+            <path d="M20 15c1 .5 1-.5 2 0c-1 .5-1-.5-2 0" fill="#d946ef" />
+          </g>
         )}
       </g>
 

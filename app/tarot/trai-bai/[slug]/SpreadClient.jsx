@@ -83,11 +83,40 @@ export default function SpreadClient({ topicSlug }) {
   const deckSize = 22;
   const dummyDeck = Array.from({ length: deckSize }, (_, i) => i);
 
+  // Gửi thông tin chủ đề lên AI Bot khi mount hoặc đổi topic
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const mapping = {
+        'tinh-yeu': { expression: 'tarot_love', name: 'Tình Yêu' },
+        'su-nghiep': { expression: 'tarot_career', name: 'Sự Nghiệp' },
+        'tai-chinh': { expression: 'tarot_finance', name: 'Tài Chính' },
+        'hang-ngay': { expression: 'tarot_daily', name: 'Ngày Mới' }
+      };
+      const info = mapping[topicSlug] || mapping['tinh-yeu'];
+
+      window.dispatchEvent(new CustomEvent('astro-bot-tarot-topic-select', {
+        detail: { 
+          expression: info.expression,
+          topicName: info.name,
+          numCards: numCardsNeeded
+        }
+      }));
+    }
+  }, [topicSlug, numCardsNeeded]);
+
   // Kích hoạt xào bài
   const handleShuffle = () => {
     setGameState('shuffling');
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: 'tarot_shuffling' }));
+    }
     setTimeout(() => {
       setGameState('drawing');
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('astro-bot-tarot-state', { 
+          detail: { state: 'drawing', numCards: numCardsNeeded } 
+        }));
+      }
     }, 1800);
   };
 
@@ -110,7 +139,7 @@ export default function SpreadClient({ topicSlug }) {
     setLoading(true);
     setGameState('revealing');
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: 'calculating' }));
+      window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: 'tarot_shuffling' }));
     }
 
     try {
@@ -123,7 +152,22 @@ export default function SpreadClient({ topicSlug }) {
         setGameState('done');
         setLoading(false);
         if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: 'tarot' }));
+          const mapping = {
+            'tinh-yeu': 'tarot_love',
+            'su-nghiep': 'tarot_career',
+            'tai-chinh': 'tarot_finance',
+            'hang-ngay': 'tarot_daily'
+          };
+          const botExpr = mapping[topicSlug] || 'tarot';
+          window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: botExpr }));
+          
+          window.dispatchEvent(new CustomEvent('astro-bot-speak', {
+            detail: {
+              text: "Để AI tổng hợp các lá bài bạn vừa rút và đưa ra những hướng đi/lời khuyên cụ thể.",
+              expression: botExpr,
+              duration: 8000
+            }
+          }));
         }
         // Lưu kết quả hiện tại
         if (typeof window !== 'undefined') {
@@ -195,6 +239,21 @@ export default function SpreadClient({ topicSlug }) {
             result: mockReading,
             styleId: styleId
           }));
+
+          const mapping = {
+            'tinh-yeu': 'tarot_love',
+            'su-nghiep': 'tarot_career',
+            'tai-chinh': 'tarot_finance',
+            'hang-ngay': 'tarot_daily'
+          };
+          const botExpr = mapping[topicSlug] || 'tarot';
+          window.dispatchEvent(new CustomEvent('astro-bot-speak', {
+            detail: {
+              text: "Để AI tổng hợp các lá bài bạn vừa rút và đưa ra những hướng đi/lời khuyên cụ thể.",
+              expression: botExpr,
+              duration: 8000
+            }
+          }));
         }
       }, 1500);
     }
@@ -252,6 +311,13 @@ export default function SpreadClient({ topicSlug }) {
     setAiError(null);
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: 'calculating' }));
+      window.dispatchEvent(new CustomEvent('astro-bot-speak', {
+        detail: {
+          text: "Chờ chút nha, mình đang tập trung phân tích sâu quẻ bài của bạn đây...",
+          expression: 'thinking',
+          duration: 999999
+        }
+      }));
     }
 
     const stylesMap = { 1: 'genz', 2: 'healing', 3: 'deep', 4: 'toxic' };
@@ -290,7 +356,22 @@ export default function SpreadClient({ topicSlug }) {
     } finally {
       setAiLoading(false);
       if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: 'tarot' }));
+        const mapping = {
+          'tinh-yeu': 'tarot_love',
+          'su-nghiep': 'tarot_career',
+          'tai-chinh': 'tarot_finance',
+          'hang-ngay': 'tarot_daily'
+        };
+        const botExpr = mapping[topicSlug] || 'tarot';
+        window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: botExpr }));
+        
+        window.dispatchEvent(new CustomEvent('astro-bot-speak', {
+          detail: {
+            text: "Đã có kết quả giải mã từ AI rồi nha! Hãy đọc lời khuyên bên dưới nhé!",
+            expression: 'happy',
+            duration: 6000
+          }
+        }));
       }
     }
   };

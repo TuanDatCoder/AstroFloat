@@ -56,6 +56,15 @@ export default function NumerologyDetailClient({ number, initialNumerology, init
     fetchPinnacles();
   }, [number, dob]); // Added dob to dependencies
 
+  // Thông báo cho bot AI biết kết quả thần số học ngày sinh
+  useEffect(() => {
+    if (number) {
+      window.dispatchEvent(new CustomEvent('astro-bot-name-numerology-info', {
+        detail: { number }
+      }));
+    }
+  }, [number]);
+
   if (!initialNumerology) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center pt-32">
