@@ -170,11 +170,11 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
       {/* Main animated group representing the bot head */}
       <g className={
         expression === 'driving' ? 'driving-head-anim' :
-        expression === 'reading' ? 'reading-head-anim' :
+        expression === 'reading' || expression === 'searching' ? 'reading-head-anim' :
         expression === 'dizzy' || expression === 'thinking' || expression === 'calculating' ? 'dizzy-head-anim' :
         expression === 'rocket' ? 'rocket-head-anim' :
         expression === 'dancing' || expression === 'party' ? 'dancing-head-anim' :
-        expression === 'coffee' || expression === 'numerology' || expression === 'love' || expression?.startsWith('tarot_') ? 'coffee-head-anim' : ''
+        expression === 'coffee' || expression === 'numerology' || expression === 'love' || expression === 'pondering' || expression?.startsWith('tarot_') ? 'coffee-head-anim' : ''
       }>
         
         {/* Rocket Side Wings (Only when launching) */}
@@ -581,6 +581,185 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
               <circle cx="9" cy="12.8" r="2.2" stroke="#eab308" strokeWidth="0.8" fill="none" />
               <line x1="10.5" y1="14.3" x2="12.5" y2="16.3" stroke="#eab308" strokeWidth="0.8" strokeLinecap="round" />
             </g>
+          </>
+        )}
+
+        {expression === 'pondering' && (
+          <>
+            {/* Eyes looking up/closed (suy tư) */}
+            <path d="M7 12.5c.3-.6 1.1-.6 1.4 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <path d="M15.6 12.5c.3-.6 1.1-.6 1.4 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            
+            {/* Blush */}
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            
+            {/* Small mouth */}
+            <path d="M11 15c.2-.2.8-.2 1 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            
+            {/* Loading / Pondering dots animating above head */}
+            <g className="animate-pulse" style={{ animationDuration: '1.5s' }}>
+              <circle cx="9" cy="5" r="0.8" fill="#eab308" />
+              <circle cx="12" cy="4.5" r="0.8" fill="#eab308" style={{ animationDelay: '0.2s' }} />
+              <circle cx="15" cy="5" r="0.8" fill="#eab308" style={{ animationDelay: '0.4s' }} />
+            </g>
+          </>
+        )}
+
+        {expression === 'wizard' && (
+          <>
+            {/* Wizard Hat (Mũ pháp sư) */}
+            <path d="M5.5 7.5 Q 11 1 14.5 -1.5 Q 12.5 4 18.5 7.5 Z" fill="#1e3a8a" stroke="#3b82f6" strokeWidth="0.5" />
+            <ellipse cx="12" cy="7.5" rx="8" ry="1.5" fill="#172554" />
+            {/* Gold star on wizard hat */}
+            <path d="M10 3.5 L10.3 4.1 L11 4.2 L10.5 4.7 L10.6 5.4 L10 5 L9.4 5.4 L9.5 4.7 L9 4.2 L9.7 4.1 Z" fill="#eab308" />
+            
+            {/* Happy Eyes */}
+            <ellipse cx="9" cy="12.5" rx="1.2" ry="1.4" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.5" rx="1.2" ry="1.4" fill="#22d3ee" className="blink-right-anim" />
+            
+            {/* Smile */}
+            <path d="M10 15 Q 12 16.8 14 15" stroke="#22d3ee" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+            
+            {/* Blush */}
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            
+            {/* Holding Crystal Ball (Quả cầu pha lê) */}
+            <g transform="translate(13.5, 13.5)">
+              {/* Stand */}
+              <path d="M0.5 4 L2.5 4 L2 5 L1 5 Z" fill="#64748b" />
+              {/* Ball */}
+              <circle cx="1.5" cy="2.5" r="1.8" fill="#a5f3fc" stroke="#22d3ee" strokeWidth="0.5" fillOpacity="0.8" />
+              {/* Sparkle inside ball */}
+              <circle cx="1" cy="2" r="0.4" fill="#ffffff" />
+              {/* Hand holding it */}
+              <circle cx="-0.2" cy="3.2" r="1" fill="#22d3ee" />
+            </g>
+          </>
+        )}
+
+        {expression === 'crown' && (
+          <>
+            {/* Golden Crown (Mũ vương miện hoàng gia vũ trụ) */}
+            <path d="M7 8 L6 4 L9 6 L12 3 L15 6 L18 4 L17 8 Z" fill="#fbbf24" stroke="#d97706" strokeWidth="0.8" strokeLinejoin="round" />
+            {/* Jewels on the crown */}
+            <circle cx="12" cy="3" r="0.6" fill="#ef4444" />
+            <circle cx="6" cy="4" r="0.4" fill="#3b82f6" />
+            <circle cx="18" cy="4" r="0.4" fill="#3b82f6" />
+            
+            {/* Happy eyes */}
+            <path d="M7 12.5c.3-.6 1.1-.6 1.4 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <path d="M15.6 12.5c.3-.6 1.1-.6 1.4 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            
+            {/* Cute smile */}
+            <path d="M10 15 Q 12 16.8 14 15" stroke="#22d3ee" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+            
+            {/* Blush */}
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            
+            {/* Magical sparkles */}
+            <g className="animate-pulse" fill="#fbbf24">
+              <circle cx="4" cy="5" r="0.5" />
+              <circle cx="20" cy="5" r="0.5" />
+              <circle cx="12" cy="1.5" r="0.4" />
+            </g>
+          </>
+        )}
+
+        {expression === 'witch' && (
+          <>
+            {/* Witch Hat */}
+            {/* Cone with a bend */}
+            <path d="M6 7.5 Q 10 3 14 -1 Q 12 4 18 7.5 Z" fill="#581c87" />
+            {/* Brim */}
+            <ellipse cx="12" cy="7.5" rx="8" ry="1.5" fill="#3b0764" />
+            
+            {/* Calm/Magical Eyes */}
+            <path d="M7 12.5c.3-.6 1.1-.6 1.4 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            <path d="M15.6 12.5c.3-.6 1.1-.6 1.4 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            
+            {/* Tiny mysterious smile */}
+            <path d="M11 15c.2.2.8.2 1 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+            
+            {/* Holding Tarot Card (hand on the side) */}
+            <g transform="translate(13, 13) rotate(15)">
+              {/* Card Base */}
+              <rect x="0" y="0" width="3.5" height="5.5" rx="0.4" fill="#f8fafc" stroke="#64748b" strokeWidth="0.4" />
+              {/* Card back design (Moon/Star) */}
+              <circle cx="1.75" cy="2.75" r="1.2" fill="#eab308" />
+              <circle cx="2.2" cy="2.2" r="1" fill="#f8fafc" /> {/* Moon crescent effect */}
+              {/* Magic hand */}
+              <circle cx="-0.5" cy="3" r="1.2" fill="#22d3ee" />
+            </g>
+          </>
+        )}
+
+        {expression === 'lawyer' && (
+          <>
+            {/* Judge Wig (Tóc thẩm phán) */}
+            <g fill="#f8fafc" stroke="#cbd5e1" strokeWidth="0.8">
+              <ellipse cx="12" cy="7.5" rx="6" ry="2.5" />
+              <circle cx="4.5" cy="9.5" r="1.6" />
+              <circle cx="4.5" cy="11.5" r="1.6" />
+              <circle cx="4.5" cy="13.5" r="1.6" />
+              <circle cx="4.5" cy="15.5" r="1.6" />
+              <circle cx="19.5" cy="9.5" r="1.6" />
+              <circle cx="19.5" cy="11.5" r="1.6" />
+              <circle cx="19.5" cy="13.5" r="1.6" />
+              <circle cx="19.5" cy="15.5" r="1.6" />
+            </g>
+
+            {/* Eyes */}
+            <ellipse cx="9" cy="12.6" rx="0.8" ry="1.2" fill="#22d3ee" className="blink-left-anim" />
+            <ellipse cx="15" cy="12.6" rx="0.8" ry="1.2" fill="#22d3ee" className="blink-right-anim" />
+            
+            {/* Serious mouth */}
+            <line x1="10.5" y1="15.2" x2="13.5" y2="15.2" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            
+            {/* Wooden Gavel (Búa thẩm phán) */}
+            <g transform="translate(13.5, 14.5) rotate(35)">
+              <rect x="0" y="0" width="1.2" height="3.5" fill="#92400e" rx="0.4" />
+              <rect x="-1" y="-0.5" width="3.2" height="1.5" rx="0.3" fill="#78350f" />
+            </g>
+          </>
+        )}
+
+        {expression === 'security' && (
+          <>
+            {/* Dark Sunglasses (Bảo mật / Đặc vụ) */}
+            <path d="M6.5 11.5 Q 9 11.5 9.5 13.5 L 6.5 13.5 Z" fill="#020617" stroke="#38bdf8" strokeWidth="0.8" />
+            <path d="M17.5 11.5 Q 15 11.5 14.5 13.5 L 17.5 13.5 Z" fill="#020617" stroke="#38bdf8" strokeWidth="0.8" />
+            <line x1="9.5" y1="12" x2="14.5" y2="12" stroke="#38bdf8" strokeWidth="1.2" />
+            
+            {/* Serious/Cool mouth */}
+            <line x1="11" y1="15.2" x2="13" y2="15.2" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+            
+            {/* Little Shield on chest */}
+            <path d="M11.2 16.5 L12.8 16.5 L12.8 17.2 Q 12 18.2 11.2 17.2 Z" fill="#eab308" />
+          </>
+        )}
+
+        {expression === 'presenter' && (
+          <>
+            {/* Floating enthusiasm sparkles */}
+            <g className="animate-pulse" fill="#fef08a">
+              <path d="M5 6 L5.5 7 L6.5 7.5 L5.5 8 L5 9 L4.5 8 L3.5 7.5 L4.5 7 Z" />
+              <path d="M18 5 L18.5 6 L19.5 6.5 L18.5 7 L18 8 L17.5 7 L16.5 6.5 L17.5 6 Z" />
+              <path d="M14 3 L14.3 3.8 L15 4 L14.3 4.2 L14 5 L13.7 4.2 L13 4 L13.7 3.8 Z" />
+            </g>
+            
+            {/* Starry anime eyes */}
+            <path d="M9 11.5 L9.5 12.5 L10.5 13 L9.5 13.5 L9 14.5 L8.5 13.5 L7.5 13 L8.5 12.5 Z" fill="#fef08a" className="blink-left-anim" />
+            <path d="M15 11.5 L15.5 12.5 L16.5 13 L15.5 13.5 L15 14.5 L14.5 13.5 L13.5 13 L14.5 12.5 Z" fill="#fef08a" className="blink-right-anim" />
+            
+            {/* Blush */}
+            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
+            
+            {/* Bright open smile */}
+            <path d="M10.5 15.5 Q12 17.5 13.5 15.5 Z" fill="#f43f5e" />
           </>
         )}
 
