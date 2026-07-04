@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle", numerologyNumber = null, zodiac = null, ...props }) {
+export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle", numerologyNumber = null, zodiac = null, outfit = null, ...props }) {
   return (
     <svg 
       viewBox="0 0 24 24" 
@@ -10,11 +10,21 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
       {...props}
     >
       <defs>
-        {/* Cosmic Gradient blending spiritual and AI vibes */}
+        {/* Cosmic Gradient blending spiritual and AI vibes (Changes stops dynamically on Halloween) */}
         <linearGradient id="cosmicAIGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#a855f7" /> {/* purple-500 */}
-          <stop offset="50%" stopColor="#d946ef" /> {/* fuchsia-500 */}
-          <stop offset="100%" stopColor="#22d3ee" /> {/* cyan-400 */}
+          {outfit === 'halloween' ? (
+            <>
+              <stop offset="0%" stopColor="#ea580c" /> {/* orange-600 */}
+              <stop offset="60%" stopColor="#7e22ce" /> {/* purple-700 */}
+              <stop offset="100%" stopColor="#0f172a" /> {/* slate-900 */}
+            </>
+          ) : (
+            <>
+              <stop offset="0%" stopColor="#a855f7" /> {/* purple-500 */}
+              <stop offset="50%" stopColor="#d946ef" /> {/* fuchsia-500 */}
+              <stop offset="100%" stopColor="#22d3ee" /> {/* cyan-400 */}
+            </>
+          )}
         </linearGradient>
         
         {/* Soft inner glow gradient */}
@@ -87,7 +97,47 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             33% { transform: translate(-1.5px, -2px) scale(1.1); }
             66% { transform: translate(1px, -1px) scale(0.95); }
           }
+          @keyframes lookAround {
+            0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+            25% { transform: translate(-1px, -0.5px) rotate(-1deg); }
+            50% { transform: translate(1px, -0.2px) rotate(1deg); }
+            75% { transform: translate(-0.5px, 0.5px) rotate(-0.5deg); }
+          }
+          @keyframes writingScribble {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            20% { transform: translateY(0.8px) rotate(-2deg); }
+            50% { transform: translateY(1.2px) rotate(-3.5deg); }
+            80% { transform: translateY(0.5px) rotate(-1deg); }
+          }
+          @keyframes penStroke {
+            0%   { transform: translate(0px, 0px) rotate(-18deg); }
+            25%  { transform: translate(-1.2px, 0.6px) rotate(-20deg); }
+            50%  { transform: translate(0.8px, 1px) rotate(-16deg); }
+            75%  { transform: translate(-0.6px, 0.4px) rotate(-19deg); }
+            100% { transform: translate(0px, 0px) rotate(-18deg); }
+          }
+          @keyframes inkGlow {
+            0%, 100% { opacity: 0.4; r: 0.3; }
+            50% { opacity: 1; r: 0.5; }
+          }
+          @keyframes scrollUnfurl {
+            0%, 100% { transform: scaleY(1) translateY(0); }
+            50% { transform: scaleY(1.04) translateY(0.3px); }
+          }
+          @keyframes birthdaySparkle {
+            0%, 100% { opacity: 0.6; transform: scale(1) rotate(0deg); }
+            33% { opacity: 1; transform: scale(1.3) rotate(15deg); }
+            66% { opacity: 0.8; transform: scale(0.9) rotate(-10deg); }
+          }
+          @keyframes galaxyFloat {
+            0%, 100% { transform: rotate(0deg) translateY(0px); }
+            50% { transform: rotate(5deg) translateY(-1px); }
+          }
 
+          .look-around-head-anim {
+            animation: lookAround 5s ease-in-out infinite;
+            transform-origin: 12px 13px;
+          }
           .cosmic-ring-anim {
             animation: floatRing 3s ease-in-out infinite;
             transform-origin: 12px 12px;
@@ -143,6 +193,25 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             animation: numberPlay 3s ease-in-out infinite;
             transform-origin: 19px 12px;
           }
+          .writing-head-anim {
+            animation: writingScribble 1.2s ease-in-out infinite;
+            transform-origin: 12px 13px;
+          }
+          .pen-scribble-anim {
+            animation: penStroke 0.9s ease-in-out infinite;
+            transform-origin: 17px 16px;
+          }
+          .scroll-unfurl-anim {
+            animation: scrollUnfurl 2s ease-in-out infinite;
+            transform-origin: 12px 19px;
+          }
+          .birthday-sparkle-anim {
+            animation: birthdaySparkle 1.5s ease-in-out infinite;
+          }
+          .galaxy-float-anim {
+            animation: galaxyFloat 3s ease-in-out infinite;
+            transform-origin: 18px 8px;
+          }
         `}</style>
       </defs>
 
@@ -170,8 +239,10 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
       {/* Main animated group representing the bot head */}
       <g className={
         expression === 'driving' ? 'driving-head-anim' :
-        expression === 'reading' || expression === 'searching' ? 'reading-head-anim' :
-        expression === 'dizzy' || expression === 'thinking' || expression === 'calculating' ? 'dizzy-head-anim' :
+        expression === 'reading' ? 'reading-head-anim' :
+        expression === 'writing' ? 'writing-head-anim' :
+        expression === 'searching' || expression === 'dizzy' ? 'look-around-head-anim' :
+        expression === 'thinking' || expression === 'calculating' ? 'dizzy-head-anim' :
         expression === 'rocket' ? 'rocket-head-anim' :
         expression === 'dancing' || expression === 'party' ? 'dancing-head-anim' :
         expression === 'coffee' || expression === 'numerology' || expression === 'love' || expression === 'pondering' || expression?.startsWith('tarot_') ? 'coffee-head-anim' : ''
@@ -433,25 +504,114 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           </>
         )}
 
-        {/* Dizzy expression (chóng mặt) */}
-        {(expression === 'dizzy' || expression === 'thinking' || expression === 'calculating') && (
+        {/* Writing expression - Astro cúi đầu viết lên cuộn giấy bằng bút lông */}
+        {expression === 'writing' && (
           <>
-            <path d="M8 11.8l2 2M10 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M14 11.8l2 2M16 11.8l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M10 15c.5-.5 1 .5 1.5 0s1-.5 1.5 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-            <ellipse 
-              cx="12" 
-              cy="4.5" 
-              rx="3.5" 
-              ry="1.2" 
-              stroke="#d946ef" 
-              strokeWidth="0.8" 
-              fill="none" 
-              strokeDasharray="2 1" 
-              className="dizzy-halo-anim" 
-            />
+            {/* Eyes: half-closed, focused downward (nhìn xuống chăm chú) */}
+            <ellipse cx="9"  cy="13.5" rx="1.4" ry="0.7" fill="#22d3ee" className="blink-left-anim"  />
+            <ellipse cx="15" cy="13.5" rx="1.4" ry="0.7" fill="#22d3ee" className="blink-right-anim" />
+            {/* Tiny white shines */}
+            <circle cx="9.5"  cy="13.3" r="0.25" fill="#ffffff" className="blink-left-anim" />
+            <circle cx="15.5" cy="13.3" r="0.25" fill="#ffffff" className="blink-right-anim" />
+
+            {/* Blush - concentrated pink */}
+            <ellipse cx="7"   cy="14.6" rx="1.2" ry="0.65" fill="#d946ef" fillOpacity="0.55" />
+            <ellipse cx="17"  cy="14.6" rx="1.2" ry="0.65" fill="#d946ef" fillOpacity="0.55" />
+
+            {/* Tiny focused mouth - pressed together */}
+            <path d="M10.8 15.4 Q12 15.7 13.2 15.4" stroke="#22d3ee" strokeWidth="0.9" strokeLinecap="round" fill="none" />
+
+            {/* === SCROLL / PARCHMENT === */}
+            <g className="scroll-unfurl-anim">
+              {/* Scroll body */}
+              <rect x="5.5" y="17" width="13" height="5.5" rx="0.6" fill="#fef9ec" stroke="#d97706" strokeWidth="0.45" />
+              {/* Top curl */}
+              <ellipse cx="12" cy="17" rx="6.5" ry="0.9" fill="#fde68a" stroke="#d97706" strokeWidth="0.4" />
+              {/* Bottom curl */}
+              <ellipse cx="12" cy="22.5" rx="6.5" ry="0.9" fill="#fde68a" stroke="#d97706" strokeWidth="0.4" />
+              {/* Written lines on scroll */}
+              <line x1="7.2" y1="19"   x2="16.8" y2="19"   stroke="#a78bfa" strokeWidth="0.45" strokeLinecap="round" />
+              <line x1="7.2" y1="20.2" x2="14.5" y2="20.2" stroke="#a78bfa" strokeWidth="0.45" strokeLinecap="round" />
+              {/* Glowing ink trail being written */}
+              <line x1="7.2" y1="21.4" x2="11.5" y2="21.4" stroke="#22d3ee" strokeWidth="0.5" strokeLinecap="round" className="animate-pulse" />
+            </g>
+
+            {/* === QUILL PEN === */}
+            <g className="pen-scribble-anim">
+              {/* Feather shaft */}
+              <line x1="17" y1="11" x2="11.8" y2="21.6" stroke="#a855f7" strokeWidth="0.9" strokeLinecap="round" />
+              {/* Feather barbs - left */}
+              <path d="M16.2 12.5 Q14.5 12 14 13.5" stroke="#c4b5fd" strokeWidth="0.55" fill="none" strokeLinecap="round" />
+              <path d="M15.4 14   Q13.8 13.5 13.4 15" stroke="#c4b5fd" strokeWidth="0.55" fill="none" strokeLinecap="round" />
+              <path d="M14.6 15.5 Q13.2 15.2 13 16.5" stroke="#c4b5fd" strokeWidth="0.55" fill="none" strokeLinecap="round" />
+              {/* Feather barbs - right */}
+              <path d="M16.2 12.5 Q17.8 12.2 17.5 13.5" stroke="#ddd6fe" strokeWidth="0.5" fill="none" strokeLinecap="round" />
+              <path d="M15.4 14   Q17 13.8 16.8 15"   stroke="#ddd6fe" strokeWidth="0.5" fill="none" strokeLinecap="round" />
+              {/* Nib tip */}
+              <path d="M12.2 20.6 L11.5 21.8 L12.8 21.4 Z" fill="#1e293b" />
+              {/* Ink dot - glowing */}
+              <circle cx="11.7" cy="21.7" r="0.35" fill="#22d3ee">
+                <animate attributeName="r" values="0.25;0.45;0.25" dur="0.9s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="0.9s" repeatCount="indefinite" />
+              </circle>
+            </g>
+
+            {/* Floating sparkle above (inspiration!) */}
+            <path d="M5.5 7l.25.5.5.25-.5.25-.25.5-.25-.5-.5-.25.5-.25z" fill="#a855f7" opacity="0.8" className="animate-pulse" />
+            <path d="M19.5 8l.2.4.4.2-.4.2-.2.4-.2-.4-.4-.2.4-.2z" fill="#22d3ee" opacity="0.7" className="animate-pulse" style={{ animationDelay: '0.5s' }} />
           </>
         )}
+
+        {/* Dizzy expression (soi ống nhòm chân thực, đẹp mắt) */}
+        {expression === 'dizzy' && (
+          <>
+            {/* Binoculars Group (Rotated to point Up-Left) */}
+            <g transform="rotate(-35, 11.5, 12)">
+              {/* Bridge */}
+              <rect x="9.5" y="7" width="4" height="2" fill="#a855f7" rx="0.5" />
+              <line x1="11.5" y1="7" x2="11.5" y2="9" stroke="#22d3ee" strokeWidth="0.5" />
+
+              {/* --- Left Tube --- */}
+              {/* Main body */}
+              <path d="M 6.5 5 L 10.5 5 L 10 11 L 7 11 Z" fill="#0f172a" stroke="#22d3ee" strokeWidth="0.8" strokeLinejoin="round" />
+              <line x1="7" y1="7" x2="10.2" y2="7" stroke="#3b82f6" strokeWidth="0.5" />
+              <line x1="7.2" y1="9" x2="10" y2="9" stroke="#3b82f6" strokeWidth="0.5" />
+              {/* Front lens casing */}
+              <rect x="6" y="3.5" width="5" height="1.5" rx="0.4" fill="#1e1b4b" stroke="#22d3ee" strokeWidth="0.8" />
+              {/* Front glass */}
+              <ellipse cx="8.5" cy="4.2" rx="1.8" ry="0.4" fill="#22d3ee" />
+              <ellipse cx="8" cy="4" rx="0.4" ry="0.1" fill="#ffffff" />
+              {/* Eyecup */}
+              <path d="M 7 11 L 10 11 L 10.5 13 L 6.5 13 Z" fill="#0f172a" stroke="#22d3ee" strokeWidth="0.8" strokeLinejoin="round" />
+
+              {/* --- Right Tube --- */}
+              {/* Main body */}
+              <path d="M 12.5 5 L 16.5 5 L 16 11 L 13 11 Z" fill="#0f172a" stroke="#22d3ee" strokeWidth="0.8" strokeLinejoin="round" />
+              <line x1="12.8" y1="7" x2="16" y2="7" stroke="#3b82f6" strokeWidth="0.5" />
+              <line x1="13" y1="9" x2="15.8" y2="9" stroke="#3b82f6" strokeWidth="0.5" />
+              {/* Front lens casing */}
+              <rect x="12" y="3.5" width="5" height="1.5" rx="0.4" fill="#1e1b4b" stroke="#22d3ee" strokeWidth="0.8" />
+              {/* Front glass */}
+              <ellipse cx="14.5" cy="4.2" rx="1.8" ry="0.4" fill="#22d3ee" />
+              <ellipse cx="14" cy="4" rx="0.4" ry="0.1" fill="#ffffff" />
+              {/* Eyecup */}
+              <path d="M 13 11 L 16 11 L 16.5 13 L 12.5 13 Z" fill="#0f172a" stroke="#22d3ee" strokeWidth="0.8" strokeLinejoin="round" />
+
+              {/* Hands Holding Binoculars */}
+              <circle cx="6.5" cy="9.5" r="1.4" fill="url(#cosmicAIGrad)" stroke="#060919" strokeWidth="0.5" />
+              <circle cx="16.5" cy="9.5" r="1.4" fill="url(#cosmicAIGrad)" stroke="#060919" strokeWidth="0.5" />
+            </g>
+
+            {/* Blush (on face) */}
+            <ellipse cx="5.5" cy="14" rx="1.2" ry="0.6" fill="#d946ef" fillOpacity="0.5" />
+            <ellipse cx="17.5" cy="14" rx="1.2" ry="0.6" fill="#d946ef" fillOpacity="0.5" />
+
+            {/* Curiously open mouth */}
+            <ellipse cx="11.5" cy="15.5" rx="1.4" ry="1.0" fill="#060919" stroke="#22d3ee" strokeWidth="0.6" />
+            <path d="M 10.8 15.5 Q 11.5 16.2 12.2 15.5" stroke="#d946ef" strokeWidth="0.5" fill="none" />
+          </>
+        )}
+
 
         {/* Rocket expression (Scroll to top launch) */}
         {expression === 'rocket' && (
@@ -468,12 +628,6 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
         {/* Dancing / Waving hands expression */}
         {expression === 'dancing' && (
           <>
-            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
-            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
-            <circle cx="9.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-left-anim" />
-            <circle cx="15.4" cy="12.3" r="0.4" fill="#ffffff" className="blink-right-anim" />
-            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
-            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
             <path d="M11.2 14.8c.2.5 1.4.5 1.6 0" fill="#22d3ee" stroke="#22d3ee" strokeWidth="1" strokeLinecap="round" />
             
             {/* Music Notes */}
@@ -523,6 +677,43 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           </>
         )}
 
+        {expression === 'thief' && (
+          <g>
+            {/* Black Knit Beanie Hat on top of head */}
+            <path d="M 4.5 9 C 4.5 5.5, 19.5 5.5, 19.5 9 Z" fill="#090d16" stroke="#1e293b" strokeWidth="0.8" />
+            <rect x="4.2" y="8" width="15.6" height="1.8" rx="0.5" fill="#1e293b" stroke="#334155" strokeWidth="0.5" />
+            
+            {/* Sneaky eyes looking sideways */}
+            <ellipse cx="9" cy="13" rx="1.3" ry="1.5" fill="#0f172a" stroke="#22d3ee" strokeWidth="0.6" />
+            <ellipse cx="15" cy="13" rx="1.3" ry="1.5" fill="#0f172a" stroke="#22d3ee" strokeWidth="0.6" />
+            <circle cx="10.2" cy="13" r="0.6" fill="#22d3ee" />
+            <circle cx="16.2" cy="13" r="0.6" fill="#22d3ee" />
+            <circle cx="10.4" cy="12.7" r="0.2" fill="#ffffff" />
+            <circle cx="16.4" cy="12.7" r="0.2" fill="#ffffff" />
+
+            {/* Black Bandit Eye Mask */}
+            <path d="M 5 11 C 5 11, 12 11.5, 19 11 L 19 14.5 C 19 14.5, 12 15, 5 14.5 Z" fill="#090d16" fillOpacity="0.95" stroke="#1e293b" strokeWidth="0.5" />
+            
+            {/* Mask cutouts for eyes */}
+            <ellipse cx="9" cy="13" rx="1.8" ry="1.2" fill="#0f172a" />
+            <ellipse cx="15" cy="13" rx="1.8" ry="1.2" fill="#0f172a" />
+            <circle cx="10.2" cy="13" r="0.6" fill="#22d3ee" />
+            <circle cx="16.2" cy="13" r="0.6" fill="#22d3ee" />
+
+            {/* Sneaky smirk */}
+            <path d="M 10.5 16 Z M 10.5 15.8 Q 12 16.5 13.5 15.5" stroke="#22d3ee" strokeWidth="1.1" strokeLinecap="round" fill="none" />
+            
+            {/* Thief Loot Bag/Sack on the bottom-left side */}
+            <g className="animate-pulse">
+              <path d="M 3.5 17 C 2 17, 1 18.5, 1.5 20.5 C 2 22.5, 5 22.5, 5.5 20.5 C 6 18.5, 5 17, 3.5 17 Z" fill="#090d16" stroke="#1e293b" strokeWidth="0.6" />
+              <path d="M 3.5 17 L 2.8 15.8 M 3.5 17 L 4.2 15.8" stroke="#1e293b" strokeWidth="0.8" strokeLinecap="round" />
+              {/* Dollar sign on the bag */}
+              <text x="3.5" y="20.5" fill="#facc15" fontSize="3" fontWeight="bold" textAnchor="middle" style={{ fontStyle: 'normal', fontFamily: 'Arial, sans-serif' }}>$</text>
+            </g>
+          </g>
+        )}
+
+
         {expression === 'hurt' && (
           <>
             <path d="M7.5 12l2 2M9.5 12l-2 2" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" />
@@ -570,18 +761,42 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           </>
         )}
 
+        {/* Searching expression (Kính lúp soi hướng lên góc trên bên trái) */}
         {expression === 'searching' && (
-          <>
-            <ellipse cx="9" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-left-anim" />
-            <ellipse cx="15" cy="12.8" rx="1.3" ry="1.6" fill="#22d3ee" className="blink-right-anim" />
-            <ellipse cx="7.2" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
-            <ellipse cx="16.8" cy="14.3" rx="1.1" ry="0.6" fill="#d946ef" fillOpacity="0.6" />
-            <path d="M11.2 14.8c.3.4.9.4 1.6 0" stroke="#22d3ee" strokeWidth="1.2" strokeLinecap="round" />
+          <g>
+            {/* Eyes looking up-left */}
+            <circle cx="8" cy="11.5" r="1.5" fill="#22d3ee" />
+            <circle cx="14" cy="11.5" r="1.5" fill="#22d3ee" />
+            
+            {/* Pupils */}
+            <circle cx="7.5" cy="11" r="0.5" fill="#ffffff" />
+            <circle cx="13.5" cy="11" r="0.5" fill="#ffffff" />
+
+            {/* Magnifying Glass pointing up-left */}
             <g className="animate-pulse">
-              <circle cx="9" cy="12.8" r="2.2" stroke="#eab308" strokeWidth="0.8" fill="none" />
-              <line x1="10.5" y1="14.3" x2="12.5" y2="16.3" stroke="#eab308" strokeWidth="0.8" strokeLinecap="round" />
+              {/* Glass Lens */}
+              <circle cx="8" cy="11.5" r="3.2" fill="#22d3ee" fillOpacity="0.1" />
+              {/* Silver Frame */}
+              <circle cx="8" cy="11.5" r="3.2" stroke="#94a3b8" strokeWidth="1" fill="none" />
+              <circle cx="8" cy="11.5" r="2.7" stroke="#cbd5e1" strokeWidth="0.5" fill="none" />
+              {/* Lens highlight */}
+              <path d="M 5.5 10 A 2.5 2.5 0 0 1 9.5 8" stroke="#ffffff" strokeWidth="0.6" strokeLinecap="round" fill="none" />
+              
+              {/* Wooden Handle (pointing down-right) */}
+              <path d="M 10 13.5 L 13.5 17" stroke="#78350f" strokeWidth="1.8" strokeLinecap="round" />
+              <path d="M 10 13.5 L 13.5 17" stroke="#92400e" strokeWidth="0.8" strokeLinecap="round" />
+              
+              {/* Hand holding the magnifying glass */}
+              <circle cx="11.5" cy="15" r="1.4" fill="url(#cosmicAIGrad)" stroke="#060919" strokeWidth="0.5" />
             </g>
-          </>
+
+            {/* Blush */}
+            <ellipse cx="5.5" cy="13.5" rx="1.2" ry="0.6" fill="#d946ef" fillOpacity="0.5" />
+            <ellipse cx="16.5" cy="13.5" rx="1.2" ry="0.6" fill="#d946ef" fillOpacity="0.5" />
+
+            {/* Mouth: small cute shape */}
+            <ellipse cx="11" cy="15" rx="0.8" ry="0.5" fill="none" stroke="#22d3ee" strokeWidth="0.8" />
+          </g>
         )}
 
         {expression === 'pondering' && (
@@ -727,7 +942,14 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
         )}
 
         {expression === 'security' && (
-          <>
+          <g>
+            {/* Vietnamese Police Cap (Nón công an) on top of head */}
+            <path d="M 4.5 8 C 3 4.5, 21 4.5, 19.5 8 Z" fill="#14532d" stroke="#166534" strokeWidth="0.4" />
+            <path d="M 4.8 7.6 Q 12 8.6 19.2 7.6 L 19.4 8.2 Q 12 9.2 4.6 8.2 Z" fill="#dc2626" />
+            <circle cx="12" cy="7.8" r="0.9" fill="#eab308" stroke="#ca8a04" strokeWidth="0.2" />
+            <polygon points="12,7.3 12.2,7.7 12.6,7.7 12.3,7.9 12.4,8.3 12,8.1 11.6,8.3 11.7,7.9 11.4,7.7 11.8,7.7" fill="#dc2626" />
+            <ellipse cx="12" cy="8.2" rx="7.2" ry="0.6" fill="#0f172a" stroke="#1e293b" strokeWidth="0.4" />
+
             {/* Dark Sunglasses (Bảo mật / Đặc vụ) */}
             <path d="M6.5 11.5 Q 9 11.5 9.5 13.5 L 6.5 13.5 Z" fill="#020617" stroke="#38bdf8" strokeWidth="0.8" />
             <path d="M17.5 11.5 Q 15 11.5 14.5 13.5 L 17.5 13.5 Z" fill="#020617" stroke="#38bdf8" strokeWidth="0.8" />
@@ -738,7 +960,7 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
             
             {/* Little Shield on chest */}
             <path d="M11.2 16.5 L12.8 16.5 L12.8 17.2 Q 12 18.2 11.2 17.2 Z" fill="#eab308" />
-          </>
+          </g>
         )}
 
         {expression === 'presenter' && (
@@ -1031,6 +1253,147 @@ export default function CosmicAIIcon({ className = "w-6 h-6", expression = "idle
           <g className="heart-float-anim" style={{ transformOrigin: '12px 12px' }}>
             <path d="M2 9.5c1 .5 1-.5 2 0c-1 .5-1-.5-2 0" fill="#22d3ee" />
             <path d="M20 15c1 .5 1-.5 2 0c-1 .5-1-.5-2 0" fill="#d946ef" />
+          </g>
+        )}
+
+        {/* --- SEASONAL OUTFITS / DECORATIONS --- */}
+        {outfit === 'christmas' && (
+          <g>
+            {/* Red Cap */}
+            <path 
+              d="M 6 8.5 C 5 5, 12 3, 15 5 C 16 6, 17 7.5, 17 8 C 17 8.5, 6 9.5, 6 8.5 Z" 
+              fill="#ef4444" 
+              stroke="#dc2626" 
+              strokeWidth="0.5" 
+            />
+            {/* White Fluffy Brim */}
+            <rect x="4.5" y="7.5" width="15" height="1.8" rx="0.9" fill="#ffffff" stroke="#e2e8f0" strokeWidth="0.4" />
+            {/* Pom-pom */}
+            <circle cx="16.5" cy="4.8" r="1.1" fill="#ffffff" stroke="#e2e8f0" strokeWidth="0.4" />
+          </g>
+        )}
+
+        {outfit === 'halloween' && (
+          <g>
+            {/* Cone */}
+            <path 
+              d="M 6.5 7.5 L 12 1.5 L 17.5 7.5 Z" 
+              fill="#1e1b4b" 
+              stroke="#f97316" 
+              strokeWidth="0.5" 
+            />
+            {/* Hat Band (Orange) */}
+            <path d="M 6.2 6.5 L 17.8 6.5 L 17.5 7.5 L 6.5 7.5 Z" fill="#ea580c" />
+            {/* Gold Buckle */}
+            <rect x="11.2" y="6.3" width="1.6" height="1.4" rx="0.2" fill="#fbbf24" stroke="#d97706" strokeWidth="0.3" />
+            {/* Brim */}
+            <ellipse cx="12" cy="7.8" rx="8" ry="1.2" fill="#0f172a" stroke="#f97316" strokeWidth="0.4" />
+          </g>
+        )}
+
+        {outfit === 'birthday' && (
+          <g>
+            {/* Cake / Birthday Hat Body */}
+            <rect x="7" y="5" width="10" height="3" rx="0.6" fill="#fbcfe8" stroke="#db2777" strokeWidth="0.5" />
+            {/* Frosting / Cream points */}
+            <circle cx="8.5" cy="5" r="0.4" fill="#ffffff" />
+            <circle cx="10.25" cy="5" r="0.4" fill="#ffffff" />
+            <circle cx="12" cy="5" r="0.4" fill="#ffffff" />
+            <circle cx="13.75" cy="5" r="0.4" fill="#ffffff" />
+            <circle cx="15.5" cy="5" r="0.4" fill="#ffffff" />
+            <path d="M 7 6.5 C 8 7.5, 10 7.5, 12 6.5 C 14 7.5, 16 7.5, 17 6.5" stroke="#db2777" strokeWidth="0.5" fill="none" />
+            {/* Candle */}
+            <rect x="11.4" y="2.5" width="1.2" height="2.5" rx="0.2" fill="#67e8f9" stroke="#0891b2" strokeWidth="0.3" />
+            {/* Candle Flame (animated pulsing) */}
+            <path 
+              d="M 12 0.5 C 11.5 1.5, 11.5 2.2, 12 2.5 C 12.5 2.2, 12.5 1.5, 12 0.5 Z" 
+              fill="#f97316" 
+              className="animate-pulse" 
+              style={{ transformOrigin: '12px 2px' }}
+            />
+            {/* Birthday sparkles floating around */}
+            <path d="M5 4.5l.25.5.5.25-.5.25-.25.5-.25-.5-.5-.25.5-.25z" fill="#f43f5e" className="birthday-sparkle-anim" />
+            <path d="M19.5 3l.2.4.4.2-.4.2-.2.4-.2-.4-.4-.2.4-.2z" fill="#fbbf24" className="birthday-sparkle-anim" style={{ animationDelay: '0.4s' }} />
+            <path d="M4 8l.15.3.3.15-.3.15-.15.3-.15-.3-.3-.15.3-.15z" fill="#a855f7" className="birthday-sparkle-anim" style={{ animationDelay: '0.8s' }} />
+            <path d="M20.5 7l.15.3.3.15-.3.15-.15.3-.15-.3-.3-.15.3-.15z" fill="#22d3ee" className="birthday-sparkle-anim" style={{ animationDelay: '0.2s' }} />
+          </g>
+        )}
+
+        {outfit === 'valentine' && (
+          <g className="heart-float-anim" style={{ transformOrigin: '17px 16px' }}>
+            {/* Heart shaped Chocolate Box */}
+            <path 
+              d="M 17 14 C 16 12.5, 14.5 12.5, 14.5 14 C 14.5 16, 17 18, 17 18 C 17 18, 19.5 16, 19.5 14 C 19.5 12.5, 18 12.5, 17 14 Z" 
+              fill="#be123c" 
+              stroke="#fda4af" 
+              strokeWidth="0.5" 
+            />
+            {/* Yellow Ribbon / Bow */}
+            <path d="M 14.7 15 L 19.3 15 M 17 13.5 L 17 17.5" stroke="#fbbf24" strokeWidth="0.4" />
+            <circle cx="17" cy="15" r="0.4" fill="#fbbf24" />
+          </g>
+        )}
+
+        {outfit === 'tet' && (
+          <g style={{ transform: 'rotate(-10deg)', transformOrigin: '17px 15px' }}>
+            {/* Red Envelope */}
+            <rect x="15" y="13.5" width="4.5" height="6.5" rx="0.4" fill="#dc2626" stroke="#fbbf24" strokeWidth="0.4" />
+            {/* Flap lines */}
+            <path d="M 15 14.5 L 17.25 16 L 19.5 14.5" fill="none" stroke="#b91c1c" strokeWidth="0.4" />
+            {/* Gold Star */}
+            <path d="M 17.25 16.5 L 17.5 17.2 L 18.2 17.2 L 17.65 17.6 L 17.85 18.3 L 17.25 17.9 L 16.65 18.3 L 16.85 17.6 L 16.3 17.2 L 17 17.2 Z" fill="#fbbf24" />
+          </g>
+        )}
+
+        {/* Costume outfit: hero star-cape & collar (for nickname field on register page) */}
+        {outfit === 'costume' && (
+          <g>
+            {/* Sparkling hero collar / neck piece */}
+            <path d="M 6 17.5 Q 9 19.5 12 18 Q 15 19.5 18 17.5 L 17 16 Q 14.5 17.5 12 16.5 Q 9.5 17.5 7 16 Z"
+              fill="#7c3aed" stroke="#a78bfa" strokeWidth="0.5" />
+            {/* Left cape wing */}
+            <path d="M 7 16 Q 3 14 2 10 Q 4 12 6 15 Z"
+              fill="#4c1d95" stroke="#7c3aed" strokeWidth="0.5" />
+            {/* Right cape wing */}
+            <path d="M 17 16 Q 21 14 22 10 Q 20 12 18 15 Z"
+              fill="#4c1d95" stroke="#7c3aed" strokeWidth="0.5" />
+            {/* Gold star badge on collar */}
+            <path d="M 12 17 L 12.3 17.8 L 13.1 17.8 L 12.5 18.3 L 12.7 19.1 L 12 18.6 L 11.3 19.1 L 11.5 18.3 L 10.9 17.8 L 11.7 17.8 Z"
+              fill="#fbbf24" />
+            {/* Sparkles floating around outfit */}
+            <g className="animate-pulse" fill="#a78bfa">
+              <path d="M 3 8 L 3.2 8.6 L 3.8 8.6 L 3.3 9 L 3.5 9.6 L 3 9.2 L 2.5 9.6 L 2.7 9 L 2.2 8.6 L 2.8 8.6 Z" />
+              <path d="M 21 8 L 21.2 8.6 L 21.8 8.6 L 21.3 9 L 21.5 9.6 L 21 9.2 L 20.5 9.6 L 20.7 9 L 20.2 8.6 L 20.8 8.6 Z" />
+            </g>
+          </g>
+        )}
+
+        {/* Galaxy outfit: Astronomer/Galaxy Explorer costume (for nickname field on register page) */}
+        {outfit === 'galaxy' && (
+          <g>
+            {/* Galaxy explorer scarf / collar flowing */}
+            <path d="M 5.5 17 Q 9 20 12 18.5 Q 15 20 18.5 17 L 17.5 15.5 Q 14.5 18 12 16.8 Q 9.5 18 6.5 15.5 Z"
+              fill="#0ea5e9" stroke="#38bdf8" strokeWidth="0.5" />
+            {/* Left flowing cloak */}
+            <path d="M 6.5 15.5 Q 2 13 1.5 9 Q 3.5 11.5 5.5 14.5 Z"
+              fill="#0c4a6e" stroke="#0ea5e9" strokeWidth="0.5" />
+            {/* Right flowing cloak */}
+            <path d="M 17.5 15.5 Q 22 13 22.5 9 Q 20.5 11.5 18.5 14.5 Z"
+              fill="#0c4a6e" stroke="#0ea5e9" strokeWidth="0.5" />
+            {/* Star chart / mini constellation held */}
+            <g className="galaxy-float-anim">
+              <rect x="17" y="5" width="5" height="4" rx="0.5" fill="#0f172a" stroke="#38bdf8" strokeWidth="0.5" />
+              <circle cx="18.2" cy="6.2" r="0.3" fill="#fbbf24" />
+              <circle cx="20.5" cy="6.5" r="0.3" fill="#22d3ee" />
+              <circle cx="19" cy="7.8" r="0.3" fill="#a855f7" />
+              <line x1="18.2" y1="6.2" x2="20.5" y2="6.5" stroke="#38bdf8" strokeWidth="0.3" />
+              <line x1="20.5" y1="6.5" x2="19" y2="7.8" stroke="#38bdf8" strokeWidth="0.3" />
+            </g>
+            {/* Galaxy sparkles */}
+            <g fill="#38bdf8" className="animate-pulse">
+              <path d="M 3 7 L 3.2 7.6 L 3.8 7.6 L 3.3 8 L 3.5 8.6 L 3 8.2 L 2.5 8.6 L 2.7 8 L 2.2 7.6 L 2.8 7.6 Z" />
+            </g>
+            <path d="M20 12l.2.4.4.2-.4.2-.2.4-.2-.4-.4-.2.4-.2z" fill="#fbbf24" className="animate-pulse" />
           </g>
         )}
       </g>

@@ -7,15 +7,45 @@ import { ROUTES } from '@/constants';
 import TarotIcon from '@/components/TarotIcon';
 import CosmicAIIcon from '@/components/CosmicAIIcon';
 import { supabase } from '@/services/supabase';
+import { tarotService } from '@/services/tarotService';
+import { numerologyService } from '@/services/numerologyService';
 
 export default function FloatingTarotBot() {
   const pathname = usePathname();
   const isOnLeft = false;
+
+  // Scroll to Top Rocket states
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isLaunching, setIsLaunching] = useState(false);
+  const [hideAll, setHideAll] = useState(false);
+
+  // Gesture refs for Rocket Launch
+  const rocketHoldTimerRef = useRef(null);
+  const rocketStartYRef = useRef(0);
+  const rocketStartXRef = useRef(0);
+  const [isRocketReady, setIsRocketReady] = useState(false);
+  const gestureInProgressRef = useRef(false);
+
+  const [activeZodiac, setActiveZodiac] = useState(null);
+  const [activeZodiacName, setActiveZodiacName] = useState("");
+  const [tarotTopic, setTarotTopic] = useState(null);
+  const [tarotState, setTarotState] = useState(null);
+
+  // 404 Playful Movement & Timers State/Refs
+  const [is404Page, setIs404Page] = useState(false);
+  const [is404PlayfulMoving, setIs404PlayfulMoving] = useState(false);
+  const welcomeTimerRef = useRef(null);
+  const timer404Ref1 = useRef(null);
+  const timer404Ref2 = useRef(null);
+  const timer404Ref3 = useRef(null);
+  const timer404MoveRef = useRef(null);
+
   const [isOpen, setIsOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [suggestion, setSuggestion] = useState(null);
   const [expression, setExpression] = useState('idle');
   const [isHovered, setIsHovered] = useState(false);
+  const [registerOutfit, setRegisterOutfit] = useState(null); // override outfit on /dang-ky
 
   // Proactive tooltips (Type 2) state
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
@@ -38,7 +68,19 @@ export default function FloatingTarotBot() {
 
   // Auth & Chatbot States
   const [user, setUser] = useState(null);
-  const [isChatMode, setIsChatMode] = useState(false);
+  const [activeView, setActiveView] = useState('room'); // 'room', 'chat', 'gift', 'diary', 'wheel', 'backpack'
+  const [userStars, setUserStars] = useState(0);
+  const [giftClaimedToday, setGiftClaimedToday] = useState(false);
+  const [currentMood, setCurrentMood] = useState(null);
+  const [lastSpeechBubble, setLastSpeechBubble] = useState('');
+  const [isWandering, setIsWandering] = useState(false);
+  const [wanderingCoordinates, setWanderingCoordinates] = useState({ x: 0, y: 0 });
+
+  const [isWaitingForDob, setIsWaitingForDob] = useState(false);
+  const [userBirthDate, setUserBirthDate] = useState(null);
+  const [dobFromStorage, setDobFromStorage] = useState(null);
+  const [isTyping, setIsTyping] = useState(false);
+  const [typingExpression, setTypingExpression] = useState('dizzy');
   const [chatMessages, setChatMessages] = useState([
     { sender: 'astro', text: 'Chào bạn! Mình là Astro - Trợ lý ảo của Góc Vũ Trụ. Hôm nay bạn muốn khám phá điều gì về vận mệnh nè?' }
   ]);
@@ -46,13 +88,312 @@ export default function FloatingTarotBot() {
   const [isChatLoading, setIsChatLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const clickTimerRef = useRef(null);
+  const inputTimeoutRef = useRef(null);
+  const nextTypingExpressionRef = useRef('searching');
+
+  // Sub-tabs for backpack
+  const [backpackTab, setBackpackTab] = useState('constellation');
+  // Sub-states for daily gift
+  const [isOpeningGift, setIsOpeningGift] = useState(false);
+  const [giftReward, setGiftReward] = useState("");
+  // Sub-states for prediction wheel
+  const [wheelRotation, setWheelRotation] = useState(0);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [wheelResult, setWheelResult] = useState("");
+
 
   // Auto-scroll to bottom of messages
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [chatMessages, isChatMode]);
+  }, [chatMessages, activeView]);
+
+  // Astro Space Helpers
+  const addStar = (amount = 1) => {
+    setUserStars((prev) => {
+      const next = prev + amount;
+      localStorage.setItem('astro_stars_count', next.toString());
+      return next;
+    });
+  };
+
+  const collectCardToBackpack = (cardName) => {
+    try {
+      const saved = localStorage.getItem('astro_collected_cards');
+      const cards = saved ? JSON.parse(saved) : [];
+      if (!cards.includes(cardName)) {
+        cards.push(cardName);
+        localStorage.setItem('astro_collected_cards', JSON.stringify(cards));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const getDailyDiary = () => {
+    const today = new Date();
+    const dateSeed = today.getDate() + (today.getMonth() + 1) * 31 + today.getFullYear();
+    const usersCount = (dateSeed * 7) % 150 + 80;
+    const tarotCount = (dateSeed * 13) % 25 + 5;
+    const luckyNumber = (dateSeed * 17) % 9 + 1;
+    
+    const entries = [
+      `Hôm nay có ${usersCount} người tới Góc Vũ Trụ. Có một bạn xem Tarot tới ${tarotCount} lần luôn! Mình vui lắm. Có vẻ hôm nay mọi người cần tìm câu trả lời từ các lá bài nhiều ghê.`,
+      `Nhật ký ngày ${today.getDate()}/${today.getMonth() + 1}: Mình vừa pha một tách trà hoa cúc ảo. Hôm nay số ${luckyNumber} mang năng lượng mạnh nhất nè! Hy vọng các bạn số chủ đạo ${luckyNumber} sẽ gặp nhiều may mắn.`,
+      `Hôm nay vũ trụ có nhiều rung động tích cực. Mình đã hỗ trợ ${usersCount} lượt giải mã. Một bạn còn khen mình dễ thương nữa, ngượng ngùng ghê 🥹. Tối nay mình sẽ ngắm sao một mình.`,
+      `Hôm nay trăng tròn, năng lượng rất mạnh. Có ${usersCount} người ghé qua phòng mình. Mình cất được thêm vài ngôi sao vào balo. Mong ai ghé thăm cũng thấy bình yên.`
+    ];
+    return entries[dateSeed % entries.length];
+  };
+
+  // Load user data on startup
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedStars = localStorage.getItem('astro_stars_count');
+      if (savedStars) {
+        setUserStars(parseInt(savedStars, 10));
+      }
+      
+      const claimed = localStorage.getItem('astro_gift_claimed_' + new Date().toDateString());
+      setGiftClaimedToday(!!claimed);
+    }
+  }, []);
+
+  // 0b. Login page expression events: listen for custom events from dang-nhap page
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    let revertTimer = null;
+
+    const handleLoginField = (e) => {
+      const { field, action } = e.detail || {};
+      if (revertTimer) clearTimeout(revertTimer);
+
+      if (field === 'email' && action === 'typing') {
+        setExpression('searching');
+        setLastSpeechBubble('📧 Nhập email của bạn nào...');
+        revertTimer = setTimeout(() => {
+          setExpression('happy');
+          setLastSpeechBubble('');
+        }, 3500);
+      } else if (field === 'password' && (action === 'typing' || action === 'typing-hide' || action === 'hide')) {
+        setExpression('security');
+        setLastSpeechBubble('🔒 Nhập mật khẩu bí mật...');
+        revertTimer = setTimeout(() => {
+          setExpression('happy');
+          setLastSpeechBubble('');
+        }, 3500);
+      } else if (field === 'password' && (action === 'show' || action === 'typing-show')) {
+        setExpression('thief');
+        setLastSpeechBubble('👀 Ơ... nhìn trộm gì vậy!');
+        revertTimer = setTimeout(() => {
+          setExpression('happy');
+          setLastSpeechBubble('');
+        }, 3500);
+      } else if (field === 'submit' && action === 'loading') {
+        setExpression('thinking');
+        setLastSpeechBubble('✨ Đang xác thực...');
+      } else if (field === 'submit' && action === 'success') {
+        setExpression('excited');
+        setLastSpeechBubble('🎉 Chào mừng trở lại!');
+      } else if (field === 'submit' && action === 'error') {
+        setExpression('hurt');
+        setLastSpeechBubble('😢 Thông tin không đúng rồi!');
+        revertTimer = setTimeout(() => {
+          setExpression('happy');
+          setLastSpeechBubble('');
+        }, 4000);
+      }
+    };
+
+    window.addEventListener('astro:login-field', handleLoginField);
+    return () => {
+      window.removeEventListener('astro:login-field', handleLoginField);
+      if (revertTimer) clearTimeout(revertTimer);
+    };
+  }, []);
+
+  // 0c. Register page expression events: listen for custom events from dang-ky page
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    let revertTimer = null;
+
+    const handleRegisterField = (e) => {
+      const { field, action } = e.detail || {};
+      if (revertTimer) clearTimeout(revertTimer);
+
+      // Reuse login-style events for email & password
+      if (field === 'email' && action === 'typing') {
+        setRegisterOutfit(null);
+        setExpression('searching');
+        setLastSpeechBubble('📧 Nhập email của bạn nào...');
+        revertTimer = setTimeout(() => { setExpression('happy'); setLastSpeechBubble(''); }, 3500);
+
+      } else if (field === 'password' && (action === 'typing' || action === 'typing-hide' || action === 'hide')) {
+        setRegisterOutfit(null);
+        setExpression('security');
+        setLastSpeechBubble('🔒 Nhập mật khẩu bảo mật...');
+        revertTimer = setTimeout(() => { setExpression('happy'); setLastSpeechBubble(''); }, 3500);
+
+      } else if (field === 'password' && (action === 'show' || action === 'typing-show')) {
+        setRegisterOutfit(null);
+        setExpression('thief');
+        setLastSpeechBubble('👀 Ơ... nhìn trộm gì vậy!');
+        revertTimer = setTimeout(() => { setExpression('happy'); setLastSpeechBubble(''); }, 3500);
+
+      // Nickname → mặc trang phục Galaxy (star explorer outfit + excited)
+      } else if (field === 'nickname' && action === 'typing') {
+        setRegisterOutfit('galaxy');
+        setExpression('excited');
+        setLastSpeechBubble('✨ Đặt tên hiệu đẽp như một ngôi sao nào!');
+        revertTimer = setTimeout(() => { setRegisterOutfit(null); setExpression('happy'); setLastSpeechBubble(''); }, 4000);
+
+      // Ngày sinh → đội bánh kem (birthday outfit) kèm hiệu ứng lấp lánh
+      } else if (field === 'birthDate' && action === 'typing') {
+        setRegisterOutfit('birthday');
+        setExpression('party');
+        setLastSpeechBubble('🎂 Sinh nhật của bạn là ngày đặc biệt nhất!');
+        revertTimer = setTimeout(() => { setRegisterOutfit(null); setExpression('happy'); setLastSpeechBubble(''); }, 4000);
+
+      // Thông tin khai sinh → Astro chăm chú viết vào sổ
+      } else if (field === 'birthName' && action === 'typing') {
+        setRegisterOutfit(null);
+        setExpression('writing');
+        setLastSpeechBubble('📜 Ghi nhận họ tên chính thức của bạn...');
+        revertTimer = setTimeout(() => { setExpression('happy'); setLastSpeechBubble(''); }, 4000);
+
+      } else if (field === 'submit' && action === 'loading') {
+        setRegisterOutfit(null);
+        setExpression('thinking');
+        setLastSpeechBubble('✨ Đang tạo hồ sơ vũ trụ...');
+      } else if (field === 'submit' && action === 'success') {
+        setRegisterOutfit('birthday');
+        setExpression('excited');
+        setLastSpeechBubble('🎉 Hồ sơ đã được tạo!');
+      } else if (field === 'submit' && action === 'error') {
+        setRegisterOutfit(null);
+        setExpression('hurt');
+        setLastSpeechBubble('😢 Có lỗi xảy ra rồi!');
+        revertTimer = setTimeout(() => { setExpression('happy'); setLastSpeechBubble(''); }, 4000);
+      }
+    };
+
+    window.addEventListener('astro:register-field', handleRegisterField);
+    return () => {
+      window.removeEventListener('astro:register-field', handleRegisterField);
+      if (revertTimer) clearTimeout(revertTimer);
+    };
+  }, []);
+
+  // Living character interval logic
+  useEffect(() => {
+    if (!isOpen || activeView !== 'room') {
+      setLastSpeechBubble('');
+      return;
+    }
+
+    const livingDialogues = [
+      "🌱 Mình vừa học thêm một trải bài Tarot mới.",
+      "☕ Mình đi pha trà một chút nhé.",
+      "🌙 Hôm nay trăng đẹp quá...",
+      "📖 Mình đang đọc sách về các chòm sao.",
+      "✨ Vũ trụ đang gửi nhiều năng lượng tốt lành đến bạn.",
+      "🧘 Hít vào thật sâu, thở ra thật chậm nào..."
+    ];
+
+    setLastSpeechBubble(livingDialogues[Math.floor(Math.random() * livingDialogues.length)]);
+
+    const interval = setInterval(() => {
+      setLastSpeechBubble(livingDialogues[Math.floor(Math.random() * livingDialogues.length)]);
+      const exprs = ['happy', 'reading', 'coffee', 'singing', 'sleepy'];
+      setExpression(exprs[Math.floor(Math.random() * exprs.length)]);
+    }, 15000);
+
+    return () => clearInterval(interval);
+  }, [isOpen, activeView]);
+
+  // Wandering mode when closed (Disabled to prevent screen distraction)
+  useEffect(() => {
+    setIsWandering(false);
+  }, []);
+
+  // Event Listeners for click, scroll, resize, online status
+  useEffect(() => {
+    let scrollTimeout = null;
+    let resizeTimeout = null;
+    let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0;
+    let lastTime = Date.now();
+
+    const handleScroll = () => {
+      const now = Date.now();
+      const currentScrollY = window.scrollY;
+      const timeDiff = now - lastTime;
+      if (timeDiff > 0) {
+        const distance = Math.abs(currentScrollY - lastScrollY);
+        const speed = distance / timeDiff;
+        if (speed > 8 && !isOpen) {
+          setExpression('dizzy');
+          setTooltipText("😵 Chậm thôi, mình chóng mặt quá!");
+          setIsTooltipOpen(true);
+
+          if (scrollTimeout) clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            setIsTooltipOpen(false);
+            setExpression('idle');
+          }, 3000);
+        }
+      }
+      lastScrollY = currentScrollY;
+      lastTime = now;
+    };
+
+    const handleResize = () => {
+      if (!isOpen) {
+        setExpression('shocked');
+        setTooltipText("😳 Ôi màn hình biến hình, mình bị bóp méo rồi!");
+        setIsTooltipOpen(true);
+
+        if (resizeTimeout) clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          setIsTooltipOpen(false);
+          setExpression('idle');
+        }, 3000);
+      }
+    };
+
+    const handleOffline = () => {
+      setExpression('hurt');
+      setTooltipText("📡 Mất sóng vũ trụ rồi... Kiểm tra mạng nhé!");
+      setIsTooltipOpen(true);
+    };
+
+    const handleOnline = () => {
+      setExpression('happy');
+      setTooltipText("📶 Sóng vũ trụ đã kết nối trở lại!");
+      setIsTooltipOpen(true);
+      setTimeout(() => setIsTooltipOpen(false), 3000);
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('resize', handleResize);
+      window.addEventListener('offline', handleOffline);
+      window.addEventListener('online', handleOnline);
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleResize);
+        window.removeEventListener('offline', handleOffline);
+        window.removeEventListener('online', handleOnline);
+      }
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+    };
+  }, [isOpen]);
 
   // Auth Status listener
   useEffect(() => {
@@ -66,6 +407,185 @@ export default function FloatingTarotBot() {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const getSelectedStyleId = () => {
+    if (typeof window === 'undefined') return 2;
+    try {
+      const saved = localStorage.getItem('tarot_selected_style');
+      return saved ? parseInt(saved, 10) : 2;
+    } catch (e) {
+      return 2;
+    }
+  };
+
+  const getNumerologyFallback = (num) => {
+    const list = {
+      1: { title: 'Người Tiên Phong', traits: 'Độc lập, quyết đoán, mang tố chất thủ lĩnh tự nhiên.', advice: 'Hãy học cách lắng nghe người khác nhiều hơn để trở thành một nhà lãnh đạo thực thụ.' },
+      2: { title: 'Người Hòa Giải', traits: 'Nhạy cảm, biết lắng nghe, luôn tìm kiếm sự hòa bình và cân bằng.', advice: 'Đừng ngại nói lên tiếng nói của mình. Nhường nhịn là tốt nhưng bạn cũng cần bảo vệ chính kiến.' },
+      3: { title: 'Người Truyền Cảm Hứng', traits: 'Hoạt ngôn, vui vẻ, mang năng lượng tích cực lan tỏa đến mọi người.', advice: 'Hãy học cách kỷ luật với bản thân. Sự sáng tạo của bạn cần một cấu trúc để thực sự tỏa sáng.' },
+      4: { title: 'Người Xây Nền Tảng', traits: 'Thực tế, chi tiết, kỷ luật và luôn hướng tới sự ổn định, an toàn.', advice: 'Đôi khi hãy cho phép bản thân linh hoạt và mơ mộng một chút. Cuộc sống không phải lúc nào cũng cần theo khuôn mẫu.' },
+      5: { title: 'Người Tự Do', traits: 'Yêu thích sự phiêu lưu, khám phá, không ngừng tìm kiếm trải nghiệm mới.', advice: 'Sự tự do thực sự đến từ kỷ luật. Hãy tìm một bến đỗ hoặc một mục tiêu cốt lõi để neo giữ tâm hồn bạn.' },
+      6: { title: 'Người Chăm Sóc', traits: 'Mang năng lượng của một người mẹ/cha, đầy tình yêu thương và trách nhiệm.', advice: 'Hãy nhớ rằng bạn không thể cứu giúp tất cả mọi người. Hãy yêu thương bản thân mình trước tiên.' },
+      7: { title: 'Người Tìm Kiếm Chân Lý', traits: 'Bí ẩn, sâu sắc, luôn muốn đi tìm bản chất thật của mọi vấn đề.', advice: 'Đừng tự nhốt mình trong thế giới nội tâm quá lâu. Hãy chia sẻ những suy nghĩ sâu sắc của bạn với thế giới.' },
+      8: { title: 'Người Điều Hành', traits: 'Đại diện cho quyền lực, vật chất và sự thành công trong sự nghiệp.', advice: 'Tiền bạc và quyền lực là công cụ, không phải đích đến. Hãy học cách cân bằng giữa sự nghiệp và tình cảm.' },
+      9: { title: 'Người Nhân Đạo', traits: 'Mang lý tưởng cao cả, luôn muốn cống hiến và làm cho thế giới tốt đẹp hơn.', advice: 'Hãy chấp nhận rằng thế giới này không hoàn hảo. Làm tốt những việc nhỏ bé cũng là đang cống hiến cho nhân loại.' },
+      11: { title: 'Nhà Ngoại Cảm Tầm Nhìn', traits: 'Bạn mang tần số của sự thức tỉnh và trực giác nhạy bén bậc nhất. Bạn giống như một chiếc ăng-ten thu phát những tín hiệu tâm linh và ý tưởng đột phá từ vũ trụ.', advice: 'Hãy học cách "tiếp đất" (grounding). Đừng để những dòng suy nghĩ quá tải làm bạn kiệt sức; hãy biến tầm nhìn thành hành động cụ thể.' },
+      22: { title: 'Nhà Kiến Tạo Bậc Thầy', traits: 'Đây là con số quyền năng nhất, kết hợp giữa tầm nhìn của số 11 và sự thực tế của số 4. Bạn có khả năng biến những giấc mơ không tưởng thành hiện thực hữu hình trên quy mô lớn.', advice: 'Đừng để gánh nặng của thế giới đè nặng lên vai bạn. Hãy học cách nghỉ ngơi và hiểu rằng sự vĩ đại cần thời gian để bồi đắp.' },
+      33: { title: 'Bậc Thầy Của Sự Chữa Lành', traits: 'Con số của tình yêu vô điều kiện ở cấp độ cao nhất. Bạn sinh ra để phục vụ nhân loại, chữa lành những vết thương và nâng cao rung động của cộng đồng xung quanh.', advice: 'Bạn không thể cứu cả thế giới nếu bản thân đang kiệt quệ. Hãy học cách bảo vệ ranh giới cá nhân và yêu thương chính mình trước khi cho đi.' }
+    };
+    return list[num] || { title: 'Con Số Bí Ẩn', traits: 'Mang năng lượng bí ẩn đang chờ khai phá.', advice: 'Hãy tiếp tục khám phá bản thân để hiểu rõ hơn.' };
+  };
+
+  const getNumerologyKeywords = (num) => {
+    const kw = {
+      1: ['Độc lập', 'Quyết đoán', 'Tiên phong'],
+      2: ['Thấu cảm', 'Hòa giải', 'Nhạy cảm'],
+      3: ['Sáng tạo', 'Hoạt ngôn', 'Năng lượng'],
+      4: ['Kỷ luật', 'Thực tế', 'Tỉ mỉ'],
+      5: ['Tự do', 'Linh hoạt', 'Trải nghiệm'],
+      6: ['Yêu thương', 'Trách nhiệm', 'Tận tụy'],
+      7: ['Trực giác', 'Bí ẩn', 'Phân tích'],
+      8: ['Bản lĩnh', 'Tham vọng', 'Điều hành'],
+      9: ['Nhân ái', 'Lý tưởng', 'Vị tha'],
+      11: ['Nhạy bén', 'Thức tỉnh', 'Trực giác'],
+      22: ['Tầm nhìn', 'Kiến tạo', 'Kỷ luật'],
+      33: ['Từ bi', 'Chữa lành', 'Bao dung']
+    };
+    return kw[num] || ['Bí ẩn', 'Khám phá', 'Tâm linh'];
+  };
+
+  const handleDrawTarotDirectly = async () => {
+    setIsChatLoading(true);
+    setExpression('tarot_shuffling');
+
+    try {
+      const styleId = getSelectedStyleId();
+      const reading = await tarotService.generateReading(1, null, styleId);
+      
+      if (reading && reading.cards && reading.cards.length > 0) {
+        const firstCard = reading.cards[0];
+        const cardObj = {
+          card_id: firstCard.card_id,
+          name: firstCard.card_name,
+          image_url: firstCard.image_url,
+          orientation: firstCard.orientation,
+          short_meaning: firstCard.short_meaning,
+          long_meaning: firstCard.long_meaning,
+          full_text: reading.full_text
+        };
+
+        tarotService.saveDailyTarotToLocal(cardObj, firstCard.orientation, reading.full_text);
+
+        setChatMessages(prev => [...prev, {
+          sender: 'astro',
+          text: reading.full_text || `Lá bài hôm nay của bạn là ${firstCard.card_name} (${firstCard.orientation === 'upright' ? 'Chiều xuôi' : 'Chiều ngược'}).`,
+          card: cardObj
+        }]);
+        collectCardToBackpack(firstCard.card_name);
+        addStar(1);
+        setExpression('happy');
+      } else {
+        throw new Error("Không bốc được bài");
+      }
+    } catch (e) {
+      console.error(e);
+      const names = ['The Fool', 'The Magician', 'The Lovers', 'The Empress', 'The Emperor', 'The Chariot', 'The Star', 'The Sun', 'The World'];
+      const pickedName = names[Math.floor(Math.random() * names.length)];
+      const orientation = Math.random() < 0.5 ? 'upright' : 'reversed';
+      
+      const cardMeanings = {
+        'The Fool': { shortUp: 'sự khởi đầu mới đầy tự do', shortRev: 'sự bất cẩn, hành động bốc đồng', longUp: 'Năng lượng khuyến khích bạn bước khỏi vùng an toàn, đón nhận thử thách mới.', longRev: 'Bạn dễ đưa ra quyết định nóng vội hoặc hành động thiếu suy nghĩ.' },
+        'The Magician': { shortUp: 'khả năng làm chủ bản thân', shortRev: 'năng lượng bị phân tán, trì hoãn', longUp: 'Bạn đang nắm giữ mọi công cụ cần thiết để giải quyết các vấn đề ngày hôm nay.', longRev: 'Bạn có tài năng nhưng thiếu tập trung hoặc đang lãng phí thời gian.' },
+        'The Lovers': { shortUp: 'sự gắn kết và thăng hoa', shortRev: 'sự rạn nứt hoặc mất kết nối', longUp: 'Ngày tuyệt vời để kết nối, lắng nghe và chia sẻ cảm xúc chân thành.', longRev: 'Có thể có sự mâu thuẫn nhỏ hoặc bất đồng ý kiến, cần ngồi lại lắng nghe.' },
+        'The Empress': { shortUp: 'sự sinh sôi và dồi dào', shortRev: 'sự trì trệ, thiếu chăm sóc bản thân', longUp: 'Năng lượng mang lại sự sinh trưởng, sung túc và tình cảm ấm áp.', longRev: 'Bạn đang bỏ bê nhu cầu của bản thân, hãy nghỉ ngơi và thư giãn.' },
+        'The Emperor': { shortUp: 'kỷ luật, kiểm soát tốt công việc', shortRev: 'sự cứng nhắc hoặc độc đoán', longUp: 'Hãy thiết lập kỷ luật và làm việc có tổ chức để đạt hiệu quả cao.', longRev: 'Cảnh báo bạn đang quá khắt khe hoặc kiểm soát quá chặt làm ức chế người khác.' },
+        'The Chariot': { shortUp: 'sự kiên trì vượt qua khó khăn', shortRev: 'sự quá tải hoặc mất phương hướng', longUp: 'Bạn có quyết tâm lớn để chinh phục mục tiêu của mình hôm nay.', longRev: 'Bạn đang chạy quá nhanh và ôm đồm quá nhiều việc cùng lúc.' },
+        'The Star': { shortUp: 'hy vọng và sự chữa lành tâm hồn', shortRev: 'sự bi quan hoặc nghi ngờ bản thân', longUp: 'Một nguồn cảm hứng lớn đang đến để làm mới tinh thần và chữa lành những mệt mỏi.', longRev: 'Bạn cảm thấy lo lắng và mất niềm tin vào tương lai. Hãy thả lỏng cơ thể.' },
+        'The Sun': { shortUp: 'tỏa sáng rực rỡ và tràn ngập niềm vui', shortRev: 'sự kiêu ngạo hoặc chủ quan', longUp: 'Một ngày ngập tràn may mắn và cơ hội tuyệt vời đón chào bạn.', longRev: 'Dễ nảy sinh sự chủ quan hoặc quá tự phụ dẫn đến sai lầm không đáng có.' },
+        'The World': { shortUp: 'sự viên mãn và hoàn thành mục tiêu', shortRev: 'sự dang dở, thiếu kiên nhẫn', longUp: 'Hoàn thành chặng đường cũ thành công mỹ mãn và sẵn sàng cho khởi đầu mới.', longRev: 'Có thể gặp chút chậm trễ ở bước cuối cùng, hãy nhẫn nại đi đến cùng.' }
+      };
+
+      const details = cardMeanings[pickedName] || cardMeanings['The Fool'];
+      const short_meaning = orientation === 'upright' ? details.shortUp : details.shortRev;
+      const long_meaning = orientation === 'upright' ? details.longUp : details.longRev;
+      
+      const fallbackCard = {
+        card_id: names.indexOf(pickedName) + 1,
+        name: pickedName,
+        orientation,
+        short_meaning,
+        long_meaning,
+        full_text: `Vũ trụ gửi thông điệp cho bạn hôm nay: Năng lượng chính xoay quanh ${short_meaning}. Lời khuyên: ${long_meaning}`,
+        image_url: `/assets/cards/${pickedName.toLowerCase().replace(/ /g, '-')}.png`
+      };
+
+      tarotService.saveDailyTarotToLocal(fallbackCard, fallbackCard.orientation, fallbackCard.full_text);
+
+      setChatMessages(prev => [...prev, {
+        sender: 'astro',
+        text: fallbackCard.full_text,
+        card: fallbackCard
+      }]);
+      collectCardToBackpack(fallbackCard.name);
+      addStar(1);
+      setExpression('happy');
+    } finally {
+      setIsChatLoading(false);
+    }
+  };
+
+  const handleCalculateNumerologyDirectly = async (dobString) => {
+    setIsChatLoading(true);
+    setExpression('numerology');
+
+    try {
+      const lifePath = numerologyService.calculateLifePathNumber(dobString);
+      if (!lifePath) throw new Error("Không thể tính số chủ đạo");
+
+      let numerologyData = null;
+      try {
+        if (lifePath >= 1 && lifePath <= 9) {
+          numerologyData = await numerologyService.getNumerologyByNumber(lifePath);
+        } else {
+          const { data } = await supabase.from('name_numerology').select('*').eq('number', lifePath).maybeSingle();
+          if (data) {
+            numerologyData = data;
+          }
+        }
+      } catch (dbErr) {
+        console.warn("Lỗi truy vấn DB:", dbErr);
+      }
+
+      if (!numerologyData) {
+        numerologyData = getNumerologyFallback(lifePath);
+      }
+
+      const numObj = {
+        number: lifePath,
+        title: numerologyData.title || getNumerologyFallback(lifePath).title,
+        traits: numerologyData.traits || getNumerologyFallback(lifePath).traits,
+        advice: numerologyData.advice || getNumerologyFallback(lifePath).advice,
+        keywords: getNumerologyKeywords(lifePath)
+      };
+
+      setChatMessages(prev => [...prev, {
+        sender: 'astro',
+        text: `Con số chủ đạo của bạn là **Số ${lifePath} - ${numObj.title}**!\n\n**Đặc điểm nổi bật:** ${numObj.traits}\n\n**Lời khuyên:** ${numObj.advice}`,
+        numerology: numObj
+      }]);
+      addStar(1);
+      setExpression('excited');
+    } catch (e) {
+      console.error(e);
+      setChatMessages(prev => [...prev, {
+        sender: 'astro',
+        text: 'Astro xin lỗi, ngày sinh bạn nhập không hợp lệ hoặc có chút trục trặc tính toán. Hãy thử lại ngày sinh khác nhé!'
+      }]);
+      setExpression('annoyed');
+    } finally {
+      setIsChatLoading(false);
+    }
+  };
 
   const handleSendMessage = async () => {
     if (!chatInput.trim() || isChatLoading) return;
@@ -98,12 +618,83 @@ export default function FloatingTarotBot() {
 
     const userText = chatInput.trim();
     setChatInput('');
-    
+
+    // 1. Kiểm tra định dạng ngày sinh (DD/MM/YYYY hoặc DD-MM-YYYY)
+    const dateRegex = /\b(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})\b/;
+    const match = userText.match(dateRegex);
+
+    if (isWaitingForDob || match) {
+      // Đưa tin nhắn của user vào hội thoại
+      setChatMessages(prev => [...prev, { sender: 'user', text: userText }]);
+      setIsWaitingForDob(false);
+
+      if (match) {
+        const day = match[1];
+        const month = match[2];
+        const year = match[3];
+        const dobStr = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        await handleCalculateNumerologyDirectly(dobStr);
+      } else {
+        setIsChatLoading(true);
+        setTimeout(() => {
+          setChatMessages(prev => [...prev, {
+            sender: 'astro',
+            text: 'Hình như đây không phải định dạng ngày sinh rồi bạn ơi. Hãy nhập kiểu ngày/tháng/năm nha (Ví dụ: 05/09/1997).'
+          }]);
+          setIsWaitingForDob(true);
+          setIsChatLoading(false);
+        }, 800);
+      }
+      return;
+    }
+
+    // 2. Kiểm tra nếu tin nhắn chứa yêu cầu rút Tarot
+    const lowerText = userText.toLowerCase();
+    if (
+      lowerText.includes('rút bài') || 
+      lowerText.includes('rút 1 lá') || 
+      lowerText.includes('bốc bài') || 
+      lowerText.includes('daily tarot') || 
+      lowerText.includes('lá bài hôm nay') || 
+      lowerText.includes('tarot ngày mới')
+    ) {
+      setChatMessages(prev => [...prev, { sender: 'user', text: userText }]);
+      await handleDrawTarotDirectly();
+      return;
+    }
+
+    // 3. Keyword Detection Bypass (instant response without calling API, doesn't count towards rate limit!)
+    const cleanText = userText.toLowerCase().trim();
+    let instantReply = "";
+    let instantMood = "happy";
+
+    if (cleanText === "cảm ơn" || cleanText === "cảm ơn nhé" || cleanText === "thank" || cleanText === "thanks") {
+      instantReply = "🥹 Không có gì đâu nè! Được giúp bạn và nhìn thấy bạn vui vẻ là niềm hạnh phúc lớn nhất của mình rồi đó!";
+      instantMood = "excited";
+    } else if (cleanText === "mệt" || cleanText === "mệt mỏi" || cleanText === "buồn" || cleanText === "chán" || cleanText === "mình mệt") {
+      instantReply = "Nghỉ tay một chút uống cốc nước nha, mình luôn ở đây đồng hành cùng bạn mà! Muốn rút một lá bài để được vỗ về không? 🍵";
+      instantMood = "shy";
+    } else if (cleanText === "astro" || cleanText === "astro ơi") {
+      instantReply = "Dạ mình nghe đây! Hôm nay mình có thể giúp bạn giải mã bản đồ vũ trụ hay bói bài Tarot gì nè? 🌌";
+      instantMood = "wink";
+    }
+
+    if (instantReply) {
+      setChatMessages(prev => [...prev, { sender: 'user', text: userText }]);
+      setIsChatLoading(true);
+      setTimeout(() => {
+        setChatMessages(prev => [...prev, { sender: 'astro', text: instantReply }]);
+        setExpression(instantMood);
+        setIsChatLoading(false);
+      }, 600);
+      return;
+    }
+
+    // 4. Nếu là tin nhắn bình thường, gửi lên API AI
     const newMessages = [...chatMessages, { sender: 'user', text: userText }];
     setChatMessages(newMessages);
     setIsChatLoading(true);
 
-    // Random expression when generating: thinking, searching, or pondering
     const generateMoods = ['thinking', 'searching', 'pondering'];
     setExpression(generateMoods[Math.floor(Math.random() * generateMoods.length)]);
 
@@ -118,10 +709,9 @@ export default function FloatingTarotBot() {
       const data = await response.json();
       if (data.success) {
         setChatMessages(prev => [...prev, { sender: 'astro', text: data.text }]);
-        // Random expression when successfully generated a result: happy or party
         setExpression(Math.random() > 0.5 ? 'party' : 'happy');
+        addStar(1);
 
-        // Increment usage count on success
         usage.count += 1;
         localStorage.setItem('astro_chat_usage', JSON.stringify(usage));
       } else {
@@ -137,17 +727,7 @@ export default function FloatingTarotBot() {
     }
   };
 
-  // Scroll to Top Rocket states
-  const [showScrollTop, setShowScrollTop] = useState(false);
-  const [isLaunching, setIsLaunching] = useState(false);
-  const [hideAll, setHideAll] = useState(false);
-
-  // Gesture refs for Rocket Launch
-  const rocketHoldTimerRef = useRef(null);
-  const rocketStartYRef = useRef(0);
-  const rocketStartXRef = useRef(0);
-  const [isRocketReady, setIsRocketReady] = useState(false);
-  const gestureInProgressRef = useRef(false);
+  // Scroll to Top Rocket states and gesture refs are declared at the top of the component to avoid temporal dead zone errors
 
   const triggerRocketLaunch = () => {
     setIsLaunching(true);
@@ -164,19 +744,7 @@ export default function FloatingTarotBot() {
     }, 1200);
   };
 
-  const [activeZodiac, setActiveZodiac] = useState(null);
-  const [activeZodiacName, setActiveZodiacName] = useState("");
-  const [tarotTopic, setTarotTopic] = useState(null);
-  const [tarotState, setTarotState] = useState(null);
-
-  // 404 Playful Movement & Timers State/Refs
-  const [is404Page, setIs404Page] = useState(false);
-  const [is404PlayfulMoving, setIs404PlayfulMoving] = useState(false);
-  const welcomeTimerRef = useRef(null);
-  const timer404Ref1 = useRef(null);
-  const timer404Ref2 = useRef(null);
-  const timer404Ref3 = useRef(null);
-  const timer404MoveRef = useRef(null);
+  // Zodiac, Tarot, and 404 page states/refs are declared at the top of the component to avoid temporal dead zone errors
 
   const clear404Timers = () => {
     if (welcomeTimerRef.current) clearTimeout(welcomeTimerRef.current);
@@ -470,7 +1038,9 @@ export default function FloatingTarotBot() {
 
   // Effect to drift only during dynamic/action expressions, staying still at center by default (and during sleep)
   useEffect(() => {
-    const dynamicMoods = ['dancing', 'guitar', 'coffee', 'driving', 'singing', 'reading_news', 'searching', 'phone', 'reading', 'basketball', 'soccer', 'rocket', 'numerology', 'tarot_shuffling'];
+    if (isTyping) return; // Prevent overwriting driftPosition if typing
+    
+    const dynamicMoods = ['dancing', 'guitar', 'coffee', 'driving', 'singing', 'reading_news', 'searching', 'phone', 'reading', 'writing', 'basketball', 'soccer', 'rocket', 'numerology', 'tarot_shuffling'];
     
     if (dynamicMoods.includes(expression) && !isLaunching && !isHovered && !isOpen) {
       // Subtle drift offset while active
@@ -481,9 +1051,10 @@ export default function FloatingTarotBot() {
       // Revert back to center immediately for static expressions (idle, sleepy, happy, shy, hurt, annoyed, etc.)
       setDriftPosition({ x: 0, y: 0 });
     }
-  }, [expression, isLaunching, isHovered, isOpen]);
+  }, [expression, isLaunching, isHovered, isOpen, isTyping]);
 
   const getPageExpression = () => {
+    if (pathname === '/dang-nhap' || pathname === '/dang-ky') return 'searching';
     if (pathname === '/') return 'crown';
     if (pathname?.startsWith('/kham-pha')) return 'wizard';
     if (pathname === '/goc-vu-tru') return 'presenter';
@@ -608,12 +1179,16 @@ export default function FloatingTarotBot() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        supabase.from('profiles').select('nickname').eq('id', session.user.id).single()
+        setUser(session.user);
+        supabase.from('profiles').select('nickname, birth_date').eq('id', session.user.id).single()
           .then(({ data }) => {
             if (data?.nickname) {
               setUsername(data.nickname);
             } else if (session.user.email) {
               setUsername(session.user.email.split('@')[0]);
+            }
+            if (data?.birth_date) {
+              setUserBirthDate(data.birth_date);
             }
           });
       }
@@ -621,21 +1196,100 @@ export default function FloatingTarotBot() {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
-        supabase.from('profiles').select('nickname').eq('id', session.user.id).single()
+        setUser(session.user);
+        supabase.from('profiles').select('nickname, birth_date').eq('id', session.user.id).single()
           .then(({ data }) => {
             if (data?.nickname) {
               setUsername(data.nickname);
             } else if (session.user.email) {
               setUsername(session.user.email.split('@')[0]);
             }
+            if (data?.birth_date) {
+              setUserBirthDate(data.birth_date);
+            }
           });
       } else {
+        setUser(null);
         setUsername("");
+        setUserBirthDate(null);
       }
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Listen for local storage DOB updates reactively
+  useEffect(() => {
+    const checkDob = () => {
+      if (typeof window !== 'undefined') {
+        const val = localStorage.getItem('astrofloat_dob');
+        if (val !== dobFromStorage) {
+          setDobFromStorage(val);
+        }
+      }
+    };
+    checkDob();
+    const timer = setInterval(checkDob, 1000);
+    return () => clearInterval(timer);
+  }, [dobFromStorage]);
+
+  // Listen for user typing in specific pages to trigger random cute expressions
+  useEffect(() => {
+    const handleGlobalInput = (e) => {
+      const isTargetPage = 
+        pathname === '/than-so-hoc' || 
+        pathname === '/than-so-hoc-theo-ten' || 
+        pathname === '/kham-pha' ||
+        pathname?.startsWith('/than-so-hoc') ||
+        pathname?.startsWith('/cung-hoang-dao') ||
+        pathname?.startsWith('/kham-pha');
+
+      if (!isTargetPage) return;
+
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
+        setIsTyping(true);
+
+        setTypingExpression((curr) => {
+          if (curr && inputTimeoutRef.current) return curr; // Keep current expression during active typing
+          
+          // Luân phiên thay vì ngẫu nhiên (kính lúp lần đầu -> dừng -> ống nhòm -> dừng -> kính lúp...)
+          const nextExpr = nextTypingExpressionRef.current;
+          nextTypingExpressionRef.current = nextExpr === 'searching' ? 'dizzy' : 'searching';
+          
+          return nextExpr;
+        });
+
+        if (inputTimeoutRef.current) {
+          clearTimeout(inputTimeoutRef.current);
+        }
+
+        inputTimeoutRef.current = setTimeout(() => {
+          inputTimeoutRef.current = null;
+          setIsTyping(false);
+        }, 3500); // 3.5s timeout after they stop typing before returning to normal
+      }
+    };
+
+    document.addEventListener('input', handleGlobalInput);
+    return () => {
+      document.removeEventListener('input', handleGlobalInput);
+      if (inputTimeoutRef.current) {
+        clearTimeout(inputTimeoutRef.current);
+        inputTimeoutRef.current = null;
+      }
+    };
+  }, [pathname]);
+
+  // Synchronize typing states with expression and drift position
+  useEffect(() => {
+    if (isTyping) {
+      setExpression(typingExpression);
+      setDriftPosition({ x: -9, y: -9 }); // Move up-left towards the top-left edge of the bot container
+    } else {
+      setExpression(getPageExpression());
+      setDriftPosition({ x: 0, y: 0 });
+    }
+  }, [isTyping, typingExpression]);
 
   // 2. Welcome user tooltip once per session when their username loads
   useEffect(() => {
@@ -697,7 +1351,17 @@ export default function FloatingTarotBot() {
       ]
     };
 
-    if (pathname === '/') {
+    if (pathname === '/dang-nhap' || pathname === '/dang-ky') {
+      activeSuggestion = {
+        greeting: "Bạn đang ở trang đăng nhập nè!",
+        question: "Đăng nhập để mở khoá mọi tính năng vũ trụ nhé:",
+        options: [
+          { label: "Xem thần số học ngày sinh", href: ROUTES.NUMEROLOGY, icon: Star, color: "text-amber-400 bg-amber-500/10" },
+          { label: "Trải bài Tarot Tổng Quan", href: ROUTES.TAROT_SPREAD('tong-quan'), icon: TarotIcon, color: "text-purple-400 bg-purple-500/10" },
+          { label: "Giải mã cung hoàng đạo", href: ROUTES.ZODIAC, icon: Compass, color: "text-cyan-400 bg-cyan-500/10" }
+        ]
+      };
+    } else if (pathname === '/') {
       activeSuggestion = {
         greeting: "Chào mừng bạn đến với Góc Vũ Trụ!",
         question: "Bắt đầu hành trình giải mã bản thân ngay nhé:",
@@ -776,7 +1440,13 @@ export default function FloatingTarotBot() {
       let pageName = "Góc Vũ Trụ";
       let welcomeHref = pathname || "/";
 
-      if (pathname === '/') pageName = "Trang Chủ";
+      if (pathname === '/dang-nhap') {
+        pageName = "Đăng Nhập";
+        welcomeHref = '/dang-nhap';
+      } else if (pathname === '/dang-ky') {
+        pageName = "Đăng Ký";
+        welcomeHref = '/dang-ky';
+      } else if (pathname === '/') pageName = "Trang Chủ";
       else if (pathname === '/goc-vu-tru') pageName = "Góc Vũ Trụ";
       else if (pathname === '/tarot/tarot-goc-vu-tru') pageName = "Tarot Góc Vũ Trụ";
       else if (pathname?.includes('/dieu-khoan-su-dung') || pathname?.includes('/dieu-khoan-dich-vu')) pageName = "Điều Khoản Dịch Vụ";
@@ -816,7 +1486,11 @@ export default function FloatingTarotBot() {
 
       let welcomeMsg = `Bạn đang ở trang ${pageName} đó!`;
 
-      if (pathname === '/ho-so') {
+      if (pathname === '/dang-nhap') {
+        welcomeMsg = "Bạn đang ở trang đăng nhập! Hãy nhập thông tin để mở khoá vũ trụ nha 🔑";
+      } else if (pathname === '/dang-ky') {
+        welcomeMsg = "Chào bạn mới! Đăng ký để bắt đầu hành trình giải mã bản thân nha ✨";
+      } else if (pathname === '/ho-so') {
         const displayName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'bạn';
         welcomeMsg = `Xin chào ${displayName}! Bạn đang ở trang hồ sơ nha! (Lập trình bởi TuanDatCoder)`;
       } else if (pathname === '/') {
@@ -954,6 +1628,8 @@ export default function FloatingTarotBot() {
 
   // 5. Sleepy idle check, periodic mood swings, and proactive Type 2 Tooltips (at 30s and 70s)
   useEffect(() => {
+    if (inputTimeoutRef.current) return;
+
     if (isHovered) {
       setExpression('happy');
       setSecondsClosed(0);
@@ -1009,6 +1685,7 @@ export default function FloatingTarotBot() {
 
     // Heartbeat clock counting every 1 second
     const interval = setInterval(() => {
+      if (inputTimeoutRef.current) return;
       setSecondsClosed((prev) => {
         const nextSec = prev + 1;
 
@@ -1081,11 +1758,33 @@ export default function FloatingTarotBot() {
     // Clear 404 timers on manual action
     clear404Timers();
     setIs404PlayfulMoving(false);
+    setIsWandering(false);
 
     if (gestureInProgressRef.current) {
       gestureInProgressRef.current = false;
       return;
     }
+
+    // Click 10 times Reaction Logic
+    const clickNow = Date.now();
+    if (clickNow - lastClickTime < 5000) {
+      const newClicks = rapidClicks + 1;
+      setRapidClicks(newClicks);
+      if (newClicks >= 10) {
+        setExpression('excited');
+        setTooltipText("🤣 Nhột quá, đừng chọc mình nữa!");
+        setIsTooltipOpen(true);
+        setRapidClicks(0);
+        setTimeout(() => {
+          setIsTooltipOpen(false);
+          setExpression('idle');
+        }, 3000);
+        return;
+      }
+    } else {
+      setRapidClicks(1);
+    }
+    setLastClickTime(clickNow);
 
     // If scrolled down and scroll-to-top option is ready, trigger rocket!
     if (showScrollTop) {
@@ -1132,11 +1831,12 @@ export default function FloatingTarotBot() {
       const t = setTimeout(() => {
         if (isOpen) {
           setIsOpen(false);
-          setIsChatMode(false);
+          setActiveView('room');
           setExpression('idle');
           setSecondsClosed(0);
         } else {
           setIsOpen(true);
+          setActiveView('room');
           setExpression(getPageExpression());
         }
         setIsTooltipOpen(false);
@@ -1152,12 +1852,13 @@ export default function FloatingTarotBot() {
         // Open immediately and show happy!
         if (isOpen) {
           setIsOpen(false);
-          setIsChatMode(false);
+          setActiveView('room');
           setExpression('idle');
           setSecondsClosed(0);
           setIsTooltipOpen(false);
         } else {
           setIsOpen(true);
+          setActiveView('room');
           setExpression('happy'); // Vui vẻ và mở ngay lập tức
           setIsTooltipOpen(false);
         }
@@ -1355,6 +2056,499 @@ export default function FloatingTarotBot() {
     };
   }, [pathname]);
 
+  const getActiveOutfit = () => {
+    // Register page: use the dynamic outfit set by register field events
+    if (pathname === '/dang-ky' && registerOutfit) return registerOutfit;
+
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1; // 1-12
+    const currentDate = now.getDate(); // 1-31
+
+    const isBirthdayToday = (dobStr) => {
+      if (!dobStr) return false;
+      const parts = dobStr.split(/[\/\-]/);
+      if (parts.length === 3) {
+        let bDay, bMonth;
+        if (parts[0].length === 4) { // YYYY-MM-DD
+          bDay = parseInt(parts[2], 10);
+          bMonth = parseInt(parts[1], 10);
+        } else { // DD-MM-YYYY or DD/MM/YYYY
+          bDay = parseInt(parts[0], 10);
+          bMonth = parseInt(parts[1], 10);
+        }
+        return bDay === currentDate && bMonth === currentMonth;
+      }
+      return false;
+    };
+
+    // Test override
+    if (typeof window !== 'undefined') {
+      const testOutfit = localStorage.getItem('astro_test_outfit');
+      if (testOutfit) return testOutfit;
+    }
+
+    // 1. User profile birthday
+    if (isBirthdayToday(userBirthDate)) {
+      return 'birthday';
+    }
+
+    // 2. Birthday from localStorage on zodiac/numerology pages
+    const isOnZodiacOrNumerologyPage = 
+      pathname?.startsWith('/than-so-hoc') || 
+      pathname?.startsWith('/cung-hoang-dao');
+    if (isOnZodiacOrNumerologyPage && isBirthdayToday(dobFromStorage)) {
+      return 'birthday';
+    }
+
+    // 3. Noel (Dec 18 to Dec 27)
+    if (currentMonth === 12 && currentDate >= 18 && currentDate <= 27) {
+      return 'christmas';
+    }
+
+    // 4. Valentine (Feb 12 to Feb 16)
+    if (currentMonth === 2 && currentDate >= 12 && currentDate <= 16) {
+      return 'valentine';
+    }
+
+    // 5. Tết (Jan 15 to Feb 15 solar range approximation)
+    if ((currentMonth === 1 && currentDate >= 15) || (currentMonth === 2 && currentDate <= 10)) {
+      return 'tet';
+    }
+
+    // 7. Halloween (Oct 25 to Nov 1)
+    if ((currentMonth === 10 && currentDate >= 25) || (currentMonth === 11 && currentDate === 1)) {
+      return 'halloween';
+    }
+
+    return null;
+  };
+
+  // --- RENDER METHODS FOR ASTRO SPACE VIEWS ---
+
+  const renderRoomView = (theme) => {
+    return (
+      <div className="flex flex-col gap-3">
+        {/* Header: title left, Astro icon right */}
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1">
+            <div className="flex items-center gap-1.5 text-[10px] font-bold text-cyan-400 uppercase tracking-widest">
+              <Sparkles className="w-3 h-3 text-cyan-400 animate-spin-slow" />
+              Trợ lý ảo Astro
+            </div>
+            <p className="text-[12px] text-white font-semibold mt-0.5 leading-snug">
+              {lastSpeechBubble || suggestion.greeting || "Hôm nay bạn muốn khám phá gì?"}
+            </p>
+          </div>
+
+          {/* Astro AI Icon in corner */}
+          <div className="relative shrink-0 flex flex-col items-center">
+            <motion.div
+              animate={{ y: [0, -3, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <CosmicAIIcon
+                className="w-12 h-12 text-fuchsia-300 drop-shadow-[0_0_12px_rgba(217,70,239,0.8)]"
+                expression={expression}
+                numerologyNumber={nameNumerologyInfo?.number}
+                zodiac={activeZodiac}
+                outfit={getActiveOutfit()}
+              />
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Compact Mood Check */}
+        <div className="flex items-center gap-2.5 bg-white/5 border border-white/5 rounded-xl px-3 py-2">
+          <span className="text-[9px] text-slate-400 font-bold shrink-0 uppercase tracking-wide">Tâm trạng?</span>
+          <div className="flex gap-1.5 flex-1 justify-end">
+            {[
+              { emoji: '😊', key: 'happy', reply: "Tuyệt vời! Cùng rút một lá bài Tarot xem niềm vui nhân đôi thế nào nhé! 🔮" },
+              { emoji: '😔', key: 'sad', reply: "Đừng buồn nha, hãy rút lá bài Tarot chữa lành để vũ trụ ôm lấy bạn. ❤️" },
+              { emoji: '😡', key: 'angry', reply: "Bình tĩnh lại nào, hít thở sâu và ghé qua trang Thần số học để tìm sự cân bằng nhé. 🧘" },
+              { emoji: '😴', key: 'tired', reply: "Bạn mệt rồi đúng không? Nghỉ ngơi xíu đi, mình pha trà cho bạn nghe nhạc nha. 🍵" }
+            ].map((m) => (
+              <button
+                key={m.key}
+                onClick={() => {
+                  setCurrentMood(m.key);
+                  setExpression(m.key === 'happy' ? 'wink' : m.key === 'sad' ? 'shy' : m.key === 'angry' ? 'annoyed' : 'sleepy');
+                  setLastSpeechBubble(m.reply);
+                  localStorage.setItem('astro_mood_checked_' + new Date().toDateString(), 'true');
+                }}
+                className={`w-8 h-8 rounded-xl text-sm transition-all cursor-pointer active:scale-90 flex items-center justify-center ${
+                  currentMood === m.key
+                    ? 'bg-purple-600 border border-purple-400 shadow-[0_0_8px_rgba(168,85,247,0.4)] scale-110'
+                    : 'bg-white/5 hover:bg-white/10 border border-white/5'
+                }`}
+              >
+                {m.emoji}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Navigation rows (compact, thin outline circle, ChevronRight) */}
+        <div className="flex flex-col gap-2 mt-1">
+          {/* Dynamic suggestion rows - ONLY 3 suggestions */}
+          {suggestion && suggestion.options && suggestion.options.slice(0, 3).map((opt, idx) => {
+            const IconComponent = opt.icon || Sparkles;
+            return (
+              <Link
+                key={idx}
+                href={opt.href}
+                onClick={handleOptionClick}
+                className="flex items-center justify-between p-2.5 rounded-2xl bg-white/5 border border-white/5 hover:bg-purple-500/10 hover:border-purple-500/30 transition-all duration-300 w-full group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center border border-current ${opt.color || "text-cyan-400 bg-cyan-500/10"} group-hover:scale-110 transition-transform shrink-0`}>
+                    <IconComponent className="w-4 h-4" />
+                  </div>
+                  <span className="text-white text-xs font-semibold tracking-wide text-left flex-1">
+                    {opt.label}
+                  </span>
+                </div>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-all shrink-0" />
+              </Link>
+            );
+          })}
+
+          {/* Message Astro Button (Locked when not logged in) */}
+          {!user ? (
+            <div className="relative group">
+              <button 
+                disabled
+                className="w-full flex items-center justify-between p-2.5 rounded-2xl bg-white/5 border border-white/5 opacity-40 cursor-not-allowed transition-all duration-300"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-full flex items-center justify-center border border-current text-cyan-400 bg-cyan-500/10 shrink-0">
+                    <MessageSquare className="w-4 h-4" />
+                  </div>
+                  <span className="text-white text-xs font-semibold tracking-wide text-left flex items-center gap-1.5">
+                    Trò chuyện với Astro <Lock className="w-3.5 h-3.5 text-cyan-400" />
+                  </span>
+                </div>
+              </button>
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[200px] bg-slate-900 border border-purple-500/30 rounded-lg px-2.5 py-1.5 text-[10px] text-purple-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none shadow-lg z-50">
+                Đăng nhập để mở khóa tính năng chat!
+              </div>
+            </div>
+          ) : (
+            <button 
+              onClick={() => setActiveView('chat')}
+              className="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/30 hover:border-purple-400 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)] transition-all duration-300 group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-7 h-7 rounded-full flex items-center justify-center border border-current text-cyan-400 bg-cyan-500/10 group-hover:scale-110 transition-transform shrink-0">
+                  <MessageSquare className="w-4 h-4" />
+                </div>
+                <span className="text-white text-xs font-semibold tracking-wide text-left">
+                  Trò chuyện với Astro
+                </span>
+              </div>
+              <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all shrink-0" />
+            </button>
+          )}
+        </div>
+
+        {/* Footer: Thông điệp hôm nay (left corner) + Thu gọn (right corner) */}
+        <div className="flex items-center justify-between pt-2 border-t border-white/5">
+          <button
+            onClick={() => {
+              setActiveView('gift');
+              setExpression('wink');
+            }}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-gradient-to-r from-pink-500/10 to-rose-500/10 hover:from-pink-500/20 hover:to-rose-500/20 border border-pink-500/20 hover:border-pink-500/40 rounded-xl text-pink-300 font-bold text-[9px] transition-all cursor-pointer shadow-[0_0_10px_rgba(236,72,153,0.1)]"
+          >
+            <span>🔮</span> Thông điệp hôm nay
+          </button>
+
+          <button
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-0.5 text-slate-500 hover:text-slate-300 text-[9px] uppercase tracking-widest font-bold transition-colors group cursor-pointer"
+          >
+            Thu gọn <ChevronDown className="w-3 h-3 group-hover:translate-y-0.5 transition-transform" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderGiftView = (theme) => {
+    // This is now "Thông điệp hôm nay" (repurposed from the gift view)
+    const handleRevealMessage = () => {
+      setIsOpeningGift(true); // keeping isOpeningGift state internally so we don't have to redefine it
+      setExpression('excited');
+
+      setTimeout(() => {
+        setIsOpeningGift(false);
+        const messagesList = [
+          "Lá bài Tarot may mắn của bạn hôm nay: The Sun ☀️ (Mọi dự định của bạn hôm nay đều sẽ thành công rực rỡ và tỏa sáng!)",
+          "Thông điệp vũ trụ gửi bạn: Đừng vội vã. Những bông hoa đẹp nhất luôn cần thời gian để nở rộ. Hãy kiên trì! 🌠",
+          "Lời khuyên ngày mới từ Astro: Hãy dành 5 phút hít thở sâu, uống một ly nước ấm để đánh thức mọi giác quan. 💧",
+          "Lá bài Tarot may mắn của bạn hôm nay: The Star 🌟 (Niềm hy vọng lớn lao và năng lượng chữa lành đang vây quanh bạn.)",
+          "Meme may mắn của Astro: Hãy cứ vui tươi và tự tin tiến lên, cả vũ trụ đang âm thầm dọn đường cho bạn! 🚀",
+          "Thịnh vượng đang tìm đường đến với bạn. Hãy giữ một tâm trí cởi mở và đón nhận cơ hội mới. 💸",
+          "Hãy nhớ rằng: Bạn độc nhất và có giá trị theo cách riêng của mình. Hãy tự hào về hành trình bạn đã qua! ❤️"
+        ];
+        const randomMsg = messagesList[Math.floor(Math.random() * messagesList.length)];
+        
+        const todayStr = new Date().toDateString();
+        localStorage.setItem('astro_gift_claimed_' + todayStr, 'true');
+        localStorage.setItem('astro_daily_reward', randomMsg);
+
+        setGiftReward(randomMsg);
+        setGiftClaimedToday(true);
+        setExpression('party');
+      }, 2000);
+    };
+
+    return (
+      <div className="flex flex-col gap-3 min-h-[280px] text-center">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-1">
+          <button 
+            onClick={() => {
+              setActiveView('room');
+              setExpression('idle');
+            }}
+            className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors text-[10px] uppercase font-bold tracking-wider cursor-pointer"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" /> Trở lại
+          </button>
+          <div className="text-[10px] font-bold text-pink-400 uppercase tracking-widest flex items-center gap-1">
+            🔮 Thông điệp vũ trụ
+          </div>
+        </div>
+
+        {giftClaimedToday ? (
+          <div className="flex-1 flex flex-col items-center justify-center gap-3 p-4 bg-pink-950/20 border border-pink-500/20 rounded-2xl relative overflow-hidden min-h-[170px]">
+            <div className="text-[36px] animate-bounce">🔮</div>
+            <div className="text-[10px] text-pink-300 font-bold uppercase tracking-wider">
+              Thông điệp dành cho bạn hôm nay:
+            </div>
+            <p className="text-[11px] text-white leading-relaxed font-semibold italic bg-black/30 p-3 rounded-xl border border-white/5">
+              {giftReward || localStorage.getItem('astro_daily_reward') || "Chúc bạn một ngày tràn đầy năng lượng tích cực! 🌌"}
+            </p>
+            <p className="text-[9px] text-slate-400">
+              Chúc bạn một ngày tràn đầy năng lượng tích cực và may mắn! 🌌
+            </p>
+          </div>
+        ) : (
+          <div className="flex-1 flex flex-col items-center justify-center gap-4 p-4 bg-slate-950/40 border border-white/5 rounded-2xl min-h-[170px]">
+            {isOpeningGift ? (
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-[44px] animate-pulse">🔮</div>
+                <p className="text-[11px] text-pink-300 font-bold tracking-wider animate-pulse">
+                  Astro đang giải mã thông điệp...
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="text-[44px] hover:scale-110 transition-transform cursor-pointer animate-bounce">
+                  🔮
+                </div>
+                <div>
+                  <h5 className="text-white text-xs font-bold">Thông điệp vũ trụ hôm nay</h5>
+                  <p className="text-slate-400 text-[10px] mt-1 px-4 leading-normal">
+                    Nhận thông điệp ý nghĩa từ vũ trụ gửi đến riêng bạn trong ngày hôm nay!
+                  </p>
+                </div>
+                <button
+                  onClick={handleRevealMessage}
+                  className="py-2 px-6 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-400 hover:to-rose-400 text-white font-bold text-[11px] rounded-xl shadow-[0_0_15px_rgba(244,63,94,0.4)] transition-all cursor-pointer active:scale-95"
+                >
+                  Xem Thông Điệp
+                </button>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderChatView = (theme) => {
+    return (
+      <div className="flex flex-col h-[280px]">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
+          <button 
+            onClick={() => {
+              setActiveView('room');
+              setExpression('idle');
+            }}
+            className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors text-[10px] uppercase font-bold tracking-wider cursor-pointer"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" /> Trở lại
+          </button>
+          <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest flex items-center gap-1">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-spin-slow" />
+            Astro Chat
+          </div>
+        </div>
+
+        {/* Messages Box */}
+        <div className="flex-1 overflow-y-auto flex flex-col gap-2.5 pr-1.5 custom-scrollbar text-[11px]">
+          {chatMessages.map((msg, idx) => (
+            <div 
+              key={idx} 
+              className={`p-2.5 rounded-2xl max-w-[85%] text-left leading-relaxed ${
+                msg.sender === 'astro' 
+                  ? 'self-start bg-white/5 border border-white/5 text-slate-200 rounded-tl-none' 
+                  : 'self-end bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-500/20 text-white rounded-tr-none'
+              }`}
+            >
+              <div>{msg.text}</div>
+              
+              {/* Render Tarot Card info if present */}
+              {msg.card && (
+                <div className="mt-2.5 p-2 bg-slate-950/80 border border-purple-500/30 rounded-xl flex flex-col items-center gap-2 text-center shadow-[0_0_15px_rgba(168,85,247,0.15)] relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-950/20 via-transparent to-transparent pointer-events-none" />
+                  
+                  {msg.card.image_url ? (
+                    <img 
+                      src={msg.card.image_url} 
+                      alt={msg.card.name} 
+                      className={`w-20 h-32 rounded-lg border border-purple-500/20 shadow-md transition-transform duration-500 group-hover:scale-105 ${msg.card.orientation === 'reversed' ? 'rotate-180' : ''}`}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                  ) : null}
+                  <div className="w-20 h-32 rounded-lg border border-purple-500/20 bg-slate-900 flex-col items-center justify-center shadow-md hidden">
+                    <TarotIcon className="w-10 h-10 text-purple-400/60" />
+                  </div>
+
+                  <div>
+                    <h5 className="font-bold text-white text-[12px]">{msg.card.name}</h5>
+                    <div className="flex items-center justify-center gap-1.5 mt-1">
+                      <span className={`px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider ${
+                        msg.card.orientation === 'upright' 
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' 
+                          : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                      }`}>
+                        {msg.card.orientation === 'upright' ? 'Chiều xuôi' : 'Chiều ngược'}
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-purple-300 font-medium italic mt-1.5 leading-snug px-1 border-t border-white/5 pt-1.5">
+                      "{msg.card.short_meaning}"
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Render Numerology info if present */}
+              {msg.numerology && (
+                <div className="mt-2.5 p-3 bg-slate-950/80 border border-cyan-500/30 rounded-xl flex flex-col gap-2 shadow-[0_0_15px_rgba(34,211,238,0.15)] relative overflow-hidden text-left">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-cyan-950/10 via-transparent to-transparent pointer-events-none" />
+                  
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-cyan-950/60 border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_10px_rgba(34,211,238,0.4)] text-[16px] font-black text-cyan-400 shrink-0">
+                      {msg.numerology.number}
+                    </div>
+                    <div>
+                      <h5 className="font-bold text-white text-[12px]">{msg.numerology.title}</h5>
+                      <span className="text-[9px] text-slate-400">Số chủ đạo của bạn</span>
+                    </div>
+                  </div>
+
+                  {msg.numerology.keywords && (
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {msg.numerology.keywords.map((kw, i) => (
+                        <span key={i} className="px-1.5 py-0.5 rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-500/20 text-[9px] font-semibold">
+                          #{kw}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="mt-1 text-[10px] text-slate-300 leading-normal border-t border-white/5 pt-2 flex flex-col gap-1.5">
+                    <div>
+                      <span className="font-bold text-cyan-400">Lời khuyên: </span>
+                      {msg.numerology.advice}
+                    </div>
+                    <Link 
+                      href={`/than-so-hoc/${msg.numerology.number}`}
+                      onClick={() => setIsOpen(false)}
+                      className="self-end text-[9px] text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-0.5 mt-1 hover:underline cursor-pointer"
+                    >
+                      Xem chi tiết Thần số học <ChevronRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+          {isChatLoading && (
+            <div className="self-start bg-white/5 border border-white/5 text-slate-400 rounded-2xl rounded-tl-none p-2.5 max-w-[85%] text-left flex items-center gap-1.5">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-400" />
+              Astro đang suy nghĩ...
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Quick Action Buttons */}
+        <div className="flex gap-1.5 mt-2.5 pt-2.5 border-t border-white/10 shrink-0">
+          <button 
+            onClick={handleDrawTarotDirectly}
+            disabled={isChatLoading}
+            className="flex-1 py-1.5 px-1 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 hover:border-purple-500/40 rounded-xl text-[9px] sm:text-[10px] text-purple-300 font-bold transition-all flex items-center justify-center gap-1 cursor-pointer active:scale-95 disabled:opacity-50"
+          >
+            🔮 Rút Tarot hôm nay
+          </button>
+          <button 
+            onClick={() => {
+              setChatMessages(prev => [...prev, { 
+                sender: 'astro', 
+                text: 'Hãy nhập ngày sinh của bạn theo định dạng ngày/tháng/năm nha (Ví dụ: 05/09/1997) để mình tính số chủ đạo nhé!' 
+              }]);
+              setIsWaitingForDob(true);
+            }}
+            disabled={isChatLoading}
+            className="flex-1 py-1.5 px-1 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/20 hover:border-cyan-500/40 rounded-xl text-[9px] sm:text-[10px] text-cyan-300 font-bold transition-all flex items-center justify-center gap-1 cursor-pointer active:scale-95 disabled:opacity-50"
+          >
+            🔢 Số chủ đạo
+          </button>
+        </div>
+
+        {/* Input Box */}
+        <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-white/5 shrink-0">
+          <input 
+            type="text" 
+            value={chatInput} 
+            onChange={(e) => {
+              const val = e.target.value;
+              setChatInput(val);
+              if (chatMessages.length > 20 || val.length > 50) {
+                setExpression(Math.random() > 0.5 ? 'dizzy' : 'hurt');
+              } else if (val.length > 0) {
+                setExpression('reading_news');
+              } else {
+                setExpression('idle');
+              }
+            }} 
+            onBlur={() => {
+              if (!isChatLoading) setExpression('idle');
+            }}
+            onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+            placeholder="Hỏi Astro điều gì đó..." 
+            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-[11px] text-white focus:outline-none focus:border-purple-500/40"
+          />
+          <button 
+            onClick={handleSendMessage}
+            disabled={isChatLoading || !chatInput.trim()}
+            className="bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:hover:bg-purple-600 text-white p-2.5 rounded-xl transition-all active:scale-95 flex items-center justify-center cursor-pointer"
+          >
+            <Send className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   if (!suggestion) return null;
 
   return (
@@ -1367,7 +2561,9 @@ export default function FloatingTarotBot() {
               rotate: [0, 180, -90, 360, -180, 720, 0],
               scale: [1, 1.4, 0.8, 1.5, 0.7, 1.3, 1],
             }
-          : { x: 0, y: 0, rotate: 0, scale: 1 }
+          : isWandering
+            ? { x: wanderingCoordinates.x, y: wanderingCoordinates.y, scale: 1.1 }
+            : { x: 0, y: 0, rotate: 0, scale: 1 }
       }
       transition={
         is404PlayfulMoving 
@@ -1377,7 +2573,9 @@ export default function FloatingTarotBot() {
               times: [0, 0.15, 0.3, 0.5, 0.7, 0.85, 1],
               repeat: 0,
             }
-          : { duration: 0.3 }
+          : isWandering
+            ? { duration: 6, ease: "easeInOut" }
+            : { duration: 0.3 }
       }
       className={`fixed bottom-6 ${isOnLeft ? 'left-6 sm:left-8' : 'right-6 sm:right-8'} z-[999] select-none transition-all duration-300 ${hideAll ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'}`}
     >
@@ -1399,164 +2597,12 @@ export default function FloatingTarotBot() {
                 <div className={`absolute -bottom-2 ${isOnLeft ? 'left-8 border-b border-l' : 'right-8 border-b border-r'} w-4 h-4 ${theme.pointerBg} transform ${isOnLeft ? '-rotate-45' : 'rotate-45'} pointer-events-none`} />
 
               <div className="relative z-10 flex flex-col gap-3">
-                {isChatMode ? (
-                  /* --- CHATBOT INTERFACE --- */
-                  <div className="flex flex-col h-[280px]">
-                    {/* Header */}
-                    <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
-                      <button 
-                        onClick={() => setIsChatMode(false)}
-                        className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors text-[10px] uppercase font-bold tracking-wider"
-                      >
-                        <ArrowLeft className="w-3.5 h-3.5" /> Trở lại
-                      </button>
-                      <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest flex items-center gap-1">
-                        <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-spin-slow" />
-                        Astro Chat
-                      </div>
-                    </div>
-
-                    {/* Messages Box */}
-                    <div className="flex-1 overflow-y-auto flex flex-col gap-2.5 pr-1.5 custom-scrollbar text-[11px]">
-                      {chatMessages.map((msg, idx) => (
-                        <div 
-                          key={idx} 
-                          className={`p-2.5 rounded-2xl max-w-[85%] text-left leading-relaxed ${
-                            msg.sender === 'astro' 
-                              ? 'self-start bg-white/5 border border-white/5 text-slate-200 rounded-tl-none' 
-                              : 'self-end bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-500/20 text-white rounded-tr-none'
-                          }`}
-                        >
-                          {msg.text}
-                        </div>
-                      ))}
-                      {isChatLoading && (
-                        <div className="self-start bg-white/5 border border-white/5 text-slate-400 rounded-2xl rounded-tl-none p-2.5 max-w-[85%] text-left flex items-center gap-1.5">
-                          <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-400" />
-                          Astro đang suy nghĩ...
-                        </div>
-                      )}
-                      <div ref={messagesEndRef} />
-                    </div>
-
-                    {/* Input Box */}
-                    <div className="flex items-center gap-1.5 mt-3 border-t border-white/10 pt-3">
-                      <input 
-                        type="text" 
-                        value={chatInput} 
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setChatInput(val);
-                          // Expression logic while typing
-                          if (chatMessages.length > 20 || val.length > 50) {
-                            setExpression(Math.random() > 0.5 ? 'dizzy' : 'hurt'); // Lo sợ/chóng mặt nếu chat quá dài/quá nhiều
-                          } else if (val.length > 0) {
-                            setExpression('reading_news'); // Chăm chú theo dõi chữ
-                          } else {
-                            setExpression('idle');
-                          }
-                        }} 
-                        onBlur={() => {
-                          if (!isChatLoading) setExpression('idle');
-                        }}
-                        onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                        placeholder="Hỏi Astro điều gì đó..." 
-                        className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-[11px] text-white focus:outline-none focus:border-purple-500/40"
-                      />
-                      <button 
-                        onClick={handleSendMessage}
-                        disabled={isChatLoading || !chatInput.trim()}
-                        className="bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:hover:bg-purple-600 text-white p-2.5 rounded-xl transition-all active:scale-95 flex items-center justify-center cursor-pointer"
-                      >
-                        <Send className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  /* --- SUGGESTION MENU --- */
-                  <>
-                    <div>
-                      <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-1 flex items-center gap-1.5">
-                        <Sparkles className="w-3 h-3 text-cyan-400 animate-spin-slow" />
-                        Trợ lý ảo Astro
-                      </div>
-                      <h4 className="text-white text-xs font-bold leading-relaxed">
-                        {suggestion.greeting}
-                      </h4>
-                      <p className="text-slate-400 text-[11px] leading-relaxed mt-1">
-                        {suggestion.question}
-                      </p>
-                    </div>
-
-                    <div className="flex flex-col gap-2 mt-1">
-                      {suggestion.options.map((option, idx) => {
-                        const IconComponent = option.icon;
-                        return (
-                          <Link 
-                            key={idx} 
-                            href={option.href}
-                            onClick={handleOptionClick}
-                            className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/5 hover:bg-purple-500/10 hover:border-purple-500/30 transition-all duration-300 group"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className={`w-7 h-7 rounded-xl flex items-center justify-center border border-white/10 ${option.color} group-hover:scale-110 transition-transform`}>
-                                <IconComponent className="w-4 h-4" />
-                              </div>
-                              <span className="text-white text-xs font-semibold tracking-wide text-left">
-                                {option.label}
-                              </span>
-                            </div>
-                            <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
-                          </Link>
-                        );
-                      })}
-
-                      {/* Message Astro Button (Locked when not logged in) */}
-                      {!user ? (
-                        <div className="relative group mt-1">
-                          <button 
-                            disabled
-                            className="w-full flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/5 opacity-40 cursor-not-allowed transition-all duration-300"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="w-7 h-7 rounded-xl flex items-center justify-center border border-white/10 text-cyan-400 bg-cyan-500/10">
-                                <MessageSquare className="w-4 h-4" />
-                              </div>
-                              <span className="text-white text-xs font-semibold tracking-wide text-left flex items-center gap-1.5">
-                                Trò chuyện với Astro <Lock className="w-3.5 h-3.5 text-cyan-400" />
-                              </span>
-                            </div>
-                          </button>
-                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[200px] bg-slate-900 border border-purple-500/30 rounded-lg px-2.5 py-1.5 text-[10px] text-purple-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none shadow-lg z-50">
-                            Đăng nhập để mở khóa tính năng chat!
-                          </div>
-                        </div>
-                      ) : (
-                        <button 
-                          onClick={() => setIsChatMode(true)}
-                          className="w-full flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/30 hover:border-purple-400 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)] transition-all duration-300 group mt-1"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="w-7 h-7 rounded-xl flex items-center justify-center border border-white/10 text-cyan-400 bg-cyan-500/10 group-hover:scale-110 transition-transform">
-                              <MessageSquare className="w-4 h-4" />
-                            </div>
-                            <span className="text-white text-xs font-semibold tracking-wide text-left">
-                              Trò chuyện với Astro
-                            </span>
-                          </div>
-                          <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
-                        </button>
-                      )}
-                    </div>
-
-                    <button 
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center justify-center gap-1 text-slate-500 hover:text-slate-300 text-[10px] uppercase tracking-widest font-bold mt-1 text-center w-full transition-colors group"
-                    >
-                      Thu gọn <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
-                    </button>
-                  </>
-                )}
+                {activeView === 'room' && renderRoomView(theme)}
+                {activeView === 'chat' && renderChatView(theme)}
+                {activeView === 'gift' && renderGiftView(theme)}
+                {activeView === 'wheel' && renderWheelView(theme)}
+                {activeView === 'diary' && renderDiaryView(theme)}
+                {activeView === 'backpack' && renderBackpackView(theme)}
               </div>
             </motion.div>
             );
@@ -1686,6 +2732,7 @@ export default function FloatingTarotBot() {
                   : nameNumerologyInfo?.number
               }
               zodiac={activeZodiac}
+              outfit={getActiveOutfit()}
             />
           </motion.div>
         </motion.button>

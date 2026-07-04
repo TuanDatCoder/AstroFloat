@@ -1,12 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, UserCircle, LogIn, Eye, EyeOff } from 'lucide-react';
 import { authService } from '@/services/authService';
 import { ROUTES } from '@/constants';
+
+// Helper to dispatch expression events to FloatingTarotBot
+const dispatchLoginEvent = (field, action) => {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('astro:login-field', { detail: { field, action } }));
+  }
+};
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,19 +22,55 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  // Debounce refs to avoid firing on every single keystroke
+  const emailDebounceRef = useRef(null);
+  const passwordDebounceRef = useRef(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === 'email') {
+      if (emailDebounceRef.current) clearTimeout(emailDebounceRef.current);
+      emailDebounceRef.current = setTimeout(() => {
+        if (value.length > 0) dispatchLoginEvent('email', 'typing');
+      }, 300);
+    } else if (name === 'password') {
+      if (passwordDebounceRef.current) clearTimeout(passwordDebounceRef.current);
+      passwordDebounceRef.current = setTimeout(() => {
+        if (value.length > 0) {
+          dispatchLoginEvent('password', showPassword ? 'typing-show' : 'typing-hide');
+        }
+      }, 300);
+    }
+  };
+
+  const handleTogglePassword = () => {
+    const next = !showPassword;
+    setShowPassword(next);
+    dispatchLoginEvent('password', next ? 'show' : 'hide');
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true); setError(null);
+    setLoading(true);
+    setError(null);
+    dispatchLoginEvent('submit', 'loading');
+
     try {
       const data = await authService.login(formData.email, formData.password);
       if (data?.user) {
+        dispatchLoginEvent('submit', 'success');
         const profile = await authService.getUserProfile(data.user.id);
         if (profile?.role === 'ADMIN') router.push('/admin');
         else router.push('/');
       }
-    } catch (err) { setError("Email hoặc mật khẩu không chính xác."); } finally { setLoading(false); }
+    } catch (err) {
+      setError("Email hoặc mật khẩu không chính xác.");
+      dispatchLoginEvent('submit', 'error');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,7 +92,15 @@ export default function LoginPage() {
             <label className="text-[10px] uppercase font-bold tracking-widest text-cyan-400 mb-2 block ml-2">Email</label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-              <input type="email" name="email" required value={formData.email} onChange={handleChange} className="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white focus:border-cyan-500 outline-none" placeholder="email@example.com" />
+              <input
+                type="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white focus:border-cyan-500 outline-none"
+                placeholder="email@example.com"
+              />
             </div>
           </div>
           <div>
@@ -59,11 +110,29 @@ export default function LoginPage() {
             </div>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-              <input type={showPassword ? "text" : "password"} name="password" required value={formData.password} onChange={handleChange} className="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-12 py-4 text-white focus:border-purple-500 outline-none" placeholder="••••••••" />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">{showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}</button>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-12 py-4 text-white focus:border-purple-500 outline-none"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                onClick={handleTogglePassword}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
             </div>
           </div>
-          <button type="submit" disabled={loading} className="w-full py-4 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-2xl font-black text-white tracking-widest shadow-xl flex items-center justify-center gap-3 uppercase">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-4 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-2xl font-black text-white tracking-widest shadow-xl flex items-center justify-center gap-3 uppercase"
+          >
             {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><LogIn className="w-5 h-5" /> Mở Khoá</>}
           </button>
           <p className="text-sm text-center text-gray-400 mt-2">Chưa có hồ sơ? <Link href={ROUTES.REGISTER} className="text-cyan-400 font-bold hover:underline">Đăng ký ngay</Link></p>
