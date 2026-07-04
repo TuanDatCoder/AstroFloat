@@ -1,12 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, User, Phone, Calendar, Sparkles, UserCircle, Eye, EyeOff } from 'lucide-react';
 import { authService } from '@/services/authService';
 import { ROUTES } from '@/constants';
+
+// Helper to dispatch expression events to FloatingTarotBot
+const dispatchRegisterEvent = (field, action) => {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('astro:register-field', { detail: { field, action } }));
+  }
+};
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -18,16 +25,64 @@ export default function RegisterPage() {
     email: '', password: '', nickname: '', phone: '', gender: 'Khác', birthName: '', birthDate: '',
   });
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  // Debounce refs to avoid firing on every single keystroke
+  const debounceRefs = useRef({});
+
+  const dispatchDebounced = (field, action, delay = 300) => {
+    if (debounceRefs.current[field]) clearTimeout(debounceRefs.current[field]);
+    debounceRefs.current[field] = setTimeout(() => {
+      dispatchRegisterEvent(field, action);
+    }, delay);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (value.length === 0) return; // Don't trigger on empty
+
+    if (name === 'email') {
+      dispatchDebounced('email', 'typing');
+    } else if (name === 'password') {
+      dispatchDebounced('password', showPassword ? 'typing-show' : 'typing-hide');
+    } else if (name === 'nickname') {
+      dispatchDebounced('nickname', 'typing');
+    } else if (name === 'birthDate') {
+      dispatchDebounced('birthDate', 'typing', 100);
+    } else if (name === 'birthName') {
+      dispatchDebounced('birthName', 'typing');
+    }
+  };
+
+  const handleTogglePassword = () => {
+    const next = !showPassword;
+    setShowPassword(next);
+    if (formData.password.length > 0) {
+      dispatchRegisterEvent('password', next ? 'show' : 'hide');
+    }
+  };
+
+  const handleFocus = (field) => {
+    if (field === 'email') dispatchRegisterEvent('email', 'typing');
+    else if (field === 'password') dispatchRegisterEvent('password', showPassword ? 'typing-show' : 'typing-hide');
+    else if (field === 'nickname') dispatchRegisterEvent('nickname', 'typing');
+    else if (field === 'birthDate') dispatchRegisterEvent('birthDate', 'typing');
+    else if (field === 'birthName') dispatchRegisterEvent('birthName', 'typing');
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true); setError(null);
+    dispatchRegisterEvent('submit', 'loading');
     try {
       await authService.register(formData);
+      dispatchRegisterEvent('submit', 'success');
       setSuccess(true);
       setTimeout(() => router.push(ROUTES.LOGIN), 3000);
-    } catch (err) { setError(err.message || 'Lỗi đăng ký.'); } finally { setLoading(false); }
+    } catch (err) {
+      setError(err.message || 'Lỗi đăng ký.');
+      dispatchRegisterEvent('submit', 'error');
+    } finally { setLoading(false); }
   };
 
   if (success) {
@@ -64,20 +119,75 @@ export default function RegisterPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
             <div className="space-y-5">
               <h3 className="text-xs font-bold text-white/50 uppercase tracking-widest border-b border-white/10 pb-2">1. Tài Khoản</h3>
-              <div><input type="email" name="email" required value={formData.email} onChange={handleChange} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white outline-none" placeholder="Email" /></div>
-              <div className="relative">
-                <input type={showPassword ? "text" : "password"} name="password" required minLength={6} value={formData.password} onChange={handleChange} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white outline-none" placeholder="Mật khẩu" />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">{showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}</button>
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus('email')}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white outline-none focus:border-cyan-500/60 transition-colors"
+                  placeholder="Email"
+                />
               </div>
-              <div><input type="text" name="nickname" required value={formData.nickname} onChange={handleChange} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white outline-none" placeholder="Nickname" /></div>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  required
+                  minLength={6}
+                  value={formData.password}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus('password')}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white outline-none focus:border-purple-500/60 transition-colors"
+                  placeholder="Mật khẩu"
+                />
+                <button type="button" onClick={handleTogglePassword} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors">
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  name="nickname"
+                  required
+                  value={formData.nickname}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus('nickname')}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white outline-none focus:border-cyan-500/60 transition-colors"
+                  placeholder="Nickname (tên hiệu vũ trụ)"
+                />
+              </div>
             </div>
             <div className="space-y-5">
               <h3 className="text-xs font-bold text-white/50 uppercase tracking-widest border-b border-white/10 pb-2">2. Thông Tin Khai Sinh</h3>
-              <div><input type="text" name="birthName" required value={formData.birthName} onChange={handleChange} className="w-full bg-black/40 border border-purple-500/30 rounded-xl px-4 py-3.5 text-white outline-none" placeholder="Họ và Tên khai sinh" /></div>
-              <div><input type="date" name="birthDate" required value={formData.birthDate} onChange={handleChange} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white outline-none" /></div>
+              <div>
+                <input
+                  type="text"
+                  name="birthName"
+                  required
+                  value={formData.birthName}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus('birthName')}
+                  className="w-full bg-black/40 border border-purple-500/30 rounded-xl px-4 py-3.5 text-white outline-none focus:border-purple-500/70 transition-colors"
+                  placeholder="Họ và Tên khai sinh"
+                />
+              </div>
+              <div>
+                <input
+                  type="date"
+                  name="birthDate"
+                  required
+                  value={formData.birthDate}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus('birthDate')}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white outline-none focus:border-pink-500/60 transition-colors"
+                />
+              </div>
             </div>
           </div>
-          <button type="submit" disabled={loading} className="w-full py-4 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-full font-black text-white tracking-widest uppercase">
+          <button type="submit" disabled={loading} className="w-full py-4 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-full font-black text-white tracking-widest uppercase hover:opacity-90 transition-opacity disabled:opacity-60">
             {loading ? 'Đang xử lý...' : 'GHI NHẬN HỒ SƠ'}
           </button>
           <p className="text-center text-gray-400 mt-4">Đã có hồ sơ? <Link href={ROUTES.LOGIN} className="text-cyan-400 font-bold">Hãy kết nối</Link></p>

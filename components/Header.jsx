@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useEffect, useState } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
@@ -13,6 +13,7 @@ import LayoutGrid from 'lucide-react/dist/esm/icons/layout-grid';
 import Heart from 'lucide-react/dist/esm/icons/heart';
 import Dices from 'lucide-react/dist/esm/icons/dices';
 import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
+import Bot from 'lucide-react/dist/esm/icons/bot';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -184,6 +185,19 @@ export default function Header() {
                       <div>
                         <div className="text-[11px] font-black text-white uppercase tracking-widest mb-0.5">Tarot Góc Vũ Trụ</div>
                         <div className="text-[9px] text-gray-400 uppercase tracking-wider">Khám phá thông điệp</div>
+                      </div>
+                    </Link>
+                    <Link 
+                      href={ROUTES.ASTRO} 
+                      onClick={() => setIsAppsDropdownOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-all group border-t border-white/5"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center border border-cyan-500/30 group-hover:scale-110 transition-transform">
+                        <Bot className="w-4 h-4 text-cyan-400" />
+                      </div>
+                      <div>
+                        <div className="text-[11px] font-black text-white uppercase tracking-widest mb-0.5">Tr&#x1ee3; L&#xfd; Astro</div>
+                        <div className="text-[9px] text-gray-400 uppercase tracking-wider">G&#x1eb7;p g&#x1ee1; &amp; T&#x01b0;&#x01a1;ng t&#xf3;c</div>
                       </div>
                     </Link>
                   </div>

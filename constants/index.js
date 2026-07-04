@@ -227,7 +227,8 @@ export const ROUTES = {
   TAROT_SPREAD: (slug) => `/tarot/trai-bai/${slug}`,
   TAROT_DAILY: '/tarot/daily',
   TAROT_HISTORY: '/tarot/history',
-  GOC_VU_TRU: '/goc-vu-tru'
+  GOC_VU_TRU: '/goc-vu-tru',
+  ASTRO: '/astro'
 };
 
 export const ZODIAC_CATEGORIES = [
