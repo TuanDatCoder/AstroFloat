@@ -23,6 +23,21 @@ export default function ChangePasswordPage() {
   useEffect(() => {
     const checkSession = async () => {
       try {
+        // 1. Kiểm tra xem có lỗi trong hash fragment hay không (Ví dụ: recovery link expired)
+        if (typeof window !== 'undefined' && window.location.hash) {
+          const hashParams = new URLSearchParams(window.location.hash.substring(1));
+          const errorMsg = hashParams.get('error_description');
+          const errorCode = hashParams.get('error_code');
+          if (errorMsg || errorCode) {
+            const decodedMsg = decodeURIComponent(errorMsg || '').replace(/\+/g, ' ');
+            setError(decodedMsg || 'Liên kết đặt lại mật khẩu đã hết hạn hoặc không hợp lệ.');
+            setHasSession(false);
+            setCheckingSession(false);
+            return;
+          }
+        }
+
+        // 2. Kiểm tra session hiện tại
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
           setHasSession(true);

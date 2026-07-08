@@ -18,7 +18,20 @@ function ConfirmContent() {
   useEffect(() => {
     const handleVerification = async () => {
       try {
-        // 1. Check for PKCE code in query params
+        // 1. Kiểm tra xem có lỗi trong hash fragment hay không (Ví dụ: OTP expired)
+        if (typeof window !== 'undefined' && window.location.hash) {
+          const hashParams = new URLSearchParams(window.location.hash.substring(1));
+          const errorMsg = hashParams.get('error_description');
+          const errorCode = hashParams.get('error_code');
+          if (errorMsg || errorCode) {
+            setStatus('error');
+            const decodedMsg = decodeURIComponent(errorMsg || '').replace(/\+/g, ' ');
+            setErrorMessage(decodedMsg || 'Xác thực tài khoản thất bại (Liên kết đã hết hạn hoặc không hợp lệ).');
+            return;
+          }
+        }
+
+        // 2. Check for PKCE code in query params
         const code = searchParams.get('code');
         if (code) {
           const { error } = await supabase.auth.exchangeCodeForSession(code);
@@ -65,18 +78,18 @@ function ConfirmContent() {
     if (status !== 'success') return;
     
     const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          router.push(ROUTES.ZODIAC); // Redirect to dashboard / welcome page
-          return 0;
-        }
-        return prev - 1;
-      });
+      setCountdown((prev) => prev - 1);
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [status, router]);
+  }, [status]);
+
+  // Handle redirect when countdown reaches 0
+  useEffect(() => {
+    if (status === 'success' && countdown <= 0) {
+      router.push(ROUTES.ZODIAC);
+    }
+  }, [status, countdown, router]);
 
   return (
     <motion.div 
