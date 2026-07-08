@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowLeft, RefreshCw, Calendar, Eye, Share2, HelpCircle } from 'lucide-react';
 import { tarotService } from '@/services/tarotService';
+import CosmicEnergyPopup from '@/components/CosmicEnergyPopup';
+import LightningIcon from '@/components/LightningIcon';
 
 const stylesList = [
   { id: 1, name: 'genz', label: 'Gen Z' },
@@ -19,6 +21,7 @@ export default function DailyTarot() {
   const [savedDaily, setSavedDaily] = useState(null);
   const [drawingState, setDrawingState] = useState('idle'); // idle -> shuffling -> drawn
   const [revealedCard, setRevealedCard] = useState(null);
+  const [isEnergyPopupOpen, setIsEnergyPopupOpen] = useState(false);
 
   useEffect(() => {
     // Kiểm tra xem hôm nay bốc chưa
@@ -70,6 +73,14 @@ export default function DailyTarot() {
         }
       } catch (e) {
         console.error('Lỗi khi bốc bài hằng ngày:', e.message || e);
+        setLoading(false);
+        
+        if (e.status === 429) {
+          setDrawingState('idle');
+          setIsEnergyPopupOpen(true);
+          return;
+        }
+
         alert('Cấu hình Supabase key chưa chính xác. Hệ thống đang sử dụng dữ liệu mô phỏng!');
         
         // Mô phỏng quẻ bài nếu Supabase bị lỗi (fallback)
@@ -217,9 +228,12 @@ export default function DailyTarot() {
 
               <button
                 onClick={handleDrawCard}
-                className="w-full bg-purple-600 hover:bg-purple-500 text-white font-serif font-black tracking-widest uppercase text-sm py-4 rounded-xl transition-all shadow-lg shadow-purple-600/15 active:scale-[0.98]"
+                className="w-full bg-purple-600 hover:bg-purple-500 text-white font-serif font-black tracking-widest uppercase text-sm py-4 rounded-xl transition-all shadow-lg shadow-purple-600/15 active:scale-[0.98] flex items-center justify-center gap-1.5"
               >
-                RÚT BÀI NGÀY MỚI
+                <span>RÚT BÀI NGÀY MỚI</span>
+                <span className="font-sans font-bold normal-case text-xs flex items-center gap-0.5">
+                  (-1 <LightningIcon className="w-3.5 h-3.5" />)
+                </span>
               </button>
             </motion.div>
           )}
@@ -384,6 +398,16 @@ export default function DailyTarot() {
           )}
         </AnimatePresence>
       </div>
+      <CosmicEnergyPopup 
+        isOpen={isEnergyPopupOpen} 
+        onClose={() => setIsEnergyPopupOpen(false)}
+        onClaimSuccess={(newEnergy, newMaxEnergy) => {
+          // Khi nhận quà thành công, phát sự kiện cập nhật header
+          window.dispatchEvent(new CustomEvent('astro:energy-update', { 
+            detail: { energy: newEnergy, maxEnergy: newMaxEnergy } 
+          }));
+        }}
+      />
     </div>
   );
 }

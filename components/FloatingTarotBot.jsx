@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Compass, Heart, BookOpen, Star, ChevronRight, History, ChevronUp, Briefcase, ChevronDown, MessageSquare, Send, Lock, ArrowLeft, Loader2 } from 'lucide-react';
+import { Sparkles, Compass, Heart, BookOpen, Star, ChevronRight, History, ChevronUp, Briefcase, ChevronDown, MessageSquare, Send, Lock, ArrowLeft, Loader2, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ROUTES } from '@/constants';
 import TarotIcon from '@/components/TarotIcon';
 import CosmicAIIcon from '@/components/CosmicAIIcon';
+import LightningIcon from '@/components/LightningIcon';
 import { supabase } from '@/services/supabase';
 import { tarotService } from '@/services/tarotService';
 import { numerologyService } from '@/services/numerologyService';
@@ -68,6 +69,9 @@ export default function FloatingTarotBot() {
 
   // Auth & Chatbot States
   const [user, setUser] = useState(null);
+  const [energy, setEnergy] = useState(null);
+  const [maxEnergy, setMaxEnergy] = useState(20);
+  const [isReceivingEnergy, setIsReceivingEnergy] = useState(false);
   const [activeView, setActiveView] = useState('room'); // 'room', 'chat', 'gift', 'diary', 'wheel', 'backpack'
   const [userStars, setUserStars] = useState(0);
   const [giftClaimedToday, setGiftClaimedToday] = useState(false);
@@ -294,14 +298,32 @@ export default function FloatingTarotBot() {
       return;
     }
 
-    const livingDialogues = [
+    const baseDialogues = [
       "🌱 Mình vừa học thêm một trải bài Tarot mới.",
       "☕ Mình đi pha trà một chút nhé.",
       "🌙 Hôm nay trăng đẹp quá...",
       "📖 Mình đang đọc sách về các chòm sao.",
       "✨ Vũ trụ đang gửi nhiều năng lượng tốt lành đến bạn.",
-      "🧘 Hít vào thật sâu, thở ra thật chậm nào..."
+      "🧘 Hít vào thật sâu, thở ra thật chậm nào...",
+      "🔮 Bạn đã bốc bài Tarot ngày hôm nay chưa nè?",
+      "🌟 Thần số học có thể tiết lộ con số sứ mệnh của đời bạn đó!",
+      "⚡ Bạn muốn biết làm sao có thêm điểm năng lượng? Hãy nhấp vào quả cầu ⚡ ở góc trên nha!",
+      "🛸 Hành tinh của bạn hôm nay có rung động thế nào?",
+      "☕ Bạn có biết rằng mỗi lá bài đều có một linh hồn riêng không?",
+      "💫 Astro đang ngắm nhìn tinh vân ngoài kia, đẹp ghê...",
+      "🔮 Hãy để những lá bài Tarot dẫn đường cho trực giác của bạn.",
+      "💖 Tình yêu luôn có lối đi riêng, đôi khi nó được chỉ dẫn qua các chòm sao đó.",
+      "🍀 Mỗi ngày là một khởi đầu mới, đừng quá lo lắng về ngày mai nha!"
     ];
+
+    let livingDialogues = [...baseDialogues];
+    if (energy !== null && energy < 8) {
+      livingDialogues.push(
+        "⚡ Năng lượng vũ trụ của bạn đang hơi thấp đó (dưới 8 điểm), hãy nạp thêm nha!",
+        "⚠️ Năng lượng sắp cạn rồi, hãy ghé Trung Tâm Nạp Năng Lượng làm vài nhiệm vụ đi nè!",
+        "🔮 Bạn cần thêm linh năng để hỏi AI? Hãy click vào thanh năng lượng để nạp thêm nhé!"
+      );
+    }
 
     setLastSpeechBubble(livingDialogues[Math.floor(Math.random() * livingDialogues.length)]);
 
@@ -312,7 +334,7 @@ export default function FloatingTarotBot() {
     }, 15000);
 
     return () => clearInterval(interval);
-  }, [isOpen, activeView]);
+  }, [isOpen, activeView, energy]);
 
   // Wandering mode when closed (Disabled to prevent screen distraction)
   useEffect(() => {
@@ -648,8 +670,28 @@ export default function FloatingTarotBot() {
       return;
     }
 
-    // 2. Kiểm tra nếu tin nhắn chứa yêu cầu rút Tarot
+    // 2. Kiểm tra hỏi về điểm năng lượng
     const lowerText = userText.toLowerCase();
+    
+    if (
+      lowerText.includes('điểm') || 
+      lowerText.includes('năng lượng') || 
+      lowerText.includes('nhiêu điểm')
+    ) {
+      setChatMessages(prev => [...prev, { sender: 'user', text: userText }]);
+      setIsChatLoading(true);
+      setTimeout(() => {
+        setChatMessages(prev => [...prev, {
+          sender: 'astro',
+          text: `Hiện tại bạn đang có ${energy !== null ? energy : 0} điểm năng lượng nha! Số điểm này không giới hạn, bạn cứ tích luỹ thoải mái để dùng dần nhé! ⚡`
+        }]);
+        setExpression('happy');
+        setIsChatLoading(false);
+      }, 800);
+      return;
+    }
+
+    // 3. Kiểm tra nếu tin nhắn chứa yêu cầu rút Tarot
     if (
       lowerText.includes('rút bài') || 
       lowerText.includes('rút 1 lá') || 
@@ -677,6 +719,16 @@ export default function FloatingTarotBot() {
     } else if (cleanText === "astro" || cleanText === "astro ơi") {
       instantReply = "Dạ mình nghe đây! Hôm nay mình có thể giúp bạn giải mã bản đồ vũ trụ hay bói bài Tarot gì nè? 🌌";
       instantMood = "wink";
+    } else if (
+      cleanText.includes("làm sao có điểm") || 
+      cleanText.includes("làm sao có năng lượng") || 
+      cleanText.includes("nạp năng lượng") || 
+      cleanText.includes("thêm năng lượng") || 
+      cleanText.includes("hết năng lượng") ||
+      cleanText.includes("lấy năng lượng")
+    ) {
+      instantReply = "Để có thêm điểm năng lượng ⚡, bạn hãy nhấp vào biểu tượng năng lượng ở thanh menu phía trên, hoặc ghé qua trang /tarot/nap-nang-luong nhé! Có nhiều cách miễn phí như điểm danh nhận quà hay xem video ngắn/dài để nhận thưởng đó! 😉";
+      instantMood = "excited";
     }
 
     if (instantReply) {
@@ -1054,6 +1106,7 @@ export default function FloatingTarotBot() {
   }, [expression, isLaunching, isHovered, isOpen, isTyping]);
 
   const getPageExpression = () => {
+    if (pathname === '/tarot/nap-nang-luong') return 'party';
     if (pathname === '/dang-nhap' || pathname === '/dang-ky') return 'searching';
     if (pathname === '/') return 'wizard';
     if (pathname?.startsWith('/kham-pha')) return 'searching';
@@ -1216,6 +1269,63 @@ export default function FloatingTarotBot() {
     });
 
     return () => subscription.unsubscribe();
+  }, []);
+
+  const fetchEnergy = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const headers = {};
+      if (session?.access_token) {
+        headers['Authorization'] = `Bearer ${session.access_token}`;
+      }
+      const res = await fetch('/api/energy', { headers });
+      const data = await res.json();
+      if (data.success) {
+        setEnergy(data.energy);
+        setMaxEnergy(data.max_energy);
+      }
+    } catch (err) {
+      console.warn("Lỗi fetch năng lượng ở AstroBot:", err);
+    }
+  };
+
+  const triggerEnergyRewardAnimation = () => {
+    setIsReceivingEnergy(true);
+    setDriftPosition({ x: 0, y: -35 });
+    setExpression('party');
+    
+    setTooltipText("Yay! Bạn vừa nhận thêm năng lượng vũ trụ! ⚡✨");
+    setIsTooltipOpen(true);
+    
+    setTimeout(() => {
+      setIsReceivingEnergy(false);
+      setDriftPosition({ x: 0, y: 0 });
+      setExpression(getPageExpression());
+      setIsTooltipOpen(false);
+    }, 4500);
+  };
+
+  useEffect(() => {
+    fetchEnergy();
+
+    const handleEnergyUpdate = (e) => {
+      if (e.detail && typeof e.detail.energy === 'number') {
+        setEnergy(prevEnergy => {
+          if ((prevEnergy !== null && e.detail.energy > prevEnergy) || e.detail.rewardClaimed) {
+            triggerEnergyRewardAnimation();
+          }
+          return e.detail.energy;
+        });
+        if (e.detail.maxEnergy) setMaxEnergy(e.detail.maxEnergy);
+      } else {
+        fetchEnergy();
+      }
+    };
+
+    window.addEventListener('astro:energy-update', handleEnergyUpdate);
+    return () => {
+      window.removeEventListener('astro:energy-update', handleEnergyUpdate);
+    };
   }, []);
 
   // Listen for local storage DOB updates reactively
@@ -1456,6 +1566,9 @@ export default function FloatingTarotBot() {
       } else if (pathname === '/dang-ky') {
         pageName = "Đăng Ký";
         welcomeHref = '/dang-ky';
+      } else if (pathname === '/tarot/nap-nang-luong') {
+        pageName = "Nạp Năng Lượng";
+        welcomeHref = '/tarot/nap-nang-luong';
       } else if (pathname === '/') pageName = "Trang Chủ";
       else if (pathname === '/goc-vu-tru') pageName = "Góc Vũ Trụ";
       else if (pathname === '/tarot/tarot-goc-vu-tru') pageName = "Tarot Góc Vũ Trụ";
@@ -1500,6 +1613,8 @@ export default function FloatingTarotBot() {
         welcomeMsg = "Bạn đang ở trang đăng nhập! Hãy nhập thông tin để mở khoá vũ trụ nha 🔑";
       } else if (pathname === '/dang-ky') {
         welcomeMsg = "Chào bạn mới! Đăng ký để bắt đầu hành trình giải mã bản thân nha ✨";
+      } else if (pathname === '/tarot/nap-nang-luong') {
+        welcomeMsg = "Nạp năng lượng thôi! Bạn có thể xem video để tích lũy điểm không giới hạn nha! ⚡";
       } else if (pathname === '/ho-so') {
         const displayName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'bạn';
         welcomeMsg = `Xin chào ${displayName}! Bạn đang ở trang hồ sơ nha! (Lập trình bởi TuanDatCoder)`;
@@ -2067,6 +2182,9 @@ export default function FloatingTarotBot() {
   }, [pathname]);
 
   const getActiveOutfit = () => {
+    // 0. Energy Claim Outfit Override
+    if (isReceivingEnergy) return 'galaxy'; // Hiệu ứng trang phục đặc biệt khi nhận năng lượng
+
     // 0. Page-specific outfit overrides
     if (pathname?.startsWith('/kham-pha')) {
       return 'discover';
@@ -2202,7 +2320,13 @@ export default function FloatingTarotBot() {
                 onClick={() => {
                   setCurrentMood(m.key);
                   setExpression(m.key === 'happy' ? 'wink' : m.key === 'sad' ? 'shy' : m.key === 'angry' ? 'annoyed' : 'sleepy');
-                  setLastSpeechBubble(m.reply);
+                  
+                  let replyMsg = m.reply;
+                  if (m.key === 'sad' && energy !== null && energy < 8) {
+                    replyMsg = "Đừng buồn nha! Năng lượng vũ trụ của bạn cũng đang hơi thấp đó (dưới 8 điểm). Bạn có muốn nạp thêm năng lượng ⚡ để bốc một lá bài giải sầu không? ❤️";
+                  }
+                  
+                  setLastSpeechBubble(replyMsg);
                   localStorage.setItem('astro_mood_checked_' + new Date().toDateString(), 'true');
                 }}
                 className={`w-8 h-8 rounded-xl text-sm transition-all cursor-pointer active:scale-90 flex items-center justify-center ${
@@ -2752,6 +2876,18 @@ export default function FloatingTarotBot() {
         >
           <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full group-hover:bg-purple-500/35 transition-colors" />
           <span className="absolute inset-0 rounded-full border border-cyan-400/20 animate-ping group-hover:animate-none opacity-50" />
+          
+          {isReceivingEnergy && (
+            <motion.div 
+              initial={{ y: 20, opacity: 0, scale: 0.5 }}
+              animate={{ y: -60, opacity: [0, 1, 1, 0], scale: [0.5, 1.2, 1.2, 0.5], rotate: [0, 180, 360] }}
+              transition={{ duration: 2.5, ease: "easeOut" }}
+              className="absolute text-yellow-300 pointer-events-none z-50"
+            >
+              <LightningIcon className="w-10 h-10 drop-shadow-[0_0_12px_rgba(250,204,21,0.8)]" />
+            </motion.div>
+          )}
+
           <motion.div 
             animate={{ x: driftPosition.x, y: driftPosition.y }}
             transition={{ type: "spring", stiffness: 80, damping: 15 }}

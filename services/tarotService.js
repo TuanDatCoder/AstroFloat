@@ -70,25 +70,45 @@ export const tarotService = {
    * Thực hiện trải bài ngẫu nhiên qua RPC của Postgres
    */
   async generateReading(topicId, userId = null, styleId = null) {
-    const { data, error } = await supabaseTarot.rpc('generate_tarot_reading', {
-      p_topic_id: parseInt(topicId, 10),
-      p_user_id: userId,
-      p_style_id: styleId ? parseInt(styleId, 10) : null
+    const { data: { session } } = await supabaseTarot.auth.getSession();
+    const headers = { 'Content-Type': 'application/json' };
+    if (session?.access_token) {
+      headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
+
+    const res = await fetch('/api/tarot/draw', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        topicId: parseInt(topicId, 10),
+        styleId: styleId ? parseInt(styleId, 10) : null
+      })
     });
 
-    if (error) {
-      console.error('Lỗi khi gọi RPC generate_tarot_reading:', error.message || error, {
-        details: error.details,
-        hint: error.hint,
-        code: error.code
-      });
-      throw error;
+    if (res.status === 429) {
+      const errData = await res.json();
+      const err = new Error(errData.message || 'NO_ENERGY');
+      err.status = 429;
+      err.energy = errData.current;
+      err.maxEnergy = errData.max;
+      throw err;
+    }
+
+    const resData = await res.json();
+    if (!resData.success) {
+      throw new Error(resData.error || 'Lỗi khi bốc bài');
+    }
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('astro:energy-update', { 
+        detail: { energy: resData.energy, maxEnergy: resData.max_energy } 
+      }));
     }
 
     // Lưu trữ vào local storage để hỗ trợ đọc lại lịch sử cho khách vãng lai
-    this.saveReadingToLocal(data);
+    this.saveReadingToLocal(resData.data);
 
-    return data;
+    return resData.data;
   },
 
   /**

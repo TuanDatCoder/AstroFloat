@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { TarotAiPromptManager } from '@/services/aiPromptService';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { supabase } from '@/services/supabase';
+import { supabaseTarot } from '@/services/supabaseTarot';
 import { energyService } from '@/services/energyService';
 
 export async function POST(req) {
   try {
-    const { topicName, cards, fullText, styleName } = await req.json();
+    const { topicId, styleId } = await req.json();
+
+    if (!topicId) {
+      return NextResponse.json({ success: false, error: 'MISSING_TOPIC_ID' }, { status: 400 });
+    }
 
     // 1. Xác thực người dùng và đọc cookie định danh khách
     const cookieStore = await cookies();
@@ -30,17 +33,21 @@ export async function POST(req) {
       }
     }
 
-    // 2. Kiểm tra và trừ 5 điểm năng lượng cho tính năng Tarot AI chuyên sâu
-    const energyResult = await energyService.consumeEnergy(userId, visitorId, 'tarot_ai_analysis', 5);
+    // 2. Tính toán lượng năng lượng tiêu thụ dựa trên topicId (Chủ đề)
+    // Dựa theo số lá bài bốc: 1 lá = 1 điểm, 3 lá = 3 điểm
+    const cost = parseInt(topicId, 10) === 1 ? 1 : 3;
+
+    // 3. Khấu trừ điểm năng lượng
+    const energyResult = await energyService.consumeEnergy(userId, visitorId, `tarot_draw_${topicId}`, cost);
     if (!energyResult.success) {
-      const errResponse = NextResponse.json({ 
-        success: false, 
-        error: 'NO_ENERGY', 
-        current: energyResult.current, 
+      const errResponse = NextResponse.json({
+        success: false,
+        error: 'NO_ENERGY',
+        current: energyResult.current,
         max: energyResult.max,
-        message: 'Dòng chảy năng lượng đang yếu dần... Vũ vũ trụ cần thời gian tái tạo.'
+        message: `Hành trình tâm linh này cần ${cost} ⚡ Năng Lượng Vũ Trụ. Bạn hiện chỉ còn ${energyResult.current} ⚡.`
       }, { status: 429 });
-      
+
       if (newVisitorCreated) {
         errResponse.cookies.set('visitor_id', visitorId, {
           httpOnly: true,
@@ -53,35 +60,20 @@ export async function POST(req) {
       return errResponse;
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-
-    if (!apiKey) {
-      return NextResponse.json({ success: false, error: 'GEMINI_API_KEY is not configured.' }, { status: 500 });
-    }
-
-    const genAI = new GoogleGenerativeAI(apiKey);
-    
-    // Khởi tạo model Gemini Flash
-    const model = genAI.getGenerativeModel({ model: 'gemini-flash-latest' });
-
-    const prompt = TarotAiPromptManager.getSummaryPrompt(topicName, cards, fullText, styleName);
-
-    const result = await model.generateContent({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.7,
-      }
+    // 4. Gọi RPC của Supabase để trải bài
+    const { data: readingData, error: rpcError } = await supabaseTarot.rpc('generate_tarot_reading', {
+      p_topic_id: parseInt(topicId, 10),
+      p_user_id: userId,
+      p_style_id: styleId ? parseInt(styleId, 10) : null
     });
-    
-    const aiText = result.response.text();
 
-    if (!aiText) {
-      throw new Error('Không nhận được phản hồi từ AI.');
+    if (rpcError) {
+      throw new Error(rpcError.message);
     }
 
-    const response = NextResponse.json({ 
-      success: true, 
-      analysis: aiText,
+    const response = NextResponse.json({
+      success: true,
+      data: readingData,
       energy: energyResult.current,
       max_energy: energyResult.max
     });
@@ -98,8 +90,7 @@ export async function POST(req) {
 
     return response;
   } catch (error) {
-    console.error('Error generating AI analysis:', error);
+    console.error('Error drawing tarot cards:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
-

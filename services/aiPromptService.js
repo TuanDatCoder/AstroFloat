@@ -28,11 +28,11 @@ ${cardsInfo}
 [Nội dung giải nghĩa gốc]:
 ${fullText}
 
-Nhiệm vụ của bạn là tổng hợp các lá bài trên và viết ra một phản hồi định dạng Markdown chi tiết phân thành 3 mục sau:
-1. **Tóm tắt năng lượng chủ đạo**: Đánh giá năng lượng tổng quan hiện tại của khách hàng.
-2. **Nhận xét sâu sắc**: Phân tích sự liên kết, tính nhân quả giữa các vị trí bài và cốt lõi vấn đề của họ.
-3. **Lời khuyên & Hướng đi tiếp theo**: Đưa ra 3-4 hành động cụ thể, thực tế và mang tính xây dựng mà họ nên làm ngay hôm nay để cải thiện tình hình.
+Nhiệm vụ của bạn là tổng hợp các lá bài trên và viết ra một phản hồi định dạng Markdown NGẮN GỌN (khoảng 150 - 250 từ), súc tích, phân thành 3 mục sau:
+1. **Ý nghĩa từng lá bài (Ngắn gọn)**: Tóm tắt thật nhanh ý nghĩa của từng lá bài đã rút trong quẻ này (tối đa 1-2 câu ngắn cho mỗi lá).
+2. **Lời khuyên theo chủ đề (${topicName})**: Đưa ra hướng đi, lời khuyên thực tế liên quan trực tiếp đến chủ đề ${topicName} của quẻ bài này.
+3. **Thông điệp cốt lõi**: Tóm tắt thông điệp vũ trụ bằng 1-2 câu đúc kết ngắn gọn nhất.
 
-Lưu ý: Chỉ trả về nội dung Markdown sạch, không bao gồm các ký tự bọc mã nguồn hay hướng dẫn ngoài lề.`;
+Lưu ý: Viết rất cô đọng, tránh dông dài. Chỉ trả về nội dung Markdown sạch, không bao gồm các ký tự bọc mã nguồn hay hướng dẫn ngoài lề.`;
   }
 }

@@ -1,9 +1,14 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from 'next/font/google';
 import Link from 'next/link';
 import { Sparkles, History, Calendar, LayoutGrid, ArrowLeft } from 'lucide-react';
+import { m, AnimatePresence } from 'framer-motion';
+import { supabase } from '@/services/supabase';
 import TarotIcon from '@/components/TarotIcon';
+import CosmicEnergyIcon from '@/components/CosmicEnergyIcon';
+import LightningIcon from '@/components/LightningIcon';
 
 const cormorant = Cormorant_Garamond({ 
   subsets: ['latin', 'vietnamese'],
@@ -18,6 +23,52 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export default function TarotLayout({ children }) {
+  const [energy, setEnergy] = useState(null);
+  const [maxEnergy, setMaxEnergy] = useState(20);
+  const [isEnergyPopoverOpen, setIsEnergyPopoverOpen] = useState(false);
+
+  const fetchEnergy = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const headers = {};
+      if (session?.access_token) {
+        headers['Authorization'] = `Bearer ${session.access_token}`;
+      }
+      const res = await fetch('/api/energy', { headers });
+      const data = await res.json();
+      if (data.success) {
+        setEnergy(data.energy);
+        setMaxEnergy(data.max_energy);
+      }
+    } catch (err) {
+      console.warn("Lỗi fetch năng lượng ở Tarot:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchEnergy();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      fetchEnergy();
+    });
+
+    const handleEnergyUpdate = (e) => {
+      if (e.detail && typeof e.detail.energy === 'number') {
+        setEnergy(e.detail.energy);
+        setMaxEnergy(e.detail.maxEnergy);
+      } else {
+        fetchEnergy();
+      }
+    };
+
+    window.addEventListener('astro:energy-update', handleEnergyUpdate);
+
+    return () => {
+      subscription.unsubscribe();
+      window.removeEventListener('astro:energy-update', handleEnergyUpdate);
+    };
+  }, []);
+
   return (
     <div className={`${cormorant.variable} ${plusJakartaSans.variable} font-sans min-h-screen bg-[#03050c] text-[#e2e8f0] overflow-x-hidden relative flex flex-col selection:bg-indigo-950 selection:text-cyan-200`}>
       {/* Mystical Background Stars & Nebula */}
@@ -52,7 +103,7 @@ export default function TarotLayout({ children }) {
             </Link>
           </div>
 
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1.5">
             <Link href="/tarot" className="font-serif px-4 py-2 text-sm tracking-widest text-[#e2e8f0]/80 hover:text-cyan-200 transition-colors flex items-center gap-2">
               <LayoutGrid className="w-4 h-4 text-purple-400" />
               TRẢI BÀI TAROT
@@ -61,14 +112,65 @@ export default function TarotLayout({ children }) {
               <Calendar className="w-4 h-4 text-purple-400" />
               HẰNG NGÀY
             </Link>
-            <Link href="/tarot/history" className="font-serif px-4 py-2 text-sm tracking-widest text-[#e2e8f0]/80 hover:text-cyan-200 transition-colors flex items-center gap-2">
+            <Link href="/tarot/history" className="font-serif px-4 py-2 text-sm tracking-widest text-[#e2e8f0]/80 hover:text-cyan-200 transition-colors flex items-center gap-2 mr-2">
               <History className="w-4 h-4 text-purple-400" />
               LỊCH SỬ
             </Link>
+
+            {/* ENERGY BAR FOR TAROT */}
+            {energy !== null && (
+              <Link
+                href="/tarot/nap-nang-luong"
+                className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-indigo-950/45 bg-indigo-950/20 hover:bg-indigo-950/40 hover:border-purple-500/40 transition-all relative group/energy select-none ml-2"
+                onMouseEnter={() => setIsEnergyPopoverOpen(true)}
+                onMouseLeave={() => setIsEnergyPopoverOpen(false)}
+              >
+                <CosmicEnergyIcon className="w-5 h-5" />
+                <div className="flex flex-col items-start gap-px">
+                  <div className="flex items-center gap-1 text-[10px] font-black font-sans tracking-wide text-gray-400">
+                    <span className="text-[#f8fafc] font-bold text-xs">{energy}</span>
+                    <LightningIcon className="w-3.5 h-3.5 drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]" />
+                  </div>
+                </div>
+
+                {/* Energy Popover */}
+                <AnimatePresence>
+                  {isEnergyPopoverOpen && (
+                    <m.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      className="absolute right-0 top-full pt-3 w-60 z-50 pointer-events-none"
+                    >
+                      <div className="bg-[#0B0F19]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl p-4 text-left">
+                        <h4 className="text-xs font-black uppercase text-white tracking-widest mb-1.5 flex items-center gap-1.5 font-sans">
+                          <CosmicEnergyIcon className="w-4 h-4" /> Năng Lượng Vũ Trụ
+                        </h4>
+                        <p className="text-[10px] text-gray-400 font-light leading-relaxed mb-2.5 font-sans">
+                          Tiêu hao khi sử dụng các tính năng AI. Tự hồi phục +1/giờ.
+                        </p>
+                        <div className="text-[10px] font-bold text-purple-300 tracking-wide flex items-center gap-1 border-t border-white/5 pt-2 font-sans">
+                          ⚡ Nhấp để nạp thêm năng lượng →
+                        </div>
+                      </div>
+                    </m.div>
+                  )}
+                </AnimatePresence>
+              </Link>
+            )}
           </nav>
 
           {/* Mobile Nav Trigger Indicator */}
           <div className="flex lg:hidden items-center gap-4">
+            {energy !== null && (
+              <Link
+                href="/tarot/nap-nang-luong"
+                className="flex items-center gap-1.5 bg-indigo-950/20 px-2.5 py-1.5 rounded-full border border-indigo-950/45 hover:border-purple-500/40 hover:bg-indigo-950/40 transition-all select-none mr-1"
+              >
+                <CosmicEnergyIcon className="w-4 h-4" />
+                <span className="text-white font-bold font-sans text-xs">{energy}</span>
+              </Link>
+            )}
             <Link href="/tarot/history" className="p-2 border border-indigo-950/40 rounded-full bg-indigo-950/20 hover:text-cyan-200 transition-colors" title="Lịch sử">
               <History className="w-4 h-4 text-purple-400" />
             </Link>
