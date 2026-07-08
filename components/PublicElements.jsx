@@ -49,6 +49,11 @@ export default function PublicElements({ children }) {
       if (hash.includes('access_token') && path !== '/xac-nhan' && path !== '/doi-mat-khau') {
         window.location.href = `/xac-nhan${hash}`;
       }
+
+      // Nếu có hash fragment chứa lỗi từ Supabase (ví dụ link hết hạn)
+      if (hash.includes('error=') && path !== '/xac-nhan' && path !== '/doi-mat-khau') {
+        window.location.href = `/xac-nhan${hash}`;
+      }
     }
   }, [pathname]);
 
