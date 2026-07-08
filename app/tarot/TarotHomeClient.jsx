@@ -277,7 +277,7 @@ export default function TarotHomeClient() {
                         Bắt đầu đọc &rarr;
                       </span>
                       <span className="font-sans text-[10px] bg-purple-500/20 text-purple-200 px-2 py-0.5 rounded border border-purple-500/30 tracking-wider uppercase font-bold">
-                        {topic.spreadText}
+                        {topic.spreadText} (-{topic.slug === 'hang-ngay' ? 1 : 3} ⚡)
                       </span>
                     </div>
 

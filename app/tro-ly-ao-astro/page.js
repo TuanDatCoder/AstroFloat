@@ -6,6 +6,7 @@ import CosmicAIIcon from '@/components/CosmicAIIcon';
 import { Sparkles, Wand2, Star, Zap, Lock, Heart, Send, MessageCircle } from 'lucide-react';
 import { supabase } from '@/services/supabase';
 import Link from 'next/link';
+import CosmicEnergyPopup from '@/components/CosmicEnergyPopup';
 
 const OUTFITS = [
   { id: null,        label: 'Mặc định',      color: 'from-slate-600 to-slate-700',    border: 'border-slate-500/40',   dot: 'bg-slate-400',    desc: 'Phong cách gốc của Astro — thanh lịch và hiện đại.', premium: false },
@@ -91,6 +92,7 @@ export default function AstroPlaygroundPage() {
   // New features state
   const [chatInput, setChatInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isEnergyPopupOpen, setIsEnergyPopupOpen] = useState(false);
 
   const factIntervalRef = useRef(null);
   const reactionTimeoutRef = useRef(null);
@@ -192,7 +194,7 @@ export default function AstroPlaygroundPage() {
   };
 
   // 3. Chat Interaction
-  const handleChatSubmit = (e) => {
+  const handleChatSubmit = async (e) => {
     e.preventDefault();
     if (!chatInput.trim() || isTyping) return;
     
@@ -204,24 +206,55 @@ export default function AstroPlaygroundPage() {
     setSelectedExpression('thinking');
     if (reactionTimeoutRef.current) clearTimeout(reactionTimeoutRef.current);
     
-    // Giả lập AI trả lời
-    setTimeout(() => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const headers = { 'Content-Type': 'application/json' };
+      if (session?.access_token) {
+        headers['Authorization'] = `Bearer ${session.access_token}`;
+      }
+
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ messages: [{ sender: 'user', text: userMsg }] })
+      });
+
+      if (res.status === 429) {
+        // Hết năng lượng
+        setIsTyping(false);
+        setReactionActive(true);
+        setSelectedExpression('shocked');
+        setBubbleText("Linh lực vũ trụ của mình đang cạn kiệt rồi... 🔮");
+        setIsEnergyPopupOpen(true);
+        return;
+      }
+
+      const data = await res.json();
       setIsTyping(false);
-      setSelectedExpression('excited');
-      
-      const aiResponses = [
-        `Hehe, bạn vừa nói: "${userMsg}". Mình chưa hiểu hết ý đâu nhưng nghe thú vị đó nha! ✨`,
-        "Tín hiệu vũ trụ hơi yếu, nhưng mình cảm nhận được bạn đang rất vui! 🥰",
-        "Astro đang học ngôn ngữ loài người, câu này mình lấy sổ tay ghi chú lại nhé! 📝",
-        "Wow! Tuyệt vời! Vũ trụ rộng lớn lắm, bạn muốn cùng Astro khám phá thêm điều gì nào? 🚀",
-        "Astro nghe đây! Mình thích được trò chuyện cùng bạn lắm đó. Kể thêm đi! 🎧"
-      ];
-      setBubbleText(aiResponses[Math.floor(Math.random() * aiResponses.length)]);
-      
+
+      if (data.success) {
+        setSelectedExpression('excited');
+        setBubbleText(data.text);
+        
+        // Phát sự kiện cập nhật năng lượng trên Header
+        window.dispatchEvent(new CustomEvent('astro:energy-update', { 
+          detail: { energy: data.energy, maxEnergy: data.max_energy } 
+        }));
+      } else {
+        throw new Error(data.error || 'Lỗi xử lý tin nhắn');
+      }
+
       reactionTimeoutRef.current = setTimeout(() => {
         if (!isTyping) setReactionActive(false);
-      }, 4000);
-    }, 1800);
+      }, 5000);
+
+    } catch (err) {
+      console.error(err);
+      setIsTyping(false);
+      setSelectedExpression('shocked');
+      setBubbleText("Có chút đứt gãy kết nối với vũ trụ rồi. Hãy thử lại sau nhé! 📡");
+      setReactionActive(false);
+    }
   };
 
   const currentOutfit = OUTFITS.find(o => o.id === selectedOutfit) || OUTFITS[0];
@@ -520,6 +553,18 @@ export default function AstroPlaygroundPage() {
           </motion.div>
         </div>
       </div>
+      <CosmicEnergyPopup 
+        isOpen={isEnergyPopupOpen} 
+        onClose={() => setIsEnergyPopupOpen(false)}
+        onClaimSuccess={(newEnergy, newMaxEnergy) => {
+          // Khi nhận quà thành công, cập nhật giao diện
+          window.dispatchEvent(new CustomEvent('astro:energy-update', { 
+            detail: { energy: newEnergy, maxEnergy: newMaxEnergy } 
+          }));
+          setBubbleText("Tuyệt vời! Dòng chảy năng lượng của mình đã hồi phục một phần! 🥰");
+          setSelectedExpression('happy');
+        }}
+      />
     </main>
   );
 }

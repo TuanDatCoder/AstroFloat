@@ -39,6 +39,9 @@ export default function Header() {
   const [session, setSession] = useState(null);
   const [profile, setProfile] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [energy, setEnergy] = useState(null);
+  const [maxEnergy, setMaxEnergy] = useState(20);
+  const [isEnergyPopoverOpen, setIsEnergyPopoverOpen] = useState(false);
 
   const fetchProfile = async (userId) => {
     const { data } = await supabase
@@ -49,19 +52,59 @@ export default function Header() {
     setProfile(data);
   };
 
+  const fetchEnergy = async () => {
+    try {
+      const { data: { session: currentSession } } = await supabase.auth.getSession();
+      const headers = {};
+      if (currentSession?.access_token) {
+        headers['Authorization'] = `Bearer ${currentSession.access_token}`;
+      }
+      const res = await fetch('/api/energy', { headers });
+      const data = await res.json();
+      if (data.success) {
+        setEnergy(data.energy);
+        setMaxEnergy(data.max_energy);
+      }
+    } catch (err) {
+      console.warn("Lỗi fetch năng lượng:", err);
+    }
+  };
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      if (session?.user) fetchProfile(session.user.id);
+      if (session?.user) {
+        fetchProfile(session.user.id);
+      }
+      fetchEnergy();
     }).catch(err => console.warn("Lỗi getSession:", err));
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      if (session?.user) fetchProfile(session.user.id);
-      else setProfile(null);
+      if (session?.user) {
+        fetchProfile(session.user.id);
+        fetchEnergy();
+      } else {
+        setProfile(null);
+        fetchEnergy();
+      }
     });
 
-    return () => subscription.unsubscribe();
+    const handleEnergyUpdate = (e) => {
+      if (e.detail && typeof e.detail.energy === 'number') {
+        setEnergy(e.detail.energy);
+        setMaxEnergy(e.detail.maxEnergy);
+      } else {
+        fetchEnergy();
+      }
+    };
+
+    window.addEventListener('astro:energy-update', handleEnergyUpdate);
+
+    return () => {
+      subscription.unsubscribe();
+      window.removeEventListener('astro:energy-update', handleEnergyUpdate);
+    };
   }, []);
 
   useEffect(() => {

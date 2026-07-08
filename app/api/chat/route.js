@@ -1,9 +1,57 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { supabase } from '@/services/supabase';
+import { energyService } from '@/services/energyService';
 
 export async function POST(req) {
   try {
     const { messages } = await req.json();
+
+    // 1. Xác thực người dùng và đọc cookie định danh khách
+    const cookieStore = await cookies();
+    let visitorId = cookieStore.get('visitor_id')?.value;
+    let newVisitorCreated = false;
+
+    if (!visitorId) {
+      visitorId = crypto.randomUUID();
+      newVisitorCreated = true;
+    }
+
+    const authHeader = req.headers.get('authorization');
+    const token = authHeader ? authHeader.replace('Bearer ', '') : null;
+    let userId = null;
+
+    if (token) {
+      const { data: { user }, error } = await supabase.auth.getUser(token);
+      if (!error && user) {
+        userId = user.id;
+      }
+    }
+
+    // 2. Kiểm tra và trừ 1 điểm năng lượng cho tính năng Chat Astro
+    const energyResult = await energyService.consumeEnergy(userId, visitorId, 'astro_chat', 1);
+    if (!energyResult.success) {
+      const errResponse = NextResponse.json({ 
+        success: false, 
+        error: 'NO_ENERGY', 
+        current: energyResult.current, 
+        max: energyResult.max,
+        message: 'Dòng chảy năng lượng đang yếu dần... Vũ vũ trụ cần thời gian tái tạo.'
+      }, { status: 429 });
+      
+      if (newVisitorCreated) {
+        errResponse.cookies.set('visitor_id', visitorId, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          maxAge: 365 * 24 * 60 * 60,
+          path: '/'
+        });
+      }
+      return errResponse;
+    }
+
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
@@ -69,7 +117,24 @@ export async function POST(req) {
       throw new Error('Không nhận được phản hồi từ Astro.');
     }
 
-    return NextResponse.json({ success: true, text: aiText.trim() });
+    const response = NextResponse.json({ 
+      success: true, 
+      text: aiText.trim(),
+      energy: energyResult.current,
+      max_energy: energyResult.max
+    });
+
+    if (newVisitorCreated) {
+      response.cookies.set('visitor_id', visitorId, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 365 * 24 * 60 * 60,
+        path: '/'
+      });
+    }
+
+    return response;
   } catch (error) {
     console.error('Error in Astro chat API:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

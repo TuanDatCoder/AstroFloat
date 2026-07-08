@@ -10,6 +10,9 @@ import remarkGfm from 'remark-gfm';
 import GalaxyAIIcon from '@/components/GalaxyAIIcon';
 import TarotIcon from '@/components/TarotIcon';
 import { tarotService } from '@/services/tarotService';
+import { supabase } from '@/services/supabase';
+import CosmicEnergyPopup from '@/components/CosmicEnergyPopup';
+import LightningIcon from '@/components/LightningIcon';
 
 const topicDetails = {
   'tinh-yeu': {
@@ -78,6 +81,7 @@ export default function SpreadClient({ topicSlug }) {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiResult, setAiResult] = useState(null);
   const [aiError, setAiError] = useState(null);
+  const [isEnergyPopupOpen, setIsEnergyPopupOpen] = useState(false);
 
   // Mảng tượng trưng cho bộ bài (78 lá, ta mô tả 22 lá để vẽ quạt bài)
   const deckSize = 22;
@@ -179,6 +183,13 @@ export default function SpreadClient({ topicSlug }) {
       }, 1500);
     } catch (e) {
       console.error('Lỗi khi bốc bài:', e.message || e);
+      setLoading(false);
+
+      if (e.status === 429) {
+        setGameState('idle');
+        setIsEnergyPopupOpen(true);
+        return;
+      }
       
       // Fallback mô phỏng nếu Supabase lỗi hoặc chưa nhập key
       setTimeout(() => {
@@ -324,11 +335,15 @@ export default function SpreadClient({ topicSlug }) {
     const styleName = stylesMap[styleId] || 'healing';
 
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const headers = { 'Content-Type': 'application/json' };
+      if (session?.access_token) {
+        headers['Authorization'] = `Bearer ${session.access_token}`;
+      }
+
       const response = await fetch('/api/tarot/ai', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify({
           topicName: topicInfo.name,
           cards: result.cards,
@@ -336,6 +351,22 @@ export default function SpreadClient({ topicSlug }) {
           styleName,
         }),
       });
+
+      if (response.status === 429) {
+        setAiLoading(false);
+        setIsEnergyPopupOpen(true);
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('astro-bot-expression', { detail: 'shocked' }));
+          window.dispatchEvent(new CustomEvent('astro-bot-speak', {
+            detail: {
+              text: "Linh lực của bạn đang cạn kiệt. Hãy hồi phục năng lượng vũ trụ để tiếp tục nhé! 🔮",
+              expression: 'annoyed',
+              duration: 6000
+            }
+          }));
+        }
+        return;
+      }
 
       const data = await response.json();
       if (data.success) {
@@ -345,6 +376,11 @@ export default function SpreadClient({ topicSlug }) {
             result,
             styleId,
             aiResult: data.analysis
+          }));
+          
+          // Phát sự kiện cập nhật năng lượng trên Header
+          window.dispatchEvent(new CustomEvent('astro:energy-update', { 
+            detail: { energy: data.energy, maxEnergy: data.max_energy } 
           }));
         }
       } else {
@@ -427,9 +463,12 @@ export default function SpreadClient({ topicSlug }) {
 
               <button
                 onClick={handleShuffle}
-                className="w-full bg-purple-600 hover:bg-purple-500 text-white font-serif font-black tracking-widest uppercase text-sm py-4.5 rounded-xl transition-all shadow-lg shadow-purple-600/15 active:scale-[0.98]"
+                className="w-full bg-purple-600 hover:bg-purple-500 text-white font-serif font-black tracking-widest uppercase text-sm py-4.5 rounded-xl transition-all shadow-lg shadow-purple-600/15 active:scale-[0.98] flex items-center justify-center gap-1.5"
               >
-                XÀO BÀI (SHUFFLE)
+                <span>XÀO BÀI (SHUFFLE)</span>
+                <span className="font-sans font-bold normal-case text-xs flex items-center gap-0.5">
+                  (-{numCardsNeeded} <LightningIcon className="w-3.5 h-3.5" />)
+                </span>
               </button>
             </motion.div>
           )}
@@ -727,7 +766,11 @@ export default function SpreadClient({ topicSlug }) {
                       onClick={askAi}
                       className="inline-flex items-center gap-2 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white font-serif font-black tracking-widest uppercase text-xs px-8 py-4 rounded-xl transition-all shadow-lg shadow-purple-600/30 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                     >
-                      <GalaxyAIIcon className="w-5 h-5" /> Hỏi AI Góc Vũ Trụ
+                      <GalaxyAIIcon className="w-5 h-5" /> 
+                      <span>Hỏi AI Góc Vũ Trụ</span>
+                      <span className="font-sans font-bold normal-case text-xs flex items-center gap-0.5">
+                        (-5 <LightningIcon className="w-3.5 h-3.5" />)
+                      </span>
                     </button>
                     {aiError && <p className="text-rose-400 text-xs mt-4">Lỗi: {aiError}</p>}
                   </div>
@@ -805,6 +848,16 @@ export default function SpreadClient({ topicSlug }) {
           </motion.div>
         )}
       </div>
+      <CosmicEnergyPopup 
+        isOpen={isEnergyPopupOpen} 
+        onClose={() => setIsEnergyPopupOpen(false)}
+        onClaimSuccess={(newEnergy, newMaxEnergy) => {
+          // Khi nhận quà thành công, phát sự kiện cập nhật header
+          window.dispatchEvent(new CustomEvent('astro:energy-update', { 
+            detail: { energy: newEnergy, maxEnergy: newMaxEnergy } 
+          }));
+        }}
+      />
     </div>
   );
 }
