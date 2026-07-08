@@ -113,12 +113,20 @@ function ConfirmContent() {
           <div className="text-[11px] text-gray-500 font-medium tracking-wider mb-6 uppercase">
             Tự động chuyển hướng sau <span className="font-bold text-cyan-400">{countdown}</span> giây...
           </div>
-          <Link 
-            href={ROUTES.ZODIAC}
-            className="w-full py-4 bg-white text-black rounded-2xl font-black text-xs tracking-[0.2em] shadow-xl hover:shadow-cyan-500/10 flex items-center justify-center gap-2 uppercase transition-all active:scale-95"
-          >
-            Bắt đầu khám phá <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="flex flex-col w-full gap-4">
+            <Link 
+              href={ROUTES.ZODIAC}
+              className="w-full py-4 bg-white text-black rounded-2xl font-black text-xs tracking-[0.2em] shadow-xl hover:shadow-cyan-500/10 flex items-center justify-center gap-2 uppercase transition-all active:scale-95"
+            >
+              Bắt đầu khám phá <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link 
+              href={ROUTES.HOME}
+              className="text-gray-500 hover:text-white transition-colors text-xs font-black uppercase tracking-widest py-2"
+            >
+              Quay lại Trang chủ
+            </Link>
+          </div>
         </div>
       )}
 
@@ -140,12 +148,20 @@ function ConfirmContent() {
             >
               Đến trang đăng nhập
             </Link>
-            <Link 
-              href={ROUTES.REGISTER}
-              className="text-gray-500 hover:text-white transition-colors text-xs font-black uppercase tracking-widest py-2"
-            >
-              Đăng ký tài khoản mới
-            </Link>
+            <div className="flex items-center justify-between px-2">
+              <Link 
+                href={ROUTES.REGISTER}
+                className="text-gray-500 hover:text-white transition-colors text-xs font-black uppercase tracking-widest py-2"
+              >
+                Đăng ký mới
+              </Link>
+              <Link 
+                href={ROUTES.HOME}
+                className="text-gray-500 hover:text-white transition-colors text-xs font-black uppercase tracking-widest py-2"
+              >
+                Về Trang chủ
+              </Link>
+            </div>
           </div>
         </div>
       )}
