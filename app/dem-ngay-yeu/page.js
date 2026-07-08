@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Heart, CalendarHeart, Sparkles, ArrowRight, Activity, BookHeart, ShieldCheck } from 'lucide-react';
 
 import FloatingButton from './FloatingButton';
+import LoveDaysIcon from '@/components/LoveDaysIcon';
 
 export const metadata = {
   title: 'ForeverDays - Ứng dụng Đếm ngày yêu | Góc Vũ Trụ',
@@ -60,9 +61,9 @@ export default function DemNgayYeuPage() {
             <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&q=80')] bg-cover bg-center" />
             <div className="absolute inset-0 bg-slate-950/80" />
             
-            <div className="relative z-10 text-center flex flex-col items-center">
-              <Heart className="w-16 h-16 md:w-24 md:h-24 text-rose-400 drop-shadow-[0_0_20px_rgba(244,63,94,0.6)] animate-pulse" />
-              <div className="mt-6 text-4xl md:text-6xl font-black text-white drop-shadow-lg flex items-center gap-2">
+            <div className="relative z-10 text-center flex flex-col items-center group cursor-pointer">
+              <LoveDaysIcon className="w-20 h-20 md:w-32 md:h-32 drop-shadow-[0_0_40px_rgba(244,63,94,0.5)] group-hover:scale-110 transition-transform duration-700 ease-out" />
+              <div className="mt-8 text-4xl md:text-6xl font-black text-white drop-shadow-lg flex items-center gap-2">
                 ∞ <span className="text-3xl md:text-5xl">Mãi Mãi</span>
               </div>
               <div className="text-rose-200 mt-2 text-sm md:text-lg uppercase tracking-widest font-bold">Hành trình không có điểm dừng</div>
@@ -81,9 +82,9 @@ export default function DemNgayYeuPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Feature 1 */}
-            <div className="p-8 rounded-[2rem] bg-slate-900/50 border border-white/5 hover:border-rose-500/30 transition-colors">
-              <div className="w-14 h-14 rounded-2xl bg-rose-500/10 flex items-center justify-center mb-6">
-                <CalendarHeart className="w-7 h-7 text-rose-400" />
+            <div className="group p-8 rounded-[2rem] bg-slate-900/50 border border-white/5 hover:border-rose-500/30 transition-colors">
+              <div className="w-14 h-14 rounded-2xl bg-rose-500/10 flex items-center justify-center mb-6 group-hover:bg-rose-500/20 transition-colors">
+                <LoveDaysIcon className="w-9 h-9 drop-shadow-md group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300" />
               </div>
               <h3 className="text-xl font-bold text-white mb-3">Cột Mốc Kỷ Niệm</h3>
               <p className="text-slate-400 leading-relaxed">

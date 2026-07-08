@@ -228,7 +228,7 @@ export const ROUTES = {
   TAROT_DAILY: '/tarot/daily',
   TAROT_HISTORY: '/tarot/history',
   GOC_VU_TRU: '/goc-vu-tru',
-  ASTRO: '/astro'
+  ASTRO: '/tro-ly-ao-astro'
 };
 
 export const ZODIAC_CATEGORIES = [

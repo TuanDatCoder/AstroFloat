@@ -333,8 +333,8 @@ export default function FloatingTarotBot() {
       if (timeDiff > 0) {
         const distance = Math.abs(currentScrollY - lastScrollY);
         const speed = distance / timeDiff;
-        if (speed > 8 && !isOpen) {
-          setExpression('dizzy');
+        if (speed > 30 && !isOpen) {
+          setExpression('vertigo');
           setTooltipText("😵 Chậm thôi, mình chóng mặt quá!");
           setIsTooltipOpen(true);
 
@@ -1055,8 +1055,8 @@ export default function FloatingTarotBot() {
 
   const getPageExpression = () => {
     if (pathname === '/dang-nhap' || pathname === '/dang-ky') return 'searching';
-    if (pathname === '/') return 'crown';
-    if (pathname?.startsWith('/kham-pha')) return 'wizard';
+    if (pathname === '/') return 'wizard';
+    if (pathname?.startsWith('/kham-pha')) return 'searching';
     if (pathname === '/goc-vu-tru') return 'presenter';
     if (pathname === '/tarot/tarot-goc-vu-tru') return 'witch';
     if (pathname?.includes('/dieu-khoan-su-dung') || pathname?.includes('/dieu-khoan-dich-vu')) return 'lawyer';
@@ -1332,10 +1332,20 @@ export default function FloatingTarotBot() {
     const isFastTransition = lastRouteTime > 0 && now - lastRouteTime < 4500;
     setLastRouteTime(now);
 
+    const targetExpression = getPageExpression();
+    const isSpecialAI = targetExpression !== 'happy' && targetExpression !== 'idle';
+
     if (isFastTransition) {
-      setExpression('dizzy');
-    } else {
+      setExpression('vertigo');
+    } else if (isSpecialAI) {
       setExpression('thinking');
+    } else {
+      setExpression(targetExpression);
+    }
+
+    // Set persistent wizard outfit when entering homepage
+    if (pathname === '/' && typeof window !== 'undefined') {
+      sessionStorage.setItem('astro_session_outfit', 'wizard');
     }
 
     setIsTooltipOpen(false);
@@ -1905,8 +1915,8 @@ export default function FloatingTarotBot() {
     const text = typeof tooltipText === 'string' ? tooltipText.toLowerCase() : String(tooltipText || "").toLowerCase();
     const path = pathname?.toLowerCase() || "";
     
-    // Check loading first (dizzy/thinking/loading state)
-    if (expression === 'thinking' || expression === 'dizzy') return 'loading';
+    // Check loading first (dizzy/thinking/vertigo/loading state)
+    if (expression === 'thinking' || expression === 'dizzy' || expression === 'vertigo') return 'loading';
     
     if (text.includes("yêu") || text.includes("tình") || text.includes("cặp đôi") || path.includes("yeu") || path.includes("studio")) {
       return 'love';
@@ -2057,6 +2067,20 @@ export default function FloatingTarotBot() {
   }, [pathname]);
 
   const getActiveOutfit = () => {
+    // 0. Page-specific outfit overrides
+    if (pathname?.startsWith('/kham-pha')) {
+      return 'discover';
+    }
+    if (pathname?.startsWith('/than-so-hoc-theo-ten')) {
+      return 'numerology_name';
+    }
+    if (pathname?.startsWith('/than-so-hoc')) {
+      return 'numerology_birthday';
+    }
+    if (pathname?.startsWith('/cung-hoang-dao')) {
+      return 'zodiac_page';
+    }
+
     // Register page: use the dynamic outfit set by register field events
     if (pathname === '/dang-ky' && registerOutfit) return registerOutfit;
 
@@ -2118,6 +2142,12 @@ export default function FloatingTarotBot() {
     // 7. Halloween (Oct 25 to Nov 1)
     if ((currentMonth === 10 && currentDate >= 25) || (currentMonth === 11 && currentDate === 1)) {
       return 'halloween';
+    }
+
+    // 8. Persistent wizard outfit (set when entering homepage, persists across session)
+    if (typeof window !== 'undefined') {
+      const sessionOutfit = sessionStorage.getItem('astro_session_outfit');
+      if (sessionOutfit) return sessionOutfit;
     }
 
     return null;
@@ -2707,12 +2737,16 @@ export default function FloatingTarotBot() {
           animate={
             isLaunching 
               ? { y: -800, scale: 0.5, opacity: 0 } 
-              : { y: 0, scale: 1, opacity: 1 }
+              : expression === 'vortex'
+                ? { rotate: 360, scale: [0.8, 1.15, 1], opacity: 1, y: 0 }
+                : { y: 0, scale: 1, opacity: 1, rotate: 0 }
           }
           transition={
             isLaunching 
               ? { duration: 1.2, ease: "easeIn" } 
-              : { type: "spring", damping: 15, stiffness: 200 }
+              : expression === 'vortex'
+                ? { duration: 1.5, ease: "easeInOut" }
+                : { type: "spring", damping: 15, stiffness: 200 }
           }
           className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 border-2 ${isOpen || showScrollTop ? 'border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.3)]'} hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-400 hover:scale-110 flex items-center justify-center cursor-pointer relative overflow-hidden group transition-all duration-300 z-50 ${expression === 'party' ? 'animate-bounce' : ''}`}
         >

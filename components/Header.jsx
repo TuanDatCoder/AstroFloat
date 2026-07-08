@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
@@ -14,12 +14,15 @@ import Heart from 'lucide-react/dist/esm/icons/heart';
 import Dices from 'lucide-react/dist/esm/icons/dices';
 import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
 import Bot from 'lucide-react/dist/esm/icons/bot';
+import CalendarHeart from 'lucide-react/dist/esm/icons/calendar-heart';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { supabase } from '@/services/supabase';
 import { ROUTES } from '@/constants';
 import TarotIcon from '@/components/TarotIcon';
+import CosmicAIIcon from '@/components/CosmicAIIcon';
+import LoveDaysIcon from '@/components/LoveDaysIcon';
 
 const navLinks = [
   { to: ROUTES.ZODIAC, label: 'CHÒM SAO', activeColor: 'text-cyan-300', glowColor: 'rgba(34,211,238,0.8)', hoverClass: 'hover:text-cyan-300', excludes: 'match' },
@@ -166,7 +169,7 @@ export default function Header() {
                       className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-all group border-t border-white/5"
                     >
                       <div className="w-8 h-8 rounded-full bg-pink-500/10 flex items-center justify-center border border-pink-500/20 group-hover:scale-110 transition-transform">
-                        <Heart className="w-4 h-4 text-pink-400" />
+                        <LoveDaysIcon className="w-4 h-4" />
                       </div>
                       <div>
                         <div className="text-[11px] font-black text-white uppercase tracking-widest mb-0.5">Đếm Ngày Yêu</div>
@@ -192,8 +195,8 @@ export default function Header() {
                       onClick={() => setIsAppsDropdownOpen(false)}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-all group border-t border-white/5"
                     >
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center border border-cyan-500/30 group-hover:scale-110 transition-transform">
-                        <Bot className="w-4 h-4 text-cyan-400" />
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center border border-cyan-500/30 group-hover:scale-110 transition-transform relative overflow-hidden">
+                        <CosmicAIIcon expression="happy" outfit={null} className="w-7 h-7 drop-shadow-sm" />
                       </div>
                       <div>
                         <div className="text-[11px] font-black text-white uppercase tracking-widest mb-0.5">Tr&#x1ee3; L&#xfd; Astro</div>
@@ -332,7 +335,7 @@ export default function Header() {
 
                     <Link href={ROUTES.DEM_NGAY_YEU} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-white/5 transition-all mt-2">
                       <div className="w-10 h-10 rounded-full bg-pink-500/10 flex items-center justify-center border border-pink-500/20">
-                        <Heart className="w-5 h-5 text-pink-400" />
+                        <LoveDaysIcon className="w-5 h-5" />
                       </div>
                       <div>
                         <div className="text-sm font-black text-white uppercase tracking-widest mb-1">Đếm Ngày Yêu</div>
@@ -347,6 +350,16 @@ export default function Header() {
                       <div>
                         <div className="text-sm font-black text-white uppercase tracking-widest mb-1">Tarot Góc Vũ Trụ</div>
                         <div className="text-[10px] text-gray-400 uppercase tracking-wider">Khám phá thông điệp</div>
+                      </div>
+                    </Link>
+
+                    <Link href={ROUTES.ASTRO} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-white/5 transition-all mt-2">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center border border-cyan-500/30 relative overflow-hidden">
+                        <CosmicAIIcon expression="happy" outfit={null} className="w-9 h-9 drop-shadow-sm translate-y-0.5" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-black text-white uppercase tracking-widest mb-1">Trợ Lý Astro</div>
+                        <div className="text-[10px] text-gray-400 uppercase tracking-wider">Gặp gỡ & Tương tác</div>
                       </div>
                     </Link>
                   </div>
