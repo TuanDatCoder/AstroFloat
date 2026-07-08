@@ -20,9 +20,13 @@ export const authService = {
     }
 
     // 1. Tạo tài khoản Supabase Auth
+    const redirectToUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/xac-nhan`;
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.password,
+      options: {
+        emailRedirectTo: redirectToUrl,
+      }
     });
     if (authError) throw authError;
 

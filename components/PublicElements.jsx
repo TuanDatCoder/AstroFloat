@@ -22,6 +22,7 @@ if (typeof window !== 'undefined') {
   };
 }
 
+import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -31,6 +32,26 @@ import FloatingTarotBot from '@/components/FloatingTarotBot';
 
 export default function PublicElements({ children }) {
   const pathname = usePathname();
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      const hash = window.location.hash;
+      const path = window.location.pathname;
+
+      // Nếu có mã xác nhận code và không nằm trong trang xac-nhan hay doi-mat-khau
+      if (code && path !== '/xac-nhan' && path !== '/doi-mat-khau') {
+        window.location.href = `/xac-nhan?code=${code}`;
+      }
+
+      // Nếu có hash fragment chứa access_token (flow implicit)
+      if (hash.includes('access_token') && path !== '/xac-nhan' && path !== '/doi-mat-khau') {
+        window.location.href = `/xac-nhan${hash}`;
+      }
+    }
+  }, [pathname]);
+
   const isAdmin = pathname?.startsWith('/admin');
   const isTarot = pathname?.startsWith('/tarot');
 
