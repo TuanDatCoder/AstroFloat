@@ -78,7 +78,6 @@ export default function RegisterPage() {
       await authService.register(formData);
       dispatchRegisterEvent('submit', 'success');
       setSuccess(true);
-      setTimeout(() => router.push(ROUTES.LOGIN), 3000);
     } catch (err) {
       setError(err.message || 'Lỗi đăng ký.');
       dispatchRegisterEvent('submit', 'error');
@@ -87,11 +86,33 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen px-6 pt-32">
-        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-emerald-950/40 border border-emerald-500/30 p-10 rounded-3xl text-center max-w-lg">
-          <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6"><Sparkles className="w-10 h-10 text-emerald-400" /></div>
-          <h2 className="text-3xl font-bold text-white mb-4 uppercase tracking-widest">Đăng Ký Thành Công!</h2>
-          <p className="text-emerald-100/80 mb-6 font-light">Hồ sơ năng lượng của bạn đã được lưu trữ. Đang chuyển hướng...</p>
+      <div className="flex flex-col items-center justify-center min-h-screen px-6 pt-32 bg-[#020617] relative z-10 w-full overflow-hidden">
+        {/* Background blobs */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600/5 rounded-full blur-[120px] pointer-events-none" />
+
+        <motion.div 
+          initial={{ scale: 0.9, opacity: 0 }} 
+          animate={{ scale: 1, opacity: 1 }} 
+          className="bg-slate-900/60 backdrop-blur-3xl border border-white/10 p-10 rounded-[3rem] text-center max-w-lg shadow-2xl relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(16,185,129,0.1)_0%,_transparent_60%)] pointer-events-none" />
+          <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+            <Sparkles className="w-10 h-10 text-emerald-400" />
+          </div>
+          <h2 className="text-3xl font-black text-white mb-4 uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">Đăng Ký Thành Công!</h2>
+          <p className="text-gray-300 mb-6 font-light leading-relaxed">
+            Hồ sơ năng lượng của bạn đã được khởi tạo thành công. 
+            <span className="block mt-4 text-emerald-300 font-bold text-sm bg-emerald-500/10 border border-emerald-500/20 py-3 px-4 rounded-xl">
+              Vui lòng kiểm tra email của bạn để xác nhận tài khoản trước khi đăng nhập!
+            </span>
+          </p>
+          <Link 
+            href={ROUTES.LOGIN}
+            className="w-full py-4 bg-white text-black rounded-2xl font-black text-xs tracking-[0.2em] shadow-xl hover:shadow-cyan-500/10 flex items-center justify-center gap-2 uppercase transition-all active:scale-95"
+          >
+            Đến trang đăng nhập
+          </Link>
         </motion.div>
       </div>
     );
